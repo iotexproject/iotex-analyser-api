@@ -11,10 +11,6 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/config"
 )
 
-const (
-	ConfigPath = "ConfigPath"
-)
-
 func main() {
 	configPath := config.FindDefaultConfigPath()
 	if configPath == "" {
