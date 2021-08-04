@@ -16,7 +16,7 @@ import (
 
 func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterAccountServiceServer(grpcServer, &AccountService{})
-	api.RegisterAccountVoteServiceServer(grpcServer, &AccountVoteService{})
+	api.RegisterStakingServiceServer(grpcServer, &StakingService{})
 	api.RegisterActionsServiceServer(grpcServer, &ActionsService{})
 }
 
@@ -24,7 +24,7 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 	if err := api.RegisterAccountServiceHandlerServer(ctx, mux, &AccountService{}); err != nil {
 		return err
 	}
-	if err := api.RegisterAccountVoteServiceHandlerServer(ctx, mux, &AccountVoteService{}); err != nil {
+	if err := api.RegisterStakingServiceHandlerServer(ctx, mux, &StakingService{}); err != nil {
 		return err
 	}
 	if err := api.RegisterActionsServiceHandlerServer(ctx, mux, &ActionsService{}); err != nil {

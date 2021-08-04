@@ -2,8 +2,10 @@ package config
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/iotexproject/iotex-core/blockchain/genesis"
 	homedir "github.com/mitchellh/go-homedir"
@@ -15,6 +17,13 @@ var (
 	// Default is the default config
 	Default = Config{
 		Server: Server{},
+		Genesis: Genesis{
+			VoteWeightCalConsts: genesis.VoteWeightCalConsts{
+				DurationLg: 1.2,
+				AutoStake:  1,
+				SelfStake:  1.06,
+			},
+		},
 	}
 )
 
@@ -59,8 +68,16 @@ var (
 	DefaultConfigFiles = []string{"config.yml", "config.yaml"}
 
 	// Launchd doesn't set root env variables, so there is default
-	DefaultConfigDirs = []string{"~/.iotex-analyser-api", "/usr/local/etc/iotex-analyser-api", "/etc/iotex-analyser-api"}
+	DefaultConfigDirs = []string{getCurrentDirectory(), "~/.iotex-analyser-api", "/usr/local/etc/iotex-analyser-api", "/etc/iotex-analyser-api"}
 )
+
+func getCurrentDirectory() string {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.Replace(dir, "\\", "/", -1)
+}
 
 // FileExists checks to see if a file exist at the provided path.
 func FileExists(path string) (bool, error) {
