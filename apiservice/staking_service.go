@@ -66,10 +66,19 @@ func (s *StakingService) GetVoteByHeight(ctx context.Context, req *api.StakingRe
 }
 
 func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.StakingRequest) (*api.StakingResponse, error) {
-	resp := &api.StakingResponse{
-		Height: req.GetHeight(),
+	pluginHeight, err := db.GetIndexHeight("staking_action")
+	if err != nil {
+		return nil, err
 	}
 	height := req.GetHeight()
+	if height == 0 {
+		height = pluginHeight
+	} else if height > pluginHeight {
+		return nil, fmt.Errorf("request height greater than plugin height, %d > %d", height, pluginHeight)
+	}
+	resp := &api.StakingResponse{
+		Height: height,
+	}
 	for _, addr := range req.GetAddress() {
 		if addr[:2] == "0x" || addr[:2] == "0X" {
 			add, err := address.FromHex(addr)
