@@ -125,21 +125,6 @@ func getBucketIDsByAddressWithHeight(addr string, height uint64) ([]uint64, erro
 	return bucketID, nil
 }
 
-func getBucketIDsByCandidateWithHeight(addr string, height uint64) ([]uint64, error) {
-	db := db.DB()
-	var ids []struct {
-		BucketID uint64
-	}
-	if err := db.Table("staking_action").Distinct("bucket_id").Where("block_height<=? and candidate=?", height, addr).Find(&ids).Error; err != nil {
-		return nil, err
-	}
-	bucketID := []uint64{}
-	for _, id := range ids {
-		bucketID = append(bucketID, id.BucketID)
-	}
-	return bucketID, nil
-}
-
 func getBucketOwnerWithHeight(bucketID, height uint64) (string, error) {
 	var addr sql.NullString
 	db := db.DB()
@@ -203,16 +188,6 @@ func getSumStake(addr string, height, bucketID uint64) (*big.Int, error) {
 	return stakeAmount, nil
 }
 
-func getSumStakeByBucket(height, bucketID uint64) (*big.Int, error) {
-	db := db.DB()
-	var amount sql.NullString
-	if err := db.Table("staking_action").Select("sum(amount)").Where("block_height<=? and bucket_id=?", height, bucketID).Scan(&amount).Error; err != nil {
-		return nil, err
-	}
-	stakeAmount, _ := big.NewInt(0).SetString(amount.String, 0)
-	return stakeAmount, nil
-}
-
 func getVoteBucketParams(addr string, height, bucketID uint64) (uint32, bool, bool) {
 	var av Staking
 	db := db.DB()
@@ -225,15 +200,6 @@ func getVoteBucketParams(addr string, height, bucketID uint64) (uint32, bool, bo
 		selfAutoStake = true
 	}
 	return av.Duration, av.AutoStake, selfAutoStake
-}
-
-func getStakingByBucket(height, bucketID uint64) (*Staking, error) {
-	var av Staking
-	db := db.DB()
-	if err := db.Table("staking_action").Where("block_height<=? and bucket_id=?", height, bucketID).Order("id desc").Scan(&av).Error; err != nil {
-		return nil, err
-	}
-	return &av, nil
 }
 
 func getCandidateStaking(height uint64, addr string) ([]*Staking, error) {
