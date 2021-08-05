@@ -79,25 +79,14 @@ func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.
 
 			addr = add.String()
 		}
-		bucketIDs, err := getBucketIDsByCandidateWithHeight(addr, height)
+		stakings, err := getCandidateStaking(height, addr)
 		if err != nil {
 			return nil, err
 		}
 		stakeAmounts := big.NewInt(0)
 		voteWeights := big.NewInt(0)
-		for _, bucketID := range bucketIDs {
-			staking, err := getStakingByBucket(height, bucketID)
-			if err != nil {
-				return nil, err
-			}
-			//ignore bucket candidate not owner
-			if staking.Candidate != addr {
-				continue
-			}
-			stakeAmount, err := getSumStakeByBucket(height, bucketID)
-			if err != nil {
-				return nil, err
-			}
+		for _, staking := range stakings {
+			stakeAmount, _ := big.NewInt(0).SetString(staking.Amount, 0)
 			stakeAmounts = stakeAmounts.Add(stakeAmounts, stakeAmount)
 			voteBucket := &VoteBucket{
 				StakedAmount:   stakeAmount,
@@ -105,7 +94,7 @@ func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.
 				StakedDuration: staking.Duration,
 			}
 			selfAutoStake := false
-			if staking.Address == addr {
+			if staking.OwnerAddress == addr {
 				selfAutoStake = true
 			}
 			voteWeight := calculateVoteWeight(config.Default.Genesis.VoteWeightCalConsts, voteBucket, selfAutoStake)
@@ -193,15 +182,15 @@ func calculateVoteWeight(c genesis.VoteWeightCalConsts, v *VoteBucket, selfStake
 }
 
 type Staking struct {
-	ID          uint64
-	BlockHeight uint64
-	BucketID    uint64
-	Address     string
-	Candidate   string
-	Amount      string
-	ActType     string
-	AutoStake   bool
-	Duration    uint32
+	ID           uint64
+	BlockHeight  uint64
+	BucketID     uint64
+	OwnerAddress string
+	Candidate    string
+	Amount       string
+	ActType      string
+	AutoStake    bool
+	Duration     uint32
 }
 
 func getSumStake(addr string, height, bucketID uint64) (*big.Int, error) {
@@ -245,4 +234,24 @@ func getStakingByBucket(height, bucketID uint64) (*Staking, error) {
 		return nil, err
 	}
 	return &av, nil
+}
+
+func getCandidateStaking(height uint64, addr string) ([]*Staking, error) {
+	db := db.DB()
+	query := "select id,block_height,bucket_id,owner_address,candidate,(select sum(b.amount) from staking_action b where b.block_height<=? and b.bucket_id=a.bucket_id) as amount,act_type,auto_stake,duration from staking_action a where id=any(array(select max(id) from staking_action where block_height<=? and bucket_id=any(array(select distinct bucket_id from staking_action where block_height<=? and candidate=?)) group by bucket_id))  and candidate=?"
+	rows, err := db.Raw(query, height, height, height, addr, addr).Rows()
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var results []*Staking
+	for rows.Next() {
+		av := new(Staking)
+
+		if err := db.ScanRows(rows, av); err != nil {
+			return nil, err
+		}
+		results = append(results, av)
+	}
+	return results, nil
 }
