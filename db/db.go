@@ -61,11 +61,19 @@ func Connect() (*gorm.DB, error) {
 		}
 	default:
 		err = errors.New("unsopport gorm driver: " + driver)
+		return nil, err
 	}
 
 	if config.Default.Database.Debug {
 		db = db.Debug()
 	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
+	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetConnMaxLifetime(time.Hour)
 	return db, err
 }
 

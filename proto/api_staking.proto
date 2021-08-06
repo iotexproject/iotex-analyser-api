@@ -14,6 +14,7 @@ message StakingResponse {
   uint64 height = 1;
   repeated string stakeAmount  = 2;
   repeated string voteWeight  = 3;
+  repeated string address = 4;
 }
 
 service StakingService {

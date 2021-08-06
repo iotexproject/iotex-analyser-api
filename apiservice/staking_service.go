@@ -14,6 +14,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/blockchain/genesis"
 	"github.com/iotexproject/iotex-core/ioctl/util"
+	"golang.org/x/sync/errgroup"
 )
 
 type StakingService struct {
@@ -79,6 +80,7 @@ func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.
 	resp := &api.StakingResponse{
 		Height: height,
 	}
+	g := new(errgroup.Group)
 	for _, addr := range req.GetAddress() {
 		if addr[:2] == "0x" || addr[:2] == "0X" {
 			add, err := address.FromHex(addr)
@@ -88,29 +90,38 @@ func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.
 
 			addr = add.String()
 		}
-		stakings, err := getCandidateStaking(height, addr)
-		if err != nil {
-			return nil, err
-		}
-		stakeAmounts := big.NewInt(0)
-		voteWeights := big.NewInt(0)
-		for _, staking := range stakings {
-			stakeAmount, _ := big.NewInt(0).SetString(staking.Amount, 0)
-			stakeAmounts = stakeAmounts.Add(stakeAmounts, stakeAmount)
-			voteBucket := &VoteBucket{
-				StakedAmount:   stakeAmount,
-				AutoStake:      staking.AutoStake,
-				StakedDuration: staking.Duration,
+		addr := addr
+		g.Go(func() error {
+			stakings, err := getCandidateStaking(height, addr)
+			if err != nil {
+				return err
 			}
-			selfAutoStake := false
-			if staking.OwnerAddress == addr {
-				selfAutoStake = true
+			stakeAmounts := big.NewInt(0)
+			voteWeights := big.NewInt(0)
+			for _, staking := range stakings {
+				stakeAmount, _ := big.NewInt(0).SetString(staking.Amount, 0)
+				stakeAmounts = stakeAmounts.Add(stakeAmounts, stakeAmount)
+				voteBucket := &VoteBucket{
+					StakedAmount:   stakeAmount,
+					AutoStake:      staking.AutoStake,
+					StakedDuration: staking.Duration,
+				}
+				selfAutoStake := false
+				if staking.OwnerAddress == addr {
+					selfAutoStake = true
+				}
+				voteWeight := calculateVoteWeight(config.Default.Genesis.VoteWeightCalConsts, voteBucket, selfAutoStake)
+				voteWeights = voteWeights.Add(voteWeights, voteWeight)
 			}
-			voteWeight := calculateVoteWeight(config.Default.Genesis.VoteWeightCalConsts, voteBucket, selfAutoStake)
-			voteWeights = voteWeights.Add(voteWeights, voteWeight)
-		}
-		resp.StakeAmount = append(resp.StakeAmount, util.RauToString(stakeAmounts, util.IotxDecimalNum))
-		resp.VoteWeight = append(resp.VoteWeight, util.RauToString(voteWeights, util.IotxDecimalNum))
+			resp.StakeAmount = append(resp.StakeAmount, util.RauToString(stakeAmounts, util.IotxDecimalNum))
+			resp.VoteWeight = append(resp.VoteWeight, util.RauToString(voteWeights, util.IotxDecimalNum))
+			resp.Address = append(resp.Address, addr)
+			return nil
+		})
+
+	}
+	if err := g.Wait(); err != nil {
+		return nil, err
 	}
 	return resp, nil
 }
