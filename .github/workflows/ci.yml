@@ -47,4 +47,3 @@ jobs:
             './iotex-analyser-api' => /home/ubuntu/iotex-analyser-api/
           last_ssh: |
             sudo supervisorctl restart analyser-api
-            #sudo supervisorctl restart analyser-api_testnet
