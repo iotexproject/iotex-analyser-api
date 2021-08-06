@@ -12,8 +12,17 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/db"
 )
 
+const (
+	ConfigPath = "ConfigPath"
+)
+
 func main() {
-	configPath := config.FindDefaultConfigPath()
+	configPath := os.Getenv(ConfigPath)
+	//first load config from env
+	if configPath == "" {
+		configPath = config.FindDefaultConfigPath()
+	}
+
 	if configPath == "" {
 		log.Fatalf("Cannot determine default configuration path. %v, %v",
 			config.DefaultConfigDirs,
