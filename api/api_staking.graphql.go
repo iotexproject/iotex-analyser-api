@@ -26,6 +26,9 @@ func Gql__type_StakingResponse() *graphql.Object {
 				"voteWeight": &graphql.Field{
 					Type: graphql.NewList(graphql.String),
 				},
+				"address": &graphql.Field{
+					Type: graphql.NewList(graphql.String),
+				},
 			},
 		})
 	}
@@ -61,6 +64,9 @@ func Gql__input_StakingResponse() *graphql.InputObject {
 					Type: graphql.NewList(graphql.String),
 				},
 				"voteWeight": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.String),
+				},
+				"address": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(graphql.String),
 				},
 			},
