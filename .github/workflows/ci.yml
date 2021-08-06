@@ -41,7 +41,7 @@ jobs:
           port: ${{ secrets.SCOUT_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            #mv /home/ubuntu/iotex-analyser-api/iotex-analyser-api{,_$(date \+%F)}
+            mv /home/ubuntu/iotex-analyser-api/iotex-analyser-api{,_$(date \+%F)}
             echo $WELCOME
           scp: |
             './iotex-analyser-api' => /home/ubuntu/iotex-analyser-api/
