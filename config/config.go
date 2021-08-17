@@ -1,22 +1,35 @@
 package config
 
 import (
+	"context"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/imdario/mergo"
 	"github.com/iotexproject/iotex-core/blockchain/genesis"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
+	"github.com/sethvargo/go-envconfig"
 	"gopkg.in/yaml.v2"
 )
 
 var (
 	// Default is the default config
 	Default = Config{
-		Server: Server{},
+		Server: Server{
+			GrpcAPIPort: 8888,
+			HTTPAPIPort: 8889,
+		},
+		Database: Database{
+			Driver: "postgres",
+			Host:   "127.0.0.1",
+			Port:   "5432",
+			User:   "postgres",
+			Name:   "test",
+		},
 		Genesis: Genesis{
 			VoteWeightCalConsts: genesis.VoteWeightCalConsts{
 				DurationLg: 1.2,
@@ -29,17 +42,17 @@ var (
 
 type (
 	Server struct {
-		GrpcAPIPort int `yaml:"grpcApiPort"`
-		HTTPAPIPort int `yaml:"httpApiPort"`
+		GrpcAPIPort int `yaml:"grpcApiPort" env:"GRPC_API_PORT"`
+		HTTPAPIPort int `yaml:"httpApiPort" env:"HTTP_API_PORT"`
 	}
 	Database struct {
-		Driver   string `yaml:"driver"`
-		Host     string `yaml:"host"`
-		Port     string `yaml:"port"`
-		User     string `yaml:"user"`
-		Password string `yaml:"password"`
-		Name     string `yaml:"name"`
-		Debug    bool   `yaml:"debug"`
+		Driver   string `yaml:"driver" env:"DB_DRIVER"`
+		Host     string `yaml:"host" env:"DB_HOST"`
+		Port     string `yaml:"port" env:"DB_PORT"`
+		User     string `yaml:"user"  env:"DB_USER"`
+		Password string `yaml:"password"  env:"DB_PASSWORD"`
+		Name     string `yaml:"name"  env:"DB_NAME"`
+		Debug    bool   `yaml:"debug"  env:"DB_DEBUG"`
 	}
 	Genesis struct {
 		VoteWeightCalConsts genesis.VoteWeightCalConsts `yaml:"voteWeightCalConsts"`
@@ -57,8 +70,15 @@ func New(path string) (cfg *Config, err error) {
 		return cfg, errors.Wrap(err, "failed to read config content")
 	}
 	cfg = &Default
+	var envCfg Config
+	if err := envconfig.Process(context.Background(), &envCfg); err != nil {
+		return cfg, errors.Wrap(err, "failed to process envconfig to struct")
+	}
 	if err = yaml.Unmarshal(body, cfg); err != nil {
 		return cfg, errors.Wrap(err, "failed to unmarshal config to struct")
+	}
+	if err := mergo.Merge(&Default, envCfg, mergo.WithOverride); err != nil {
+		return cfg, errors.Wrap(err, "failed to merge config")
 	}
 	return
 }

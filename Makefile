@@ -7,6 +7,8 @@
 # License 2.0 that can be found in the LICENSE file.
 ########################################################################################################################
 
+BUILD_ENV := CGO_ENABLED=0
+NAME=iotex/iotex-analyser-api
 # Go parameters
 GOCMD=go
 GOLINT=golint
@@ -31,3 +33,6 @@ build:
 	$(GOBUILD) -v .
 
 run: build
+
+docker:
+	docker build --progress=plain -t ${NAME}:latest  .
