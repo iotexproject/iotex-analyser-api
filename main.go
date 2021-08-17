@@ -24,16 +24,17 @@ func main() {
 	}
 
 	if configPath == "" {
-		log.Fatalf("Cannot determine default configuration path. %v, %v",
+		log.Fatalf("cannot determine default configuration path. %v, %v",
 			config.DefaultConfigDirs,
 			config.DefaultConfigFiles)
 	}
 
-	log.Printf("Currently config path: %s", configPath)
+	log.Printf("currently config path: %s", configPath)
 	_, err := config.New(configPath)
 	if err != nil {
 		log.Fatalf("Failed to parse config: %v", err)
 	}
+	log.Printf("loaded config: %+v", config.Default)
 	_, err = db.Connect()
 	if err != nil {
 		log.Fatalf("failed to connect DB, %v", err)

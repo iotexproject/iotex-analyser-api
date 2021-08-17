@@ -1,2 +1,3 @@
 iotex-analyser-api
 *.log
+.build
