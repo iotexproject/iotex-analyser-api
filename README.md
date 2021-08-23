@@ -25,6 +25,19 @@ Build Server
 make
 ```
 
+## Docker Quick Start
+
+API service depends on [iotex-analyzer](https://github.com/iotexproject/iotex-analyzer). You need to use docker start `iotex-analyser` before that.
+
+```
+docker run -p 8888:8888 -p 8889:8889 -e "GRPC_API_PORT=8888" -e "HTTP_API_PORT=8889" -e "DB_DRIVER=postgres" -e "DB_HOST=x.x.x.x" -e "DB_PORT=5432" -e "DB_USER=user" -e "DB_PASSWORD=password" -e "DB_NAME=dbname" iotexproject/iotex-analyser-api
+
+```
+* Note: Please change your database config in command 
+
+
+
+
 API supports GRPC/HTTP/GraphQL
 
 ```sh
