@@ -42,7 +42,6 @@ func (s *StakingService) GetVoteByHeight(ctx context.Context, req *api.StakingRe
 		}
 		stakeAmounts := big.NewInt(0)
 		voteWeights := big.NewInt(0)
-		tmp := ""
 		for _, bucketID := range bucketIDs {
 			stakeAmount, err := getSumStake(addr, height, bucketID)
 			if err != nil {
@@ -57,9 +56,7 @@ func (s *StakingService) GetVoteByHeight(ctx context.Context, req *api.StakingRe
 			}
 			voteWeight := calculateVoteWeight(config.Default.Genesis.VoteWeightCalConsts, voteBucket, selfAutoStake)
 			voteWeights = voteWeights.Add(voteWeights, voteWeight)
-			tmp += fmt.Sprintf("bucket: %d stakeAmount: %d voteWeight: %d\n", bucketID, stakeAmount, voteWeight)
 		}
-		fmt.Println(tmp)
 		resp.StakeAmount = append(resp.StakeAmount, util.RauToString(stakeAmounts, util.IotxDecimalNum))
 		resp.VoteWeight = append(resp.VoteWeight, util.RauToString(voteWeights, util.IotxDecimalNum))
 	}

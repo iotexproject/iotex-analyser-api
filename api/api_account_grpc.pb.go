@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AccountServiceClient interface {
 	GetIotexBalanceByHeight(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error)
 	GetErc20TokenBalanceByHeight(ctx context.Context, in *AccountErc20TokenRequest, opts ...grpc.CallOption) (*AccountResponse, error)
+	Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error)
 }
 
 type accountServiceClient struct {
@@ -48,12 +49,22 @@ func (c *accountServiceClient) GetErc20TokenBalanceByHeight(ctx context.Context,
 	return out, nil
 }
 
+func (c *accountServiceClient) Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error) {
+	out := new(HermesResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/Hermes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
 type AccountServiceServer interface {
 	GetIotexBalanceByHeight(context.Context, *AccountRequest) (*AccountResponse, error)
 	GetErc20TokenBalanceByHeight(context.Context, *AccountErc20TokenRequest) (*AccountResponse, error)
+	Hermes(context.Context, *HermesRequest) (*HermesResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedAccountServiceServer) GetIotexBalanceByHeight(context.Context
 }
 func (UnimplementedAccountServiceServer) GetErc20TokenBalanceByHeight(context.Context, *AccountErc20TokenRequest) (*AccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetErc20TokenBalanceByHeight not implemented")
+}
+func (UnimplementedAccountServiceServer) Hermes(context.Context, *HermesRequest) (*HermesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Hermes not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -116,6 +130,24 @@ func _AccountService_GetErc20TokenBalanceByHeight_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_Hermes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HermesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).Hermes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.AccountService/Hermes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).Hermes(ctx, req.(*HermesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetErc20TokenBalanceByHeight",
 			Handler:    _AccountService_GetErc20TokenBalanceByHeight_Handler,
+		},
+		{
+			MethodName: "Hermes",
+			Handler:    _AccountService_Hermes_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

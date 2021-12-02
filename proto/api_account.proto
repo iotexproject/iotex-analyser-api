@@ -22,6 +22,31 @@ message AccountErc20TokenRequest {
   string contract_address = 3;
 }
 
+message HermesRequest {
+  uint64 startEpoch = 1;
+  uint64 epochCount = 2;
+  string rewardAddress = 3;
+}
+
+message RewardDistribution {
+  string voterEthAddress = 1;
+  string voterIotexAddress = 2;
+  string amount = 3;
+}
+
+message HermesDistribution {
+  string delegateName = 1;
+  repeated RewardDistribution rewardDistribution = 2;
+  string stakingIotexAddress = 3;
+  uint64 voterCount = 4;
+  bool waiveServiceFee = 5;
+  string refund = 6;
+}
+
+message HermesResponse {
+  repeated HermesDistribution hermesDistribution = 1;
+}
+
 service AccountService {
   rpc GetIotexBalanceByHeight(AccountRequest) returns (AccountResponse) {
     option (google.api.http) = {
@@ -35,5 +60,10 @@ service AccountService {
       body: "*"
     };
   };
-
+  rpc Hermes(HermesRequest) returns (HermesResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.Hermes"
+      body: "*"
+    };
+  };
 }

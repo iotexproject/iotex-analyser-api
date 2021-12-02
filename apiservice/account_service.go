@@ -3,12 +3,15 @@ package apiservice
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"math/big"
+	"sort"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/ioctl/util"
+	"github.com/pkg/errors"
 )
 
 type AccountService struct {
@@ -104,5 +107,117 @@ func (s *AccountService) GetErc20TokenBalanceByHeight(ctx context.Context, req *
 		resp.Balance = append(resp.Balance, util.RauToString(balance, 6))
 	}
 
+	return resp, nil
+}
+
+//grpcurl -plaintext -d '{"startEpoch": 22416, "epochCount": 1, "rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"}' 127.0.0.1:8888 api.AccountService.Hermes
+func (s *AccountService) Hermes(ctx context.Context, req *api.HermesRequest) (*api.HermesResponse, error) {
+	resp := &api.HermesResponse{}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	rewardAddress := req.GetRewardAddress()
+	endEpoch := startEpoch + epochCount - 1
+	waiverThreshold := 100
+
+	distributePlanMap, err := distributionPlanByRewardAddress(startEpoch, endEpoch, rewardAddress)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get reward distribution plan")
+	}
+
+	// Form search column pairs
+	searchPairs := make([]string, 0)
+	for delegateName, planMap := range distributePlanMap {
+		for epochNumber := range planMap {
+			searchPairs = append(searchPairs, fmt.Sprintf("(%d, '%s')", epochNumber, delegateName))
+		}
+	}
+
+	accountRewardsMap, err := accountRewards(searchPairs)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get account rewards")
+	}
+
+	voterVotesMap, err := weightedVotesBySearchPairs(searchPairs)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get voter votes")
+	}
+	hermesDistributions := make([]*DelegateHermesDistribution, 0, len(accountRewardsMap))
+	for delegate, rewardsMap := range accountRewardsMap {
+		planMap := distributePlanMap[delegate]
+		epochVoterMap := voterVotesMap[delegate]
+
+		voterAddrToReward := make(map[string]*big.Int)
+		balanceAfterDistribution := big.NewInt(0)
+		voterCountMap := make(map[string]bool)
+		feeWaiver := true
+		var stakingAddress string
+
+		for epoch, rewards := range rewardsMap {
+			distributePlan := planMap[epoch]
+			voterMap := epochVoterMap[epoch]
+
+			if stakingAddress == "" {
+				stakingAddress = distributePlan.StakingAddress
+			}
+
+			totalRewards := new(big.Int).Set(rewards.BlockReward)
+			totalRewards.Add(totalRewards, rewards.EpochReward).Add(totalRewards, rewards.FoundationBonus)
+			balanceAfterDistribution.Add(balanceAfterDistribution, totalRewards)
+			waiverThresholdF := float64(waiverThreshold)
+			if distributePlan.BlockRewardPercentage < waiverThresholdF || distributePlan.EpochRewardPercentage < waiverThresholdF || distributePlan.FoundationBonusPercentage < waiverThresholdF {
+				feeWaiver = false
+			}
+			distrReward, err := calculatedDistributedReward(distributePlan, rewards)
+			if err != nil {
+				return nil, errors.Wrap(err, "failed to calculate distributed reward")
+			}
+			for voterAddr, weightedVotes := range voterMap {
+				amount := new(big.Int).Set(distrReward)
+				amount = amount.Mul(amount, weightedVotes).Div(amount, distributePlan.TotalWeightedVotes)
+				if _, ok := voterAddrToReward[voterAddr]; !ok {
+					voterAddrToReward[voterAddr] = big.NewInt(0)
+				}
+				voterAddrToReward[voterAddr].Add(voterAddrToReward[voterAddr], amount)
+				balanceAfterDistribution.Sub(balanceAfterDistribution, amount)
+				voterCountMap[voterAddr] = true
+			}
+		}
+		rewardDistribution, err := convertVoterDistributionMapToList(voterAddrToReward)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to convert voter distribution map to list")
+		}
+		hermesDistributions = append(hermesDistributions, &DelegateHermesDistribution{
+			DelegateName:        delegate,
+			Distributions:       rewardDistribution,
+			StakingIotexAddress: stakingAddress,
+			VoterCount:          uint64(len(voterCountMap)),
+			WaiveServiceFee:     feeWaiver,
+			Refund:              balanceAfterDistribution.String(),
+		})
+	}
+
+	hermesDistribution := make([]*api.HermesDistribution, 0, len(hermesDistributions))
+	for _, ret := range hermesDistributions {
+		rds := make([]*api.RewardDistribution, 0)
+		for _, distribution := range ret.Distributions {
+			v := &api.RewardDistribution{
+				VoterEthAddress:   distribution.VoterEthAddress,
+				VoterIotexAddress: distribution.VoterIotexAddress,
+				Amount:            distribution.Amount,
+			}
+			rds = append(rds, v)
+		}
+		sort.Slice(rds, func(i, j int) bool { return rds[i].VoterEthAddress < rds[j].VoterEthAddress })
+
+		hermesDistribution = append(hermesDistribution, &api.HermesDistribution{
+			DelegateName:        ret.DelegateName,
+			RewardDistribution:  rds,
+			StakingIotexAddress: ret.StakingIotexAddress,
+			VoterCount:          ret.VoterCount,
+			WaiveServiceFee:     ret.WaiveServiceFee,
+			Refund:              ret.Refund,
+		})
+	}
+	resp.HermesDistribution = hermesDistribution
 	return resp, nil
 }
