@@ -1,3 +1,4 @@
 iotex-analyser-api
 *.log
 .build
+config_mainlive.yml
