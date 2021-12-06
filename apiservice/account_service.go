@@ -126,8 +126,13 @@ func (s *AccountService) Hermes(ctx context.Context, req *api.HermesRequest) (*a
 
 	// Form search column pairs
 	searchPairs := make([]string, 0)
+	delegateMap := make(map[uint64][]string, 0)
 	for delegateName, planMap := range distributePlanMap {
 		for epochNumber := range planMap {
+			if _, ok := delegateMap[epochNumber]; !ok {
+				delegateMap[epochNumber] = make([]string, 0)
+			}
+			delegateMap[epochNumber] = append(delegateMap[epochNumber], delegateName)
 			searchPairs = append(searchPairs, fmt.Sprintf("(%d, '%s')", epochNumber, delegateName))
 		}
 	}
@@ -137,7 +142,7 @@ func (s *AccountService) Hermes(ctx context.Context, req *api.HermesRequest) (*a
 		return nil, errors.Wrap(err, "failed to get account rewards")
 	}
 
-	voterVotesMap, err := weightedVotesBySearchPairs(searchPairs)
+	voterVotesMap, err := weightedVotesBySearchPairs(delegateMap)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get voter votes")
 	}
