@@ -2,7 +2,12 @@
 package api
 
 import (
+	"context"
+
 	"github.com/graphql-go/graphql"
+	"github.com/pkg/errors"
+	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
+	"google.golang.org/grpc"
 )
 
 var (
@@ -300,4 +305,105 @@ func Gql__input_AccountErc20TokenRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_AccountErc20TokenRequest
+}
+
+// graphql__resolver_AccountService is a struct for making query, mutation and resolve fields.
+// This struct must be implemented runtime.SchemaBuilder interface.
+type graphql__resolver_AccountService struct {
+
+	// Automatic connection host
+	host string
+
+	// grpc dial options
+	dialOptions []grpc.DialOption
+
+	// grpc client connection.
+	// this connection may be provided by user
+	conn *grpc.ClientConn
+}
+
+// new_graphql_resolver_AccountService creates pointer of service struct
+func new_graphql_resolver_AccountService(conn *grpc.ClientConn) *graphql__resolver_AccountService {
+	return &graphql__resolver_AccountService{
+		conn:        conn,
+		host:        "localhost:50051",
+		dialOptions: []grpc.DialOption{},
+	}
+}
+
+// CreateConnection() returns grpc connection which user specified or newly connected and closing function
+func (x *graphql__resolver_AccountService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
+	// If x.conn is not nil, user injected their own connection
+	if x.conn != nil {
+		return x.conn, func() {}, nil
+	}
+
+	// Otherwise, this handler opens connection with specified host
+	conn, err := grpc.DialContext(ctx, x.host, x.dialOptions...)
+	if err != nil {
+		return nil, nil, err
+	}
+	return conn, func() { conn.Close() }, nil
+}
+
+// GetQueries returns acceptable graphql.Fields for Query.
+func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
+	return graphql.Fields{
+		"Hermes": &graphql.Field{
+			Type: Gql__type_HermesResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"rewardAddress": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req HermesRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for Hermes")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.Hermes(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC Hermes")
+				}
+				return resp, nil
+			},
+		},
+	}
+}
+
+// GetMutations returns acceptable graphql.Fields for Mutation.
+func (x *graphql__resolver_AccountService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
+	return graphql.Fields{}
+}
+
+// Register package divided graphql handler "without" *grpc.ClientConn,
+// therefore gRPC connection will be opened and closed automatically.
+// Occasionally you may worry about open/close performance for each handling graphql request,
+// then you can call RegisterAccountServiceGraphqlHandler with *grpc.ClientConn manually.
+func RegisterAccountServiceGraphql(mux *runtime.ServeMux) error {
+	return RegisterAccountServiceGraphqlHandler(mux, nil)
+}
+
+// Register package divided graphql handler "with" *grpc.ClientConn.
+// this function accepts your defined grpc connection, so that we reuse that and never close connection inside.
+// You need to close it maunally when application will terminate.
+// Otherwise, you can specify automatic opening connection with ServiceOption directive:
+//
+// service AccountService {
+//    option (graphql.service) = {
+//        host: "host:port"
+//        insecure: true or false
+//    };
+//
+//    ...with RPC definitions
+// }
+func RegisterAccountServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return mux.AddHandler(new_graphql_resolver_AccountService(conn))
 }
