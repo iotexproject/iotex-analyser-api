@@ -2,6 +2,7 @@ package apiservice
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 	"strings"
 
@@ -157,14 +158,37 @@ func accountRewards(searchPairs []string) (map[string]map[uint64]*HermesDistribu
 	return accountRewardsMap, nil
 }
 
-func weightedVotesBySearchPairs(searchPairs []string) (map[string]map[uint64]map[string]*big.Int, error) {
+func weightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map[uint64]map[string]*big.Int, error) {
 	db := db.DB()
 	var rows []HermesAggregateVoting
-	if err := db.Raw(fmt.Sprintf("select * from hermes_aggregate_votings where (epoch_number, candidate_name) IN (%s)", strings.Join(searchPairs, ","))).Find(&rows).Error; err != nil {
+	var minEpoch, maxEpoch uint64
+	minEpoch = math.MaxUint64
+	maxEpoch = 0
+	for k, _ := range delegateMap {
+		if k >= maxEpoch {
+			maxEpoch = k
+		}
+		if k <= minEpoch {
+			minEpoch = k
+		}
+	}
+
+	if err := db.Table("hermes_aggregate_votings").Where("epoch_number >= ?  AND epoch_number <= ?", minEpoch, maxEpoch).Find(&rows).Error; err != nil {
 		return nil, err
 	}
+
 	voterVotesMap := make(map[string]map[uint64]map[string]*big.Int)
 	for _, row := range rows {
+		exist := false
+		for _, v := range delegateMap[row.EpochNumber] {
+			if row.CandidateName == v {
+				exist = true
+				break
+			}
+		}
+		if !exist {
+			continue
+		}
 		if _, ok := voterVotesMap[row.CandidateName]; !ok {
 			voterVotesMap[row.CandidateName] = make(map[uint64]map[string]*big.Int)
 		}
