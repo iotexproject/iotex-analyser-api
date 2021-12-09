@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/pkg/errors"
 	"github.com/shurcooL/graphql"
@@ -35,16 +36,20 @@ func TestHermes(t *testing.T) {
 	epochCount = 2
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
+	start := time.Now()
 	dist, err := getHermesV1(startEpoch, epochCount, rewardAddress)
+	elapsed := time.Since(start)
+	fmt.Printf("%s took %s\n", "getHermesV1", elapsed)
 	require.NoError(err)
-	//sort.Slice(dist, func(i, j int) bool { return dist[i].DelegateName < dist[j].DelegateName })
+	start = time.Now()
 	dist2, err := getHermesV2(startEpoch, epochCount, rewardAddress)
+	elapsed = time.Since(start)
+	fmt.Printf("%s took %s\n", "getHermesV2", elapsed)
 	require.NoError(err)
 	require.Equal(len(dist), len(dist2))
 	for _, h1 := range dist {
 		for _, h2 := range dist2 {
 			if h2.DelegateName == h1.DelegateName {
-				fmt.Println(h2.DelegateName)
 				if string(h2.DelegateName) == "hackster" {
 					continue
 				}
@@ -97,7 +102,7 @@ func getHermesV2(startEpoch uint64, epochCount uint64, rewardAddress string) (he
 		"epochCount":    graphql.Int(epochCount),
 		"rewardAddress": graphql.String(rewardAddress),
 	}
-	gqlClient := graphql.NewClient("http://204.236.138.172:8889/graphql", nil)
+	gqlClient := graphql.NewClient("http://127.0.0.1:8889/graphql", nil)
 	var output query
 	err := gqlClient.Query(context.Background(), &output, variables)
 	if err != nil {
