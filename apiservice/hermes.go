@@ -1,10 +1,8 @@
 package apiservice
 
 import (
-	"fmt"
 	"math"
 	"math/big"
-	"strings"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -122,17 +120,39 @@ func stringToBigInt(estr string) (*big.Int, error) {
 	return ret, nil
 }
 
-func accountRewards(searchPairs []string) (map[string]map[uint64]*HermesDistributionSource, error) {
+func accountRewards(delegateMap map[uint64][]string) (map[string]map[uint64]*HermesDistributionSource, error) {
 
 	db := db.DB()
 	var rows []AccountReward
-	if err := db.Raw(fmt.Sprintf("select * from hermes_account_rewards where (epoch_number, candidate_name) IN (%s)", strings.Join(searchPairs, ","))).Find(&rows).Error; err != nil {
+	var minEpoch, maxEpoch uint64
+	minEpoch = math.MaxUint64
+	maxEpoch = 0
+	for k, _ := range delegateMap {
+		if k >= maxEpoch {
+			maxEpoch = k
+		}
+		if k <= minEpoch {
+			minEpoch = k
+		}
+	}
+
+	if err := db.Table("hermes_account_rewards").Where("epoch_number >= ?  AND epoch_number <= ?", minEpoch, maxEpoch).Find(&rows).Error; err != nil {
 		return nil, err
 	}
 
 	//map[delegate]map[epoch]*HermesDistributionSource
 	accountRewardsMap := make(map[string]map[uint64]*HermesDistributionSource)
 	for _, row := range rows {
+		exist := false
+		for _, v := range delegateMap[row.EpochNumber] {
+			if row.CandidateName == v {
+				exist = true
+				break
+			}
+		}
+		if !exist {
+			continue
+		}
 		if _, ok := accountRewardsMap[row.CandidateName]; !ok {
 			accountRewardsMap[row.CandidateName] = make(map[uint64]*HermesDistributionSource, 0)
 		}
