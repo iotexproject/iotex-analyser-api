@@ -20,13 +20,18 @@ GOTEST=$(GOCMD) test
 all : build
 
 proto:
-	#protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ proto/*.proto
+	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/include/pagination.proto
+	rm -rf api/pagination
+	mv github.com/iotexproject/iotex-analyser-api/api/pagination api/
+	rm -rf github.com/
 	protoc -I ./proto --go_out ./ --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_actions.proto
 	rm -f api/api_actions.graphql.go && mv api/api.graphql.go api/api_actions.graphql.go
 	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_staking.proto
 	rm -f api/api_staking.graphql.go && mv api/api.graphql.go api/api_staking.graphql.go
 	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_account.proto
 	rm -f api/api_account.graphql.go && mv api/api.graphql.go api/api_account.graphql.go
+	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_delegate.proto
+	rm -f api/api_delegate.graphql.go && mv api/api.graphql.go api/api_delegate.graphql.go
 clean:
 	rm -f iotex-analyser-api
 	
