@@ -1,14 +1,12 @@
 package votings
 
 import (
-	"encoding/hex"
 	"math/big"
 	"time"
 
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
-	"github.com/iotexproject/iotex-core/ioctl/util"
 	"github.com/iotexproject/iotex-proto/golang/iotextypes"
 	"github.com/pkg/errors"
 	"google.golang.org/protobuf/proto"
@@ -17,7 +15,7 @@ import (
 func GetVoteBucketList(epochNum uint64) (*iotextypes.VoteBucketList, error) {
 	voteBucketListAll := &iotextypes.VoteBucketList{}
 	var vbl VoteBucketList
-	if err := db.DB().Where("epoch_number = ?", epochNum).First(&vbl).Error; err != nil {
+	if err := db.DB().Table("vote_bucketlist").Where("epoch_number = ?", epochNum).First(&vbl).Error; err != nil {
 		return nil, errors.Wrapf(err, "failed to get vote bucket list in epoch %d", epochNum)
 	}
 	if err := proto.Unmarshal(vbl.BucketList, voteBucketListAll); err != nil {
@@ -79,13 +77,9 @@ func getStakingBucketInfoByEpoch(height uint64, epochNum uint64, delegateName st
 				votingPower := new(big.Float).SetInt(weightedVotes)
 				weightedVotes, _ = votingPower.Mul(votingPower, big.NewFloat(intensityRate)).Int(nil)
 			}
-			voteOwnerAddress, err := util.IoAddrToEvmAddr(vote.Owner)
-			if err != nil {
-				return nil, errors.Wrap(err, "failed to convert IoTeX address to ETH address")
-			}
 			votinginfo := &VotingInfo{
 				EpochNumber:       epochNum,
-				VoterAddress:      hex.EncodeToString(voteOwnerAddress.Bytes()),
+				VoterAddress:      vote.Owner,
 				IsNative:          true,
 				Votes:             vote.StakedAmount,
 				WeightedVotes:     weightedVotes.Text(10),

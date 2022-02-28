@@ -15,7 +15,7 @@ import (
 func GetCandidateList(epochNum uint64) (*iotextypes.CandidateListV2, error) {
 	candidateListAll := &iotextypes.CandidateListV2{}
 	var vbl CandidateList
-	if err := db.DB().Where("epoch_number = ?", epochNum).First(&vbl).Error; err != nil {
+	if err := db.DB().Table("candidate_list").Where("epoch_number = ?", epochNum).First(&vbl).Error; err != nil {
 		return nil, errors.Wrapf(err, "failed to get candidate list in epoch %d", epochNum)
 	}
 	if err := proto.Unmarshal(vbl.CandidateList, candidateListAll); err != nil {
