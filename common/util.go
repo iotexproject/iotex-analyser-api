@@ -2,6 +2,8 @@ package common
 
 import (
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-proto/golang/iotexapi"
+	"google.golang.org/grpc"
 )
 
 func GetCurrentEpochAndHeight() (uint64, uint64, error) {
@@ -14,6 +16,15 @@ func GetCurrentEpochAndHeight() (uint64, uint64, error) {
 		return 0, 0, err
 	}
 	return ret.EpochNum, ret.BlockHeight, nil
+}
+
+func ChainClient(endpoint string) iotexapi.APIServiceClient {
+	opt := grpc.WithInsecure()
+	conn, err := grpc.Dial(endpoint, opt)
+	if err != nil {
+		panic(err)
+	}
+	return iotexapi.NewAPIServiceClient(conn)
 }
 
 // func GetLatestNativeMintTime(height uint64) (time.Time, error) {

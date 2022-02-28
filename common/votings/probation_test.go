@@ -1,6 +1,7 @@
 package votings
 
 import (
+	"os"
 	"testing"
 
 	"github.com/iotexproject/iotex-analyser-api/config"
@@ -22,14 +23,9 @@ func TestGetProbationList(t *testing.T) {
 }
 
 func initDB() (*gorm.DB, error) {
-	config.Default.Database = config.Database{
-		Driver:   "postgres",
-		Name:     "mainnet",
-		Host:     "127.0.0.1",
-		Port:     "5435",
-		User:     "postgres",
-		Password: "admin",
-		Debug:    true,
+	_, err := config.New(os.Getenv("ConfigPath"))
+	if err != nil {
+		return nil, err
 	}
 	return db.Connect()
 }
