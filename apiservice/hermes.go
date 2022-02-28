@@ -127,7 +127,7 @@ func accountRewards(delegateMap map[uint64][]string) (map[string]map[uint64]*Her
 	var minEpoch, maxEpoch uint64
 	minEpoch = math.MaxUint64
 	maxEpoch = 0
-	for k, _ := range delegateMap {
+	for k := range delegateMap {
 		if k >= maxEpoch {
 			maxEpoch = k
 		}
@@ -184,7 +184,7 @@ func weightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 	var minEpoch, maxEpoch uint64
 	minEpoch = math.MaxUint64
 	maxEpoch = 0
-	for k, _ := range delegateMap {
+	for k := range delegateMap {
 		if k >= maxEpoch {
 			maxEpoch = k
 		}
