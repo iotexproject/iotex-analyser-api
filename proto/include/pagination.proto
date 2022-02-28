@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package pagination;
+
+option go_package = "github.com/iotexproject/iotex-analyser-api/api/pagination";
+
+message Pagination {
+    uint64 skip = 1;
+    uint64 first = 2;
+  }

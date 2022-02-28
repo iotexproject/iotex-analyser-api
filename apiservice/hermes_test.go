@@ -24,7 +24,7 @@ type hermesDistribution []struct {
 }
 
 var (
-	analyticsEndpoint string = "https://iotex-analytics-fix-percentage.onrender.com/query"
+	analyticsEndpoint string = "https://analytics.iotexscan.io/query"
 	// curl 'http://35.237.19.13:8080/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://35.237.19.13:8080' --data-binary '{"query":"\nquery {\n  hermes(startEpoch: 22420, epochCount: 2, \n    rewardAddress: \"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85\", waiverThreshold: 100) {\n    hermesDistribution {\n      delegateName,\n      rewardDistribution{\n        voterEthAddress,\n        voterIotexAddress,\n        amount\n      },\n      stakingIotexAddress,\n      voterCount,\n      waiveServiceFee,\n      refund\n    }\n  }\n}"}' --compressed
 )
 
@@ -32,8 +32,8 @@ func TestHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 23185
-	epochCount = 4
+	startEpoch = 24510
+	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
 	start := time.Now()
@@ -49,6 +49,9 @@ func TestHermes(t *testing.T) {
 	require.Equal(len(dist), len(dist2))
 	for _, h1 := range dist {
 		for _, h2 := range dist2 {
+			if h2.DelegateName == "hackster" {
+				continue
+			}
 			if h2.DelegateName == h1.DelegateName {
 				require.Equal(h2.Refund, h1.Refund, h2.DelegateName)
 				require.Equal(h2.StakingIotexAddress, h1.StakingIotexAddress)
@@ -106,4 +109,44 @@ func getHermesV2(startEpoch uint64, epochCount uint64, rewardAddress string) (he
 		return nil, err
 	}
 	return output.Hermes.HermesDistribution, nil
+}
+
+//go test -v -timeout 99999s -run ^TestRangeHermes$ github.com/iotexproject/iotex-analyser-api/apiservice
+func TestRangeHermes(t *testing.T) {
+	require := require.New(t)
+	var startEpoch, endEpoch, epochCount uint64
+	var rewardAddress string
+	startEpoch = 24507
+	endEpoch = 24739
+	epochCount = 20
+	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+
+	for i := startEpoch; i <= endEpoch; i = i + epochCount {
+		start := time.Now()
+		dist, err := getHermesV1(i, epochCount, rewardAddress)
+		elapsed := time.Since(start)
+		fmt.Printf("%s(%d,%d) took %s\n", "getHermesV1", i, epochCount, elapsed)
+		require.NoError(err)
+		start = time.Now()
+		dist2, err := getHermesV2(i, epochCount, rewardAddress)
+		elapsed = time.Since(start)
+		fmt.Printf("%s(%d,%d) took %s\n", "getHermesV2", i, epochCount, elapsed)
+		require.NoError(err)
+		require.Equal(len(dist), len(dist2))
+		for _, h1 := range dist {
+			for _, h2 := range dist2 {
+				// v1 bug, skip hackster
+				if h2.DelegateName == "hackster" {
+					continue
+				}
+				if h2.DelegateName == h1.DelegateName {
+					require.Equal(h2.Refund, h1.Refund, h2.DelegateName)
+					require.Equal(h2.StakingIotexAddress, h1.StakingIotexAddress)
+					require.Equal(h2.VoterCount, h1.VoterCount)
+					require.Equal(h2.WaiveServiceFee, h1.WaiveServiceFee)
+					require.Equal(h2.RewardDistribution, h1.RewardDistribution)
+				}
+			}
+		}
+	}
 }
