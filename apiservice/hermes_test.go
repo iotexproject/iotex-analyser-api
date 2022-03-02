@@ -32,7 +32,7 @@ func TestHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 24510
+	startEpoch = 24738
 	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
@@ -116,8 +116,8 @@ func TestRangeHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, endEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 24507
-	endEpoch = 24739
+	startEpoch = 24764
+	endEpoch = 24883
 	epochCount = 20
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
