@@ -127,6 +127,9 @@ func Gql__type_BucketInfo() *graphql.Object {
 				"decay": &graphql.Field{
 					Type: graphql.Boolean,
 				},
+				"bucketID": &graphql.Field{
+					Type: graphql.Int,
+				},
 			},
 		})
 	}
@@ -235,6 +238,9 @@ func Gql__input_BucketInfo() *graphql.InputObject {
 				},
 				"decay": &graphql.InputObjectFieldConfig{
 					Type: graphql.Boolean,
+				},
+				"bucketID": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
 				},
 			},
 		})

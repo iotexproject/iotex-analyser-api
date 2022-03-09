@@ -22,6 +22,7 @@ message BucketInfo {
 	string remainingDuration = 6;
 	string startTime = 7;
 	bool decay = 8;
+  uint64 bucketID = 9;
 }
 
 message BucketInfoList {

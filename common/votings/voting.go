@@ -78,6 +78,7 @@ func getStakingBucketInfoByEpoch(height uint64, epochNum uint64, delegateName st
 				weightedVotes, _ = votingPower.Mul(votingPower, big.NewFloat(intensityRate)).Int(nil)
 			}
 			votinginfo := &VotingInfo{
+				BucketID:          vote.Index,
 				EpochNumber:       epochNum,
 				VoterAddress:      vote.Owner,
 				IsNative:          true,
