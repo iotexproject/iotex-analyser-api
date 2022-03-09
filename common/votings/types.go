@@ -2,6 +2,7 @@ package votings
 
 type (
 	VotingInfo struct {
+		BucketID          uint64
 		EpochNumber       uint64
 		VoterAddress      string
 		IsNative          bool

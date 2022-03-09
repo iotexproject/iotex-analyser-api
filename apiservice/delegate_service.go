@@ -32,6 +32,7 @@ func (s *DelegateService) GetBucketInfo(ctx context.Context, req *api.DelegateRe
 			voterIotexAddr := bucket.VoterAddress
 			voterAddr, _ := address.FromString(voterIotexAddr)
 			bucketInfo = append(bucketInfo, &api.BucketInfo{
+				BucketID:          bucket.BucketID,
 				VoterEthAddress:   voterAddr.Hex(),
 				VoterIotexAddress: voterIotexAddr,
 				IsNative:          bucket.IsNative,
