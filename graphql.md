@@ -24,3 +24,14 @@
 }
 
 ```
+ChainService
+```
+query {
+	chain {
+		mostRecentEpoch
+		mostRecentBlockHeight
+	}
+}
+
+
+```

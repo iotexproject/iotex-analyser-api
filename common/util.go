@@ -6,6 +6,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+// GetCurrentEpochAndHeight returns current epoch and blockHeight
 func GetCurrentEpochAndHeight() (uint64, uint64, error) {
 	var ret struct {
 		BlockHeight uint64
