@@ -20,6 +20,7 @@ func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterActionsServiceServer(grpcServer, &ActionsService{})
 	api.RegisterDelegateServiceServer(grpcServer, &DelegateService{})
 	api.RegisterChainServiceServer(grpcServer, &ChainService{})
+	api.RegisterActionServiceServer(grpcServer, &ActionService{})
 }
 
 func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
@@ -36,6 +37,9 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 		return err
 	}
 	if err := api.RegisterChainServiceHandlerServer(ctx, mux, &ChainService{}); err != nil {
+		return err
+	}
+	if err := api.RegisterActionServiceHandlerServer(ctx, mux, &ActionService{}); err != nil {
 		return err
 	}
 	return nil
@@ -57,6 +61,9 @@ func registerGraphQLAPIService(ctx context.Context, mux *graphqlruntime.ServeMux
 		return err
 	}
 	if err := api.RegisterChainServiceGraphqlHandler(mux, conn); err != nil {
+		return err
+	}
+	if err := api.RegisterActionServiceGraphqlHandler(mux, conn); err != nil {
 		return err
 	}
 	return nil

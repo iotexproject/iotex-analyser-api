@@ -1,3 +1,4 @@
+DelegateService
 ```
 {
 	GetBucketInfo(
@@ -25,13 +26,37 @@
 
 ```
 ChainService
+
 ```
 query {
-	chain {
+	Chain {
 		mostRecentEpoch
 		mostRecentBlockHeight
 	}
 }
 
 
+```
+
+ActionService
+
+GetActionByVoter = v1 actionByVoter
+```
+query{
+	GetActionByVoter(
+		address: "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz"
+		pagination: { skip: 0, first: 300 }
+	) {
+		actionList {
+			exist
+			count
+			actions {
+          amount
+          actHash
+          actType
+          timeStamp
+			}
+		}
+	}
+}
 ```

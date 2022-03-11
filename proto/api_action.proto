@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package api;
+import "google/api/annotations.proto";
+import "include/graphql.proto";
+import "include/pagination.proto";
+option go_package = "./api";
+
+message ActionRequest {
+  string address = 1;
+  string actHash = 2;
+  pagination.Pagination pagination = 3;
+}
+
+message ActionResponse {
+  ActionList actionList = 1;
+}
+
+message ActionInfo {
+  string actHash = 1;
+  string blkHash = 2;
+  string actType = 3;
+  string sender = 4;
+  string recipient = 5;
+  string amount = 6;
+  uint64 timeStamp = 7;
+  string gasFee = 8;
+  uint64 blkHeight = 9;
+}
+
+message ActionList {
+  bool exist = 1;
+  uint64 count = 2;
+  repeated ActionInfo actions = 3;
+}
+
+message EvmTransferInfo {
+  string actHash = 1;
+  uint64 blkHash = 2;
+  string from = 3;
+  string to = 4;
+  string quantity = 5;
+  uint64 blkHeight = 6;
+}
+
+message EvmTransferList {
+  bool exist = 1;
+  uint64 count = 2;
+  repeated EvmTransferInfo evmTransfers = 3;
+}
+
+
+service ActionService {
+  rpc GetActionByVoter(ActionRequest) returns (ActionResponse) {
+    option (graphql.schema) = {
+      type: QUERY   // declare as Query
+      name: "GetActionByVoter" // query name
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.GetActionByVoter"
+      body: "*"
+    };
+  };
+  rpc GetEvmTransfersByAddress(ActionRequest) returns (ActionResponse) {
+    option (graphql.schema) = {
+      type: QUERY   // declare as Query
+      name: "GetEvmTransfersByAddress" // query name
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.GetEvmTransfersByAddress"
+      body: "*"
+    };
+  };
+}
