@@ -13,7 +13,10 @@ message ActionRequest {
 }
 
 message ActionResponse {
-  ActionList actionList = 1;
+  bool exist = 1;
+  uint64 count = 2;
+  repeated ActionInfo actions = 3;
+  repeated EvmTransferInfo evmTransfers = 4;
 }
 
 message ActionInfo {
@@ -28,12 +31,6 @@ message ActionInfo {
   uint64 blkHeight = 9;
 }
 
-message ActionList {
-  bool exist = 1;
-  uint64 count = 2;
-  repeated ActionInfo actions = 3;
-}
-
 message EvmTransferInfo {
   string actHash = 1;
   uint64 blkHash = 2;
@@ -42,13 +39,6 @@ message EvmTransferInfo {
   string quantity = 5;
   uint64 blkHeight = 6;
 }
-
-message EvmTransferList {
-  bool exist = 1;
-  uint64 count = 2;
-  repeated EvmTransferInfo evmTransfers = 3;
-}
-
 
 service ActionService {
   rpc GetActionByVoter(ActionRequest) returns (ActionResponse) {

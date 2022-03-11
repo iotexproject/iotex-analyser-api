@@ -12,39 +12,15 @@ import (
 )
 
 var (
-	gql__type_EvmTransferList  *graphql.Object      // message EvmTransferList in api_action.proto
 	gql__type_EvmTransferInfo  *graphql.Object      // message EvmTransferInfo in api_action.proto
 	gql__type_ActionResponse   *graphql.Object      // message ActionResponse in api_action.proto
 	gql__type_ActionRequest    *graphql.Object      // message ActionRequest in api_action.proto
-	gql__type_ActionList       *graphql.Object      // message ActionList in api_action.proto
 	gql__type_ActionInfo       *graphql.Object      // message ActionInfo in api_action.proto
-	gql__input_EvmTransferList *graphql.InputObject // message EvmTransferList in api_action.proto
 	gql__input_EvmTransferInfo *graphql.InputObject // message EvmTransferInfo in api_action.proto
 	gql__input_ActionResponse  *graphql.InputObject // message ActionResponse in api_action.proto
 	gql__input_ActionRequest   *graphql.InputObject // message ActionRequest in api_action.proto
-	gql__input_ActionList      *graphql.InputObject // message ActionList in api_action.proto
 	gql__input_ActionInfo      *graphql.InputObject // message ActionInfo in api_action.proto
 )
-
-func Gql__type_EvmTransferList() *graphql.Object {
-	if gql__type_EvmTransferList == nil {
-		gql__type_EvmTransferList = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_EvmTransferList",
-			Fields: graphql.Fields{
-				"exist": &graphql.Field{
-					Type: graphql.Boolean,
-				},
-				"count": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"evmTransfers": &graphql.Field{
-					Type: graphql.NewList(Gql__type_EvmTransferInfo()),
-				},
-			},
-		})
-	}
-	return gql__type_EvmTransferList
-}
 
 func Gql__type_EvmTransferInfo() *graphql.Object {
 	if gql__type_EvmTransferInfo == nil {
@@ -80,8 +56,17 @@ func Gql__type_ActionResponse() *graphql.Object {
 		gql__type_ActionResponse = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Api_Type_ActionResponse",
 			Fields: graphql.Fields{
-				"actionList": &graphql.Field{
-					Type: Gql__type_ActionList(),
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ActionInfo()),
+				},
+				"evmTransfers": &graphql.Field{
+					Type: graphql.NewList(Gql__type_EvmTransferInfo()),
 				},
 			},
 		})
@@ -107,26 +92,6 @@ func Gql__type_ActionRequest() *graphql.Object {
 		})
 	}
 	return gql__type_ActionRequest
-}
-
-func Gql__type_ActionList() *graphql.Object {
-	if gql__type_ActionList == nil {
-		gql__type_ActionList = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_ActionList",
-			Fields: graphql.Fields{
-				"exist": &graphql.Field{
-					Type: graphql.Boolean,
-				},
-				"count": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"actions": &graphql.Field{
-					Type: graphql.NewList(Gql__type_ActionInfo()),
-				},
-			},
-		})
-	}
-	return gql__type_ActionList
 }
 
 func Gql__type_ActionInfo() *graphql.Object {
@@ -167,26 +132,6 @@ func Gql__type_ActionInfo() *graphql.Object {
 	return gql__type_ActionInfo
 }
 
-func Gql__input_EvmTransferList() *graphql.InputObject {
-	if gql__input_EvmTransferList == nil {
-		gql__input_EvmTransferList = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_EvmTransferList",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"exist": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
-				"count": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"evmTransfers": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_EvmTransferInfo()),
-				},
-			},
-		})
-	}
-	return gql__input_EvmTransferList
-}
-
 func Gql__input_EvmTransferInfo() *graphql.InputObject {
 	if gql__input_EvmTransferInfo == nil {
 		gql__input_EvmTransferInfo = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -221,8 +166,17 @@ func Gql__input_ActionResponse() *graphql.InputObject {
 		gql__input_ActionResponse = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Api_Input_ActionResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"actionList": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_ActionList(),
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ActionInfo()),
+				},
+				"evmTransfers": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_EvmTransferInfo()),
 				},
 			},
 		})
@@ -248,26 +202,6 @@ func Gql__input_ActionRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_ActionRequest
-}
-
-func Gql__input_ActionList() *graphql.InputObject {
-	if gql__input_ActionList == nil {
-		gql__input_ActionList = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_ActionList",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"exist": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
-				"count": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"actions": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_ActionInfo()),
-				},
-			},
-		})
-	}
-	return gql__input_ActionList
 }
 
 func Gql__input_ActionInfo() *graphql.InputObject {

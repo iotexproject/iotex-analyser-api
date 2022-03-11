@@ -13,8 +13,7 @@ type ActionService struct {
 }
 
 func (s *ActionService) GetActionByVoter(ctx context.Context, req *api.ActionRequest) (*api.ActionResponse, error) {
-	resp := &api.ActionResponse{}
-	resp.ActionList = &api.ActionList{
+	resp := &api.ActionResponse{
 		Count:   0,
 		Exist:   false,
 		Actions: make([]*api.ActionInfo, 0),
@@ -37,8 +36,8 @@ func (s *ActionService) GetActionByVoter(ctx context.Context, req *api.ActionReq
 	if count == 0 {
 		return resp, nil
 	}
-	resp.ActionList.Exist = true
-	resp.ActionList.Count = uint64(count)
+	resp.Exist = true
+	resp.Count = uint64(count)
 	skip := common.PageOffset(req.GetPagination())
 	first := common.PageSize(req.GetPagination())
 	actionInfoList, err := actions.GetBucketActionInfoByBuckets(bucketIDs, skip, first)
@@ -46,7 +45,7 @@ func (s *ActionService) GetActionByVoter(ctx context.Context, req *api.ActionReq
 		return nil, err
 	}
 	for _, actionInfo := range actionInfoList {
-		resp.ActionList.Actions = append(resp.ActionList.Actions, &api.ActionInfo{
+		resp.Actions = append(resp.Actions, &api.ActionInfo{
 			ActHash:   actionInfo.ActHash,
 			BlkHash:   actionInfo.BlkHash,
 			TimeStamp: actionInfo.TimeStamp,

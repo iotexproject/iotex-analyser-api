@@ -42,21 +42,20 @@ ActionService
 
 GetActionByVoter = v1 actionByVoter
 ```
-query{
+query {
 	GetActionByVoter(
 		address: "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz"
-		pagination: { skip: 0, first: 300 }
+		pagination: { skip: 10, first: 10 }
 	) {
-		actionList {
-			exist
-			count
-			actions {
-          amount
-          actHash
-          actType
-          timeStamp
-			}
+		exist
+		count
+		actions {
+			amount
+			actHash
+			actType
+			timeStamp
 		}
 	}
 }
+
 ```
