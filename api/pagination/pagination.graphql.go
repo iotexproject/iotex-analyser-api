@@ -21,6 +21,9 @@ func Gql__type_Pagination() *graphql.Object {
 				"first": &graphql.Field{
 					Type: graphql.Int,
 				},
+				"order": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -37,6 +40,9 @@ func Gql__input_Pagination() *graphql.InputObject {
 				},
 				"first": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
+				},
+				"order": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
 				},
 			},
 		})
