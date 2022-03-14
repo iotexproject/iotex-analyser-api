@@ -38,9 +38,9 @@ query {
 
 ```
 
-ActionService
+## ActionService
 
-GetActionByVoter = v1 actionByVoter
+### GetActionByVoter = v1 action.ByVoter
 ```
 query {
 	GetActionByVoter(
@@ -49,11 +49,52 @@ query {
 	) {
 		exist
 		count
-		actions {
+		actionList {
 			amount
 			actHash
 			actType
-			timeStamp
+			timestamp
+		}
+	}
+}
+```
+### GetEvmTransfersByAddress = v1 action.evmTransfersByAddress
+```
+query {
+	GetEvmTransfersByAddress(
+		address: "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz"
+		pagination: { skip: 0, first: 10 }
+	) {
+		exist
+		count
+		evmTransferList {
+			quantity
+			actHash
+			from
+			to
+			blkHash
+			blkHeight
+			timestamp
+		}
+	}
+}
+```
+### GetXrc20ByAddress = v1 xrc20.byAddress
+```
+query {
+	GetXrc20ByAddress(
+		address: "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz"
+		pagination: { skip: 0, first: 10 }
+	) {
+		exist
+		count
+		xrcList {
+			actHash
+			from
+			to
+			quantity
+			timestamp
+			contract
 		}
 	}
 }

@@ -12,26 +12,28 @@ import (
 )
 
 var (
+	gql__type_XrcInfo          *graphql.Object      // message XrcInfo in api_action.proto
 	gql__type_EvmTransferInfo  *graphql.Object      // message EvmTransferInfo in api_action.proto
 	gql__type_ActionResponse   *graphql.Object      // message ActionResponse in api_action.proto
 	gql__type_ActionRequest    *graphql.Object      // message ActionRequest in api_action.proto
 	gql__type_ActionInfo       *graphql.Object      // message ActionInfo in api_action.proto
+	gql__input_XrcInfo         *graphql.InputObject // message XrcInfo in api_action.proto
 	gql__input_EvmTransferInfo *graphql.InputObject // message EvmTransferInfo in api_action.proto
 	gql__input_ActionResponse  *graphql.InputObject // message ActionResponse in api_action.proto
 	gql__input_ActionRequest   *graphql.InputObject // message ActionRequest in api_action.proto
 	gql__input_ActionInfo      *graphql.InputObject // message ActionInfo in api_action.proto
 )
 
-func Gql__type_EvmTransferInfo() *graphql.Object {
-	if gql__type_EvmTransferInfo == nil {
-		gql__type_EvmTransferInfo = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_EvmTransferInfo",
+func Gql__type_XrcInfo() *graphql.Object {
+	if gql__type_XrcInfo == nil {
+		gql__type_XrcInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_XrcInfo",
 			Fields: graphql.Fields{
 				"actHash": &graphql.Field{
 					Type: graphql.String,
 				},
 				"blkHash": &graphql.Field{
-					Type: graphql.Int,
+					Type: graphql.String,
 				},
 				"from": &graphql.Field{
 					Type: graphql.String,
@@ -43,6 +45,44 @@ func Gql__type_EvmTransferInfo() *graphql.Object {
 					Type: graphql.String,
 				},
 				"blkHeight": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"contract": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_XrcInfo
+}
+
+func Gql__type_EvmTransferInfo() *graphql.Object {
+	if gql__type_EvmTransferInfo == nil {
+		gql__type_EvmTransferInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_EvmTransferInfo",
+			Fields: graphql.Fields{
+				"actHash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"blkHash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"from": &graphql.Field{
+					Type: graphql.String,
+				},
+				"to": &graphql.Field{
+					Type: graphql.String,
+				},
+				"quantity": &graphql.Field{
+					Type: graphql.String,
+				},
+				"blkHeight": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.Field{
 					Type: graphql.Int,
 				},
 			},
@@ -62,11 +102,14 @@ func Gql__type_ActionResponse() *graphql.Object {
 				"count": &graphql.Field{
 					Type: graphql.Int,
 				},
-				"actions": &graphql.Field{
+				"actionList": &graphql.Field{
 					Type: graphql.NewList(Gql__type_ActionInfo()),
 				},
-				"evmTransfers": &graphql.Field{
+				"evmTransferList": &graphql.Field{
 					Type: graphql.NewList(Gql__type_EvmTransferInfo()),
+				},
+				"xrcList": &graphql.Field{
+					Type: graphql.NewList(Gql__type_XrcInfo()),
 				},
 			},
 		})
@@ -117,7 +160,7 @@ func Gql__type_ActionInfo() *graphql.Object {
 				"amount": &graphql.Field{
 					Type: graphql.String,
 				},
-				"timeStamp": &graphql.Field{
+				"timestamp": &graphql.Field{
 					Type: graphql.Int,
 				},
 				"gasFee": &graphql.Field{
@@ -132,16 +175,16 @@ func Gql__type_ActionInfo() *graphql.Object {
 	return gql__type_ActionInfo
 }
 
-func Gql__input_EvmTransferInfo() *graphql.InputObject {
-	if gql__input_EvmTransferInfo == nil {
-		gql__input_EvmTransferInfo = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_EvmTransferInfo",
+func Gql__input_XrcInfo() *graphql.InputObject {
+	if gql__input_XrcInfo == nil {
+		gql__input_XrcInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_XrcInfo",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"actHash": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 				"blkHash": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
+					Type: graphql.String,
 				},
 				"from": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -153,6 +196,44 @@ func Gql__input_EvmTransferInfo() *graphql.InputObject {
 					Type: graphql.String,
 				},
 				"blkHeight": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"contract": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_XrcInfo
+}
+
+func Gql__input_EvmTransferInfo() *graphql.InputObject {
+	if gql__input_EvmTransferInfo == nil {
+		gql__input_EvmTransferInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_EvmTransferInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"actHash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"blkHash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"from": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"to": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"quantity": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"blkHeight": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
 			},
@@ -172,11 +253,14 @@ func Gql__input_ActionResponse() *graphql.InputObject {
 				"count": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
-				"actions": &graphql.InputObjectFieldConfig{
+				"actionList": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(Gql__input_ActionInfo()),
 				},
-				"evmTransfers": &graphql.InputObjectFieldConfig{
+				"evmTransferList": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(Gql__input_EvmTransferInfo()),
+				},
+				"xrcList": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_XrcInfo()),
 				},
 			},
 		})
@@ -227,7 +311,7 @@ func Gql__input_ActionInfo() *graphql.InputObject {
 				"amount": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
-				"timeStamp": &graphql.InputObjectFieldConfig{
+				"timestamp": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
 				"gasFee": &graphql.InputObjectFieldConfig{
@@ -332,6 +416,32 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 				resp, err := client.GetEvmTransfersByAddress(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC GetEvmTransfersByAddress")
+				}
+				return resp, nil
+			},
+		},
+		"GetXrc20ByAddress": &graphql.Field{
+			Type: Gql__type_ActionResponse(),
+			Args: graphql.FieldConfigArgument{
+				"address": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"actHash": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ActionRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetXrc20ByAddress")
+				}
+				client := NewActionServiceClient(conn)
+				resp, err := client.GetXrc20ByAddress(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetXrc20ByAddress")
 				}
 				return resp, nil
 			},
