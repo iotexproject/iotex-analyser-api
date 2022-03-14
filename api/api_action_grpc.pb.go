@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ActionServiceClient interface {
 	GetActionByVoter(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
 	GetEvmTransfersByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
+	GetXrc20ByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
 }
 
 type actionServiceClient struct {
@@ -48,12 +49,22 @@ func (c *actionServiceClient) GetEvmTransfersByAddress(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *actionServiceClient) GetXrc20ByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
+	out := new(ActionResponse)
+	err := c.cc.Invoke(ctx, "/api.ActionService/GetXrc20ByAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActionServiceServer is the server API for ActionService service.
 // All implementations must embed UnimplementedActionServiceServer
 // for forward compatibility
 type ActionServiceServer interface {
 	GetActionByVoter(context.Context, *ActionRequest) (*ActionResponse, error)
 	GetEvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
+	GetXrc20ByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
 	mustEmbedUnimplementedActionServiceServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedActionServiceServer) GetActionByVoter(context.Context, *Actio
 }
 func (UnimplementedActionServiceServer) GetEvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEvmTransfersByAddress not implemented")
+}
+func (UnimplementedActionServiceServer) GetXrc20ByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetXrc20ByAddress not implemented")
 }
 func (UnimplementedActionServiceServer) mustEmbedUnimplementedActionServiceServer() {}
 
@@ -116,6 +130,24 @@ func _ActionService_GetEvmTransfersByAddress_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActionService_GetXrc20ByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).GetXrc20ByAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ActionService/GetXrc20ByAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).GetXrc20ByAddress(ctx, req.(*ActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActionService_ServiceDesc is the grpc.ServiceDesc for ActionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var ActionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetEvmTransfersByAddress",
 			Handler:    _ActionService_GetEvmTransfersByAddress_Handler,
+		},
+		{
+			MethodName: "GetXrc20ByAddress",
+			Handler:    _ActionService_GetXrc20ByAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
