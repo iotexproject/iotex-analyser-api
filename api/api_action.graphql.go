@@ -32,9 +32,6 @@ func Gql__type_XrcInfo() *graphql.Object {
 				"actHash": &graphql.Field{
 					Type: graphql.String,
 				},
-				"blkHash": &graphql.Field{
-					Type: graphql.String,
-				},
 				"from": &graphql.Field{
 					Type: graphql.String,
 				},
@@ -181,9 +178,6 @@ func Gql__input_XrcInfo() *graphql.InputObject {
 			Name: "Api_Input_XrcInfo",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"actHash": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"blkHash": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 				"from": &graphql.InputObjectFieldConfig{

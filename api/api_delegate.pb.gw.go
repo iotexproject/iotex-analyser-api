@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_DelegateService_GetBucketInfo_0(ctx context.Context, marshaler runtime.Marshaler, client DelegateServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_DelegateService_BucketInfo_0(ctx context.Context, marshaler runtime.Marshaler, client DelegateServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DelegateRequest
 	var metadata runtime.ServerMetadata
 
@@ -43,12 +43,12 @@ func request_DelegateService_GetBucketInfo_0(ctx context.Context, marshaler runt
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetBucketInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.BucketInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_DelegateService_GetBucketInfo_0(ctx context.Context, marshaler runtime.Marshaler, server DelegateServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_DelegateService_BucketInfo_0(ctx context.Context, marshaler runtime.Marshaler, server DelegateServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DelegateRequest
 	var metadata runtime.ServerMetadata
 
@@ -60,7 +60,41 @@ func local_request_DelegateService_GetBucketInfo_0(ctx context.Context, marshale
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetBucketInfo(ctx, &protoReq)
+	msg, err := server.BucketInfo(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+func request_DelegateService_BookKeeping_0(ctx context.Context, marshaler runtime.Marshaler, client DelegateServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DelegateRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.BookKeeping(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_DelegateService_BookKeeping_0(ctx context.Context, marshaler runtime.Marshaler, server DelegateServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DelegateRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.BookKeeping(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -71,18 +105,18 @@ func local_request_DelegateService_GetBucketInfo_0(ctx context.Context, marshale
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterDelegateServiceHandlerFromEndpoint instead.
 func RegisterDelegateServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server DelegateServiceServer) error {
 
-	mux.Handle("POST", pattern_DelegateService_GetBucketInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_DelegateService_BucketInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.DelegateService/GetBucketInfo")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.DelegateService/BucketInfo")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_DelegateService_GetBucketInfo_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_DelegateService_BucketInfo_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -90,7 +124,30 @@ func RegisterDelegateServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			return
 		}
 
-		forward_DelegateService_GetBucketInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_DelegateService_BucketInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_DelegateService_BookKeeping_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.DelegateService/BookKeeping")
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_DelegateService_BookKeeping_0(rctx, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_DelegateService_BookKeeping_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -135,23 +192,43 @@ func RegisterDelegateServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // "DelegateServiceClient" to call the correct interceptors.
 func RegisterDelegateServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client DelegateServiceClient) error {
 
-	mux.Handle("POST", pattern_DelegateService_GetBucketInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_DelegateService_BucketInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.DelegateService/GetBucketInfo")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.DelegateService/BucketInfo")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_DelegateService_GetBucketInfo_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_DelegateService_BucketInfo_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_DelegateService_GetBucketInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_DelegateService_BucketInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_DelegateService_BookKeeping_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.DelegateService/BookKeeping")
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_DelegateService_BookKeeping_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_DelegateService_BookKeeping_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -159,9 +236,13 @@ func RegisterDelegateServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_DelegateService_GetBucketInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.DelegateService.GetBucketInfo"}, ""))
+	pattern_DelegateService_BucketInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.DelegateService.BucketInfo"}, ""))
+
+	pattern_DelegateService_BookKeeping_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.DelegateService.BookKeeping"}, ""))
 )
 
 var (
-	forward_DelegateService_GetBucketInfo_0 = runtime.ForwardResponseMessage
+	forward_DelegateService_BucketInfo_0 = runtime.ForwardResponseMessage
+
+	forward_DelegateService_BookKeeping_0 = runtime.ForwardResponseMessage
 )
