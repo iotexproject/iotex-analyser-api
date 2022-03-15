@@ -11,6 +11,9 @@ message DelegateRequest {
   uint64 epochCount = 2;
   string delegateName =3;
   pagination.Pagination pagination = 4;
+  uint64 percentage = 5;
+  bool includeBlockReward = 6;
+  bool includeFoundationBonus = 7;
 }
 
 message BucketInfo {
@@ -27,27 +30,41 @@ message BucketInfo {
 
 message BucketInfoList {
   uint64 epochNumber = 1;
-  repeated BucketInfo  bucketInfo = 2;
-	uint64 count = 3;
+	uint64 count = 2;
+  repeated BucketInfo  bucketInfo = 3;
 }
 
-message BucketInfoOutput {
-  bool exist = 1;      
-	repeated BucketInfoList  bucketInfoList = 2;
+message DelegateRewardDistribution {
+  string voterEthAddress = 1;
+  string voterIotexAddress = 2;
+  string amount = 3;
 }
 
 message DelegateResponse {
-  BucketInfoOutput bucketInfo = 1;
+  bool exist = 1;
+  uint64 count = 2;   
+	repeated BucketInfoList  bucketInfoList = 3;
+  repeated DelegateRewardDistribution rewardDistribution = 4;
 }
 
 service DelegateService {
-  rpc GetBucketInfo(DelegateRequest) returns (DelegateResponse) {
+  rpc BucketInfo(DelegateRequest) returns (DelegateResponse) {
     option (graphql.schema) = {
-      type: QUERY   // declare as Query
-      name: "GetBucketInfo" // query name
+      type: QUERY
+      name: "BucketInfo"
     };
     option (google.api.http) = {
-      post: "/api.DelegateService.GetBucketInfo"
+      post: "/api.DelegateService.BucketInfo"
+      body: "*"
+    };
+  };
+  rpc BookKeeping(DelegateRequest) returns (DelegateResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "BookKeeping"
+    };
+    option (google.api.http) = {
+      post: "/api.DelegateService.BookKeeping"
       body: "*"
     };
   };

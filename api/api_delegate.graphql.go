@@ -12,25 +12,54 @@ import (
 )
 
 var (
-	gql__type_DelegateResponse  *graphql.Object      // message DelegateResponse in api_delegate.proto
-	gql__type_DelegateRequest   *graphql.Object      // message DelegateRequest in api_delegate.proto
-	gql__type_BucketInfoOutput  *graphql.Object      // message BucketInfoOutput in api_delegate.proto
-	gql__type_BucketInfoList    *graphql.Object      // message BucketInfoList in api_delegate.proto
-	gql__type_BucketInfo        *graphql.Object      // message BucketInfo in api_delegate.proto
-	gql__input_DelegateResponse *graphql.InputObject // message DelegateResponse in api_delegate.proto
-	gql__input_DelegateRequest  *graphql.InputObject // message DelegateRequest in api_delegate.proto
-	gql__input_BucketInfoOutput *graphql.InputObject // message BucketInfoOutput in api_delegate.proto
-	gql__input_BucketInfoList   *graphql.InputObject // message BucketInfoList in api_delegate.proto
-	gql__input_BucketInfo       *graphql.InputObject // message BucketInfo in api_delegate.proto
+	gql__type_DelegateRewardDistribution  *graphql.Object      // message DelegateRewardDistribution in api_delegate.proto
+	gql__type_DelegateResponse            *graphql.Object      // message DelegateResponse in api_delegate.proto
+	gql__type_DelegateRequest             *graphql.Object      // message DelegateRequest in api_delegate.proto
+	gql__type_BucketInfoList              *graphql.Object      // message BucketInfoList in api_delegate.proto
+	gql__type_BucketInfo                  *graphql.Object      // message BucketInfo in api_delegate.proto
+	gql__input_DelegateRewardDistribution *graphql.InputObject // message DelegateRewardDistribution in api_delegate.proto
+	gql__input_DelegateResponse           *graphql.InputObject // message DelegateResponse in api_delegate.proto
+	gql__input_DelegateRequest            *graphql.InputObject // message DelegateRequest in api_delegate.proto
+	gql__input_BucketInfoList             *graphql.InputObject // message BucketInfoList in api_delegate.proto
+	gql__input_BucketInfo                 *graphql.InputObject // message BucketInfo in api_delegate.proto
 )
+
+func Gql__type_DelegateRewardDistribution() *graphql.Object {
+	if gql__type_DelegateRewardDistribution == nil {
+		gql__type_DelegateRewardDistribution = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_DelegateRewardDistribution",
+			Fields: graphql.Fields{
+				"voterEthAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+				"voterIotexAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_DelegateRewardDistribution
+}
 
 func Gql__type_DelegateResponse() *graphql.Object {
 	if gql__type_DelegateResponse == nil {
 		gql__type_DelegateResponse = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Api_Type_DelegateResponse",
 			Fields: graphql.Fields{
-				"bucketInfo": &graphql.Field{
-					Type: Gql__type_BucketInfoOutput(),
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"bucketInfoList": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BucketInfoList()),
+				},
+				"rewardDistribution": &graphql.Field{
+					Type: graphql.NewList(Gql__type_DelegateRewardDistribution()),
 				},
 			},
 		})
@@ -55,27 +84,19 @@ func Gql__type_DelegateRequest() *graphql.Object {
 				"pagination": &graphql.Field{
 					Type: pagination.Gql__type_Pagination(),
 				},
+				"percentage": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"includeBlockReward": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"includeFoundationBonus": &graphql.Field{
+					Type: graphql.Boolean,
+				},
 			},
 		})
 	}
 	return gql__type_DelegateRequest
-}
-
-func Gql__type_BucketInfoOutput() *graphql.Object {
-	if gql__type_BucketInfoOutput == nil {
-		gql__type_BucketInfoOutput = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_BucketInfoOutput",
-			Fields: graphql.Fields{
-				"exist": &graphql.Field{
-					Type: graphql.Boolean,
-				},
-				"bucketInfoList": &graphql.Field{
-					Type: graphql.NewList(Gql__type_BucketInfoList()),
-				},
-			},
-		})
-	}
-	return gql__type_BucketInfoOutput
 }
 
 func Gql__type_BucketInfoList() *graphql.Object {
@@ -86,11 +107,11 @@ func Gql__type_BucketInfoList() *graphql.Object {
 				"epochNumber": &graphql.Field{
 					Type: graphql.Int,
 				},
-				"bucketInfo": &graphql.Field{
-					Type: graphql.NewList(Gql__type_BucketInfo()),
-				},
 				"count": &graphql.Field{
 					Type: graphql.Int,
+				},
+				"bucketInfo": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BucketInfo()),
 				},
 			},
 		})
@@ -136,13 +157,42 @@ func Gql__type_BucketInfo() *graphql.Object {
 	return gql__type_BucketInfo
 }
 
+func Gql__input_DelegateRewardDistribution() *graphql.InputObject {
+	if gql__input_DelegateRewardDistribution == nil {
+		gql__input_DelegateRewardDistribution = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_DelegateRewardDistribution",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"voterEthAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"voterIotexAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_DelegateRewardDistribution
+}
+
 func Gql__input_DelegateResponse() *graphql.InputObject {
 	if gql__input_DelegateResponse == nil {
 		gql__input_DelegateResponse = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Api_Input_DelegateResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"bucketInfo": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_BucketInfoOutput(),
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"bucketInfoList": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BucketInfoList()),
+				},
+				"rewardDistribution": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_DelegateRewardDistribution()),
 				},
 			},
 		})
@@ -167,27 +217,19 @@ func Gql__input_DelegateRequest() *graphql.InputObject {
 				"pagination": &graphql.InputObjectFieldConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
+				"percentage": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"includeBlockReward": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"includeFoundationBonus": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
 			},
 		})
 	}
 	return gql__input_DelegateRequest
-}
-
-func Gql__input_BucketInfoOutput() *graphql.InputObject {
-	if gql__input_BucketInfoOutput == nil {
-		gql__input_BucketInfoOutput = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_BucketInfoOutput",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"exist": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
-				"bucketInfoList": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_BucketInfoList()),
-				},
-			},
-		})
-	}
-	return gql__input_BucketInfoOutput
 }
 
 func Gql__input_BucketInfoList() *graphql.InputObject {
@@ -198,11 +240,11 @@ func Gql__input_BucketInfoList() *graphql.InputObject {
 				"epochNumber": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
-				"bucketInfo": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_BucketInfo()),
-				},
 				"count": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
+				},
+				"bucketInfo": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BucketInfo()),
 				},
 			},
 		})
@@ -290,7 +332,7 @@ func (x *graphql__resolver_DelegateService) CreateConnection(ctx context.Context
 // GetQueries returns acceptable graphql.Fields for Query.
 func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
-		"GetBucketInfo": &graphql.Field{
+		"BucketInfo": &graphql.Field{
 			Type: Gql__type_DelegateResponse(),
 			Args: graphql.FieldConfigArgument{
 				"startEpoch": &graphql.ArgumentConfig{
@@ -305,16 +347,63 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				"pagination": &graphql.ArgumentConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
+				"percentage": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"includeBlockReward": &graphql.ArgumentConfig{
+					Type: graphql.Boolean,
+				},
+				"includeFoundationBonus": &graphql.ArgumentConfig{
+					Type: graphql.Boolean,
+				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				var req DelegateRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for GetBucketInfo")
+					return nil, errors.Wrap(err, "Failed to marshal request for BucketInfo")
 				}
 				client := NewDelegateServiceClient(conn)
-				resp, err := client.GetBucketInfo(p.Context, &req)
+				resp, err := client.BucketInfo(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetBucketInfo")
+					return nil, errors.Wrap(err, "Failed to call RPC BucketInfo")
+				}
+				return resp, nil
+			},
+		},
+		"BookKeeping": &graphql.Field{
+			Type: Gql__type_DelegateResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+				"percentage": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"includeBlockReward": &graphql.ArgumentConfig{
+					Type: graphql.Boolean,
+				},
+				"includeFoundationBonus": &graphql.ArgumentConfig{
+					Type: graphql.Boolean,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req DelegateRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for BookKeeping")
+				}
+				client := NewDelegateServiceClient(conn)
+				resp, err := client.BookKeeping(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC BookKeeping")
 				}
 				return resp, nil
 			},

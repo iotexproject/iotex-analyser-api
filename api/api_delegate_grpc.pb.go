@@ -18,7 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DelegateServiceClient interface {
-	GetBucketInfo(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error)
+	BucketInfo(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error)
+	BookKeeping(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error)
 }
 
 type delegateServiceClient struct {
@@ -29,9 +30,18 @@ func NewDelegateServiceClient(cc grpc.ClientConnInterface) DelegateServiceClient
 	return &delegateServiceClient{cc}
 }
 
-func (c *delegateServiceClient) GetBucketInfo(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error) {
+func (c *delegateServiceClient) BucketInfo(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error) {
 	out := new(DelegateResponse)
-	err := c.cc.Invoke(ctx, "/api.DelegateService/GetBucketInfo", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/BucketInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *delegateServiceClient) BookKeeping(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error) {
+	out := new(DelegateResponse)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/BookKeeping", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +52,8 @@ func (c *delegateServiceClient) GetBucketInfo(ctx context.Context, in *DelegateR
 // All implementations must embed UnimplementedDelegateServiceServer
 // for forward compatibility
 type DelegateServiceServer interface {
-	GetBucketInfo(context.Context, *DelegateRequest) (*DelegateResponse, error)
+	BucketInfo(context.Context, *DelegateRequest) (*DelegateResponse, error)
+	BookKeeping(context.Context, *DelegateRequest) (*DelegateResponse, error)
 	mustEmbedUnimplementedDelegateServiceServer()
 }
 
@@ -50,8 +61,11 @@ type DelegateServiceServer interface {
 type UnimplementedDelegateServiceServer struct {
 }
 
-func (UnimplementedDelegateServiceServer) GetBucketInfo(context.Context, *DelegateRequest) (*DelegateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBucketInfo not implemented")
+func (UnimplementedDelegateServiceServer) BucketInfo(context.Context, *DelegateRequest) (*DelegateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BucketInfo not implemented")
+}
+func (UnimplementedDelegateServiceServer) BookKeeping(context.Context, *DelegateRequest) (*DelegateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BookKeeping not implemented")
 }
 func (UnimplementedDelegateServiceServer) mustEmbedUnimplementedDelegateServiceServer() {}
 
@@ -66,20 +80,38 @@ func RegisterDelegateServiceServer(s grpc.ServiceRegistrar, srv DelegateServiceS
 	s.RegisterService(&DelegateService_ServiceDesc, srv)
 }
 
-func _DelegateService_GetBucketInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DelegateService_BucketInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DelegateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DelegateServiceServer).GetBucketInfo(ctx, in)
+		return srv.(DelegateServiceServer).BucketInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.DelegateService/GetBucketInfo",
+		FullMethod: "/api.DelegateService/BucketInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DelegateServiceServer).GetBucketInfo(ctx, req.(*DelegateRequest))
+		return srv.(DelegateServiceServer).BucketInfo(ctx, req.(*DelegateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DelegateService_BookKeeping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DelegateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).BookKeeping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.DelegateService/BookKeeping",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).BookKeeping(ctx, req.(*DelegateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -92,8 +124,12 @@ var DelegateService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DelegateServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetBucketInfo",
-			Handler:    _DelegateService_GetBucketInfo_Handler,
+			MethodName: "BucketInfo",
+			Handler:    _DelegateService_BucketInfo_Handler,
+		},
+		{
+			MethodName: "BookKeeping",
+			Handler:    _DelegateService_BookKeeping_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
