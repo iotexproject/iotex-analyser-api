@@ -12,9 +12,9 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
 	"github.com/iotexproject/iotex-core/blockchain/genesis"
 	"github.com/iotexproject/iotex-core/ioctl/util"
-	"golang.org/x/sync/errgroup"
 )
 
 type StakingService struct {
@@ -88,7 +88,7 @@ func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.
 			addr = add.String()
 		}
 		addr := addr
-		g.Go(func() error {
+		g.Go(func(ctx context.Context) error {
 			stakings, err := getCandidateStaking(height, addr)
 			if err != nil {
 				return err

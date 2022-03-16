@@ -1,9 +1,12 @@
 package rewards
 
 import (
+	"context"
 	"math/big"
+	"sync"
 
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
 	"github.com/pkg/errors"
 )
 
@@ -76,34 +79,55 @@ func totalWeightedVotes(startEpoch uint64, endEpoch uint64, delegateName string)
 	return totalVotesMap, nil
 }
 
-func voterVotes(startEpoch uint64, endEpoch uint64, delegateName string) (map[uint64]map[string]*big.Int, error) {
-	var rows []*AggregateVoting
+func voterVotes(ctx context.Context, startEpoch uint64, endEpoch uint64, delegateName string) (map[uint64]map[string]*big.Int, error) {
+
+	g := errgroup.Group{}
+	g.GOMAXPROCS(8)
 	db := db.DB()
-	if err := db.Table("hermes_aggregate_votings").Where("epoch_number >= ?  AND epoch_number <= ? AND candidate_name= ?", startEpoch, endEpoch, delegateName).Scan(&rows).Error; err != nil {
-		return nil, errors.WithStack(err)
+	f := func(ctx context.Context, epochNum uint64, delegateName string) (map[string]*big.Int, error) {
+		var votes []*AggregateVoting
+		if err := db.Table("hermes_aggregate_votings").Select("voter_address,aggregate_votes").Where("epoch_number = ? AND candidate_name = ?", epochNum, delegateName).Scan(&votes).Error; err != nil {
+			return nil, errors.WithStack(err)
+		}
+		voterVotes := make(map[string]*big.Int)
+		for _, vote := range votes {
+			a, ok := new(big.Int).SetString(vote.AggregateVotes, 10)
+			if !ok {
+				return nil, errors.New("failed to covert string to big int")
+			}
+			if val, ok := voterVotes[vote.VoterAddress]; ok {
+				voterVotes[vote.VoterAddress] = new(big.Int).Add(val, a)
+			} else {
+				voterVotes[vote.VoterAddress] = a
+			}
+		}
+		return voterVotes, nil
 	}
-
+	var epochMap sync.Map
+	for epoch := startEpoch; epoch <= endEpoch; epoch++ {
+		epoch := epoch // fix https://golang.org/doc/faq#closures_and_goroutines
+		g.Go(func(context.Context) error {
+			voters, err := f(ctx, epoch, delegateName)
+			if err != nil {
+				return err
+			}
+			epochMap.Store(epoch, voters)
+			return nil
+		})
+	}
+	if err := g.Wait(); err != nil {
+		return nil, err
+	}
 	epochToVoters := make(map[uint64]map[string]*big.Int)
-	for _, row := range rows {
-
-		if _, ok := epochToVoters[row.EpochNumber]; !ok {
-			epochToVoters[row.EpochNumber] = make(map[string]*big.Int)
-		}
-		votes, ok := new(big.Int).SetString(row.AggregateVotes, 10)
-		if !ok {
-			return nil, errors.New("failed to covert string to big int")
-		}
-		if val, ok := epochToVoters[row.EpochNumber][row.VoterAddress]; !ok {
-			epochToVoters[row.EpochNumber][row.VoterAddress] = votes
-		} else {
-			val.Add(val, votes)
-		}
-	}
+	epochMap.Range(func(key, value interface{}) bool {
+		epochToVoters[key.(uint64)] = value.(map[string]*big.Int)
+		return true
+	})
 
 	return epochToVoters, nil
 }
 
-func GetBookkeeping(startEpoch uint64, epochCount uint64, delegateName string, percentage int, includeBlockReward, includeFoundationBonus bool) (map[string]*big.Int, error) {
+func GetBookkeeping(ctx context.Context, startEpoch uint64, epochCount uint64, delegateName string, percentage int, includeBlockReward, includeFoundationBonus bool) (map[string]*big.Int, error) {
 	endEpoch := startEpoch + epochCount - 1
 
 	distrRewardMap, err := rewardsToSplit(startEpoch, endEpoch, delegateName, percentage, includeBlockReward, includeFoundationBonus)
@@ -114,7 +138,7 @@ func GetBookkeeping(startEpoch uint64, epochCount uint64, delegateName string, p
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get delegate total weighted votes")
 	}
-	epochToVotersMap, err := voterVotes(startEpoch, endEpoch, delegateName)
+	epochToVotersMap, err := voterVotes(ctx, startEpoch, endEpoch, delegateName)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get voters map")
 	}

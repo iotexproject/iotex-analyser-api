@@ -2,9 +2,11 @@ package apiservice
 
 import (
 	"context"
+	"embed"
 	"fmt"
 	"net"
 	"net/http"
+	"text/template"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -80,14 +82,26 @@ func StartGRPCService(ctx context.Context) error {
 	return grpcServer.Serve(lis)
 }
 
-func StartGRPCProxyService() error {
+func StartGRPCProxyService(templates embed.FS) error {
 	gwmux := runtime.NewServeMux()
 	ctx := context.Background()
 	if err := registerProxyAPIService(ctx, gwmux); err != nil {
 		return err
 	}
 
-	graphqlMux := graphqlruntime.NewServeMux()
+	playgroundMiddleware := func(ctx context.Context, w http.ResponseWriter, r *http.Request) (context.Context, error) {
+		if r.Method == "GET" {
+			tmpl, err := template.ParseFS(templates, "templates/graphql-playground.html")
+			if err != nil {
+				return ctx, err
+			}
+			if err := tmpl.Execute(w, nil); err != nil {
+				return ctx, err
+			}
+		}
+		return ctx, nil
+	}
+	graphqlMux := graphqlruntime.NewServeMux(playgroundMiddleware)
 	if err := registerGraphQLAPIService(ctx, graphqlMux); err != nil {
 		return err
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"embed"
 	"log"
 	"os"
 	"os/signal"
@@ -11,6 +12,9 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
 )
+
+//go:embed templates
+var templates embed.FS
 
 const (
 	ConfigPath = "ConfigPath"
@@ -39,6 +43,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect DB, %v", err)
 	}
+
 	ctx := context.Background()
 	go func() {
 		if err := apiservice.StartGRPCService(ctx); err != nil {
@@ -47,7 +52,7 @@ func main() {
 	}()
 
 	go func() {
-		if err := apiservice.StartGRPCProxyService(); err != nil {
+		if err := apiservice.StartGRPCProxyService(templates); err != nil {
 			log.Fatalf("failed to start HTTP API service, %v", err)
 		}
 	}()
