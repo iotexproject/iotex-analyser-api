@@ -103,7 +103,7 @@ func (s *DelegateService) BookKeeping(ctx context.Context, req *api.DelegateRequ
 	if percentAge > 100 {
 		return nil, errors.New("percentage should be 0-100")
 	}
-	rewards, err := rewards.GetBookkeeping(startEpoch, epochCount, delegateName, int(percentAge), includeBlockReward, includeFoundationBonus)
+	rewards, err := rewards.GetBookkeeping(ctx, startEpoch, epochCount, delegateName, int(percentAge), includeBlockReward, includeFoundationBonus)
 	if err != nil {
 		return nil, err
 	}
