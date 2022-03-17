@@ -8,9 +8,8 @@ import (
 
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
-	"github.com/iotexproject/iotex-core/pkg/log"
+	"github.com/millken/golog"
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
 )
 
 type RewardDistribution struct {
@@ -185,7 +184,8 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 			minEpoch = k
 		}
 	}
-
+	golog.ReplaceGlobals(golog.NewStdLog())
+	golog.Infof("DEBUG minEpoch: %d, maxEpoch: %d", minEpoch, maxEpoch)
 	f := func(ctx context.Context, epochNum uint64) ([]AggregateVoting, error) {
 		var votes []AggregateVoting
 		if err := db.Table("hermes_aggregate_votings").Select("candidate_name,voter_address,aggregate_votes").Where("epoch_number = ?", epochNum).Scan(&votes).Error; err != nil {
@@ -212,7 +212,7 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 	epochMap.Range(func(key, value interface{}) bool {
 		epoch := key.(uint64)
 		voters := value.([]AggregateVoting)
-		log.L().Debug("voters", zap.Any("voters", voters), zap.Uint64("epoch", epoch))
+		golog.WithFields(golog.F("voters", voters), golog.F("epoch", epoch)).Infof("voters")
 		for _, row := range voters {
 			exist := false
 			for _, v := range delegateMap[epoch] {
