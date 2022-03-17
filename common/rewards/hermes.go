@@ -2,6 +2,7 @@ package rewards
 
 import (
 	"context"
+	"math"
 	"math/big"
 	"sync"
 
@@ -165,4 +166,81 @@ func GetBookkeeping(ctx context.Context, startEpoch uint64, epochCount uint64, d
 		}
 	}
 	return voterAddrToReward, nil
+}
+
+func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map[uint64]map[string]*big.Int, error) {
+	db := db.DB()
+	g := errgroup.Group{}
+	g.GOMAXPROCS(8)
+	var minEpoch, maxEpoch uint64
+	minEpoch = math.MaxUint64
+	maxEpoch = 0
+	for k := range delegateMap {
+		if k >= maxEpoch {
+			maxEpoch = k
+		}
+		if k <= minEpoch {
+			minEpoch = k
+		}
+	}
+
+	f := func(ctx context.Context, epochNum uint64) ([]*AggregateVoting, error) {
+		var votes []*AggregateVoting
+		if err := db.Table("hermes_aggregate_votings").Select("candidate_name,voter_address,aggregate_votes").Where("epoch_number = ?", epochNum).Scan(&votes).Error; err != nil {
+			return nil, errors.WithStack(err)
+		}
+		return votes, nil
+	}
+	var epochMap sync.Map
+	for epoch := minEpoch; epoch <= maxEpoch; epoch++ {
+		epoch := epoch
+		g.Go(func(ctx context.Context) error {
+			voters, err := f(ctx, epoch)
+			if err != nil {
+				return err
+			}
+			epochMap.Store(epoch, voters)
+			return nil
+		})
+	}
+	if err := g.Wait(); err != nil {
+		return nil, err
+	}
+	voterVotesMap := make(map[string]map[uint64]map[string]*big.Int) //map[candidateName][epoch][voterAddr]weightedVotes
+	epochMap.Range(func(key, value interface{}) bool {
+		epoch := key.(uint64)
+		voters := value.([]*AggregateVoting)
+		for _, row := range voters {
+			exist := false
+			for _, v := range delegateMap[epoch] {
+				if row.CandidateName == v {
+					exist = true
+					break
+				}
+			}
+			if !exist {
+				continue
+			}
+			if _, ok := voterVotesMap[row.CandidateName]; !ok {
+				voterVotesMap[row.CandidateName] = make(map[uint64]map[string]*big.Int)
+			}
+			epochVoterMap := voterVotesMap[row.CandidateName]
+			if _, ok := epochVoterMap[row.EpochNumber]; !ok {
+				epochVoterMap[row.EpochNumber] = make(map[string]*big.Int)
+			}
+			voterMap := epochVoterMap[row.EpochNumber]
+
+			weightedVotesInt, ok := new(big.Int).SetString(row.AggregateVotes, 10)
+			if !ok {
+				return false
+			}
+			if val, ok := voterMap[row.VoterAddress]; !ok {
+				voterMap[row.VoterAddress] = weightedVotesInt
+			} else {
+				voterMap[row.VoterAddress] = new(big.Int).Add(val, weightedVotesInt)
+			}
+		}
+		return true
+	})
+	return voterVotesMap, nil
 }
