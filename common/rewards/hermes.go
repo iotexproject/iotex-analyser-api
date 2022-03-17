@@ -212,7 +212,6 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 	epochMap.Range(func(key, value interface{}) bool {
 		epoch := key.(uint64)
 		voters := value.([]AggregateVoting)
-		golog.WithFields(golog.F("voters", voters), golog.F("epoch", epoch)).Infof("voters")
 		for _, row := range voters {
 			exist := false
 			for _, v := range delegateMap[epoch] {
@@ -228,10 +227,10 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 				voterVotesMap[row.CandidateName] = make(map[uint64]map[string]*big.Int)
 			}
 			epochVoterMap := voterVotesMap[row.CandidateName]
-			if _, ok := epochVoterMap[row.EpochNumber]; !ok {
-				epochVoterMap[row.EpochNumber] = make(map[string]*big.Int)
+			if _, ok := epochVoterMap[epoch]; !ok {
+				epochVoterMap[epoch] = make(map[string]*big.Int)
 			}
-			voterMap := epochVoterMap[row.EpochNumber]
+			voterMap := epochVoterMap[epoch]
 
 			weightedVotesInt, ok := new(big.Int).SetString(row.AggregateVotes, 10)
 			if !ok {
