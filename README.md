@@ -27,7 +27,7 @@ make
 
 ## Docker Quick Start
 
-API service depends on [iotex-analyzer](https://github.com/iotexproject/iotex-analyzer). You need to use docker start `iotex-analyser` before that.
+API service depends on [iotex-analyser](https://github.com/iotexproject/iotex-analyser). You need to use docker start `iotex-analyser` before that.
 
 ```
 docker run -p 8888:8888 -p 8889:8889 -e "GRPC_API_PORT=8888" -e "HTTP_API_PORT=8889" -e "DB_DRIVER=postgres" -e "DB_HOST=x.x.x.x" -e "DB_PORT=5432" -e "DB_USER=user" -e "DB_PASSWORD=password" -e "DB_NAME=dbname" iotexproject/iotex-analyser-api
@@ -41,7 +41,7 @@ docker run -p 8888:8888 -p 8889:8889 -e "GRPC_API_PORT=8888" -e "HTTP_API_PORT=8
 API supports GRPC/HTTP/GraphQL
 
 ```sh
-curl -g "http://localhost:7778/graphql" -d '
+curl -g "http://localhost:8889/graphql" -d '
 {
   GetActionsByAddress(address: "io14u5d66rt465ykm7t2847qllj0reml27q30kr75") {
     count
@@ -52,13 +52,17 @@ curl -g "http://localhost:7778/graphql" -d '
   }
 }'
 
-curl -g "http://localhost:7778/api.ActionsService.GetActionsByAddress" -d '
+curl -g "http://localhost:8889/api.ActionsService.GetActionsByAddress" -d '
 {
   "address": "io14u5d66rt465ykm7t2847qllj0reml27q30kr75"
 }'
 
-grpcurl -plaintext -d '{"address": "io14u5d66rt465ykm7t2847qllj0reml27q30kr75"}' 127.0.0.1:7777 api.ActionsService.GetActionsByAddress
+grpcurl -plaintext -d '{"address": "io14u5d66rt465ykm7t2847qllj0reml27q30kr75"}' 127.0.0.1:8888 api.ActionsService.GetActionsByAddress
 ```
+
+GraphQL Playground Support
+
+http://localhost:8889/graphql
 
 ## License
 This project is licensed under the [Apache License 2.0](LICENSE).

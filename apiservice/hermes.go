@@ -24,15 +24,6 @@ type HermesVotingResult struct {
 	FoundationBonusPercentage float64
 }
 
-type HermesAggregateVoting struct {
-	ID             uint64
-	EpochNumber    uint64
-	CandidateName  string
-	VoterAddress   string
-	NativeFlag     bool
-	AggregateVotes string
-}
-
 type HermesDistributionPlan struct {
 	TotalWeightedVotes        *big.Int
 	StakingAddress            string
@@ -176,59 +167,6 @@ func accountRewards(delegateMap map[uint64][]string) (map[string]map[uint64]*Her
 		}
 	}
 	return accountRewardsMap, nil
-}
-
-func weightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map[uint64]map[string]*big.Int, error) {
-	db := db.DB()
-	var rows []HermesAggregateVoting
-	var minEpoch, maxEpoch uint64
-	minEpoch = math.MaxUint64
-	maxEpoch = 0
-	for k := range delegateMap {
-		if k >= maxEpoch {
-			maxEpoch = k
-		}
-		if k <= minEpoch {
-			minEpoch = k
-		}
-	}
-
-	if err := db.Table("hermes_aggregate_votings").Where("epoch_number >= ?  AND epoch_number <= ?", minEpoch, maxEpoch).Find(&rows).Error; err != nil {
-		return nil, err
-	}
-
-	voterVotesMap := make(map[string]map[uint64]map[string]*big.Int)
-	for _, row := range rows {
-		exist := false
-		for _, v := range delegateMap[row.EpochNumber] {
-			if row.CandidateName == v {
-				exist = true
-				break
-			}
-		}
-		if !exist {
-			continue
-		}
-		if _, ok := voterVotesMap[row.CandidateName]; !ok {
-			voterVotesMap[row.CandidateName] = make(map[uint64]map[string]*big.Int)
-		}
-		epochVoterMap := voterVotesMap[row.CandidateName]
-		if _, ok := epochVoterMap[row.EpochNumber]; !ok {
-			epochVoterMap[row.EpochNumber] = make(map[string]*big.Int)
-		}
-		voterMap := epochVoterMap[row.EpochNumber]
-
-		weightedVotesInt, errs := stringToBigInt(row.AggregateVotes)
-		if errs != nil {
-			return nil, errors.Wrap(errs, "failed to convert to big int")
-		}
-		if val, ok := voterMap[row.VoterAddress]; !ok {
-			voterMap[row.VoterAddress] = weightedVotesInt
-		} else {
-			val.Add(val, weightedVotesInt)
-		}
-	}
-	return voterVotesMap, nil
 }
 
 func calculatedDistributedReward(distributePlan *HermesDistributionPlan, rewards *HermesDistributionSource) (*big.Int, error) {

@@ -8,6 +8,7 @@ import (
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
+	"github.com/iotexproject/iotex-analyser-api/common/rewards"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/ioctl/util"
 	"github.com/pkg/errors"
@@ -138,7 +139,7 @@ func (s *AccountService) Hermes(ctx context.Context, req *api.HermesRequest) (*a
 		return nil, errors.Wrap(err, "failed to get account rewards")
 	}
 
-	voterVotesMap, err := weightedVotesBySearchPairs(delegateMap)
+	voterVotesMap, err := rewards.WeightedVotesBySearchPairs(delegateMap)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get voter votes")
 	}
