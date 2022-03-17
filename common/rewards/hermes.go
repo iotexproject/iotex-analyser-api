@@ -8,7 +8,6 @@ import (
 
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
-	"github.com/millken/golog"
 	"github.com/pkg/errors"
 )
 
@@ -184,8 +183,6 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 			minEpoch = k
 		}
 	}
-	golog.ReplaceGlobals(golog.NewStdLog())
-	golog.Infof("DEBUG minEpoch: %d, maxEpoch: %d", minEpoch, maxEpoch)
 	f := func(ctx context.Context, epochNum uint64) ([]AggregateVoting, error) {
 		var votes []AggregateVoting
 		if err := db.Table("hermes_aggregate_votings").Select("candidate_name,voter_address,aggregate_votes").Where("epoch_number = ?", epochNum).Scan(&votes).Error; err != nil {
