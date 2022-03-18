@@ -1,4 +1,4 @@
-name: label to deploy
+name: deploy to gke 
 
 on: 
   pull_request:
