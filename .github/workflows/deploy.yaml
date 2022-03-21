@@ -28,9 +28,8 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3
       with:
-        context: .
-        push: true
-        tags: iotexdev/iotex-analyser-api:latest
+        images: |
+          iotexdev/iotex-analyser-api
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -49,8 +48,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: iotexdev/iotex-analyser-api:latest
 
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
