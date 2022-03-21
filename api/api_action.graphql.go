@@ -362,7 +362,7 @@ func (x *graphql__resolver_ActionService) CreateConnection(ctx context.Context) 
 // GetQueries returns acceptable graphql.Fields for Query.
 func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
-		"GetActionByVoter": &graphql.Field{
+		"ActionByVoter": &graphql.Field{
 			Type: Gql__type_ActionResponse(),
 			Args: graphql.FieldConfigArgument{
 				"address": &graphql.ArgumentConfig{
@@ -378,17 +378,17 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				var req ActionRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for GetActionByVoter")
+					return nil, errors.Wrap(err, "Failed to marshal request for ActionByVoter")
 				}
 				client := NewActionServiceClient(conn)
-				resp, err := client.GetActionByVoter(p.Context, &req)
+				resp, err := client.ActionByVoter(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetActionByVoter")
+					return nil, errors.Wrap(err, "Failed to call RPC ActionByVoter")
 				}
 				return resp, nil
 			},
 		},
-		"GetEvmTransfersByAddress": &graphql.Field{
+		"ActionByAddress": &graphql.Field{
 			Type: Gql__type_ActionResponse(),
 			Args: graphql.FieldConfigArgument{
 				"address": &graphql.ArgumentConfig{
@@ -404,12 +404,38 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				var req ActionRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for GetEvmTransfersByAddress")
+					return nil, errors.Wrap(err, "Failed to marshal request for ActionByAddress")
 				}
 				client := NewActionServiceClient(conn)
-				resp, err := client.GetEvmTransfersByAddress(p.Context, &req)
+				resp, err := client.ActionByAddress(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetEvmTransfersByAddress")
+					return nil, errors.Wrap(err, "Failed to call RPC ActionByAddress")
+				}
+				return resp, nil
+			},
+		},
+		"EvmTransfersByAddress": &graphql.Field{
+			Type: Gql__type_ActionResponse(),
+			Args: graphql.FieldConfigArgument{
+				"address": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"actHash": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ActionRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for EvmTransfersByAddress")
+				}
+				client := NewActionServiceClient(conn)
+				resp, err := client.EvmTransfersByAddress(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC EvmTransfersByAddress")
 				}
 				return resp, nil
 			},
