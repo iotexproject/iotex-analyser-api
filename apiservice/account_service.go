@@ -220,6 +220,7 @@ func (s *AccountService) Hermes(ctx context.Context, req *api.HermesRequest) (*a
 			Refund:              ret.Refund,
 		})
 	}
+	sort.Slice(hermesDistribution, func(i, j int) bool { return hermesDistribution[i].DelegateName < hermesDistribution[j].DelegateName })
 	resp.HermesDistribution = hermesDistribution
 	return resp, nil
 }
