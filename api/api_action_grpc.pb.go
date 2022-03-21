@@ -18,8 +18,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ActionServiceClient interface {
-	GetActionByVoter(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
-	GetEvmTransfersByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
+	ActionByVoter(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
+	ActionByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
+	EvmTransfersByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
 	GetXrc20ByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
 }
 
@@ -31,18 +32,27 @@ func NewActionServiceClient(cc grpc.ClientConnInterface) ActionServiceClient {
 	return &actionServiceClient{cc}
 }
 
-func (c *actionServiceClient) GetActionByVoter(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
+func (c *actionServiceClient) ActionByVoter(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
 	out := new(ActionResponse)
-	err := c.cc.Invoke(ctx, "/api.ActionService/GetActionByVoter", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.ActionService/ActionByVoter", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *actionServiceClient) GetEvmTransfersByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
+func (c *actionServiceClient) ActionByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
 	out := new(ActionResponse)
-	err := c.cc.Invoke(ctx, "/api.ActionService/GetEvmTransfersByAddress", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.ActionService/ActionByAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *actionServiceClient) EvmTransfersByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
+	out := new(ActionResponse)
+	err := c.cc.Invoke(ctx, "/api.ActionService/EvmTransfersByAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,8 +72,9 @@ func (c *actionServiceClient) GetXrc20ByAddress(ctx context.Context, in *ActionR
 // All implementations must embed UnimplementedActionServiceServer
 // for forward compatibility
 type ActionServiceServer interface {
-	GetActionByVoter(context.Context, *ActionRequest) (*ActionResponse, error)
-	GetEvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
+	ActionByVoter(context.Context, *ActionRequest) (*ActionResponse, error)
+	ActionByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
+	EvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
 	GetXrc20ByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
 	mustEmbedUnimplementedActionServiceServer()
 }
@@ -72,11 +83,14 @@ type ActionServiceServer interface {
 type UnimplementedActionServiceServer struct {
 }
 
-func (UnimplementedActionServiceServer) GetActionByVoter(context.Context, *ActionRequest) (*ActionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetActionByVoter not implemented")
+func (UnimplementedActionServiceServer) ActionByVoter(context.Context, *ActionRequest) (*ActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActionByVoter not implemented")
 }
-func (UnimplementedActionServiceServer) GetEvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetEvmTransfersByAddress not implemented")
+func (UnimplementedActionServiceServer) ActionByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActionByAddress not implemented")
+}
+func (UnimplementedActionServiceServer) EvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EvmTransfersByAddress not implemented")
 }
 func (UnimplementedActionServiceServer) GetXrc20ByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetXrc20ByAddress not implemented")
@@ -94,38 +108,56 @@ func RegisterActionServiceServer(s grpc.ServiceRegistrar, srv ActionServiceServe
 	s.RegisterService(&ActionService_ServiceDesc, srv)
 }
 
-func _ActionService_GetActionByVoter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ActionService_ActionByVoter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ActionServiceServer).GetActionByVoter(ctx, in)
+		return srv.(ActionServiceServer).ActionByVoter(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.ActionService/GetActionByVoter",
+		FullMethod: "/api.ActionService/ActionByVoter",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ActionServiceServer).GetActionByVoter(ctx, req.(*ActionRequest))
+		return srv.(ActionServiceServer).ActionByVoter(ctx, req.(*ActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ActionService_GetEvmTransfersByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ActionService_ActionByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ActionServiceServer).GetEvmTransfersByAddress(ctx, in)
+		return srv.(ActionServiceServer).ActionByAddress(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.ActionService/GetEvmTransfersByAddress",
+		FullMethod: "/api.ActionService/ActionByAddress",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ActionServiceServer).GetEvmTransfersByAddress(ctx, req.(*ActionRequest))
+		return srv.(ActionServiceServer).ActionByAddress(ctx, req.(*ActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActionService_EvmTransfersByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).EvmTransfersByAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ActionService/EvmTransfersByAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).EvmTransfersByAddress(ctx, req.(*ActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -156,12 +188,16 @@ var ActionService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ActionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetActionByVoter",
-			Handler:    _ActionService_GetActionByVoter_Handler,
+			MethodName: "ActionByVoter",
+			Handler:    _ActionService_ActionByVoter_Handler,
 		},
 		{
-			MethodName: "GetEvmTransfersByAddress",
-			Handler:    _ActionService_GetEvmTransfersByAddress_Handler,
+			MethodName: "ActionByAddress",
+			Handler:    _ActionService_ActionByAddress_Handler,
+		},
+		{
+			MethodName: "EvmTransfersByAddress",
+			Handler:    _ActionService_EvmTransfersByAddress_Handler,
 		},
 		{
 			MethodName: "GetXrc20ByAddress",

@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_ActionService_GetActionByVoter_0(ctx context.Context, marshaler runtime.Marshaler, client ActionServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_ActionService_ActionByVoter_0(ctx context.Context, marshaler runtime.Marshaler, client ActionServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ActionRequest
 	var metadata runtime.ServerMetadata
 
@@ -43,12 +43,12 @@ func request_ActionService_GetActionByVoter_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetActionByVoter(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ActionByVoter(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ActionService_GetActionByVoter_0(ctx context.Context, marshaler runtime.Marshaler, server ActionServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_ActionService_ActionByVoter_0(ctx context.Context, marshaler runtime.Marshaler, server ActionServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ActionRequest
 	var metadata runtime.ServerMetadata
 
@@ -60,12 +60,12 @@ func local_request_ActionService_GetActionByVoter_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetActionByVoter(ctx, &protoReq)
+	msg, err := server.ActionByVoter(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-func request_ActionService_GetEvmTransfersByAddress_0(ctx context.Context, marshaler runtime.Marshaler, client ActionServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_ActionService_ActionByAddress_0(ctx context.Context, marshaler runtime.Marshaler, client ActionServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ActionRequest
 	var metadata runtime.ServerMetadata
 
@@ -77,12 +77,12 @@ func request_ActionService_GetEvmTransfersByAddress_0(ctx context.Context, marsh
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetEvmTransfersByAddress(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ActionByAddress(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ActionService_GetEvmTransfersByAddress_0(ctx context.Context, marshaler runtime.Marshaler, server ActionServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_ActionService_ActionByAddress_0(ctx context.Context, marshaler runtime.Marshaler, server ActionServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ActionRequest
 	var metadata runtime.ServerMetadata
 
@@ -94,7 +94,41 @@ func local_request_ActionService_GetEvmTransfersByAddress_0(ctx context.Context,
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetEvmTransfersByAddress(ctx, &protoReq)
+	msg, err := server.ActionByAddress(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+func request_ActionService_EvmTransfersByAddress_0(ctx context.Context, marshaler runtime.Marshaler, client ActionServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ActionRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.EvmTransfersByAddress(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_ActionService_EvmTransfersByAddress_0(ctx context.Context, marshaler runtime.Marshaler, server ActionServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ActionRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.EvmTransfersByAddress(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -139,18 +173,18 @@ func local_request_ActionService_GetXrc20ByAddress_0(ctx context.Context, marsha
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterActionServiceHandlerFromEndpoint instead.
 func RegisterActionServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ActionServiceServer) error {
 
-	mux.Handle("POST", pattern_ActionService_GetActionByVoter_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ActionService_ActionByVoter_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ActionService/GetActionByVoter")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ActionService/ActionByVoter")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ActionService_GetActionByVoter_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ActionService_ActionByVoter_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -158,22 +192,22 @@ func RegisterActionServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_ActionService_GetActionByVoter_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ActionService_ActionByVoter_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_ActionService_GetEvmTransfersByAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ActionService_ActionByAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ActionService/GetEvmTransfersByAddress")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ActionService/ActionByAddress")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ActionService_GetEvmTransfersByAddress_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ActionService_ActionByAddress_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -181,7 +215,30 @@ func RegisterActionServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_ActionService_GetEvmTransfersByAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ActionService_ActionByAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_ActionService_EvmTransfersByAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ActionService/EvmTransfersByAddress")
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_ActionService_EvmTransfersByAddress_0(rctx, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ActionService_EvmTransfersByAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -249,43 +306,63 @@ func RegisterActionServiceHandler(ctx context.Context, mux *runtime.ServeMux, co
 // "ActionServiceClient" to call the correct interceptors.
 func RegisterActionServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ActionServiceClient) error {
 
-	mux.Handle("POST", pattern_ActionService_GetActionByVoter_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ActionService_ActionByVoter_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.ActionService/GetActionByVoter")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.ActionService/ActionByVoter")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ActionService_GetActionByVoter_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ActionService_ActionByVoter_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ActionService_GetActionByVoter_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ActionService_ActionByVoter_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_ActionService_GetEvmTransfersByAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ActionService_ActionByAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.ActionService/GetEvmTransfersByAddress")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.ActionService/ActionByAddress")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ActionService_GetEvmTransfersByAddress_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ActionService_ActionByAddress_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ActionService_GetEvmTransfersByAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ActionService_ActionByAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_ActionService_EvmTransfersByAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.ActionService/EvmTransfersByAddress")
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_ActionService_EvmTransfersByAddress_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ActionService_EvmTransfersByAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -313,17 +390,21 @@ func RegisterActionServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 }
 
 var (
-	pattern_ActionService_GetActionByVoter_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.GetActionByVoter"}, ""))
+	pattern_ActionService_ActionByVoter_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.ActionByVoter"}, ""))
 
-	pattern_ActionService_GetEvmTransfersByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.GetEvmTransfersByAddress"}, ""))
+	pattern_ActionService_ActionByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionsService.ActionByAddress"}, ""))
+
+	pattern_ActionService_EvmTransfersByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.EvmTransfersByAddress"}, ""))
 
 	pattern_ActionService_GetXrc20ByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.GetXrc20ByAddress"}, ""))
 )
 
 var (
-	forward_ActionService_GetActionByVoter_0 = runtime.ForwardResponseMessage
+	forward_ActionService_ActionByVoter_0 = runtime.ForwardResponseMessage
 
-	forward_ActionService_GetEvmTransfersByAddress_0 = runtime.ForwardResponseMessage
+	forward_ActionService_ActionByAddress_0 = runtime.ForwardResponseMessage
+
+	forward_ActionService_EvmTransfersByAddress_0 = runtime.ForwardResponseMessage
 
 	forward_ActionService_GetXrc20ByAddress_0 = runtime.ForwardResponseMessage
 )

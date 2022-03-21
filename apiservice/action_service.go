@@ -12,7 +12,7 @@ type ActionService struct {
 	api.UnimplementedActionServiceServer
 }
 
-func (s *ActionService) GetActionByVoter(ctx context.Context, req *api.ActionRequest) (*api.ActionResponse, error) {
+func (s *ActionService) ActionByVoter(ctx context.Context, req *api.ActionRequest) (*api.ActionResponse, error) {
 	resp := &api.ActionResponse{
 		Count:      0,
 		Exist:      false,
@@ -60,7 +60,45 @@ func (s *ActionService) GetActionByVoter(ctx context.Context, req *api.ActionReq
 	return resp, nil
 }
 
-func (s *ActionService) GetEvmTransfersByAddress(ctx context.Context, req *api.ActionRequest) (*api.ActionResponse, error) {
+func (s *ActionService) ActionByAddress(ctx context.Context, req *api.ActionRequest) (*api.ActionResponse, error) {
+	resp := &api.ActionResponse{
+		Count:      0,
+		Exist:      false,
+		ActionList: make([]*api.ActionInfo, 0),
+	}
+	address, err := common.Address(req.GetAddress())
+	if err != nil {
+		return nil, err
+	}
+
+	count, err := actions.GetActionCountByAddress(*address)
+	if err != nil {
+		return nil, err
+	}
+	resp.Count = uint64(count)
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+	actionInfoList, err := actions.GetActionInfoByAddress(*address, skip, first)
+	if err != nil {
+		return nil, err
+	}
+	for _, actionInfo := range actionInfoList {
+		resp.ActionList = append(resp.ActionList, &api.ActionInfo{
+			ActHash:   actionInfo.ActHash,
+			BlkHash:   actionInfo.BlkHash,
+			Timestamp: actionInfo.Timestamp,
+			ActType:   actionInfo.ActType,
+			Sender:    actionInfo.Sender,
+			Recipient: actionInfo.Recipient,
+			Amount:    actionInfo.Amount,
+			GasFee:    actionInfo.GasFee,
+			BlkHeight: actionInfo.BlkHeight,
+		})
+	}
+	return resp, nil
+}
+
+func (s *ActionService) EvmTransfersByAddress(ctx context.Context, req *api.ActionRequest) (*api.ActionResponse, error) {
 	resp := &api.ActionResponse{
 		Count:           0,
 		Exist:           false,

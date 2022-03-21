@@ -53,23 +53,33 @@ message XrcInfo {
 }
 
 service ActionService {
-  rpc GetActionByVoter(ActionRequest) returns (ActionResponse) {
+  rpc ActionByVoter(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
       type: QUERY   // declare as Query
-      name: "GetActionByVoter" // query name
+      name: "ActionByVoter" // query name
     };
     option (google.api.http) = {
-      post: "/api.ActionService.GetActionByVoter"
+      post: "/api.ActionService.ActionByVoter"
       body: "*"
     };
   };
-  rpc GetEvmTransfersByAddress(ActionRequest) returns (ActionResponse) {
+  rpc ActionByAddress(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
       type: QUERY   // declare as Query
-      name: "GetEvmTransfersByAddress" // query name
+      name: "ActionByAddress" // query name
     };
     option (google.api.http) = {
-      post: "/api.ActionService.GetEvmTransfersByAddress"
+      post: "/api.ActionsService.ActionByAddress"
+      body: "*"
+    };
+  };
+  rpc EvmTransfersByAddress(ActionRequest) returns (ActionResponse) {
+    option (graphql.schema) = {
+      type: QUERY   // declare as Query
+      name: "EvmTransfersByAddress" // query name
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.EvmTransfersByAddress"
       body: "*"
     };
   };
