@@ -1,7 +1,7 @@
 name: deploy to gke 
 
 on: 
-  pull_request:
+  push:
     branches: [ main ]
 
 permissions:
@@ -14,7 +14,6 @@ env:
   PROJECT_ID: iotex-servers
   GKE_CLUSTER: iotex-prod-gcp-2
   GKE_ZONE: us-central1
-  IMAGE_NAME: iotexdev/iotex-analyser-api
 
 jobs:
   deploy:
@@ -29,8 +28,9 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3
       with:
-        images: |
-          iotexdev/iotex-analyser-api
+        context: .
+        push: true
+        tags: iotexdev/iotex-analyser-api:latest
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
