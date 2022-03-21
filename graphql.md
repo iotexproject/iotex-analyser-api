@@ -1,7 +1,9 @@
 DelegateService
+
+BucketInfo
 ```
 {
-	GetBucketInfo(
+	BucketInfo(
 		startEpoch: 24738
 		epochCount: 1
 		delegateName: "metanyx"
@@ -20,6 +22,27 @@ DelegateService
 					isNative
 				}
 			}
+		}
+	}
+}
+
+```
+BookKeeping
+```
+query {
+	BookKeeping(
+		startEpoch: 23328
+		epochCount: 1201
+		delegateName: "iotexlab"
+		percentage: 90
+		includeFoundationBonus: false
+		includeBlockReward: false
+		pagination: { skip: 0, first: 66666 }
+	) {
+		count
+		rewardDistribution {
+			voterEthAddress
+			amount
 		}
 	}
 }
