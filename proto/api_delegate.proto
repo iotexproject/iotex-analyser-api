@@ -40,11 +40,26 @@ message DelegateRewardDistribution {
   string amount = 3;
 }
 
+message Productivity {
+  bool exist = 1;
+  uint64 production = 2;
+  uint64 expectedProduction = 3;
+}
+
+message Reward {
+  string blockReward = 1;
+  string epochReward = 2;
+  string foundationBonus = 3;
+  bool exist = 4;
+}
+
 message DelegateResponse {
   bool exist = 1;
   uint64 count = 2;   
 	repeated BucketInfoList  bucketInfoList = 3;
   repeated DelegateRewardDistribution rewardDistribution = 4;
+  Productivity productivity = 5;
+  Reward reward = 6;
 }
 
 service DelegateService {
@@ -65,6 +80,26 @@ service DelegateService {
     };
     option (google.api.http) = {
       post: "/api.DelegateService.BookKeeping"
+      body: "*"
+    };
+  };
+  rpc Productivity(DelegateRequest) returns (DelegateResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "DelegateProductivity"
+    };
+    option (google.api.http) = {
+      post: "/api.DelegateService.Productivity"
+      body: "*"
+    };
+  };
+  rpc Reward(DelegateRequest) returns (DelegateResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "DelegateReward"
+    };
+    option (google.api.http) = {
+      post: "/api.DelegateService.Reward"
       body: "*"
     };
   };

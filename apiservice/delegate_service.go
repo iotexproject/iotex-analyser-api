@@ -9,6 +9,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/common/rewards"
 	"github.com/iotexproject/iotex-analyser-api/common/votings"
+	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/pkg/errors"
 )
 
@@ -141,6 +142,56 @@ func (s *DelegateService) BookKeeping(ctx context.Context, req *api.DelegateRequ
 		return resp, nil
 	} else {
 		resp.RewardDistribution = rds[skip : skip+first]
+	}
+	return resp, nil
+}
+
+func (s *DelegateService) Productivity(ctx context.Context, req *api.DelegateRequest) (*api.DelegateResponse, error) {
+	resp := &api.DelegateResponse{}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	delegateName := req.GetDelegateName()
+	endEpoch := startEpoch + epochCount - 1
+	db := db.DB()
+	query := "select count(case when producer_name=? then block_height end) production, count(case when expected_producer_name=? then block_height end) expected_production from block_meta where epoch_num>=? and epoch_num<=?"
+	var result struct {
+		Production         uint64
+		ExpectedProduction uint64
+	}
+	err := db.Raw(query, delegateName, delegateName, startEpoch, endEpoch).Scan(&result).Error
+	if err != nil {
+		return nil, err
+	}
+	resp.Productivity = &api.Productivity{
+		Exist:              result.Production > 0 || result.ExpectedProduction > 0,
+		Production:         result.Production,
+		ExpectedProduction: result.ExpectedProduction,
+	}
+	return resp, nil
+}
+
+func (s *DelegateService) Reward(ctx context.Context, req *api.DelegateRequest) (*api.DelegateResponse, error) {
+	resp := &api.DelegateResponse{}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	delegateName := req.GetDelegateName()
+	endEpoch := startEpoch + epochCount - 1
+	db := db.DB()
+	query := "SELECT SUM(block_reward) block_reward, SUM(epoch_reward) epoch_reward, SUM(foundation_bonus) foundation_bonus FROM hermes_account_rewards WHERE epoch_number >= ?  AND epoch_number <= ? AND candidate_name=?"
+	var result struct {
+		BlockReward     string
+		EpochReward     string
+		FoundationBonus string
+	}
+	err := db.Raw(query, startEpoch, endEpoch, delegateName).Scan(&result).Error
+	if err != nil {
+		return nil, err
+	}
+	resp.Reward = &api.Reward{
+		Exist:           result.BlockReward != "0" || result.EpochReward != "0" || result.FoundationBonus != "0",
+		BlockReward:     result.BlockReward,
+		EpochReward:     result.EpochReward,
+		FoundationBonus: result.FoundationBonus,
 	}
 	return resp, nil
 }
