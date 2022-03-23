@@ -20,6 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 type DelegateServiceClient interface {
 	BucketInfo(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error)
 	BookKeeping(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error)
+	Productivity(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error)
+	Reward(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error)
 }
 
 type delegateServiceClient struct {
@@ -48,12 +50,32 @@ func (c *delegateServiceClient) BookKeeping(ctx context.Context, in *DelegateReq
 	return out, nil
 }
 
+func (c *delegateServiceClient) Productivity(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error) {
+	out := new(DelegateResponse)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/Productivity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *delegateServiceClient) Reward(ctx context.Context, in *DelegateRequest, opts ...grpc.CallOption) (*DelegateResponse, error) {
+	out := new(DelegateResponse)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/Reward", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DelegateServiceServer is the server API for DelegateService service.
 // All implementations must embed UnimplementedDelegateServiceServer
 // for forward compatibility
 type DelegateServiceServer interface {
 	BucketInfo(context.Context, *DelegateRequest) (*DelegateResponse, error)
 	BookKeeping(context.Context, *DelegateRequest) (*DelegateResponse, error)
+	Productivity(context.Context, *DelegateRequest) (*DelegateResponse, error)
+	Reward(context.Context, *DelegateRequest) (*DelegateResponse, error)
 	mustEmbedUnimplementedDelegateServiceServer()
 }
 
@@ -66,6 +88,12 @@ func (UnimplementedDelegateServiceServer) BucketInfo(context.Context, *DelegateR
 }
 func (UnimplementedDelegateServiceServer) BookKeeping(context.Context, *DelegateRequest) (*DelegateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BookKeeping not implemented")
+}
+func (UnimplementedDelegateServiceServer) Productivity(context.Context, *DelegateRequest) (*DelegateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Productivity not implemented")
+}
+func (UnimplementedDelegateServiceServer) Reward(context.Context, *DelegateRequest) (*DelegateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Reward not implemented")
 }
 func (UnimplementedDelegateServiceServer) mustEmbedUnimplementedDelegateServiceServer() {}
 
@@ -116,6 +144,42 @@ func _DelegateService_BookKeeping_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DelegateService_Productivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DelegateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).Productivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.DelegateService/Productivity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).Productivity(ctx, req.(*DelegateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DelegateService_Reward_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DelegateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).Reward(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.DelegateService/Reward",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).Reward(ctx, req.(*DelegateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DelegateService_ServiceDesc is the grpc.ServiceDesc for DelegateService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +194,14 @@ var DelegateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BookKeeping",
 			Handler:    _DelegateService_BookKeeping_Handler,
+		},
+		{
+			MethodName: "Productivity",
+			Handler:    _DelegateService_Productivity_Handler,
+		},
+		{
+			MethodName: "Reward",
+			Handler:    _DelegateService_Reward_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

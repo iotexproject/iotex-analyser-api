@@ -48,6 +48,38 @@ query {
 }
 
 ```
+
+Productivity
+```
+query {
+	DelegateProductivity(
+		startEpoch: 25020, epochCount: 10, delegateName: "iotexlab"
+	) {
+		productivity {
+			exist
+			production
+			expectedProduction
+		}
+	}
+}
+
+```
+
+Reward
+```
+query {
+	DelegateReward(startEpoch: 25000, epochCount: 120, delegateName: "iotexlab") {
+		reward {
+			exist
+			blockReward
+			foundationBonus
+			epochReward
+		}
+	}
+}
+
+```
+
 ChainService
 
 ```
