@@ -18,8 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StakingServiceClient interface {
-	GetVoteByHeight(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error)
-	GetCandidateVoteByHeight(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error)
+	VoteByHeight(ctx context.Context, in *VoteByHeightRequest, opts ...grpc.CallOption) (*VoteByHeightResponse, error)
+	CandidateVoteByHeight(ctx context.Context, in *CandidateVoteByHeightRequest, opts ...grpc.CallOption) (*CandidateVoteByHeightResponse, error)
 }
 
 type stakingServiceClient struct {
@@ -30,18 +30,18 @@ func NewStakingServiceClient(cc grpc.ClientConnInterface) StakingServiceClient {
 	return &stakingServiceClient{cc}
 }
 
-func (c *stakingServiceClient) GetVoteByHeight(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error) {
-	out := new(StakingResponse)
-	err := c.cc.Invoke(ctx, "/api.StakingService/GetVoteByHeight", in, out, opts...)
+func (c *stakingServiceClient) VoteByHeight(ctx context.Context, in *VoteByHeightRequest, opts ...grpc.CallOption) (*VoteByHeightResponse, error) {
+	out := new(VoteByHeightResponse)
+	err := c.cc.Invoke(ctx, "/api.StakingService/VoteByHeight", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *stakingServiceClient) GetCandidateVoteByHeight(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error) {
-	out := new(StakingResponse)
-	err := c.cc.Invoke(ctx, "/api.StakingService/GetCandidateVoteByHeight", in, out, opts...)
+func (c *stakingServiceClient) CandidateVoteByHeight(ctx context.Context, in *CandidateVoteByHeightRequest, opts ...grpc.CallOption) (*CandidateVoteByHeightResponse, error) {
+	out := new(CandidateVoteByHeightResponse)
+	err := c.cc.Invoke(ctx, "/api.StakingService/CandidateVoteByHeight", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,8 +52,8 @@ func (c *stakingServiceClient) GetCandidateVoteByHeight(ctx context.Context, in 
 // All implementations must embed UnimplementedStakingServiceServer
 // for forward compatibility
 type StakingServiceServer interface {
-	GetVoteByHeight(context.Context, *StakingRequest) (*StakingResponse, error)
-	GetCandidateVoteByHeight(context.Context, *StakingRequest) (*StakingResponse, error)
+	VoteByHeight(context.Context, *VoteByHeightRequest) (*VoteByHeightResponse, error)
+	CandidateVoteByHeight(context.Context, *CandidateVoteByHeightRequest) (*CandidateVoteByHeightResponse, error)
 	mustEmbedUnimplementedStakingServiceServer()
 }
 
@@ -61,11 +61,11 @@ type StakingServiceServer interface {
 type UnimplementedStakingServiceServer struct {
 }
 
-func (UnimplementedStakingServiceServer) GetVoteByHeight(context.Context, *StakingRequest) (*StakingResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetVoteByHeight not implemented")
+func (UnimplementedStakingServiceServer) VoteByHeight(context.Context, *VoteByHeightRequest) (*VoteByHeightResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VoteByHeight not implemented")
 }
-func (UnimplementedStakingServiceServer) GetCandidateVoteByHeight(context.Context, *StakingRequest) (*StakingResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCandidateVoteByHeight not implemented")
+func (UnimplementedStakingServiceServer) CandidateVoteByHeight(context.Context, *CandidateVoteByHeightRequest) (*CandidateVoteByHeightResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CandidateVoteByHeight not implemented")
 }
 func (UnimplementedStakingServiceServer) mustEmbedUnimplementedStakingServiceServer() {}
 
@@ -80,38 +80,38 @@ func RegisterStakingServiceServer(s grpc.ServiceRegistrar, srv StakingServiceSer
 	s.RegisterService(&StakingService_ServiceDesc, srv)
 }
 
-func _StakingService_GetVoteByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StakingRequest)
+func _StakingService_VoteByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VoteByHeightRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StakingServiceServer).GetVoteByHeight(ctx, in)
+		return srv.(StakingServiceServer).VoteByHeight(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.StakingService/GetVoteByHeight",
+		FullMethod: "/api.StakingService/VoteByHeight",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StakingServiceServer).GetVoteByHeight(ctx, req.(*StakingRequest))
+		return srv.(StakingServiceServer).VoteByHeight(ctx, req.(*VoteByHeightRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StakingService_GetCandidateVoteByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StakingRequest)
+func _StakingService_CandidateVoteByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CandidateVoteByHeightRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StakingServiceServer).GetCandidateVoteByHeight(ctx, in)
+		return srv.(StakingServiceServer).CandidateVoteByHeight(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.StakingService/GetCandidateVoteByHeight",
+		FullMethod: "/api.StakingService/CandidateVoteByHeight",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StakingServiceServer).GetCandidateVoteByHeight(ctx, req.(*StakingRequest))
+		return srv.(StakingServiceServer).CandidateVoteByHeight(ctx, req.(*CandidateVoteByHeightRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -124,12 +124,12 @@ var StakingService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*StakingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetVoteByHeight",
-			Handler:    _StakingService_GetVoteByHeight_Handler,
+			MethodName: "VoteByHeight",
+			Handler:    _StakingService_VoteByHeight_Handler,
 		},
 		{
-			MethodName: "GetCandidateVoteByHeight",
-			Handler:    _StakingService_GetCandidateVoteByHeight_Handler,
+			MethodName: "CandidateVoteByHeight",
+			Handler:    _StakingService_CandidateVoteByHeight_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

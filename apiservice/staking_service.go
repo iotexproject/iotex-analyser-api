@@ -21,9 +21,9 @@ type StakingService struct {
 	api.UnimplementedStakingServiceServer
 }
 
-//curl -d '{"address": ["io10avlgwgxv2k22dup4q0ah998vklg4rcrgl04m8", "io1fuhhg9jgdxwpms9dsdfwjdc90nt7v67hx40cd8"], "height":11900487 }' http://127.0.0.1:7778/api.StakingService.GetVoteByHeight
-func (s *StakingService) GetVoteByHeight(ctx context.Context, req *api.StakingRequest) (*api.StakingResponse, error) {
-	resp := &api.StakingResponse{
+//curl -d '{"address": ["io10avlgwgxv2k22dup4q0ah998vklg4rcrgl04m8", "io1fuhhg9jgdxwpms9dsdfwjdc90nt7v67hx40cd8"], "height":11900487 }' http://127.0.0.1:7778/api.StakingService.VoteByHeight
+func (s *StakingService) VoteByHeight(ctx context.Context, req *api.VoteByHeightRequest) (*api.VoteByHeightResponse, error) {
+	resp := &api.VoteByHeightResponse{
 		Height: req.GetHeight(),
 	}
 	height := req.GetHeight()
@@ -63,8 +63,8 @@ func (s *StakingService) GetVoteByHeight(ctx context.Context, req *api.StakingRe
 	return resp, nil
 }
 
-func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.StakingRequest) (*api.StakingResponse, error) {
-	pluginHeight, err := db.GetIndexHeight("staking_action")
+func (s *StakingService) CandidateVoteByHeight(ctx context.Context, req *api.CandidateVoteByHeightRequest) (*api.CandidateVoteByHeightResponse, error) {
+	pluginHeight, err := db.GetIndexHeight("staking_actions")
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (s *StakingService) GetCandidateVoteByHeight(ctx context.Context, req *api.
 	} else if height > pluginHeight {
 		return nil, fmt.Errorf("request height greater than plugin height, %d > %d", height, pluginHeight)
 	}
-	resp := &api.StakingResponse{
+	resp := &api.CandidateVoteByHeightResponse{
 		Height: height,
 	}
 	g := new(errgroup.Group)
@@ -128,7 +128,7 @@ func getBucketIDsByAddressWithHeight(addr string, height uint64) ([]uint64, erro
 	var ids []struct {
 		BucketID uint64
 	}
-	if err := db.Table("staking_action").Distinct("bucket_id").Where("block_height<=? and owner_address=?", height, addr).Find(&ids).Error; err != nil {
+	if err := db.Table("staking_actions").Distinct("bucket_id").Where("block_height<=? and owner_address=?", height, addr).Find(&ids).Error; err != nil {
 		return nil, err
 	}
 	bucketID := []uint64{}
@@ -221,7 +221,7 @@ func getVoteBucketParams(addr string, height, bucketID uint64) (uint32, bool, bo
 
 func getCandidateStaking(height uint64, addr string) ([]*Staking, error) {
 	db := db.DB()
-	query := "select id,block_height,bucket_id,owner_address,candidate,(select sum(b.amount) from staking_action b where b.block_height<=? and b.bucket_id=a.bucket_id) as amount,act_type,auto_stake,duration from staking_action a where id=any(array(select max(id) from staking_action where block_height<=? and bucket_id=any(array(select distinct bucket_id from staking_action where block_height<=? and candidate=?)) group by bucket_id))  and candidate=?"
+	query := "select id,block_height,bucket_id,owner_address,candidate,(select sum(b.amount) from staking_actions b where b.block_height<=? and b.bucket_id=a.bucket_id) as amount,act_type,auto_stake,duration from staking_actions a where id=any(array(select max(id) from staking_actions where block_height<=? and bucket_id=any(array(select distinct bucket_id from staking_actions where block_height<=? and candidate=?)) group by bucket_id))  and candidate=?"
 	rows, err := db.Raw(query, height, height, height, addr, addr).Rows()
 	if err != nil {
 		return nil, err

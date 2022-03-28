@@ -18,8 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountServiceClient interface {
-	GetIotexBalanceByHeight(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error)
-	GetErc20TokenBalanceByHeight(ctx context.Context, in *AccountErc20TokenRequest, opts ...grpc.CallOption) (*AccountResponse, error)
+	IotexBalanceByHeight(ctx context.Context, in *IotexBalanceByHeightRequest, opts ...grpc.CallOption) (*IotexBalanceByHeightResponse, error)
+	Erc20TokenBalanceByHeight(ctx context.Context, in *Erc20TokenBalanceByHeightRequest, opts ...grpc.CallOption) (*Erc20TokenBalanceByHeightResponse, error)
 	Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error)
 }
 
@@ -31,18 +31,18 @@ func NewAccountServiceClient(cc grpc.ClientConnInterface) AccountServiceClient {
 	return &accountServiceClient{cc}
 }
 
-func (c *accountServiceClient) GetIotexBalanceByHeight(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error) {
-	out := new(AccountResponse)
-	err := c.cc.Invoke(ctx, "/api.AccountService/GetIotexBalanceByHeight", in, out, opts...)
+func (c *accountServiceClient) IotexBalanceByHeight(ctx context.Context, in *IotexBalanceByHeightRequest, opts ...grpc.CallOption) (*IotexBalanceByHeightResponse, error) {
+	out := new(IotexBalanceByHeightResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/IotexBalanceByHeight", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *accountServiceClient) GetErc20TokenBalanceByHeight(ctx context.Context, in *AccountErc20TokenRequest, opts ...grpc.CallOption) (*AccountResponse, error) {
-	out := new(AccountResponse)
-	err := c.cc.Invoke(ctx, "/api.AccountService/GetErc20TokenBalanceByHeight", in, out, opts...)
+func (c *accountServiceClient) Erc20TokenBalanceByHeight(ctx context.Context, in *Erc20TokenBalanceByHeightRequest, opts ...grpc.CallOption) (*Erc20TokenBalanceByHeightResponse, error) {
+	out := new(Erc20TokenBalanceByHeightResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/Erc20TokenBalanceByHeight", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,8 +62,8 @@ func (c *accountServiceClient) Hermes(ctx context.Context, in *HermesRequest, op
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
 type AccountServiceServer interface {
-	GetIotexBalanceByHeight(context.Context, *AccountRequest) (*AccountResponse, error)
-	GetErc20TokenBalanceByHeight(context.Context, *AccountErc20TokenRequest) (*AccountResponse, error)
+	IotexBalanceByHeight(context.Context, *IotexBalanceByHeightRequest) (*IotexBalanceByHeightResponse, error)
+	Erc20TokenBalanceByHeight(context.Context, *Erc20TokenBalanceByHeightRequest) (*Erc20TokenBalanceByHeightResponse, error)
 	Hermes(context.Context, *HermesRequest) (*HermesResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
@@ -72,11 +72,11 @@ type AccountServiceServer interface {
 type UnimplementedAccountServiceServer struct {
 }
 
-func (UnimplementedAccountServiceServer) GetIotexBalanceByHeight(context.Context, *AccountRequest) (*AccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetIotexBalanceByHeight not implemented")
+func (UnimplementedAccountServiceServer) IotexBalanceByHeight(context.Context, *IotexBalanceByHeightRequest) (*IotexBalanceByHeightResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IotexBalanceByHeight not implemented")
 }
-func (UnimplementedAccountServiceServer) GetErc20TokenBalanceByHeight(context.Context, *AccountErc20TokenRequest) (*AccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetErc20TokenBalanceByHeight not implemented")
+func (UnimplementedAccountServiceServer) Erc20TokenBalanceByHeight(context.Context, *Erc20TokenBalanceByHeightRequest) (*Erc20TokenBalanceByHeightResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Erc20TokenBalanceByHeight not implemented")
 }
 func (UnimplementedAccountServiceServer) Hermes(context.Context, *HermesRequest) (*HermesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Hermes not implemented")
@@ -94,38 +94,38 @@ func RegisterAccountServiceServer(s grpc.ServiceRegistrar, srv AccountServiceSer
 	s.RegisterService(&AccountService_ServiceDesc, srv)
 }
 
-func _AccountService_GetIotexBalanceByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AccountRequest)
+func _AccountService_IotexBalanceByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IotexBalanceByHeightRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).GetIotexBalanceByHeight(ctx, in)
+		return srv.(AccountServiceServer).IotexBalanceByHeight(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.AccountService/GetIotexBalanceByHeight",
+		FullMethod: "/api.AccountService/IotexBalanceByHeight",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).GetIotexBalanceByHeight(ctx, req.(*AccountRequest))
+		return srv.(AccountServiceServer).IotexBalanceByHeight(ctx, req.(*IotexBalanceByHeightRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_GetErc20TokenBalanceByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AccountErc20TokenRequest)
+func _AccountService_Erc20TokenBalanceByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Erc20TokenBalanceByHeightRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).GetErc20TokenBalanceByHeight(ctx, in)
+		return srv.(AccountServiceServer).Erc20TokenBalanceByHeight(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.AccountService/GetErc20TokenBalanceByHeight",
+		FullMethod: "/api.AccountService/Erc20TokenBalanceByHeight",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).GetErc20TokenBalanceByHeight(ctx, req.(*AccountErc20TokenRequest))
+		return srv.(AccountServiceServer).Erc20TokenBalanceByHeight(ctx, req.(*Erc20TokenBalanceByHeightRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -156,12 +156,12 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetIotexBalanceByHeight",
-			Handler:    _AccountService_GetIotexBalanceByHeight_Handler,
+			MethodName: "IotexBalanceByHeight",
+			Handler:    _AccountService_IotexBalanceByHeight_Handler,
 		},
 		{
-			MethodName: "GetErc20TokenBalanceByHeight",
-			Handler:    _AccountService_GetErc20TokenBalanceByHeight_Handler,
+			MethodName: "Erc20TokenBalanceByHeight",
+			Handler:    _AccountService_Erc20TokenBalanceByHeight_Handler,
 		},
 		{
 			MethodName: "Hermes",
