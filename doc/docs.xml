@@ -1,0 +1,2897 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+  <title>Protocol Documentation</title>
+  
+  <section>
+    <title>api_account.proto</title>
+    <para></para>
+    
+    <section id="api.Erc20TokenBalanceByHeightRequest">
+      <title>Erc20TokenBalanceByHeightRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Erc20TokenBalanceByHeightRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>contract_address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.Erc20TokenBalanceByHeightResponse">
+      <title>Erc20TokenBalanceByHeightResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Erc20TokenBalanceByHeightResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>contract_address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>balance</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesDistribution">
+      <title>HermesDistribution</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesDistribution</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardDistribution</entry>
+              <entry><link linkend="api.RewardDistribution">RewardDistribution</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>stakingIotexAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>voterCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>waiveServiceFee</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>refund</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesRequest">
+      <title>HermesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Start epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of reward address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesResponse">
+      <title>HermesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>hermesDistribution</entry>
+              <entry><link linkend="api.HermesDistribution">HermesDistribution</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.IotexBalanceByHeightRequest">
+      <title>IotexBalanceByHeightRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>IotexBalanceByHeightRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.IotexBalanceByHeightResponse">
+      <title>IotexBalanceByHeightResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>IotexBalanceByHeightResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>balance</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.RewardDistribution">
+      <title>RewardDistribution</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>RewardDistribution</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>voterEthAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>voterIotexAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.AccountService">
+      <title>AccountService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>AccountService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>IotexBalanceByHeight</entry>
+              <entry><link linkend="api.IotexBalanceByHeightRequest">IotexBalanceByHeightRequest</link></entry>
+              <entry><link linkend="api.IotexBalanceByHeightResponse">IotexBalanceByHeightResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>Erc20TokenBalanceByHeight</entry>
+              <entry><link linkend="api.Erc20TokenBalanceByHeightRequest">Erc20TokenBalanceByHeightRequest</link></entry>
+              <entry><link linkend="api.Erc20TokenBalanceByHeightResponse">Erc20TokenBalanceByHeightResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>Hermes</entry>
+              <entry><link linkend="api.HermesRequest">HermesRequest</link></entry>
+              <entry><link linkend="api.HermesResponse">HermesResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_action.proto</title>
+    <para></para>
+    
+    <section id="api.ActionInfo">
+      <title>ActionInfo</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionInfo</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>actType</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>gasFee</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionRequest">
+      <title>ActionRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionResponse">
+      <title>ActionResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>actionList</entry>
+              <entry><link linkend="api.ActionInfo">ActionInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>evmTransferList</entry>
+              <entry><link linkend="api.EvmTransferInfo">EvmTransferInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>xrcList</entry>
+              <entry><link linkend="api.XrcInfo">XrcInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.EvmTransferInfo">
+      <title>EvmTransferInfo</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>EvmTransferInfo</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>from</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>to</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>quantity</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XrcInfo">
+      <title>XrcInfo</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XrcInfo</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>from</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>to</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>quantity</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>contract</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.ActionService">
+      <title>ActionService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>ActionService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>ActionByVoter</entry>
+              <entry><link linkend="api.ActionRequest">ActionRequest</link></entry>
+              <entry><link linkend="api.ActionResponse">ActionResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>ActionByAddress</entry>
+              <entry><link linkend="api.ActionRequest">ActionRequest</link></entry>
+              <entry><link linkend="api.ActionResponse">ActionResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>EvmTransfersByAddress</entry>
+              <entry><link linkend="api.ActionRequest">ActionRequest</link></entry>
+              <entry><link linkend="api.ActionResponse">ActionResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>GetXrc20ByAddress</entry>
+              <entry><link linkend="api.ActionRequest">ActionRequest</link></entry>
+              <entry><link linkend="api.ActionResponse">ActionResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_actions.proto</title>
+    <para></para>
+    
+    <section id="api.ActionsByAddressResponse">
+      <title>ActionsByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionsByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>results</entry>
+              <entry><link linkend="api.ActionsByAddressResult">ActionsByAddressResult</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionsByAddressResult">
+      <title>ActionsByAddressResult</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionsByAddressResult</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>timeStamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>actType</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>gasFee</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionsRequest">
+      <title>ActionsRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionsRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>offset</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>size</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>sort</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.AllActionsByAddressResponse">
+      <title>AllActionsByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>AllActionsByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>results</entry>
+              <entry><link linkend="api.AllActionsByAddressResult">AllActionsByAddressResult</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.AllActionsByAddressResult">
+      <title>AllActionsByAddressResult</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>AllActionsByAddressResult</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>actType</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>timeStamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>recordType</entry>
+              <entry><link linkend="api.AllActionsByAddressResult.RecordType">AllActionsByAddressResult.RecordType</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.EvmTransferDetailListByAddressResponse">
+      <title>EvmTransferDetailListByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>EvmTransferDetailListByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>results</entry>
+              <entry><link linkend="api.EvmTransferDetailResult">EvmTransferDetailResult</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.EvmTransferDetailResult">
+      <title>EvmTransferDetailResult</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>EvmTransferDetailResult</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>timeStamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.Xrc20ByAddressResponse">
+      <title>Xrc20ByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Xrc20ByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>results</entry>
+              <entry><link linkend="api.Xrc20ByAddressResult">Xrc20ByAddressResult</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.Xrc20ByAddressResult">
+      <title>Xrc20ByAddressResult</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Xrc20ByAddressResult</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>from</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>to</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>contractAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>timeStamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+    <section id="api.AllActionsByAddressResult.RecordType">
+      <title>AllActionsByAddressResult.RecordType</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>AllActionsByAddressResult.RecordType</classname> Values</title>
+        <tgroup cols="3">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Name</entry>
+              <entry>Number</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>NATIVE</entry>
+              <entry>0</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC20</entry>
+              <entry>1</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC721</entry>
+              <entry>2</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>EVMTRANSFER</entry>
+              <entry>3</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+
+    
+
+    
+    <section id="api.ActionsService">
+      <title>ActionsService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>ActionsService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>GetActionsByAddress</entry>
+              <entry><link linkend="api.ActionsRequest">ActionsRequest</link></entry>
+              <entry><link linkend="api.ActionsByAddressResponse">ActionsByAddressResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>GetXrc20ByAddress</entry>
+              <entry><link linkend="api.ActionsRequest">ActionsRequest</link></entry>
+              <entry><link linkend="api.Xrc20ByAddressResponse">Xrc20ByAddressResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>GetXrc721ByAddress</entry>
+              <entry><link linkend="api.ActionsRequest">ActionsRequest</link></entry>
+              <entry><link linkend="api.Xrc20ByAddressResponse">Xrc20ByAddressResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>GetEvmTransferDetailListByAddress</entry>
+              <entry><link linkend="api.ActionsRequest">ActionsRequest</link></entry>
+              <entry><link linkend="api.EvmTransferDetailListByAddressResponse">EvmTransferDetailListByAddressResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>GetAllActionsByAddress</entry>
+              <entry><link linkend="api.ActionsRequest">ActionsRequest</link></entry>
+              <entry><link linkend="api.AllActionsByAddressResponse">AllActionsByAddressResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_chain.proto</title>
+    <para></para>
+    
+    <section id="api.ChainRequest">
+      <title>ChainRequest</title>
+      <para></para>
+      
+      
+    </section>
+    
+    <section id="api.ChainResponse">
+      <title>ChainResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ChainResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>mostRecentEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>most recent epoch</para></entry>
+            </row>
+            
+            <row>
+              <entry>mostRecentBlockHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>most recent block height</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.ChainService">
+      <title>ChainService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>ChainService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>Chain</entry>
+              <entry><link linkend="api.ChainRequest">ChainRequest</link></entry>
+              <entry><link linkend="api.ChainResponse">ChainResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_delegate.proto</title>
+    <para></para>
+    
+    <section id="api.BookKeepingRequest">
+      <title>BookKeepingRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BookKeepingRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Epoch number to start from</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of the delegate</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para>Pagination info</para></entry>
+            </row>
+            
+            <row>
+              <entry>percentage</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Percentage of the reward to be paid to the delegate</para></entry>
+            </row>
+            
+            <row>
+              <entry>includeBlockReward</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether to include block reward</para></entry>
+            </row>
+            
+            <row>
+              <entry>includeFoundationBonus</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether to include foundation bonus</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.BookKeepingResponse">
+      <title>BookKeepingResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BookKeepingResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardDistribution</entry>
+              <entry><link linkend="api.DelegateRewardDistribution">DelegateRewardDistribution</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.BucketInfo">
+      <title>BucketInfo</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BucketInfo</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>voterEthAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>voterIotexAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>isNative</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>votes</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>weightedVotes</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>remainingDuration</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>startTime</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>decay</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>bucketID</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.BucketInfoList">
+      <title>BucketInfoList</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BucketInfoList</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>epochNumber</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>bucketInfo</entry>
+              <entry><link linkend="api.BucketInfo">BucketInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.BucketInfoRequest">
+      <title>BucketInfoRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BucketInfoRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Epoch number to start from</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of the delegate</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para>Pagination info</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.BucketInfoResponse">
+      <title>BucketInfoResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BucketInfoResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>bucketInfoList</entry>
+              <entry><link linkend="api.BucketInfoList">BucketInfoList</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.DelegateRewardDistribution">
+      <title>DelegateRewardDistribution</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>DelegateRewardDistribution</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>voterEthAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>voterIotexAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.Productivity">
+      <title>Productivity</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Productivity</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>production</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>expectedProduction</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ProductivityRequest">
+      <title>ProductivityRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ProductivityRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Epoch number to start from</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of the delegate</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ProductivityResponse">
+      <title>ProductivityResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ProductivityResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>productivity</entry>
+              <entry><link linkend="api.Productivity">Productivity</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.Reward">
+      <title>Reward</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Reward</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>blockReward</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>block</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochReward</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>foundationBonus</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.RewardRequest">
+      <title>RewardRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>RewardRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Epoch number to start from</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of the delegate</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.RewardResponse">
+      <title>RewardResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>RewardResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>reward</entry>
+              <entry><link linkend="api.Reward">Reward</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.DelegateService">
+      <title>DelegateService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>DelegateService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>BucketInfo</entry>
+              <entry><link linkend="api.BucketInfoRequest">BucketInfoRequest</link></entry>
+              <entry><link linkend="api.BucketInfoResponse">BucketInfoResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>BookKeeping</entry>
+              <entry><link linkend="api.BookKeepingRequest">BookKeepingRequest</link></entry>
+              <entry><link linkend="api.BookKeepingResponse">BookKeepingResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>Productivity</entry>
+              <entry><link linkend="api.ProductivityRequest">ProductivityRequest</link></entry>
+              <entry><link linkend="api.ProductivityResponse">ProductivityResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>Reward</entry>
+              <entry><link linkend="api.RewardRequest">RewardRequest</link></entry>
+              <entry><link linkend="api.RewardResponse">RewardResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_staking.proto</title>
+    <para></para>
+    
+    <section id="api.CandidateVoteByHeightRequest">
+      <title>CandidateVoteByHeightRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>CandidateVoteByHeightRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.CandidateVoteByHeightResponse">
+      <title>CandidateVoteByHeightResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>CandidateVoteByHeightResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>stakeAmount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>voteWeight</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.VoteByHeightRequest">
+      <title>VoteByHeightRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>VoteByHeightRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.VoteByHeightResponse">
+      <title>VoteByHeightResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>VoteByHeightResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>stakeAmount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>voteWeight</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.StakingService">
+      <title>StakingService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>StakingService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>VoteByHeight</entry>
+              <entry><link linkend="api.VoteByHeightRequest">VoteByHeightRequest</link></entry>
+              <entry><link linkend="api.VoteByHeightResponse">VoteByHeightResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>CandidateVoteByHeight</entry>
+              <entry><link linkend="api.CandidateVoteByHeightRequest">CandidateVoteByHeightRequest</link></entry>
+              <entry><link linkend="api.CandidateVoteByHeightResponse">CandidateVoteByHeightResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>include/pagination.proto</title>
+    <para></para>
+    
+    <section id="pagination.Pagination">
+      <title>Pagination</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Pagination</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>skip</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>first</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>order</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+  </section>
+  
+
+  <section>
+    <title>Scalar Value Types</title>
+    <informaltable frame="all">
+      <tgroup cols="5">
+        <colspec colwidth="*"/>
+        <colspec colwidth="5*"/>
+        <colspec colwidth="*"/>
+        <colspec colwidth="*"/>
+        <colspec colwidth="*"/>
+        <thead>
+          <row>
+            <entry>.proto Type</entry>
+            <entry>Notes</entry>
+            <entry>C++</entry>
+            <entry>Java</entry>
+            <entry>Python</entry>
+            <entry>Go</entry>
+            <entry>C#</entry>
+            <entry>PHP</entry>
+            <entry>Ruby</entry>
+          </row>
+        </thead>
+        <tbody>
+          
+          <row>
+            <entry id="double">double</entry>
+            <entry></entry>
+            <entry>double</entry>
+            <entry>double</entry>
+            <entry>float</entry>
+            <entry>float64</entry>
+            <entry>double</entry>
+            <entry>float</entry>
+            <entry>Float</entry>
+          </row>
+          
+          <row>
+            <entry id="float">float</entry>
+            <entry></entry>
+            <entry>float</entry>
+            <entry>float</entry>
+            <entry>float</entry>
+            <entry>float32</entry>
+            <entry>float</entry>
+            <entry>float</entry>
+            <entry>Float</entry>
+          </row>
+          
+          <row>
+            <entry id="int32">int32</entry>
+            <entry>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</entry>
+            <entry>int32</entry>
+            <entry>int</entry>
+            <entry>int</entry>
+            <entry>int32</entry>
+            <entry>int</entry>
+            <entry>integer</entry>
+            <entry>Bignum or Fixnum (as required)</entry>
+          </row>
+          
+          <row>
+            <entry id="int64">int64</entry>
+            <entry>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</entry>
+            <entry>int64</entry>
+            <entry>long</entry>
+            <entry>int/long</entry>
+            <entry>int64</entry>
+            <entry>long</entry>
+            <entry>integer/string</entry>
+            <entry>Bignum</entry>
+          </row>
+          
+          <row>
+            <entry id="uint32">uint32</entry>
+            <entry>Uses variable-length encoding.</entry>
+            <entry>uint32</entry>
+            <entry>int</entry>
+            <entry>int/long</entry>
+            <entry>uint32</entry>
+            <entry>uint</entry>
+            <entry>integer</entry>
+            <entry>Bignum or Fixnum (as required)</entry>
+          </row>
+          
+          <row>
+            <entry id="uint64">uint64</entry>
+            <entry>Uses variable-length encoding.</entry>
+            <entry>uint64</entry>
+            <entry>long</entry>
+            <entry>int/long</entry>
+            <entry>uint64</entry>
+            <entry>ulong</entry>
+            <entry>integer/string</entry>
+            <entry>Bignum or Fixnum (as required)</entry>
+          </row>
+          
+          <row>
+            <entry id="sint32">sint32</entry>
+            <entry>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</entry>
+            <entry>int32</entry>
+            <entry>int</entry>
+            <entry>int</entry>
+            <entry>int32</entry>
+            <entry>int</entry>
+            <entry>integer</entry>
+            <entry>Bignum or Fixnum (as required)</entry>
+          </row>
+          
+          <row>
+            <entry id="sint64">sint64</entry>
+            <entry>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</entry>
+            <entry>int64</entry>
+            <entry>long</entry>
+            <entry>int/long</entry>
+            <entry>int64</entry>
+            <entry>long</entry>
+            <entry>integer/string</entry>
+            <entry>Bignum</entry>
+          </row>
+          
+          <row>
+            <entry id="fixed32">fixed32</entry>
+            <entry>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</entry>
+            <entry>uint32</entry>
+            <entry>int</entry>
+            <entry>int</entry>
+            <entry>uint32</entry>
+            <entry>uint</entry>
+            <entry>integer</entry>
+            <entry>Bignum or Fixnum (as required)</entry>
+          </row>
+          
+          <row>
+            <entry id="fixed64">fixed64</entry>
+            <entry>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</entry>
+            <entry>uint64</entry>
+            <entry>long</entry>
+            <entry>int/long</entry>
+            <entry>uint64</entry>
+            <entry>ulong</entry>
+            <entry>integer/string</entry>
+            <entry>Bignum</entry>
+          </row>
+          
+          <row>
+            <entry id="sfixed32">sfixed32</entry>
+            <entry>Always four bytes.</entry>
+            <entry>int32</entry>
+            <entry>int</entry>
+            <entry>int</entry>
+            <entry>int32</entry>
+            <entry>int</entry>
+            <entry>integer</entry>
+            <entry>Bignum or Fixnum (as required)</entry>
+          </row>
+          
+          <row>
+            <entry id="sfixed64">sfixed64</entry>
+            <entry>Always eight bytes.</entry>
+            <entry>int64</entry>
+            <entry>long</entry>
+            <entry>int/long</entry>
+            <entry>int64</entry>
+            <entry>long</entry>
+            <entry>integer/string</entry>
+            <entry>Bignum</entry>
+          </row>
+          
+          <row>
+            <entry id="bool">bool</entry>
+            <entry></entry>
+            <entry>bool</entry>
+            <entry>boolean</entry>
+            <entry>boolean</entry>
+            <entry>bool</entry>
+            <entry>bool</entry>
+            <entry>boolean</entry>
+            <entry>TrueClass/FalseClass</entry>
+          </row>
+          
+          <row>
+            <entry id="string">string</entry>
+            <entry>A string must always contain UTF-8 encoded or 7-bit ASCII text.</entry>
+            <entry>string</entry>
+            <entry>String</entry>
+            <entry>str/unicode</entry>
+            <entry>string</entry>
+            <entry>string</entry>
+            <entry>string</entry>
+            <entry>String (UTF-8)</entry>
+          </row>
+          
+          <row>
+            <entry id="bytes">bytes</entry>
+            <entry>May contain any arbitrary sequence of bytes.</entry>
+            <entry>string</entry>
+            <entry>ByteString</entry>
+            <entry>str</entry>
+            <entry>[]byte</entry>
+            <entry>ByteString</entry>
+            <entry>string</entry>
+            <entry>String (ASCII-8BIT)</entry>
+          </row>
+          
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </section>
+
+</article>

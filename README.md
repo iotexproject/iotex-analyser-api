@@ -13,6 +13,7 @@ go get github.com/ysugimoto/grpc-graphql-gateway/protoc-gen-graphql/...
 go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.4
+go install github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@latest
 ```
 
 Compiling protocol buffers and generate Go code, Only when you modified proto file.
@@ -38,7 +39,7 @@ docker run -p 8888:8888 -p 8889:8889 -e "GRPC_API_PORT=8888" -e "HTTP_API_PORT=8
 
 
 
-API supports GRPC/HTTP/GraphQL
+API supports gRPC,RESTful HTTP and GraphQL
 
 ```sh
 curl -g "http://localhost:8889/graphql" -d '

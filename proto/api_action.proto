@@ -55,8 +55,8 @@ message XrcInfo {
 service ActionService {
   rpc ActionByVoter(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
-      type: QUERY   // declare as Query
-      name: "ActionByVoter" // query name
+      type: QUERY 
+      name: "ActionByVoter"
     };
     option (google.api.http) = {
       post: "/api.ActionService.ActionByVoter"
@@ -65,8 +65,8 @@ service ActionService {
   };
   rpc ActionByAddress(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
-      type: QUERY   // declare as Query
-      name: "ActionByAddress" // query name
+      type: QUERY
+      name: "ActionByAddress"
     };
     option (google.api.http) = {
       post: "/api.ActionsService.ActionByAddress"
@@ -75,8 +75,8 @@ service ActionService {
   };
   rpc EvmTransfersByAddress(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
-      type: QUERY   // declare as Query
-      name: "EvmTransfersByAddress" // query name
+      type: QUERY
+      name: "EvmTransfersByAddress" 
     };
     option (google.api.http) = {
       post: "/api.ActionService.EvmTransfersByAddress"
@@ -85,8 +85,8 @@ service ActionService {
   };
   rpc GetXrc20ByAddress(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
-      type: QUERY   // declare as Query
-      name: "GetXrc20ByAddress" // query name
+      type: QUERY
+      name: "GetXrc20ByAddress"
     };
     option (google.api.http) = {
       post: "/api.ActionService.GetXrc20ByAddress"

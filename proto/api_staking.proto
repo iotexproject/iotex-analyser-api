@@ -2,15 +2,27 @@ syntax = "proto3";
 
 package api;
 import "google/api/annotations.proto";
-
+import "include/graphql.proto";
+//import "include/pagination.proto";
 option go_package = "./api";
 
-message StakingRequest {
+message VoteByHeightRequest {
   repeated string address = 1;
   uint64 height = 2;
 }
 
-message StakingResponse {
+message VoteByHeightResponse {
+  uint64 height = 1;
+  repeated string stakeAmount  = 2;
+  repeated string voteWeight  = 3;
+}
+
+message CandidateVoteByHeightRequest {
+  repeated string address = 1;
+  uint64 height = 2;
+}
+
+message CandidateVoteByHeightResponse {
   uint64 height = 1;
   repeated string stakeAmount  = 2;
   repeated string voteWeight  = 3;
@@ -18,15 +30,23 @@ message StakingResponse {
 }
 
 service StakingService {
-  rpc GetVoteByHeight(StakingRequest) returns (StakingResponse) {
+  rpc VoteByHeight(VoteByHeightRequest) returns (VoteByHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "VoteByHeight"
+    };
     option (google.api.http) = {
-      post: "/api.StakingService.GetVoteByHeight"
+      post: "/api.StakingService.VoteByHeight"
       body: "*"
     };
   };
-  rpc GetCandidateVoteByHeight(StakingRequest) returns (StakingResponse) {
+  rpc CandidateVoteByHeight(CandidateVoteByHeightRequest) returns (CandidateVoteByHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "CandidateVoteByHeight"
+    };
     option (google.api.http) = {
-      post: "/api.StakingService.GetCandidateVoteByHeight"
+      post: "/api.StakingService.CandidateVoteByHeight"
       body: "*"
     };
   };

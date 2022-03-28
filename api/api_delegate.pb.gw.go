@@ -32,7 +32,7 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 func request_DelegateService_BucketInfo_0(ctx context.Context, marshaler runtime.Marshaler, client DelegateServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq BucketInfoRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -49,7 +49,7 @@ func request_DelegateService_BucketInfo_0(ctx context.Context, marshaler runtime
 }
 
 func local_request_DelegateService_BucketInfo_0(ctx context.Context, marshaler runtime.Marshaler, server DelegateServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq BucketInfoRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -66,7 +66,7 @@ func local_request_DelegateService_BucketInfo_0(ctx context.Context, marshaler r
 }
 
 func request_DelegateService_BookKeeping_0(ctx context.Context, marshaler runtime.Marshaler, client DelegateServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq BookKeepingRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -83,7 +83,7 @@ func request_DelegateService_BookKeeping_0(ctx context.Context, marshaler runtim
 }
 
 func local_request_DelegateService_BookKeeping_0(ctx context.Context, marshaler runtime.Marshaler, server DelegateServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq BookKeepingRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -100,7 +100,7 @@ func local_request_DelegateService_BookKeeping_0(ctx context.Context, marshaler 
 }
 
 func request_DelegateService_Productivity_0(ctx context.Context, marshaler runtime.Marshaler, client DelegateServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq ProductivityRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -117,7 +117,7 @@ func request_DelegateService_Productivity_0(ctx context.Context, marshaler runti
 }
 
 func local_request_DelegateService_Productivity_0(ctx context.Context, marshaler runtime.Marshaler, server DelegateServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq ProductivityRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -134,7 +134,7 @@ func local_request_DelegateService_Productivity_0(ctx context.Context, marshaler
 }
 
 func request_DelegateService_Reward_0(ctx context.Context, marshaler runtime.Marshaler, client DelegateServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq RewardRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -151,7 +151,7 @@ func request_DelegateService_Reward_0(ctx context.Context, marshaler runtime.Mar
 }
 
 func local_request_DelegateService_Reward_0(ctx context.Context, marshaler runtime.Marshaler, server DelegateServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DelegateRequest
+	var protoReq RewardRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)

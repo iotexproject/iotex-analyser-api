@@ -6,14 +6,18 @@ import "include/graphql.proto";
 import "include/pagination.proto";
 option go_package = "./api";
 
-message DelegateRequest {
-  uint64 startEpoch = 1;
-  uint64 epochCount = 2;
-  string delegateName =3;
-  pagination.Pagination pagination = 4;
-  uint64 percentage = 5;
-  bool includeBlockReward = 6;
-  bool includeFoundationBonus = 7;
+
+message BucketInfoRequest{
+  uint64 startEpoch = 1; // Epoch number to start from
+  uint64 epochCount = 2; // Number of epochs to query
+  string delegateName =3; // Name of the delegate
+  pagination.Pagination pagination = 4; //Pagination info
+}
+
+message BucketInfoResponse {
+  bool exist = 1;
+  uint64 count = 2;   
+	repeated BucketInfoList  bucketInfoList = 3; 
 }
 
 message BucketInfo {
@@ -34,6 +38,22 @@ message BucketInfoList {
   repeated BucketInfo  bucketInfo = 3;
 }
 
+message BookKeepingRequest {
+  uint64 startEpoch = 1; // Epoch number to start from
+  uint64 epochCount = 2; // Number of epochs to query
+  string delegateName =3; // Name of the delegate
+  pagination.Pagination pagination = 4; //Pagination info
+  uint64 percentage = 5; // Percentage of the reward to be paid to the delegate
+  bool includeBlockReward = 6; // whether to include block reward
+  bool includeFoundationBonus = 7; // whether to include foundation bonus
+}
+
+message BookKeepingResponse {
+  bool exist = 1;
+  uint64 count = 2;
+  repeated DelegateRewardDistribution rewardDistribution = 3;
+}
+
 message DelegateRewardDistribution {
   string voterEthAddress = 1;
   string voterIotexAddress = 2;
@@ -46,24 +66,34 @@ message Productivity {
   uint64 expectedProduction = 3;
 }
 
+message ProductivityRequest {
+  uint64 startEpoch = 1; // Epoch number to start from
+  uint64 epochCount = 2; // Number of epochs to query
+  string delegateName =3; // Name of the delegate
+}
+
+message ProductivityResponse {
+  Productivity productivity = 1;
+}
+
 message Reward {
-  string blockReward = 1;
+  string blockReward = 1; // block
   string epochReward = 2;
   string foundationBonus = 3;
   bool exist = 4;
 }
+message RewardRequest {
+  uint64 startEpoch = 1; // Epoch number to start from
+  uint64 epochCount = 2; // Number of epochs to query
+  string delegateName =3; // Name of the delegate
+}
 
-message DelegateResponse {
-  bool exist = 1;
-  uint64 count = 2;   
-	repeated BucketInfoList  bucketInfoList = 3;
-  repeated DelegateRewardDistribution rewardDistribution = 4;
-  Productivity productivity = 5;
-  Reward reward = 6;
+message RewardResponse {
+  Reward reward = 1;
 }
 
 service DelegateService {
-  rpc BucketInfo(DelegateRequest) returns (DelegateResponse) {
+  rpc BucketInfo(BucketInfoRequest) returns (BucketInfoResponse) {
     option (graphql.schema) = {
       type: QUERY
       name: "BucketInfo"
@@ -73,7 +103,7 @@ service DelegateService {
       body: "*"
     };
   };
-  rpc BookKeeping(DelegateRequest) returns (DelegateResponse) {
+  rpc BookKeeping(BookKeepingRequest) returns (BookKeepingResponse) {
     option (graphql.schema) = {
       type: QUERY
       name: "BookKeeping"
@@ -83,20 +113,20 @@ service DelegateService {
       body: "*"
     };
   };
-  rpc Productivity(DelegateRequest) returns (DelegateResponse) {
+  rpc Productivity(ProductivityRequest) returns (ProductivityResponse) {
     option (graphql.schema) = {
       type: QUERY
-      name: "DelegateProductivity"
+      name: "Productivity"
     };
     option (google.api.http) = {
       post: "/api.DelegateService.Productivity"
       body: "*"
     };
   };
-  rpc Reward(DelegateRequest) returns (DelegateResponse) {
+  rpc Reward(RewardRequest) returns (RewardResponse) {
     option (graphql.schema) = {
       type: QUERY
-      name: "DelegateReward"
+      name: "Reward"
     };
     option (google.api.http) = {
       post: "/api.DelegateService.Reward"

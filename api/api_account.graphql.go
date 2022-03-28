@@ -11,20 +11,22 @@ import (
 )
 
 var (
-	gql__type_RewardDistribution        *graphql.Object      // message RewardDistribution in api_account.proto
-	gql__type_HermesResponse            *graphql.Object      // message HermesResponse in api_account.proto
-	gql__type_HermesRequest             *graphql.Object      // message HermesRequest in api_account.proto
-	gql__type_HermesDistribution        *graphql.Object      // message HermesDistribution in api_account.proto
-	gql__type_AccountResponse           *graphql.Object      // message AccountResponse in api_account.proto
-	gql__type_AccountRequest            *graphql.Object      // message AccountRequest in api_account.proto
-	gql__type_AccountErc20TokenRequest  *graphql.Object      // message AccountErc20TokenRequest in api_account.proto
-	gql__input_RewardDistribution       *graphql.InputObject // message RewardDistribution in api_account.proto
-	gql__input_HermesResponse           *graphql.InputObject // message HermesResponse in api_account.proto
-	gql__input_HermesRequest            *graphql.InputObject // message HermesRequest in api_account.proto
-	gql__input_HermesDistribution       *graphql.InputObject // message HermesDistribution in api_account.proto
-	gql__input_AccountResponse          *graphql.InputObject // message AccountResponse in api_account.proto
-	gql__input_AccountRequest           *graphql.InputObject // message AccountRequest in api_account.proto
-	gql__input_AccountErc20TokenRequest *graphql.InputObject // message AccountErc20TokenRequest in api_account.proto
+	gql__type_RewardDistribution                 *graphql.Object      // message RewardDistribution in api_account.proto
+	gql__type_IotexBalanceByHeightResponse       *graphql.Object      // message IotexBalanceByHeightResponse in api_account.proto
+	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
+	gql__type_HermesResponse                     *graphql.Object      // message HermesResponse in api_account.proto
+	gql__type_HermesRequest                      *graphql.Object      // message HermesRequest in api_account.proto
+	gql__type_HermesDistribution                 *graphql.Object      // message HermesDistribution in api_account.proto
+	gql__type_Erc20TokenBalanceByHeightResponse  *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
+	gql__type_Erc20TokenBalanceByHeightRequest   *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__input_RewardDistribution                *graphql.InputObject // message RewardDistribution in api_account.proto
+	gql__input_IotexBalanceByHeightResponse      *graphql.InputObject // message IotexBalanceByHeightResponse in api_account.proto
+	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
+	gql__input_HermesResponse                    *graphql.InputObject // message HermesResponse in api_account.proto
+	gql__input_HermesRequest                     *graphql.InputObject // message HermesRequest in api_account.proto
+	gql__input_HermesDistribution                *graphql.InputObject // message HermesDistribution in api_account.proto
+	gql__input_Erc20TokenBalanceByHeightResponse *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
+	gql__input_Erc20TokenBalanceByHeightRequest  *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
 )
 
 func Gql__type_RewardDistribution() *graphql.Object {
@@ -45,6 +47,40 @@ func Gql__type_RewardDistribution() *graphql.Object {
 		})
 	}
 	return gql__type_RewardDistribution
+}
+
+func Gql__type_IotexBalanceByHeightResponse() *graphql.Object {
+	if gql__type_IotexBalanceByHeightResponse == nil {
+		gql__type_IotexBalanceByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_IotexBalanceByHeightResponse",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"balance": &graphql.Field{
+					Type: graphql.NewList(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__type_IotexBalanceByHeightResponse
+}
+
+func Gql__type_IotexBalanceByHeightRequest() *graphql.Object {
+	if gql__type_IotexBalanceByHeightRequest == nil {
+		gql__type_IotexBalanceByHeightRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_IotexBalanceByHeightRequest",
+			Fields: graphql.Fields{
+				"address": &graphql.Field{
+					Type: graphql.NewList(graphql.String),
+				},
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_IotexBalanceByHeightRequest
 }
 
 func Gql__type_HermesResponse() *graphql.Object {
@@ -110,10 +146,10 @@ func Gql__type_HermesDistribution() *graphql.Object {
 	return gql__type_HermesDistribution
 }
 
-func Gql__type_AccountResponse() *graphql.Object {
-	if gql__type_AccountResponse == nil {
-		gql__type_AccountResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_AccountResponse",
+func Gql__type_Erc20TokenBalanceByHeightResponse() *graphql.Object {
+	if gql__type_Erc20TokenBalanceByHeightResponse == nil {
+		gql__type_Erc20TokenBalanceByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_Erc20TokenBalanceByHeightResponse",
 			Fields: graphql.Fields{
 				"height": &graphql.Field{
 					Type: graphql.Int,
@@ -127,30 +163,13 @@ func Gql__type_AccountResponse() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_AccountResponse
+	return gql__type_Erc20TokenBalanceByHeightResponse
 }
 
-func Gql__type_AccountRequest() *graphql.Object {
-	if gql__type_AccountRequest == nil {
-		gql__type_AccountRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_AccountRequest",
-			Fields: graphql.Fields{
-				"address": &graphql.Field{
-					Type: graphql.NewList(graphql.String),
-				},
-				"height": &graphql.Field{
-					Type: graphql.Int,
-				},
-			},
-		})
-	}
-	return gql__type_AccountRequest
-}
-
-func Gql__type_AccountErc20TokenRequest() *graphql.Object {
-	if gql__type_AccountErc20TokenRequest == nil {
-		gql__type_AccountErc20TokenRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_AccountErc20TokenRequest",
+func Gql__type_Erc20TokenBalanceByHeightRequest() *graphql.Object {
+	if gql__type_Erc20TokenBalanceByHeightRequest == nil {
+		gql__type_Erc20TokenBalanceByHeightRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_Erc20TokenBalanceByHeightRequest",
 			Fields: graphql.Fields{
 				"address": &graphql.Field{
 					Type: graphql.NewList(graphql.String),
@@ -164,7 +183,7 @@ func Gql__type_AccountErc20TokenRequest() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_AccountErc20TokenRequest
+	return gql__type_Erc20TokenBalanceByHeightRequest
 }
 
 func Gql__input_RewardDistribution() *graphql.InputObject {
@@ -185,6 +204,40 @@ func Gql__input_RewardDistribution() *graphql.InputObject {
 		})
 	}
 	return gql__input_RewardDistribution
+}
+
+func Gql__input_IotexBalanceByHeightResponse() *graphql.InputObject {
+	if gql__input_IotexBalanceByHeightResponse == nil {
+		gql__input_IotexBalanceByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_IotexBalanceByHeightResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"balance": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__input_IotexBalanceByHeightResponse
+}
+
+func Gql__input_IotexBalanceByHeightRequest() *graphql.InputObject {
+	if gql__input_IotexBalanceByHeightRequest == nil {
+		gql__input_IotexBalanceByHeightRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_IotexBalanceByHeightRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.String),
+				},
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_IotexBalanceByHeightRequest
 }
 
 func Gql__input_HermesResponse() *graphql.InputObject {
@@ -250,10 +303,10 @@ func Gql__input_HermesDistribution() *graphql.InputObject {
 	return gql__input_HermesDistribution
 }
 
-func Gql__input_AccountResponse() *graphql.InputObject {
-	if gql__input_AccountResponse == nil {
-		gql__input_AccountResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_AccountResponse",
+func Gql__input_Erc20TokenBalanceByHeightResponse() *graphql.InputObject {
+	if gql__input_Erc20TokenBalanceByHeightResponse == nil {
+		gql__input_Erc20TokenBalanceByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_Erc20TokenBalanceByHeightResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"height": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
@@ -267,30 +320,13 @@ func Gql__input_AccountResponse() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_AccountResponse
+	return gql__input_Erc20TokenBalanceByHeightResponse
 }
 
-func Gql__input_AccountRequest() *graphql.InputObject {
-	if gql__input_AccountRequest == nil {
-		gql__input_AccountRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_AccountRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"address": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(graphql.String),
-				},
-				"height": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-			},
-		})
-	}
-	return gql__input_AccountRequest
-}
-
-func Gql__input_AccountErc20TokenRequest() *graphql.InputObject {
-	if gql__input_AccountErc20TokenRequest == nil {
-		gql__input_AccountErc20TokenRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_AccountErc20TokenRequest",
+func Gql__input_Erc20TokenBalanceByHeightRequest() *graphql.InputObject {
+	if gql__input_Erc20TokenBalanceByHeightRequest == nil {
+		gql__input_Erc20TokenBalanceByHeightRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_Erc20TokenBalanceByHeightRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"address": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(graphql.String),
@@ -304,7 +340,7 @@ func Gql__input_AccountErc20TokenRequest() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_AccountErc20TokenRequest
+	return gql__input_Erc20TokenBalanceByHeightRequest
 }
 
 // graphql__resolver_AccountService is a struct for making query, mutation and resolve fields.
@@ -349,6 +385,55 @@ func (x *graphql__resolver_AccountService) CreateConnection(ctx context.Context)
 // GetQueries returns acceptable graphql.Fields for Query.
 func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
+		"IotexBalanceByHeight": &graphql.Field{
+			Type: Gql__type_IotexBalanceByHeightResponse(),
+			Args: graphql.FieldConfigArgument{
+				"address": &graphql.ArgumentConfig{
+					Type: graphql.NewList(graphql.String),
+				},
+				"height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req IotexBalanceByHeightRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for IotexBalanceByHeight")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.IotexBalanceByHeight(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC IotexBalanceByHeight")
+				}
+				return resp, nil
+			},
+		},
+		"Erc20TokenBalanceByHeight": &graphql.Field{
+			Type: Gql__type_Erc20TokenBalanceByHeightResponse(),
+			Args: graphql.FieldConfigArgument{
+				"address": &graphql.ArgumentConfig{
+					Type: graphql.NewList(graphql.String),
+				},
+				"height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"contract_address": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req Erc20TokenBalanceByHeightRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for Erc20TokenBalanceByHeight")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.Erc20TokenBalanceByHeight(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC Erc20TokenBalanceByHeight")
+				}
+				return resp, nil
+			},
+		},
 		"Hermes": &graphql.Field{
 			Type: Gql__type_HermesResponse(),
 			Args: graphql.FieldConfigArgument{
