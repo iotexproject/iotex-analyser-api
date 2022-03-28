@@ -15,7 +15,7 @@ GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 
-.PHONY: build proto all run
+.PHONY: build doc proto all run
 
 all : build
 
@@ -39,6 +39,11 @@ proto:
 clean:
 	rm -f iotex-analyser-api
 	
+doc:
+	protoc -I  ./proto --doc_out=./doc  --doc_opt=html,docs.html proto/*.proto proto/include/pagination.proto
+	protoc -I  ./proto --doc_out=./doc  --doc_opt=markdown,readme.md proto/*.proto proto/include/pagination.proto
+	protoc -I  ./proto --doc_out=./doc  --doc_opt=docbook,docs.xml proto/*.proto proto/include/pagination.proto
+	protoc -I  ./proto --doc_out=./doc  --doc_opt=json,docs.json proto/*.proto proto/include/pagination.proto
 build:
 	$(GOBUILD) -v .
 

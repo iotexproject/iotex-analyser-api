@@ -18,9 +18,9 @@ type AccountService struct {
 	api.UnimplementedAccountServiceServer
 }
 
-//curl -d '{"address": ["io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "io1j4mn2ga590z6es2fs07fy2wjn3yf09f4rkfljc"], "height":8927781 }' http://127.0.0.1:7778/api.AccountService.GetIotexBalanceByHeight
-func (s *AccountService) GetIotexBalanceByHeight(ctx context.Context, req *api.AccountRequest) (*api.AccountResponse, error) {
-	resp := &api.AccountResponse{
+//curl -d '{"address": ["io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "io1j4mn2ga590z6es2fs07fy2wjn3yf09f4rkfljc"], "height":8927781 }' http://127.0.0.1:7778/api.AccountService.IotexBalanceByHeight
+func (s *AccountService) IotexBalanceByHeight(ctx context.Context, req *api.IotexBalanceByHeightRequest) (*api.IotexBalanceByHeightResponse, error) {
+	resp := &api.IotexBalanceByHeightResponse{
 		Height: req.GetHeight(),
 	}
 	db := db.DB()
@@ -53,8 +53,8 @@ func (s *AccountService) GetIotexBalanceByHeight(ctx context.Context, req *api.A
 
 //grpcurl -plaintext -d '{"address": "io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "height":8927781 }' 127.0.0.1:7777 api.AccountService.GetErc20TokenBalanceByHeight
 //curl -d '{"address": ["io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "io1j4mn2ga590z6es2fs07fy2wjn3yf09f4rkfljc"], "contract_address": "io1w97pslyg7qdayp8mfnffxkjkpapaf83wmmll2l", "height":8927781 }}' http://127.0.0.1:7778/api.AccountService.GetErc20TokenBalanceByHeight
-func (s *AccountService) GetErc20TokenBalanceByHeight(ctx context.Context, req *api.AccountErc20TokenRequest) (*api.AccountResponse, error) {
-	resp := &api.AccountResponse{
+func (s *AccountService) Erc20TokenBalanceByHeight(ctx context.Context, req *api.Erc20TokenBalanceByHeightRequest) (*api.Erc20TokenBalanceByHeightResponse, error) {
+	resp := &api.Erc20TokenBalanceByHeightResponse{
 		Height:          req.GetHeight(),
 		ContractAddress: req.GetContractAddress(),
 	}
@@ -81,7 +81,7 @@ func (s *AccountService) GetErc20TokenBalanceByHeight(ctx context.Context, req *
 		}
 		//get receive amount
 		var toAmount sql.NullString
-		query := "SELECT SUM(amount) FROM token_erc20 t WHERE block_height<=? AND t.to=? AND t.contract_address=?"
+		query := "SELECT SUM(amount) FROM token_erc20 t WHERE block_height<=? AND t.recipient=? AND t.contract_address=?"
 		err := db.Raw(query, height, addr, contractAddress).Scan(&toAmount).Error
 		if err != nil {
 			return nil, err
@@ -89,7 +89,7 @@ func (s *AccountService) GetErc20TokenBalanceByHeight(ctx context.Context, req *
 
 		//get cost amount
 		var fromAmount sql.NullString
-		query = "SELECT SUM(amount) FROM token_erc20 t WHERE block_height<=? AND t.from=? AND contract_address=?"
+		query = "SELECT SUM(amount) FROM token_erc20 t WHERE block_height<=? AND t.sender=? AND contract_address=?"
 		err = db.Raw(query, height, addr, contractAddress).Scan(&fromAmount).Error
 		if err != nil {
 			return nil, err

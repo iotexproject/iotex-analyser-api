@@ -56,6 +56,9 @@ func registerGraphQLAPIService(ctx context.Context, mux *graphqlruntime.ServeMux
 	if err := api.RegisterActionsServiceGraphqlHandler(mux, conn); err != nil {
 		return err
 	}
+	if err := api.RegisterStakingServiceGraphqlHandler(mux, conn); err != nil {
+		return err
+	}
 	if err := api.RegisterAccountServiceGraphqlHandler(mux, conn); err != nil {
 		return err
 	}

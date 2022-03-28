@@ -31,8 +31,8 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_StakingService_GetVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq StakingRequest
+func request_StakingService_VoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq VoteByHeightRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -43,13 +43,13 @@ func request_StakingService_GetVoteByHeight_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetVoteByHeight(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.VoteByHeight(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_StakingService_GetVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq StakingRequest
+func local_request_StakingService_VoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq VoteByHeightRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -60,13 +60,13 @@ func local_request_StakingService_GetVoteByHeight_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetVoteByHeight(ctx, &protoReq)
+	msg, err := server.VoteByHeight(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-func request_StakingService_GetCandidateVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq StakingRequest
+func request_StakingService_CandidateVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CandidateVoteByHeightRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -77,13 +77,13 @@ func request_StakingService_GetCandidateVoteByHeight_0(ctx context.Context, mars
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetCandidateVoteByHeight(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CandidateVoteByHeight(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_StakingService_GetCandidateVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq StakingRequest
+func local_request_StakingService_CandidateVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CandidateVoteByHeightRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -94,7 +94,7 @@ func local_request_StakingService_GetCandidateVoteByHeight_0(ctx context.Context
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetCandidateVoteByHeight(ctx, &protoReq)
+	msg, err := server.CandidateVoteByHeight(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -105,18 +105,18 @@ func local_request_StakingService_GetCandidateVoteByHeight_0(ctx context.Context
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterStakingServiceHandlerFromEndpoint instead.
 func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server StakingServiceServer) error {
 
-	mux.Handle("POST", pattern_StakingService_GetVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StakingService_VoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetVoteByHeight")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/VoteByHeight")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_StakingService_GetVoteByHeight_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_StakingService_VoteByHeight_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -124,22 +124,22 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_StakingService_GetVoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_StakingService_VoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_StakingService_GetCandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StakingService_CandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetCandidateVoteByHeight")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/CandidateVoteByHeight")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_StakingService_GetCandidateVoteByHeight_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_StakingService_CandidateVoteByHeight_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -147,7 +147,7 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_StakingService_GetCandidateVoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_StakingService_CandidateVoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -192,43 +192,43 @@ func RegisterStakingServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 // "StakingServiceClient" to call the correct interceptors.
 func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client StakingServiceClient) error {
 
-	mux.Handle("POST", pattern_StakingService_GetVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StakingService_VoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetVoteByHeight")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/VoteByHeight")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_StakingService_GetVoteByHeight_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_StakingService_VoteByHeight_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_StakingService_GetVoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_StakingService_VoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_StakingService_GetCandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StakingService_CandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetCandidateVoteByHeight")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/CandidateVoteByHeight")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_StakingService_GetCandidateVoteByHeight_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_StakingService_CandidateVoteByHeight_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_StakingService_GetCandidateVoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_StakingService_CandidateVoteByHeight_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -236,13 +236,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 }
 
 var (
-	pattern_StakingService_GetVoteByHeight_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetVoteByHeight"}, ""))
+	pattern_StakingService_VoteByHeight_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.VoteByHeight"}, ""))
 
-	pattern_StakingService_GetCandidateVoteByHeight_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetCandidateVoteByHeight"}, ""))
+	pattern_StakingService_CandidateVoteByHeight_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.CandidateVoteByHeight"}, ""))
 )
 
 var (
-	forward_StakingService_GetVoteByHeight_0 = runtime.ForwardResponseMessage
+	forward_StakingService_VoteByHeight_0 = runtime.ForwardResponseMessage
 
-	forward_StakingService_GetCandidateVoteByHeight_0 = runtime.ForwardResponseMessage
+	forward_StakingService_CandidateVoteByHeight_0 = runtime.ForwardResponseMessage
 )

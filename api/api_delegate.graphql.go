@@ -12,21 +12,67 @@ import (
 )
 
 var (
+	gql__type_RewardResponse              *graphql.Object      // message RewardResponse in api_delegate.proto
+	gql__type_RewardRequest               *graphql.Object      // message RewardRequest in api_delegate.proto
 	gql__type_Reward                      *graphql.Object      // message Reward in api_delegate.proto
+	gql__type_ProductivityResponse        *graphql.Object      // message ProductivityResponse in api_delegate.proto
+	gql__type_ProductivityRequest         *graphql.Object      // message ProductivityRequest in api_delegate.proto
 	gql__type_Productivity                *graphql.Object      // message Productivity in api_delegate.proto
 	gql__type_DelegateRewardDistribution  *graphql.Object      // message DelegateRewardDistribution in api_delegate.proto
-	gql__type_DelegateResponse            *graphql.Object      // message DelegateResponse in api_delegate.proto
-	gql__type_DelegateRequest             *graphql.Object      // message DelegateRequest in api_delegate.proto
+	gql__type_BucketInfoResponse          *graphql.Object      // message BucketInfoResponse in api_delegate.proto
+	gql__type_BucketInfoRequest           *graphql.Object      // message BucketInfoRequest in api_delegate.proto
 	gql__type_BucketInfoList              *graphql.Object      // message BucketInfoList in api_delegate.proto
 	gql__type_BucketInfo                  *graphql.Object      // message BucketInfo in api_delegate.proto
+	gql__type_BookKeepingResponse         *graphql.Object      // message BookKeepingResponse in api_delegate.proto
+	gql__type_BookKeepingRequest          *graphql.Object      // message BookKeepingRequest in api_delegate.proto
+	gql__input_RewardResponse             *graphql.InputObject // message RewardResponse in api_delegate.proto
+	gql__input_RewardRequest              *graphql.InputObject // message RewardRequest in api_delegate.proto
 	gql__input_Reward                     *graphql.InputObject // message Reward in api_delegate.proto
+	gql__input_ProductivityResponse       *graphql.InputObject // message ProductivityResponse in api_delegate.proto
+	gql__input_ProductivityRequest        *graphql.InputObject // message ProductivityRequest in api_delegate.proto
 	gql__input_Productivity               *graphql.InputObject // message Productivity in api_delegate.proto
 	gql__input_DelegateRewardDistribution *graphql.InputObject // message DelegateRewardDistribution in api_delegate.proto
-	gql__input_DelegateResponse           *graphql.InputObject // message DelegateResponse in api_delegate.proto
-	gql__input_DelegateRequest            *graphql.InputObject // message DelegateRequest in api_delegate.proto
+	gql__input_BucketInfoResponse         *graphql.InputObject // message BucketInfoResponse in api_delegate.proto
+	gql__input_BucketInfoRequest          *graphql.InputObject // message BucketInfoRequest in api_delegate.proto
 	gql__input_BucketInfoList             *graphql.InputObject // message BucketInfoList in api_delegate.proto
 	gql__input_BucketInfo                 *graphql.InputObject // message BucketInfo in api_delegate.proto
+	gql__input_BookKeepingResponse        *graphql.InputObject // message BookKeepingResponse in api_delegate.proto
+	gql__input_BookKeepingRequest         *graphql.InputObject // message BookKeepingRequest in api_delegate.proto
 )
+
+func Gql__type_RewardResponse() *graphql.Object {
+	if gql__type_RewardResponse == nil {
+		gql__type_RewardResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_RewardResponse",
+			Fields: graphql.Fields{
+				"reward": &graphql.Field{
+					Type: Gql__type_Reward(),
+				},
+			},
+		})
+	}
+	return gql__type_RewardResponse
+}
+
+func Gql__type_RewardRequest() *graphql.Object {
+	if gql__type_RewardRequest == nil {
+		gql__type_RewardRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_RewardRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_RewardRequest
+}
 
 func Gql__type_Reward() *graphql.Object {
 	if gql__type_Reward == nil {
@@ -49,6 +95,40 @@ func Gql__type_Reward() *graphql.Object {
 		})
 	}
 	return gql__type_Reward
+}
+
+func Gql__type_ProductivityResponse() *graphql.Object {
+	if gql__type_ProductivityResponse == nil {
+		gql__type_ProductivityResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ProductivityResponse",
+			Fields: graphql.Fields{
+				"productivity": &graphql.Field{
+					Type: Gql__type_Productivity(),
+				},
+			},
+		})
+	}
+	return gql__type_ProductivityResponse
+}
+
+func Gql__type_ProductivityRequest() *graphql.Object {
+	if gql__type_ProductivityRequest == nil {
+		gql__type_ProductivityRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ProductivityRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ProductivityRequest
 }
 
 func Gql__type_Productivity() *graphql.Object {
@@ -91,10 +171,10 @@ func Gql__type_DelegateRewardDistribution() *graphql.Object {
 	return gql__type_DelegateRewardDistribution
 }
 
-func Gql__type_DelegateResponse() *graphql.Object {
-	if gql__type_DelegateResponse == nil {
-		gql__type_DelegateResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_DelegateResponse",
+func Gql__type_BucketInfoResponse() *graphql.Object {
+	if gql__type_BucketInfoResponse == nil {
+		gql__type_BucketInfoResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BucketInfoResponse",
 			Fields: graphql.Fields{
 				"exist": &graphql.Field{
 					Type: graphql.Boolean,
@@ -105,25 +185,16 @@ func Gql__type_DelegateResponse() *graphql.Object {
 				"bucketInfoList": &graphql.Field{
 					Type: graphql.NewList(Gql__type_BucketInfoList()),
 				},
-				"rewardDistribution": &graphql.Field{
-					Type: graphql.NewList(Gql__type_DelegateRewardDistribution()),
-				},
-				"productivity": &graphql.Field{
-					Type: Gql__type_Productivity(),
-				},
-				"reward": &graphql.Field{
-					Type: Gql__type_Reward(),
-				},
 			},
 		})
 	}
-	return gql__type_DelegateResponse
+	return gql__type_BucketInfoResponse
 }
 
-func Gql__type_DelegateRequest() *graphql.Object {
-	if gql__type_DelegateRequest == nil {
-		gql__type_DelegateRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_DelegateRequest",
+func Gql__type_BucketInfoRequest() *graphql.Object {
+	if gql__type_BucketInfoRequest == nil {
+		gql__type_BucketInfoRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BucketInfoRequest",
 			Fields: graphql.Fields{
 				"startEpoch": &graphql.Field{
 					Type: graphql.Int,
@@ -137,19 +208,10 @@ func Gql__type_DelegateRequest() *graphql.Object {
 				"pagination": &graphql.Field{
 					Type: pagination.Gql__type_Pagination(),
 				},
-				"percentage": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"includeBlockReward": &graphql.Field{
-					Type: graphql.Boolean,
-				},
-				"includeFoundationBonus": &graphql.Field{
-					Type: graphql.Boolean,
-				},
 			},
 		})
 	}
-	return gql__type_DelegateRequest
+	return gql__type_BucketInfoRequest
 }
 
 func Gql__type_BucketInfoList() *graphql.Object {
@@ -210,6 +272,92 @@ func Gql__type_BucketInfo() *graphql.Object {
 	return gql__type_BucketInfo
 }
 
+func Gql__type_BookKeepingResponse() *graphql.Object {
+	if gql__type_BookKeepingResponse == nil {
+		gql__type_BookKeepingResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BookKeepingResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"rewardDistribution": &graphql.Field{
+					Type: graphql.NewList(Gql__type_DelegateRewardDistribution()),
+				},
+			},
+		})
+	}
+	return gql__type_BookKeepingResponse
+}
+
+func Gql__type_BookKeepingRequest() *graphql.Object {
+	if gql__type_BookKeepingRequest == nil {
+		gql__type_BookKeepingRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BookKeepingRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+				"percentage": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"includeBlockReward": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"includeFoundationBonus": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__type_BookKeepingRequest
+}
+
+func Gql__input_RewardResponse() *graphql.InputObject {
+	if gql__input_RewardResponse == nil {
+		gql__input_RewardResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_RewardResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"reward": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_Reward(),
+				},
+			},
+		})
+	}
+	return gql__input_RewardResponse
+}
+
+func Gql__input_RewardRequest() *graphql.InputObject {
+	if gql__input_RewardRequest == nil {
+		gql__input_RewardRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_RewardRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_RewardRequest
+}
+
 func Gql__input_Reward() *graphql.InputObject {
 	if gql__input_Reward == nil {
 		gql__input_Reward = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -231,6 +379,40 @@ func Gql__input_Reward() *graphql.InputObject {
 		})
 	}
 	return gql__input_Reward
+}
+
+func Gql__input_ProductivityResponse() *graphql.InputObject {
+	if gql__input_ProductivityResponse == nil {
+		gql__input_ProductivityResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ProductivityResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"productivity": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_Productivity(),
+				},
+			},
+		})
+	}
+	return gql__input_ProductivityResponse
+}
+
+func Gql__input_ProductivityRequest() *graphql.InputObject {
+	if gql__input_ProductivityRequest == nil {
+		gql__input_ProductivityRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ProductivityRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ProductivityRequest
 }
 
 func Gql__input_Productivity() *graphql.InputObject {
@@ -273,10 +455,10 @@ func Gql__input_DelegateRewardDistribution() *graphql.InputObject {
 	return gql__input_DelegateRewardDistribution
 }
 
-func Gql__input_DelegateResponse() *graphql.InputObject {
-	if gql__input_DelegateResponse == nil {
-		gql__input_DelegateResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_DelegateResponse",
+func Gql__input_BucketInfoResponse() *graphql.InputObject {
+	if gql__input_BucketInfoResponse == nil {
+		gql__input_BucketInfoResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BucketInfoResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"exist": &graphql.InputObjectFieldConfig{
 					Type: graphql.Boolean,
@@ -287,25 +469,16 @@ func Gql__input_DelegateResponse() *graphql.InputObject {
 				"bucketInfoList": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(Gql__input_BucketInfoList()),
 				},
-				"rewardDistribution": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_DelegateRewardDistribution()),
-				},
-				"productivity": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_Productivity(),
-				},
-				"reward": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_Reward(),
-				},
 			},
 		})
 	}
-	return gql__input_DelegateResponse
+	return gql__input_BucketInfoResponse
 }
 
-func Gql__input_DelegateRequest() *graphql.InputObject {
-	if gql__input_DelegateRequest == nil {
-		gql__input_DelegateRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_DelegateRequest",
+func Gql__input_BucketInfoRequest() *graphql.InputObject {
+	if gql__input_BucketInfoRequest == nil {
+		gql__input_BucketInfoRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BucketInfoRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"startEpoch": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
@@ -319,19 +492,10 @@ func Gql__input_DelegateRequest() *graphql.InputObject {
 				"pagination": &graphql.InputObjectFieldConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
-				"percentage": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"includeBlockReward": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
-				"includeFoundationBonus": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
 			},
 		})
 	}
-	return gql__input_DelegateRequest
+	return gql__input_BucketInfoRequest
 }
 
 func Gql__input_BucketInfoList() *graphql.InputObject {
@@ -392,6 +556,58 @@ func Gql__input_BucketInfo() *graphql.InputObject {
 	return gql__input_BucketInfo
 }
 
+func Gql__input_BookKeepingResponse() *graphql.InputObject {
+	if gql__input_BookKeepingResponse == nil {
+		gql__input_BookKeepingResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BookKeepingResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"rewardDistribution": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_DelegateRewardDistribution()),
+				},
+			},
+		})
+	}
+	return gql__input_BookKeepingResponse
+}
+
+func Gql__input_BookKeepingRequest() *graphql.InputObject {
+	if gql__input_BookKeepingRequest == nil {
+		gql__input_BookKeepingRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BookKeepingRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+				"percentage": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"includeBlockReward": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"includeFoundationBonus": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__input_BookKeepingRequest
+}
+
 // graphql__resolver_DelegateService is a struct for making query, mutation and resolve fields.
 // This struct must be implemented runtime.SchemaBuilder interface.
 type graphql__resolver_DelegateService struct {
@@ -435,7 +651,7 @@ func (x *graphql__resolver_DelegateService) CreateConnection(ctx context.Context
 func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
 		"BucketInfo": &graphql.Field{
-			Type: Gql__type_DelegateResponse(),
+			Type: Gql__type_BucketInfoResponse(),
 			Args: graphql.FieldConfigArgument{
 				"startEpoch": &graphql.ArgumentConfig{
 					Type: graphql.Int,
@@ -449,18 +665,9 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				"pagination": &graphql.ArgumentConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
-				"percentage": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"includeBlockReward": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
-				},
-				"includeFoundationBonus": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
-				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req DelegateRequest
+				var req BucketInfoRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for BucketInfo")
 				}
@@ -473,7 +680,7 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 			},
 		},
 		"BookKeeping": &graphql.Field{
-			Type: Gql__type_DelegateResponse(),
+			Type: Gql__type_BookKeepingResponse(),
 			Args: graphql.FieldConfigArgument{
 				"startEpoch": &graphql.ArgumentConfig{
 					Type: graphql.Int,
@@ -498,7 +705,7 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req DelegateRequest
+				var req BookKeepingRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for BookKeeping")
 				}
@@ -510,8 +717,8 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				return resp, nil
 			},
 		},
-		"DelegateProductivity": &graphql.Field{
-			Type: Gql__type_DelegateResponse(),
+		"Productivity": &graphql.Field{
+			Type: Gql__type_ProductivityResponse(),
 			Args: graphql.FieldConfigArgument{
 				"startEpoch": &graphql.ArgumentConfig{
 					Type: graphql.Int,
@@ -522,23 +729,11 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				"delegateName": &graphql.ArgumentConfig{
 					Type: graphql.String,
 				},
-				"pagination": &graphql.ArgumentConfig{
-					Type: pagination.Gql__input_Pagination(),
-				},
-				"percentage": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"includeBlockReward": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
-				},
-				"includeFoundationBonus": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
-				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req DelegateRequest
+				var req ProductivityRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for DelegateProductivity")
+					return nil, errors.Wrap(err, "Failed to marshal request for Productivity")
 				}
 				client := NewDelegateServiceClient(conn)
 				resp, err := client.Productivity(p.Context, &req)
@@ -548,8 +743,8 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				return resp, nil
 			},
 		},
-		"DelegateReward": &graphql.Field{
-			Type: Gql__type_DelegateResponse(),
+		"Reward": &graphql.Field{
+			Type: Gql__type_RewardResponse(),
 			Args: graphql.FieldConfigArgument{
 				"startEpoch": &graphql.ArgumentConfig{
 					Type: graphql.Int,
@@ -560,23 +755,11 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				"delegateName": &graphql.ArgumentConfig{
 					Type: graphql.String,
 				},
-				"pagination": &graphql.ArgumentConfig{
-					Type: pagination.Gql__input_Pagination(),
-				},
-				"percentage": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"includeBlockReward": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
-				},
-				"includeFoundationBonus": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
-				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req DelegateRequest
+				var req RewardRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for DelegateReward")
+					return nil, errors.Wrap(err, "Failed to marshal request for Reward")
 				}
 				client := NewDelegateServiceClient(conn)
 				resp, err := client.Reward(p.Context, &req)

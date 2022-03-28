@@ -65,8 +65,8 @@ type ChainResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MostRecentEpoch       uint64 `protobuf:"varint,1,opt,name=mostRecentEpoch,proto3" json:"mostRecentEpoch,omitempty"`
-	MostRecentBlockHeight uint64 `protobuf:"varint,2,opt,name=mostRecentBlockHeight,proto3" json:"mostRecentBlockHeight,omitempty"`
+	MostRecentEpoch       uint64 `protobuf:"varint,1,opt,name=mostRecentEpoch,proto3" json:"mostRecentEpoch,omitempty"`             // most recent epoch
+	MostRecentBlockHeight uint64 `protobuf:"varint,2,opt,name=mostRecentBlockHeight,proto3" json:"mostRecentBlockHeight,omitempty"` // most recent block height
 }
 
 func (x *ChainResponse) Reset() {

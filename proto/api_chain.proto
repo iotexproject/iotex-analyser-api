@@ -11,8 +11,8 @@ message ChainRequest {
 }
 
 message ChainResponse {
-    uint64 mostRecentEpoch = 1;
-    uint64 mostRecentBlockHeight = 2;
+    uint64 mostRecentEpoch = 1; // most recent epoch
+    uint64 mostRecentBlockHeight = 2; // most recent block height
 }
 
 service ChainService {

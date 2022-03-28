@@ -17,8 +17,8 @@ type DelegateService struct {
 	api.UnimplementedDelegateServiceServer
 }
 
-func (s *DelegateService) BucketInfo(ctx context.Context, req *api.DelegateRequest) (*api.DelegateResponse, error) {
-	resp := &api.DelegateResponse{
+func (s *DelegateService) BucketInfo(ctx context.Context, req *api.BucketInfoRequest) (*api.BucketInfoResponse, error) {
+	resp := &api.BucketInfoResponse{
 		BucketInfoList: make([]*api.BucketInfoList, 0),
 	}
 	startEpoch := req.GetStartEpoch()
@@ -90,8 +90,8 @@ func (s *DelegateService) getBucketInformation(startEpoch, epochCount uint64, de
 	return bucketInfoMap, nil
 }
 
-func (s *DelegateService) BookKeeping(ctx context.Context, req *api.DelegateRequest) (*api.DelegateResponse, error) {
-	resp := &api.DelegateResponse{
+func (s *DelegateService) BookKeeping(ctx context.Context, req *api.BookKeepingRequest) (*api.BookKeepingResponse, error) {
+	resp := &api.BookKeepingResponse{
 		RewardDistribution: make([]*api.DelegateRewardDistribution, 0),
 	}
 	startEpoch := req.GetStartEpoch()
@@ -146,8 +146,8 @@ func (s *DelegateService) BookKeeping(ctx context.Context, req *api.DelegateRequ
 	return resp, nil
 }
 
-func (s *DelegateService) Productivity(ctx context.Context, req *api.DelegateRequest) (*api.DelegateResponse, error) {
-	resp := &api.DelegateResponse{}
+func (s *DelegateService) Productivity(ctx context.Context, req *api.ProductivityRequest) (*api.ProductivityResponse, error) {
+	resp := &api.ProductivityResponse{}
 	startEpoch := req.GetStartEpoch()
 	epochCount := req.GetEpochCount()
 	delegateName := req.GetDelegateName()
@@ -170,8 +170,8 @@ func (s *DelegateService) Productivity(ctx context.Context, req *api.DelegateReq
 	return resp, nil
 }
 
-func (s *DelegateService) Reward(ctx context.Context, req *api.DelegateRequest) (*api.DelegateResponse, error) {
-	resp := &api.DelegateResponse{}
+func (s *DelegateService) Reward(ctx context.Context, req *api.RewardRequest) (*api.RewardResponse, error) {
+	resp := &api.RewardResponse{}
 	startEpoch := req.GetStartEpoch()
 	epochCount := req.GetEpochCount()
 	delegateName := req.GetDelegateName()
