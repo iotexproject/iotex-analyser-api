@@ -1657,21 +1657,21 @@
               <entry>startEpoch</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>Epoch number to start from</para></entry>
+              <entry><para>epoch number to start from</para></entry>
             </row>
             
             <row>
               <entry>epochCount</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>Number of epochs to query</para></entry>
+              <entry><para>number of epochs to query</para></entry>
             </row>
             
             <row>
               <entry>delegateName</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para>Name of the delegate</para></entry>
+              <entry><para>name of the delegate</para></entry>
             </row>
             
             <row>
@@ -1685,7 +1685,7 @@
               <entry>percentage</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>Percentage of the reward to be paid to the delegate</para></entry>
+              <entry><para>percentage of the reward to be paid to the delegate</para></entry>
             </row>
             
             <row>
@@ -1734,14 +1734,14 @@
               <entry>exist</entry>
               <entry><link linkend="bool">bool</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>whether the delegate has bookkeeping information within the specified epoch range</para></entry>
             </row>
             
             <row>
               <entry>count</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>total number of reward distributions</para></entry>
             </row>
             
             <row>
@@ -1783,63 +1783,63 @@
               <entry>voterEthAddress</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter’s ERC20 address</para></entry>
             </row>
             
             <row>
               <entry>voterIotexAddress</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter's IoTeX address</para></entry>
             </row>
             
             <row>
               <entry>isNative</entry>
               <entry><link linkend="bool">bool</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>whether the bucket is native</para></entry>
             </row>
             
             <row>
               <entry>votes</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter's votes</para></entry>
             </row>
             
             <row>
               <entry>weightedVotes</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter’s weighted votes</para></entry>
             </row>
             
             <row>
               <entry>remainingDuration</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>bucket remaining duration</para></entry>
             </row>
             
             <row>
               <entry>startTime</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>bucket start time</para></entry>
             </row>
             
             <row>
               <entry>decay</entry>
               <entry><link linkend="bool">bool</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>whether the vote weight decays</para></entry>
             </row>
             
             <row>
               <entry>bucketID</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>bucket id</para></entry>
             </row>
             
           </tbody>
@@ -1979,14 +1979,14 @@
               <entry>exist</entry>
               <entry><link linkend="bool">bool</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>whether the delegate has voting bucket information within the specified epoch range</para></entry>
             </row>
             
             <row>
               <entry>count</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>total number of buckets in the given epoch for the given delegate</para></entry>
             </row>
             
             <row>
@@ -2028,21 +2028,21 @@
               <entry>voterEthAddress</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter’s ERC20 address</para></entry>
             </row>
             
             <row>
               <entry>voterIotexAddress</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter’s IoTeX address</para></entry>
             </row>
             
             <row>
               <entry>amount</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>amount of reward distribution</para></entry>
             </row>
             
           </tbody>
@@ -2077,21 +2077,21 @@
               <entry>exist</entry>
               <entry><link linkend="bool">bool</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>whether the delegate has productivity information within the specified epoch range</para></entry>
             </row>
             
             <row>
               <entry>production</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>number of block productions</para></entry>
             </row>
             
             <row>
               <entry>expectedProduction</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>number of expected block productions</para></entry>
             </row>
             
           </tbody>
@@ -2126,21 +2126,21 @@
               <entry>startEpoch</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>Epoch number to start from</para></entry>
+              <entry><para>starting epoch number</para></entry>
             </row>
             
             <row>
               <entry>epochCount</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>Number of epochs to query</para></entry>
+              <entry><para>epoch count</para></entry>
             </row>
             
             <row>
               <entry>delegateName</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para>Name of the delegate</para></entry>
+              <entry><para>producer name</para></entry>
             </row>
             
           </tbody>
@@ -2210,28 +2210,28 @@
               <entry>blockReward</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para>block</para></entry>
+              <entry><para>amount of block rewards</para></entry>
             </row>
             
             <row>
               <entry>epochReward</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>amount of epoch rewards</para></entry>
             </row>
             
             <row>
               <entry>foundationBonus</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>amount of foundation bonus</para></entry>
             </row>
             
             <row>
               <entry>exist</entry>
               <entry><link linkend="bool">bool</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>whether the delegate has reward information within the specified epoch range</para></entry>
             </row>
             
           </tbody>
@@ -2354,28 +2354,28 @@
               <entry>BucketInfo</entry>
               <entry><link linkend="api.BucketInfoRequest">BucketInfoRequest</link></entry>
               <entry><link linkend="api.BucketInfoResponse">BucketInfoResponse</link></entry>
-              <entry><para></para></entry>
+              <entry><para>BucketInfo provides voting bucket detail information for candidates within a range of epochs</para></entry>
             </row>
             
             <row>
               <entry>BookKeeping</entry>
               <entry><link linkend="api.BookKeepingRequest">BookKeepingRequest</link></entry>
               <entry><link linkend="api.BookKeepingResponse">BookKeepingResponse</link></entry>
-              <entry><para></para></entry>
+              <entry><para>BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs</para></entry>
             </row>
             
             <row>
               <entry>Productivity</entry>
               <entry><link linkend="api.ProductivityRequest">ProductivityRequest</link></entry>
               <entry><link linkend="api.ProductivityResponse">ProductivityResponse</link></entry>
-              <entry><para></para></entry>
+              <entry><para>Productivity gives block productivity of producers within a range of epochs</para></entry>
             </row>
             
             <row>
               <entry>Reward</entry>
               <entry><link linkend="api.RewardRequest">RewardRequest</link></entry>
               <entry><link linkend="api.RewardResponse">RewardResponse</link></entry>
-              <entry><para></para></entry>
+              <entry><para>Rewards provides reward detail information for candidates within a range of epochs</para></entry>
             </row>
             
           </tbody>
@@ -2653,14 +2653,14 @@
               <entry>skip</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>starting index of results</para></entry>
             </row>
             
             <row>
               <entry>first</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>number of records per page</para></entry>
             </row>
             
             <row>

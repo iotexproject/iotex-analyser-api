@@ -1918,7 +1918,7 @@
           "fields": [
             {
               "name": "startEpoch",
-              "description": "Epoch number to start from",
+              "description": "epoch number to start from",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -1930,7 +1930,7 @@
             },
             {
               "name": "epochCount",
-              "description": "Number of epochs to query",
+              "description": "number of epochs to query",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -1942,7 +1942,7 @@
             },
             {
               "name": "delegateName",
-              "description": "Name of the delegate",
+              "description": "name of the delegate",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1966,7 +1966,7 @@
             },
             {
               "name": "percentage",
-              "description": "Percentage of the reward to be paid to the delegate",
+              "description": "percentage of the reward to be paid to the delegate",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2014,7 +2014,7 @@
           "fields": [
             {
               "name": "exist",
-              "description": "",
+              "description": "whether the delegate has bookkeeping information within the specified epoch range",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2026,7 +2026,7 @@
             },
             {
               "name": "count",
-              "description": "",
+              "description": "total number of reward distributions",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2062,7 +2062,7 @@
           "fields": [
             {
               "name": "voterEthAddress",
-              "description": "",
+              "description": "voter’s ERC20 address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2074,7 +2074,7 @@
             },
             {
               "name": "voterIotexAddress",
-              "description": "",
+              "description": "voter's IoTeX address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2086,7 +2086,7 @@
             },
             {
               "name": "isNative",
-              "description": "",
+              "description": "whether the bucket is native",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2098,7 +2098,7 @@
             },
             {
               "name": "votes",
-              "description": "",
+              "description": "voter's votes",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2110,7 +2110,7 @@
             },
             {
               "name": "weightedVotes",
-              "description": "",
+              "description": "voter’s weighted votes",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2122,7 +2122,7 @@
             },
             {
               "name": "remainingDuration",
-              "description": "",
+              "description": "bucket remaining duration",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2134,7 +2134,7 @@
             },
             {
               "name": "startTime",
-              "description": "",
+              "description": "bucket start time",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2146,7 +2146,7 @@
             },
             {
               "name": "decay",
-              "description": "",
+              "description": "whether the vote weight decays",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2158,7 +2158,7 @@
             },
             {
               "name": "bucketID",
-              "description": "",
+              "description": "bucket id",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2290,7 +2290,7 @@
           "fields": [
             {
               "name": "exist",
-              "description": "",
+              "description": "whether the delegate has voting bucket information within the specified epoch range",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2302,7 +2302,7 @@
             },
             {
               "name": "count",
-              "description": "",
+              "description": "total number of buckets in the given epoch for the given delegate",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2338,7 +2338,7 @@
           "fields": [
             {
               "name": "voterEthAddress",
-              "description": "",
+              "description": "voter’s ERC20 address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2350,7 +2350,7 @@
             },
             {
               "name": "voterIotexAddress",
-              "description": "",
+              "description": "voter’s IoTeX address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2362,7 +2362,7 @@
             },
             {
               "name": "amount",
-              "description": "",
+              "description": "amount of reward distribution",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2386,7 +2386,7 @@
           "fields": [
             {
               "name": "exist",
-              "description": "",
+              "description": "whether the delegate has productivity information within the specified epoch range",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2398,7 +2398,7 @@
             },
             {
               "name": "production",
-              "description": "",
+              "description": "number of block productions",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2410,7 +2410,7 @@
             },
             {
               "name": "expectedProduction",
-              "description": "",
+              "description": "number of expected block productions",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2434,7 +2434,7 @@
           "fields": [
             {
               "name": "startEpoch",
-              "description": "Epoch number to start from",
+              "description": "starting epoch number",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2446,7 +2446,7 @@
             },
             {
               "name": "epochCount",
-              "description": "Number of epochs to query",
+              "description": "epoch count",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2458,7 +2458,7 @@
             },
             {
               "name": "delegateName",
-              "description": "Name of the delegate",
+              "description": "producer name",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2506,7 +2506,7 @@
           "fields": [
             {
               "name": "blockReward",
-              "description": "block",
+              "description": "amount of block rewards",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2518,7 +2518,7 @@
             },
             {
               "name": "epochReward",
-              "description": "",
+              "description": "amount of epoch rewards",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2530,7 +2530,7 @@
             },
             {
               "name": "foundationBonus",
-              "description": "",
+              "description": "amount of foundation bonus",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -2542,7 +2542,7 @@
             },
             {
               "name": "exist",
-              "description": "",
+              "description": "whether the delegate has reward information within the specified epoch range",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2636,7 +2636,7 @@
           "methods": [
             {
               "name": "BucketInfo",
-              "description": "",
+              "description": "BucketInfo provides voting bucket detail information for candidates within a range of epochs",
               "requestType": "BucketInfoRequest",
               "requestLongType": "BucketInfoRequest",
               "requestFullType": "api.BucketInfoRequest",
@@ -2659,7 +2659,7 @@
             },
             {
               "name": "BookKeeping",
-              "description": "",
+              "description": "BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs",
               "requestType": "BookKeepingRequest",
               "requestLongType": "BookKeepingRequest",
               "requestFullType": "api.BookKeepingRequest",
@@ -2682,7 +2682,7 @@
             },
             {
               "name": "Productivity",
-              "description": "",
+              "description": "Productivity gives block productivity of producers within a range of epochs",
               "requestType": "ProductivityRequest",
               "requestLongType": "ProductivityRequest",
               "requestFullType": "api.ProductivityRequest",
@@ -2705,7 +2705,7 @@
             },
             {
               "name": "Reward",
-              "description": "",
+              "description": "Rewards provides reward detail information for candidates within a range of epochs",
               "requestType": "RewardRequest",
               "requestLongType": "RewardRequest",
               "requestFullType": "api.RewardRequest",
@@ -3002,7 +3002,7 @@
           "fields": [
             {
               "name": "skip",
-              "description": "",
+              "description": "starting index of results",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -3014,7 +3014,7 @@
             },
             {
               "name": "first",
-              "description": "",
+              "description": "number of records per page",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
