@@ -650,11 +650,11 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| startEpoch | [uint64](#uint64) |  | Epoch number to start from |
-| epochCount | [uint64](#uint64) |  | Number of epochs to query |
-| delegateName | [string](#string) |  | Name of the delegate |
+| startEpoch | [uint64](#uint64) |  | epoch number to start from |
+| epochCount | [uint64](#uint64) |  | number of epochs to query |
+| delegateName | [string](#string) |  | name of the delegate |
 | pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
-| percentage | [uint64](#uint64) |  | Percentage of the reward to be paid to the delegate |
+| percentage | [uint64](#uint64) |  | percentage of the reward to be paid to the delegate |
 | includeBlockReward | [bool](#bool) |  | whether to include block reward |
 | includeFoundationBonus | [bool](#bool) |  | whether to include foundation bonus |
 
@@ -671,8 +671,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| exist | [bool](#bool) |  |  |
-| count | [uint64](#uint64) |  |  |
+| exist | [bool](#bool) |  | whether the delegate has bookkeeping information within the specified epoch range |
+| count | [uint64](#uint64) |  | total number of reward distributions |
 | rewardDistribution | [DelegateRewardDistribution](#api-DelegateRewardDistribution) | repeated |  |
 
 
@@ -688,15 +688,15 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| voterEthAddress | [string](#string) |  |  |
-| voterIotexAddress | [string](#string) |  |  |
-| isNative | [bool](#bool) |  |  |
-| votes | [string](#string) |  |  |
-| weightedVotes | [string](#string) |  |  |
-| remainingDuration | [string](#string) |  |  |
-| startTime | [string](#string) |  |  |
-| decay | [bool](#bool) |  |  |
-| bucketID | [uint64](#uint64) |  |  |
+| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
+| voterIotexAddress | [string](#string) |  | voter&#39;s IoTeX address |
+| isNative | [bool](#bool) |  | whether the bucket is native |
+| votes | [string](#string) |  | voter&#39;s votes |
+| weightedVotes | [string](#string) |  | voter’s weighted votes |
+| remainingDuration | [string](#string) |  | bucket remaining duration |
+| startTime | [string](#string) |  | bucket start time |
+| decay | [bool](#bool) |  | whether the vote weight decays |
+| bucketID | [uint64](#uint64) |  | bucket id |
 
 
 
@@ -746,8 +746,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| exist | [bool](#bool) |  |  |
-| count | [uint64](#uint64) |  |  |
+| exist | [bool](#bool) |  | whether the delegate has voting bucket information within the specified epoch range |
+| count | [uint64](#uint64) |  | total number of buckets in the given epoch for the given delegate |
 | bucketInfoList | [BucketInfoList](#api-BucketInfoList) | repeated |  |
 
 
@@ -763,9 +763,9 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| voterEthAddress | [string](#string) |  |  |
-| voterIotexAddress | [string](#string) |  |  |
-| amount | [string](#string) |  |  |
+| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
+| voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
+| amount | [string](#string) |  | amount of reward distribution |
 
 
 
@@ -780,9 +780,9 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| exist | [bool](#bool) |  |  |
-| production | [uint64](#uint64) |  |  |
-| expectedProduction | [uint64](#uint64) |  |  |
+| exist | [bool](#bool) |  | whether the delegate has productivity information within the specified epoch range |
+| production | [uint64](#uint64) |  | number of block productions |
+| expectedProduction | [uint64](#uint64) |  | number of expected block productions |
 
 
 
@@ -797,9 +797,9 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| startEpoch | [uint64](#uint64) |  | Epoch number to start from |
-| epochCount | [uint64](#uint64) |  | Number of epochs to query |
-| delegateName | [string](#string) |  | Name of the delegate |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| delegateName | [string](#string) |  | producer name |
 
 
 
@@ -829,10 +829,10 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| blockReward | [string](#string) |  | block |
-| epochReward | [string](#string) |  |  |
-| foundationBonus | [string](#string) |  |  |
-| exist | [bool](#bool) |  |  |
+| blockReward | [string](#string) |  | amount of block rewards |
+| epochReward | [string](#string) |  | amount of epoch rewards |
+| foundationBonus | [string](#string) |  | amount of foundation bonus |
+| exist | [bool](#bool) |  | whether the delegate has reward information within the specified epoch range |
 
 
 
@@ -884,10 +884,10 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| BucketInfo | [BucketInfoRequest](#api-BucketInfoRequest) | [BucketInfoResponse](#api-BucketInfoResponse) |  |
-| BookKeeping | [BookKeepingRequest](#api-BookKeepingRequest) | [BookKeepingResponse](#api-BookKeepingResponse) |  |
-| Productivity | [ProductivityRequest](#api-ProductivityRequest) | [ProductivityResponse](#api-ProductivityResponse) |  |
-| Reward | [RewardRequest](#api-RewardRequest) | [RewardResponse](#api-RewardResponse) |  |
+| BucketInfo | [BucketInfoRequest](#api-BucketInfoRequest) | [BucketInfoResponse](#api-BucketInfoResponse) | BucketInfo provides voting bucket detail information for candidates within a range of epochs |
+| BookKeeping | [BookKeepingRequest](#api-BookKeepingRequest) | [BookKeepingResponse](#api-BookKeepingResponse) | BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs |
+| Productivity | [ProductivityRequest](#api-ProductivityRequest) | [ProductivityResponse](#api-ProductivityResponse) | Productivity gives block productivity of producers within a range of epochs |
+| Reward | [RewardRequest](#api-RewardRequest) | [RewardResponse](#api-RewardResponse) | Rewards provides reward detail information for candidates within a range of epochs |
 
  
 
@@ -1002,8 +1002,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| skip | [uint64](#uint64) |  |  |
-| first | [uint64](#uint64) |  |  |
+| skip | [uint64](#uint64) |  | starting index of results |
+| first | [uint64](#uint64) |  | number of records per page |
 | order | [string](#string) |  |  |
 
 

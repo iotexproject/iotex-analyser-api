@@ -15,21 +15,21 @@ message BucketInfoRequest{
 }
 
 message BucketInfoResponse {
-  bool exist = 1;
-  uint64 count = 2;   
+  bool exist = 1; // whether the delegate has voting bucket information within the specified epoch range
+  uint64 count = 2; // total number of buckets in the given epoch for the given delegate
 	repeated BucketInfoList  bucketInfoList = 3; 
 }
 
 message BucketInfo {
-  string voterEthAddress = 1;
-	string voterIotexAddress = 2;
-	bool isNative = 3;
-	string votes = 4;
-	string weightedVotes = 5;
-	string remainingDuration = 6;
-	string startTime = 7;
-	bool decay = 8;
-  uint64 bucketID = 9;
+  string voterEthAddress = 1; // voter’s ERC20 address
+	string voterIotexAddress = 2; // voter's IoTeX address
+	bool isNative = 3; // whether the bucket is native
+	string votes = 4; // voter's votes
+	string weightedVotes = 5; // voter’s weighted votes
+	string remainingDuration = 6; // bucket remaining duration
+	string startTime = 7; // bucket start time
+	bool decay = 8; // whether the vote weight decays
+  uint64 bucketID = 9; // bucket id
 }
 
 message BucketInfoList {
@@ -39,37 +39,37 @@ message BucketInfoList {
 }
 
 message BookKeepingRequest {
-  uint64 startEpoch = 1; // Epoch number to start from
-  uint64 epochCount = 2; // Number of epochs to query
-  string delegateName =3; // Name of the delegate
+  uint64 startEpoch = 1; // epoch number to start from
+  uint64 epochCount = 2; // number of epochs to query
+  string delegateName =3; // name of the delegate
   pagination.Pagination pagination = 4; //Pagination info
-  uint64 percentage = 5; // Percentage of the reward to be paid to the delegate
+  uint64 percentage = 5; // percentage of the reward to be paid to the delegate
   bool includeBlockReward = 6; // whether to include block reward
   bool includeFoundationBonus = 7; // whether to include foundation bonus
 }
 
 message BookKeepingResponse {
-  bool exist = 1;
-  uint64 count = 2;
+  bool exist = 1; // whether the delegate has bookkeeping information within the specified epoch range
+  uint64 count = 2; // total number of reward distributions
   repeated DelegateRewardDistribution rewardDistribution = 3;
 }
 
 message DelegateRewardDistribution {
-  string voterEthAddress = 1;
-  string voterIotexAddress = 2;
-  string amount = 3;
+  string voterEthAddress = 1; // voter’s ERC20 address
+  string voterIotexAddress = 2; // voter’s IoTeX address
+  string amount = 3; // amount of reward distribution
 }
 
 message Productivity {
-  bool exist = 1;
-  uint64 production = 2;
-  uint64 expectedProduction = 3;
+  bool exist = 1; // whether the delegate has productivity information within the specified epoch range
+  uint64 production = 2; // number of block productions
+  uint64 expectedProduction = 3; // number of expected block productions
 }
 
 message ProductivityRequest {
-  uint64 startEpoch = 1; // Epoch number to start from
-  uint64 epochCount = 2; // Number of epochs to query
-  string delegateName =3; // Name of the delegate
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+  string delegateName =3; // producer name
 }
 
 message ProductivityResponse {
@@ -77,10 +77,10 @@ message ProductivityResponse {
 }
 
 message Reward {
-  string blockReward = 1; // block
-  string epochReward = 2;
-  string foundationBonus = 3;
-  bool exist = 4;
+  string blockReward = 1; // amount of block rewards
+  string epochReward = 2; // amount of epoch rewards
+  string foundationBonus = 3; // amount of foundation bonus
+  bool exist = 4; // whether the delegate has reward information within the specified epoch range
 }
 message RewardRequest {
   uint64 startEpoch = 1; // Epoch number to start from
@@ -93,6 +93,7 @@ message RewardResponse {
 }
 
 service DelegateService {
+  // BucketInfo provides voting bucket detail information for candidates within a range of epochs
   rpc BucketInfo(BucketInfoRequest) returns (BucketInfoResponse) {
     option (graphql.schema) = {
       type: QUERY
@@ -103,6 +104,7 @@ service DelegateService {
       body: "*"
     };
   };
+  // BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs
   rpc BookKeeping(BookKeepingRequest) returns (BookKeepingResponse) {
     option (graphql.schema) = {
       type: QUERY
@@ -113,6 +115,7 @@ service DelegateService {
       body: "*"
     };
   };
+  // Productivity gives block productivity of producers within a range of epochs
   rpc Productivity(ProductivityRequest) returns (ProductivityResponse) {
     option (graphql.schema) = {
       type: QUERY
@@ -123,6 +126,7 @@ service DelegateService {
       body: "*"
     };
   };
+  // Rewards provides reward detail information for candidates within a range of epochs
   rpc Reward(RewardRequest) returns (RewardResponse) {
     option (graphql.schema) = {
       type: QUERY
