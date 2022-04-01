@@ -25,6 +25,9 @@ type hermesDistribution []struct {
 
 var (
 	analyticsEndpoint string = "https://analytics.iotexscan.io/query"
+	v1LocalEndpoint   string = "https://analytics-mainnet-readonly-cdn.onrender.com/query"
+	v2LocalEndpoint   string = "http://127.0.0.1:8889/graphql"
+	v2AWSEndpoint     string = "http://204.236.138.172:8889/graphql"
 	// curl 'http://35.237.19.13:8080/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://35.237.19.13:8080' --data-binary '{"query":"\nquery {\n  hermes(startEpoch: 22420, epochCount: 2, \n    rewardAddress: \"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85\", waiverThreshold: 100) {\n    hermesDistribution {\n      delegateName,\n      rewardDistribution{\n        voterEthAddress,\n        voterIotexAddress,\n        amount\n      },\n      stakingIotexAddress,\n      voterCount,\n      waiveServiceFee,\n      refund\n    }\n  }\n}"}' --compressed
 )
 
@@ -32,7 +35,7 @@ func TestHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 24738
+	startEpoch = 18860
 	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
@@ -49,7 +52,7 @@ func TestHermes(t *testing.T) {
 	require.Equal(len(dist), len(dist2))
 	for _, h1 := range dist {
 		for _, h2 := range dist2 {
-			if h2.DelegateName == "hackster" {
+			if h2.DelegateName == "hackster" || h2.DelegateName == "a4x" {
 				continue
 			}
 			if h2.DelegateName == h1.DelegateName {
@@ -102,7 +105,7 @@ func getHermesV2(startEpoch uint64, epochCount uint64, rewardAddress string) (he
 		"epochCount":    graphql.Int(epochCount),
 		"rewardAddress": graphql.String(rewardAddress),
 	}
-	gqlClient := graphql.NewClient("http://204.236.138.172:8889/graphql", nil)
+	gqlClient := graphql.NewClient(v2AWSEndpoint, nil)
 	var output query
 	err := gqlClient.Query(context.Background(), &output, variables)
 	if err != nil {
@@ -116,8 +119,8 @@ func TestRangeHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, endEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 24507
-	endEpoch = 24739
+	startEpoch = 18860
+	endEpoch = 21532
 	epochCount = 20
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
@@ -126,12 +129,12 @@ func TestRangeHermes(t *testing.T) {
 		dist, err := getHermesV1(i, epochCount, rewardAddress)
 		elapsed := time.Since(start)
 		fmt.Printf("%s(%d,%d) took %s\n", "getHermesV1", i, epochCount, elapsed)
-		require.NoError(err)
+		require.NoError(err, "getHermesV1")
 		start = time.Now()
 		dist2, err := getHermesV2(i, epochCount, rewardAddress)
 		elapsed = time.Since(start)
 		fmt.Printf("%s(%d,%d) took %s\n", "getHermesV2", i, epochCount, elapsed)
-		require.NoError(err)
+		require.NoError(err, "getHermesV2")
 		require.Equal(len(dist), len(dist2))
 		for _, h1 := range dist {
 			for _, h2 := range dist2 {
