@@ -139,6 +139,8 @@ func TestRangeHermes(t *testing.T) {
 		if len(dist) != len(dist2) {
 			fmt.Printf("epoch = %d v1Len=%d v2Len=%d\n", i, len(dist), len(dist2))
 		}
+
+		passed := true
 		for _, h1 := range dist {
 			for _, h2 := range dist2 {
 				// v1 bug, skip hackster
@@ -151,12 +153,16 @@ func TestRangeHermes(t *testing.T) {
 						h2.VoterCount != h1.VoterCount ||
 						h2.WaiveServiceFee != h1.WaiveServiceFee ||
 						!assert.Equal(t, h2.RewardDistribution, h1.RewardDistribution) {
-						fmt.Printf("epoch = %d failed\n", i)
+						passed = false
 						continue
 					}
 				}
 			}
 		}
-		fmt.Printf("epoch = %d passed\n", i)
+		if !passed {
+			fmt.Printf("epoch = %d failed\n", i)
+		} else {
+			fmt.Printf("epoch = %d passed\n", i)
+		}
 	}
 }
