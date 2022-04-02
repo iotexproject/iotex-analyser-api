@@ -37,7 +37,7 @@ func TestHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 22000
+	startEpoch = 23366
 	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
@@ -107,7 +107,7 @@ func getHermesV2(startEpoch uint64, epochCount uint64, rewardAddress string) (he
 		"epochCount":    graphql.Int(epochCount),
 		"rewardAddress": graphql.String(rewardAddress),
 	}
-	gqlClient := graphql.NewClient(v2LocalEndpoint, nil)
+	gqlClient := graphql.NewClient(v2AWSEndpoint, nil)
 	var output query
 	err := gqlClient.Query(context.Background(), &output, variables)
 	if err != nil {
@@ -124,8 +124,8 @@ func TestRangeHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, endEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 18860
-	endEpoch = 21532
+	startEpoch = 22001
+	endEpoch = 23366
 	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
