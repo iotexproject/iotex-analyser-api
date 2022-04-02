@@ -122,6 +122,9 @@ func (s *DelegateService) BookKeeping(ctx context.Context, req *api.BookKeepingR
 	sort.Slice(rds, func(i, j int) bool { return rds[i].VoterEthAddress < rds[j].VoterEthAddress })
 
 	resp.Count = uint64(len(rds))
+	if resp.Count == 0 {
+		return resp, nil
+	}
 	resp.Exist = resp.Count > 0
 
 	page := req.GetPagination()
