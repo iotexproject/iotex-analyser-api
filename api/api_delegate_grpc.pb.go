@@ -18,10 +18,16 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DelegateServiceClient interface {
+	// BucketInfo provides voting bucket detail information for candidates within a range of epochs
 	BucketInfo(ctx context.Context, in *BucketInfoRequest, opts ...grpc.CallOption) (*BucketInfoResponse, error)
+	// BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs
 	BookKeeping(ctx context.Context, in *BookKeepingRequest, opts ...grpc.CallOption) (*BookKeepingResponse, error)
+	// Productivity gives block productivity of producers within a range of epochs
 	Productivity(ctx context.Context, in *ProductivityRequest, opts ...grpc.CallOption) (*ProductivityResponse, error)
+	// Rewards provides reward detail information for candidates within a range of epochs
 	Reward(ctx context.Context, in *RewardRequest, opts ...grpc.CallOption) (*RewardResponse, error)
+	// HermesByDelegate returns Hermes delegates' distribution history
+	HermesByDelegate(ctx context.Context, in *HermesByDelegateRequest, opts ...grpc.CallOption) (*HermesByDelegateResponse, error)
 }
 
 type delegateServiceClient struct {
@@ -68,14 +74,29 @@ func (c *delegateServiceClient) Reward(ctx context.Context, in *RewardRequest, o
 	return out, nil
 }
 
+func (c *delegateServiceClient) HermesByDelegate(ctx context.Context, in *HermesByDelegateRequest, opts ...grpc.CallOption) (*HermesByDelegateResponse, error) {
+	out := new(HermesByDelegateResponse)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/HermesByDelegate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DelegateServiceServer is the server API for DelegateService service.
 // All implementations must embed UnimplementedDelegateServiceServer
 // for forward compatibility
 type DelegateServiceServer interface {
+	// BucketInfo provides voting bucket detail information for candidates within a range of epochs
 	BucketInfo(context.Context, *BucketInfoRequest) (*BucketInfoResponse, error)
+	// BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs
 	BookKeeping(context.Context, *BookKeepingRequest) (*BookKeepingResponse, error)
+	// Productivity gives block productivity of producers within a range of epochs
 	Productivity(context.Context, *ProductivityRequest) (*ProductivityResponse, error)
+	// Rewards provides reward detail information for candidates within a range of epochs
 	Reward(context.Context, *RewardRequest) (*RewardResponse, error)
+	// HermesByDelegate returns Hermes delegates' distribution history
+	HermesByDelegate(context.Context, *HermesByDelegateRequest) (*HermesByDelegateResponse, error)
 	mustEmbedUnimplementedDelegateServiceServer()
 }
 
@@ -94,6 +115,9 @@ func (UnimplementedDelegateServiceServer) Productivity(context.Context, *Product
 }
 func (UnimplementedDelegateServiceServer) Reward(context.Context, *RewardRequest) (*RewardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Reward not implemented")
+}
+func (UnimplementedDelegateServiceServer) HermesByDelegate(context.Context, *HermesByDelegateRequest) (*HermesByDelegateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HermesByDelegate not implemented")
 }
 func (UnimplementedDelegateServiceServer) mustEmbedUnimplementedDelegateServiceServer() {}
 
@@ -180,6 +204,24 @@ func _DelegateService_Reward_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DelegateService_HermesByDelegate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HermesByDelegateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).HermesByDelegate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.DelegateService/HermesByDelegate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).HermesByDelegate(ctx, req.(*HermesByDelegateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DelegateService_ServiceDesc is the grpc.ServiceDesc for DelegateService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,6 +244,10 @@ var DelegateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Reward",
 			Handler:    _DelegateService_Reward_Handler,
+		},
+		{
+			MethodName: "HermesByDelegate",
+			Handler:    _DelegateService_HermesByDelegate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

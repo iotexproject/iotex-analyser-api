@@ -3,6 +3,7 @@ package apiservice
 import (
 	"context"
 	"sort"
+	"time"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -195,6 +196,55 @@ func (s *DelegateService) Reward(ctx context.Context, req *api.RewardRequest) (*
 		BlockReward:     result.BlockReward,
 		EpochReward:     result.EpochReward,
 		FoundationBonus: result.FoundationBonus,
+	}
+	return resp, nil
+}
+
+func (s *DelegateService) HermesByDelegate(ctx context.Context, req *api.HermesByDelegateRequest) (*api.HermesByDelegateResponse, error) {
+	resp := &api.HermesByDelegateResponse{
+		VoterInfoList: make([]*api.HermesByDelegateVoterInfo, 0),
+	}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	delegateName := req.GetDelegateName()
+	endEpoch := startEpoch + epochCount - 1
+	if count, sum, err := rewards.GetTotalHermesByDelegate(ctx, startEpoch, endEpoch, delegateName); err != nil {
+		return nil, err
+	} else {
+		resp.Count = uint64(count)
+		resp.TotalRewardsDistributed = sum
+	}
+	if resp.Count > 0 {
+		resp.Exist = true
+		skip := common.PageOffset(req.GetPagination())
+		first := common.PageSize(req.GetPagination())
+		result, err := rewards.GetHermesByDelegate(ctx, startEpoch, endEpoch, delegateName, skip, first)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range result {
+			resp.VoterInfoList = append(resp.VoterInfoList, &api.HermesByDelegateVoterInfo{
+				VoterAddress: v.Recipient,
+				FromEpoch:    v.StartEpoch,
+				ToEpoch:      v.EndEpoch,
+				Amount:       v.Amount,
+				ActionHash:   v.ActionHash,
+				Timestamp:    time.Unix(v.Timestamp, 0).UTC().String(),
+			})
+		}
+	}
+	if results, err := rewards.GetHermesRatioByDelegate(ctx, startEpoch, endEpoch, delegateName); err != nil {
+		return nil, err
+	} else {
+		resp.DistributionRatio = make([]*api.HermesByDelegateDistributionRatio, 0)
+		for _, v := range results {
+			resp.DistributionRatio = append(resp.DistributionRatio, &api.HermesByDelegateDistributionRatio{
+				EpochNumber:          v.EpochNumber,
+				BlockRewardRatio:     v.BlockRewardPercentage,
+				EpochRewardRatio:     v.EpochRewardPercentage,
+				FoundationBonusRatio: v.FoundationBonusPercentage,
+			})
+		}
 	}
 	return resp, nil
 }

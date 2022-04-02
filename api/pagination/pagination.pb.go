@@ -25,8 +25,8 @@ type Pagination struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Skip  uint64 `protobuf:"varint,1,opt,name=skip,proto3" json:"skip,omitempty"`
-	First uint64 `protobuf:"varint,2,opt,name=first,proto3" json:"first,omitempty"`
+	Skip  uint64 `protobuf:"varint,1,opt,name=skip,proto3" json:"skip,omitempty"`   // starting index of results
+	First uint64 `protobuf:"varint,2,opt,name=first,proto3" json:"first,omitempty"` // number of records per page
 	Order string `protobuf:"bytes,3,opt,name=order,proto3" json:"order,omitempty"`
 }
 

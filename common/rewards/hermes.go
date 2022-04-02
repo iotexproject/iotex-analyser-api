@@ -243,3 +243,52 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 	})
 	return voterVotesMap, nil
 }
+
+type HermesVoteInfo struct {
+	Recipient  string
+	StartEpoch uint64
+	EndEpoch   uint64
+	Amount     string
+	ActionHash string
+	Timestamp  int64
+}
+
+func GetTotalHermesByDelegate(ctx context.Context, startEpoch uint64, endEpoch uint64, delegateName string) (int64, string, error) {
+	db := db.DB()
+	var result struct {
+		Count int64
+		Sum   string
+	}
+	query := "select count(1) as count,sum(amount) as sum from (select * from block_receipt_transactions where  sender in ('io1lvemm43lz6np0hzcqlpk0kpxxww623z5hs4mwu','io16y9wk2xnwurvtgmd2mds2gcdfe2lmzad6dcw29')) as t1 inner join (select t5.*,t6.timestamp from hermes_distributes as t5 left join block t6 on t6.block_height=t5.block_height where epoch_number>=? and epoch_number<=? ) as t2 on t1.action_hash=t2.action_hash where delegate_name=?"
+	if err := db.Raw(query, startEpoch, endEpoch, delegateName).Scan(&result).Error; err != nil {
+		return 0, "", err
+	}
+	return result.Count, result.Sum, nil
+}
+
+func GetHermesByDelegate(ctx context.Context, startEpoch uint64, endEpoch uint64, delegateName string, skip, first uint64) ([]*HermesVoteInfo, error) {
+	db := db.DB()
+	var results []*HermesVoteInfo
+	query := "select recipient,start_epoch,end_epoch,amount,t1.action_hash,t2.timestamp from (select * from block_receipt_transactions where  sender in ('io1lvemm43lz6np0hzcqlpk0kpxxww623z5hs4mwu','io16y9wk2xnwurvtgmd2mds2gcdfe2lmzad6dcw29')) as t1 inner join (select t5.*,t6.timestamp from hermes_distributes as t5 left join block t6 on t6.block_height=t5.block_height where epoch_number>=? and epoch_number<=? ) as t2 on t1.action_hash=t2.action_hash where delegate_name=? limit ? offset ?"
+	if err := db.Raw(query, startEpoch, endEpoch, delegateName, first, skip).Scan(&results).Error; err != nil {
+		return nil, err
+	}
+	return results, nil
+}
+
+type HermesRatio struct {
+	EpochNumber               uint64
+	BlockRewardPercentage     float64
+	EpochRewardPercentage     float64
+	FoundationBonusPercentage float64
+}
+
+func GetHermesRatioByDelegate(ctx context.Context, startEpoch uint64, endEpoch uint64, delegateName string) ([]*HermesRatio, error) {
+	db := db.DB()
+	var results []*HermesRatio
+	query := "select epoch_number,block_reward_percentage,epoch_reward_percentage,foundation_bonus_percentage from hermes_voting_results where epoch_number>=? and epoch_number<=? and delegate_name=?"
+	if err := db.Raw(query, startEpoch, endEpoch, delegateName).Scan(&results).Error; err != nil {
+		return nil, err
+	}
+	return results, nil
+}
