@@ -53,6 +53,10 @@
     - [BucketInfoRequest](#api-BucketInfoRequest)
     - [BucketInfoResponse](#api-BucketInfoResponse)
     - [DelegateRewardDistribution](#api-DelegateRewardDistribution)
+    - [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio)
+    - [HermesByDelegateRequest](#api-HermesByDelegateRequest)
+    - [HermesByDelegateResponse](#api-HermesByDelegateResponse)
+    - [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo)
     - [Productivity](#api-Productivity)
     - [ProductivityRequest](#api-ProductivityRequest)
     - [ProductivityResponse](#api-ProductivityResponse)
@@ -772,6 +776,81 @@
 
 
 
+<a name="api-HermesByDelegateDistributionRatio"></a>
+
+### HermesByDelegateDistributionRatio
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| blockRewardRatio | [double](#double) |  | ratio of block reward being distributed |
+| epochRewardRatio | [double](#double) |  | ratio of epoch reward being distributed |
+| foundationBonusRatio | [double](#double) |  | ratio of foundation bonus being distributed |
+
+
+
+
+
+
+<a name="api-HermesByDelegateRequest"></a>
+
+### HermesByDelegateRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | Epoch number to start from |
+| epochCount | [uint64](#uint64) |  | Number of epochs to query |
+| delegateName | [string](#string) |  | Name of the delegate |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
+
+
+
+
+
+
+<a name="api-HermesByDelegateResponse"></a>
+
+### HermesByDelegateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the delegate has hermes information within the specified epoch range |
+| count | [uint64](#uint64) |  | total number of reward distributions |
+| voterInfoList | [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo) | repeated |  |
+| totalRewardsDistributed | [string](#string) |  | total reward amount distributed |
+| distributionRatio | [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio) | repeated |  |
+
+
+
+
+
+
+<a name="api-HermesByDelegateVoterInfo"></a>
+
+### HermesByDelegateVoterInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| voterAddress | [string](#string) |  | voter address |
+| fromEpoch | [uint64](#uint64) |  | starting epoch |
+| toEpoch | [uint64](#uint64) |  | ending epoch |
+| amount | [string](#string) |  | distributino amount |
+| actionHash | [string](#string) |  | action hash |
+| timestamp | [string](#string) |  | timestamp |
+
+
+
+
+
+
 <a name="api-Productivity"></a>
 
 ### Productivity
@@ -888,6 +967,7 @@
 | BookKeeping | [BookKeepingRequest](#api-BookKeepingRequest) | [BookKeepingResponse](#api-BookKeepingResponse) | BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs |
 | Productivity | [ProductivityRequest](#api-ProductivityRequest) | [ProductivityResponse](#api-ProductivityResponse) | Productivity gives block productivity of producers within a range of epochs |
 | Reward | [RewardRequest](#api-RewardRequest) | [RewardResponse](#api-RewardResponse) | Rewards provides reward detail information for candidates within a range of epochs |
+| HermesByDelegate | [HermesByDelegateRequest](#api-HermesByDelegateRequest) | [HermesByDelegateResponse](#api-HermesByDelegateResponse) | HermesByDelegate returns Hermes delegates&#39; distribution history |
 
  
 

@@ -12,32 +12,40 @@ import (
 )
 
 var (
-	gql__type_RewardResponse              *graphql.Object      // message RewardResponse in api_delegate.proto
-	gql__type_RewardRequest               *graphql.Object      // message RewardRequest in api_delegate.proto
-	gql__type_Reward                      *graphql.Object      // message Reward in api_delegate.proto
-	gql__type_ProductivityResponse        *graphql.Object      // message ProductivityResponse in api_delegate.proto
-	gql__type_ProductivityRequest         *graphql.Object      // message ProductivityRequest in api_delegate.proto
-	gql__type_Productivity                *graphql.Object      // message Productivity in api_delegate.proto
-	gql__type_DelegateRewardDistribution  *graphql.Object      // message DelegateRewardDistribution in api_delegate.proto
-	gql__type_BucketInfoResponse          *graphql.Object      // message BucketInfoResponse in api_delegate.proto
-	gql__type_BucketInfoRequest           *graphql.Object      // message BucketInfoRequest in api_delegate.proto
-	gql__type_BucketInfoList              *graphql.Object      // message BucketInfoList in api_delegate.proto
-	gql__type_BucketInfo                  *graphql.Object      // message BucketInfo in api_delegate.proto
-	gql__type_BookKeepingResponse         *graphql.Object      // message BookKeepingResponse in api_delegate.proto
-	gql__type_BookKeepingRequest          *graphql.Object      // message BookKeepingRequest in api_delegate.proto
-	gql__input_RewardResponse             *graphql.InputObject // message RewardResponse in api_delegate.proto
-	gql__input_RewardRequest              *graphql.InputObject // message RewardRequest in api_delegate.proto
-	gql__input_Reward                     *graphql.InputObject // message Reward in api_delegate.proto
-	gql__input_ProductivityResponse       *graphql.InputObject // message ProductivityResponse in api_delegate.proto
-	gql__input_ProductivityRequest        *graphql.InputObject // message ProductivityRequest in api_delegate.proto
-	gql__input_Productivity               *graphql.InputObject // message Productivity in api_delegate.proto
-	gql__input_DelegateRewardDistribution *graphql.InputObject // message DelegateRewardDistribution in api_delegate.proto
-	gql__input_BucketInfoResponse         *graphql.InputObject // message BucketInfoResponse in api_delegate.proto
-	gql__input_BucketInfoRequest          *graphql.InputObject // message BucketInfoRequest in api_delegate.proto
-	gql__input_BucketInfoList             *graphql.InputObject // message BucketInfoList in api_delegate.proto
-	gql__input_BucketInfo                 *graphql.InputObject // message BucketInfo in api_delegate.proto
-	gql__input_BookKeepingResponse        *graphql.InputObject // message BookKeepingResponse in api_delegate.proto
-	gql__input_BookKeepingRequest         *graphql.InputObject // message BookKeepingRequest in api_delegate.proto
+	gql__type_RewardResponse                     *graphql.Object      // message RewardResponse in api_delegate.proto
+	gql__type_RewardRequest                      *graphql.Object      // message RewardRequest in api_delegate.proto
+	gql__type_Reward                             *graphql.Object      // message Reward in api_delegate.proto
+	gql__type_ProductivityResponse               *graphql.Object      // message ProductivityResponse in api_delegate.proto
+	gql__type_ProductivityRequest                *graphql.Object      // message ProductivityRequest in api_delegate.proto
+	gql__type_Productivity                       *graphql.Object      // message Productivity in api_delegate.proto
+	gql__type_HermesByDelegateVoterInfo          *graphql.Object      // message HermesByDelegateVoterInfo in api_delegate.proto
+	gql__type_HermesByDelegateResponse           *graphql.Object      // message HermesByDelegateResponse in api_delegate.proto
+	gql__type_HermesByDelegateRequest            *graphql.Object      // message HermesByDelegateRequest in api_delegate.proto
+	gql__type_HermesByDelegateDistributionRatio  *graphql.Object      // message HermesByDelegateDistributionRatio in api_delegate.proto
+	gql__type_DelegateRewardDistribution         *graphql.Object      // message DelegateRewardDistribution in api_delegate.proto
+	gql__type_BucketInfoResponse                 *graphql.Object      // message BucketInfoResponse in api_delegate.proto
+	gql__type_BucketInfoRequest                  *graphql.Object      // message BucketInfoRequest in api_delegate.proto
+	gql__type_BucketInfoList                     *graphql.Object      // message BucketInfoList in api_delegate.proto
+	gql__type_BucketInfo                         *graphql.Object      // message BucketInfo in api_delegate.proto
+	gql__type_BookKeepingResponse                *graphql.Object      // message BookKeepingResponse in api_delegate.proto
+	gql__type_BookKeepingRequest                 *graphql.Object      // message BookKeepingRequest in api_delegate.proto
+	gql__input_RewardResponse                    *graphql.InputObject // message RewardResponse in api_delegate.proto
+	gql__input_RewardRequest                     *graphql.InputObject // message RewardRequest in api_delegate.proto
+	gql__input_Reward                            *graphql.InputObject // message Reward in api_delegate.proto
+	gql__input_ProductivityResponse              *graphql.InputObject // message ProductivityResponse in api_delegate.proto
+	gql__input_ProductivityRequest               *graphql.InputObject // message ProductivityRequest in api_delegate.proto
+	gql__input_Productivity                      *graphql.InputObject // message Productivity in api_delegate.proto
+	gql__input_HermesByDelegateVoterInfo         *graphql.InputObject // message HermesByDelegateVoterInfo in api_delegate.proto
+	gql__input_HermesByDelegateResponse          *graphql.InputObject // message HermesByDelegateResponse in api_delegate.proto
+	gql__input_HermesByDelegateRequest           *graphql.InputObject // message HermesByDelegateRequest in api_delegate.proto
+	gql__input_HermesByDelegateDistributionRatio *graphql.InputObject // message HermesByDelegateDistributionRatio in api_delegate.proto
+	gql__input_DelegateRewardDistribution        *graphql.InputObject // message DelegateRewardDistribution in api_delegate.proto
+	gql__input_BucketInfoResponse                *graphql.InputObject // message BucketInfoResponse in api_delegate.proto
+	gql__input_BucketInfoRequest                 *graphql.InputObject // message BucketInfoRequest in api_delegate.proto
+	gql__input_BucketInfoList                    *graphql.InputObject // message BucketInfoList in api_delegate.proto
+	gql__input_BucketInfo                        *graphql.InputObject // message BucketInfo in api_delegate.proto
+	gql__input_BookKeepingResponse               *graphql.InputObject // message BookKeepingResponse in api_delegate.proto
+	gql__input_BookKeepingRequest                *graphql.InputObject // message BookKeepingRequest in api_delegate.proto
 )
 
 func Gql__type_RewardResponse() *graphql.Object {
@@ -149,6 +157,107 @@ func Gql__type_Productivity() *graphql.Object {
 		})
 	}
 	return gql__type_Productivity
+}
+
+func Gql__type_HermesByDelegateVoterInfo() *graphql.Object {
+	if gql__type_HermesByDelegateVoterInfo == nil {
+		gql__type_HermesByDelegateVoterInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_HermesByDelegateVoterInfo",
+			Fields: graphql.Fields{
+				"voterAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+				"fromEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"toEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"actionHash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_HermesByDelegateVoterInfo
+}
+
+func Gql__type_HermesByDelegateResponse() *graphql.Object {
+	if gql__type_HermesByDelegateResponse == nil {
+		gql__type_HermesByDelegateResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_HermesByDelegateResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"voterInfoList": &graphql.Field{
+					Type: graphql.NewList(Gql__type_HermesByDelegateVoterInfo()),
+				},
+				"totalRewardsDistributed": &graphql.Field{
+					Type: graphql.String,
+				},
+				"distributionRatio": &graphql.Field{
+					Type: graphql.NewList(Gql__type_HermesByDelegateDistributionRatio()),
+				},
+			},
+		})
+	}
+	return gql__type_HermesByDelegateResponse
+}
+
+func Gql__type_HermesByDelegateRequest() *graphql.Object {
+	if gql__type_HermesByDelegateRequest == nil {
+		gql__type_HermesByDelegateRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_HermesByDelegateRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_HermesByDelegateRequest
+}
+
+func Gql__type_HermesByDelegateDistributionRatio() *graphql.Object {
+	if gql__type_HermesByDelegateDistributionRatio == nil {
+		gql__type_HermesByDelegateDistributionRatio = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_HermesByDelegateDistributionRatio",
+			Fields: graphql.Fields{
+				"epochNumber": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"blockRewardRatio": &graphql.Field{
+					Type: graphql.Float,
+				},
+				"epochRewardRatio": &graphql.Field{
+					Type: graphql.Float,
+				},
+				"foundationBonusRatio": &graphql.Field{
+					Type: graphql.Float,
+				},
+			},
+		})
+	}
+	return gql__type_HermesByDelegateDistributionRatio
 }
 
 func Gql__type_DelegateRewardDistribution() *graphql.Object {
@@ -433,6 +542,107 @@ func Gql__input_Productivity() *graphql.InputObject {
 		})
 	}
 	return gql__input_Productivity
+}
+
+func Gql__input_HermesByDelegateVoterInfo() *graphql.InputObject {
+	if gql__input_HermesByDelegateVoterInfo == nil {
+		gql__input_HermesByDelegateVoterInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_HermesByDelegateVoterInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"voterAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"fromEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"toEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"actionHash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_HermesByDelegateVoterInfo
+}
+
+func Gql__input_HermesByDelegateResponse() *graphql.InputObject {
+	if gql__input_HermesByDelegateResponse == nil {
+		gql__input_HermesByDelegateResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_HermesByDelegateResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"voterInfoList": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_HermesByDelegateVoterInfo()),
+				},
+				"totalRewardsDistributed": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"distributionRatio": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_HermesByDelegateDistributionRatio()),
+				},
+			},
+		})
+	}
+	return gql__input_HermesByDelegateResponse
+}
+
+func Gql__input_HermesByDelegateRequest() *graphql.InputObject {
+	if gql__input_HermesByDelegateRequest == nil {
+		gql__input_HermesByDelegateRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_HermesByDelegateRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_HermesByDelegateRequest
+}
+
+func Gql__input_HermesByDelegateDistributionRatio() *graphql.InputObject {
+	if gql__input_HermesByDelegateDistributionRatio == nil {
+		gql__input_HermesByDelegateDistributionRatio = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_HermesByDelegateDistributionRatio",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"epochNumber": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"blockRewardRatio": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+				"epochRewardRatio": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+				"foundationBonusRatio": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+			},
+		})
+	}
+	return gql__input_HermesByDelegateDistributionRatio
 }
 
 func Gql__input_DelegateRewardDistribution() *graphql.InputObject {
@@ -765,6 +975,35 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				resp, err := client.Reward(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC Reward")
+				}
+				return resp, nil
+			},
+		},
+		"HermesByDelegate": &graphql.Field{
+			Type: Gql__type_HermesByDelegateResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req HermesByDelegateRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for HermesByDelegate")
+				}
+				client := NewDelegateServiceClient(conn)
+				resp, err := client.HermesByDelegate(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC HermesByDelegate")
 				}
 				return resp, nil
 			},
