@@ -27,6 +27,7 @@ type hermesDistribution []struct {
 var (
 	analyticsEndpoint string = "https://analytics.iotexscan.io/query"
 	v1LocalEndpoint   string = "https://analytics-mainnet-readonly-cdn.onrender.com/query"
+	v1GlobalEndpoint  string = "http://35.238.49.191:8080/query"
 	v2LocalEndpoint   string = "http://127.0.0.1:8889/graphql"
 	v2AWSEndpoint     string = "http://204.236.138.172:8889/graphql"
 	// curl 'http://35.237.19.13:8080/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://35.237.19.13:8080' --data-binary '{"query":"\nquery {\n  hermes(startEpoch: 22420, epochCount: 2, \n    rewardAddress: \"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85\", waiverThreshold: 100) {\n    hermesDistribution {\n      delegateName,\n      rewardDistribution{\n        voterEthAddress,\n        voterIotexAddress,\n        amount\n      },\n      stakingIotexAddress,\n      voterCount,\n      waiveServiceFee,\n      refund\n    }\n  }\n}"}' --compressed
@@ -36,7 +37,7 @@ func TestHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 18877
+	startEpoch = 22000
 	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
@@ -53,7 +54,7 @@ func TestHermes(t *testing.T) {
 	require.Equal(len(dist), len(dist2))
 	for _, h1 := range dist {
 		for _, h2 := range dist2 {
-			if h2.DelegateName == "hackster" || h2.DelegateName == "a4x" {
+			if h2.DelegateName == "hackster" || h2.DelegateName == "chainalytics" {
 				continue
 			}
 			if h2.DelegateName == h1.DelegateName {
@@ -71,7 +72,7 @@ func TestHermes(t *testing.T) {
 
 func getHermesV1(startEpoch uint64, epochCount uint64, rewardAddress string) (hermesDistribution, error) {
 	waiverThreshold := 100
-	gqlClient := graphql.NewClient(analyticsEndpoint, nil)
+	gqlClient := graphql.NewClient(v1GlobalEndpoint, nil)
 	variables := map[string]interface{}{
 		"startEpoch":      graphql.Int(startEpoch),
 		"epochCount":      graphql.Int(epochCount),
@@ -106,7 +107,7 @@ func getHermesV2(startEpoch uint64, epochCount uint64, rewardAddress string) (he
 		"epochCount":    graphql.Int(epochCount),
 		"rewardAddress": graphql.String(rewardAddress),
 	}
-	gqlClient := graphql.NewClient(v2AWSEndpoint, nil)
+	gqlClient := graphql.NewClient(v2LocalEndpoint, nil)
 	var output query
 	err := gqlClient.Query(context.Background(), &output, variables)
 	if err != nil {
@@ -115,6 +116,9 @@ func getHermesV2(startEpoch uint64, epochCount uint64, rewardAddress string) (he
 	return output.Hermes.HermesDistribution, nil
 }
 
+/*
+start epoch 22000 =>14023000
+*/
 //go test -v -timeout 99999s -run ^TestRangeHermes$ github.com/iotexproject/iotex-analyser-api/apiservice
 func TestRangeHermes(t *testing.T) {
 	require := require.New(t)
@@ -144,7 +148,7 @@ func TestRangeHermes(t *testing.T) {
 		for _, h1 := range dist {
 			for _, h2 := range dist2 {
 				// v1 bug, skip hackster
-				if h2.DelegateName == "hackster" {
+				if h2.DelegateName == "hackster" || h2.DelegateName == "chainalytics" {
 					continue
 				}
 				if h2.DelegateName == h1.DelegateName {
