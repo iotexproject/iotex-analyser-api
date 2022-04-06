@@ -9,7 +9,6 @@ require (
 	github.com/iotexproject/iotex-address v0.2.6
 	github.com/iotexproject/iotex-core v1.6.1
 	github.com/iotexproject/iotex-proto v0.5.4
-	github.com/millken/golog v1.2.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/sethvargo/go-envconfig v0.4.0
