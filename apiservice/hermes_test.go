@@ -29,7 +29,8 @@ var (
 	v1LocalEndpoint   string = "https://analytics-mainnet-readonly-cdn.onrender.com/query"
 	v1GlobalEndpoint  string = "http://35.238.49.191:8080/query"
 	v2LocalEndpoint   string = "http://127.0.0.1:8889/graphql"
-	v2AWSEndpoint     string = "http://204.236.138.172:9889/graphql"
+	v2AWSEndpoint     string = "http://204.236.138.172:8889/graphql"
+	v2GlobalEndpoint  string = "https://analyser-api.iotex.io/graphql"
 	// curl 'http://35.237.19.13:8080/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://35.237.19.13:8080' --data-binary '{"query":"\nquery {\n  hermes(startEpoch: 22420, epochCount: 2, \n    rewardAddress: \"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85\", waiverThreshold: 100) {\n    hermesDistribution {\n      delegateName,\n      rewardDistribution{\n        voterEthAddress,\n        voterIotexAddress,\n        amount\n      },\n      stakingIotexAddress,\n      voterCount,\n      waiveServiceFee,\n      refund\n    }\n  }\n}"}' --compressed
 )
 
@@ -37,7 +38,7 @@ func TestHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 23366
+	startEpoch = 20221
 	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
@@ -107,7 +108,7 @@ func getHermesV2(startEpoch uint64, epochCount uint64, rewardAddress string) (he
 		"epochCount":    graphql.Int(epochCount),
 		"rewardAddress": graphql.String(rewardAddress),
 	}
-	gqlClient := graphql.NewClient(v2AWSEndpoint, nil)
+	gqlClient := graphql.NewClient(v2LocalEndpoint, nil)
 	var output query
 	err := gqlClient.Query(context.Background(), &output, variables)
 	if err != nil {
@@ -124,8 +125,8 @@ func TestRangeHermes(t *testing.T) {
 	require := require.New(t)
 	var startEpoch, endEpoch, epochCount uint64
 	var rewardAddress string
-	startEpoch = 23366
-	endEpoch = 25732
+	startEpoch = 20220
+	endEpoch = 22258
 	epochCount = 1
 	rewardAddress = "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
 
