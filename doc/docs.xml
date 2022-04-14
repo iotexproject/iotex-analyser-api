@@ -129,7 +129,7 @@
               <entry>delegateName</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>delegate name</para></entry>
             </row>
             
             <row>
@@ -143,28 +143,28 @@
               <entry>stakingIotexAddress</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>delegate IoTeX staking address</para></entry>
             </row>
             
             <row>
               <entry>voterCount</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>number of voters</para></entry>
             </row>
             
             <row>
               <entry>waiveServiceFee</entry>
               <entry><link linkend="bool">bool</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>whether the delegate is qualified for waiving the service fee</para></entry>
             </row>
             
             <row>
               <entry>refund</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>amount of refund</para></entry>
             </row>
             
           </tbody>
@@ -367,21 +367,21 @@
               <entry>voterEthAddress</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter’s ERC20 address</para></entry>
             </row>
             
             <row>
               <entry>voterIotexAddress</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>voter’s IoTeX address</para></entry>
             </row>
             
             <row>
               <entry>amount</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>amount of reward distribution</para></entry>
             </row>
             
           </tbody>
@@ -434,7 +434,7 @@
               <entry>Hermes</entry>
               <entry><link linkend="api.HermesRequest">HermesRequest</link></entry>
               <entry><link linkend="api.HermesResponse">HermesResponse</link></entry>
-              <entry><para></para></entry>
+              <entry><para>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</para></entry>
             </row>
             
           </tbody>
