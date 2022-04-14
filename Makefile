@@ -47,7 +47,7 @@ doc:
 
 docs:
 	docuowl --input docs --output docs-html
-
+	docker run --rm --name slate -v $(pwd)/docs-html:/srv/slate/build -v $(pwd)/docs:/srv/slate/source slatedocs/slate build
 build:
 	$(GOBUILD) -v .
 
