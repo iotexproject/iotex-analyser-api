@@ -130,12 +130,12 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| delegateName | [string](#string) |  |  |
+| delegateName | [string](#string) |  | delegate name |
 | rewardDistribution | [RewardDistribution](#api-RewardDistribution) | repeated |  |
-| stakingIotexAddress | [string](#string) |  |  |
-| voterCount | [uint64](#uint64) |  |  |
-| waiveServiceFee | [bool](#bool) |  |  |
-| refund | [string](#string) |  |  |
+| stakingIotexAddress | [string](#string) |  | delegate IoTeX staking address |
+| voterCount | [uint64](#uint64) |  | number of voters |
+| waiveServiceFee | [bool](#bool) |  | whether the delegate is qualified for waiving the service fee |
+| refund | [string](#string) |  | amount of refund |
 
 
 
@@ -214,9 +214,9 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| voterEthAddress | [string](#string) |  |  |
-| voterIotexAddress | [string](#string) |  |  |
-| amount | [string](#string) |  |  |
+| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
+| voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
+| amount | [string](#string) |  | amount of reward distribution |
 
 
 
@@ -238,7 +238,7 @@
 | ----------- | ------------ | ------------- | ------------|
 | IotexBalanceByHeight | [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest) | [IotexBalanceByHeightResponse](#api-IotexBalanceByHeightResponse) |  |
 | Erc20TokenBalanceByHeight | [Erc20TokenBalanceByHeightRequest](#api-Erc20TokenBalanceByHeightRequest) | [Erc20TokenBalanceByHeightResponse](#api-Erc20TokenBalanceByHeightResponse) |  |
-| Hermes | [HermesRequest](#api-HermesRequest) | [HermesResponse](#api-HermesResponse) |  |
+| Hermes | [HermesRequest](#api-HermesRequest) | [HermesResponse](#api-HermesResponse) | Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs |
 
  
 

@@ -119,7 +119,7 @@
           "fields": [
             {
               "name": "delegateName",
-              "description": "",
+              "description": "delegate name",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -143,7 +143,7 @@
             },
             {
               "name": "stakingIotexAddress",
-              "description": "",
+              "description": "delegate IoTeX staking address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -155,7 +155,7 @@
             },
             {
               "name": "voterCount",
-              "description": "",
+              "description": "number of voters",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -167,7 +167,7 @@
             },
             {
               "name": "waiveServiceFee",
-              "description": "",
+              "description": "whether the delegate is qualified for waiving the service fee",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -179,7 +179,7 @@
             },
             {
               "name": "refund",
-              "description": "",
+              "description": "amount of refund",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -347,7 +347,7 @@
           "fields": [
             {
               "name": "voterEthAddress",
-              "description": "",
+              "description": "voter’s ERC20 address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -359,7 +359,7 @@
             },
             {
               "name": "voterIotexAddress",
-              "description": "",
+              "description": "voter’s IoTeX address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -371,7 +371,7 @@
             },
             {
               "name": "amount",
-              "description": "",
+              "description": "amount of reward distribution",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -439,7 +439,7 @@
             },
             {
               "name": "Hermes",
-              "description": "",
+              "description": "Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs",
               "requestType": "HermesRequest",
               "requestLongType": "HermesRequest",
               "requestFullType": "api.HermesRequest",

@@ -1,0 +1,1627 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta
+            name="description"
+            content="Documentation for IoTex Analytics API"
+        >
+    <title>IoTeX Analytics API Reference</title>
+
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-b12a2749.js"></script>
+
+    <script>
+      $(function() { setupCodeCopy(); });
+    </script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;graphql&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-33cd65cd.png" class="logo" alt="" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="graphql">graphql</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#common-attributes" class="toc-h2 toc-link" data-title="Common Attributes">Common Attributes</a>
+                  </li>
+                  <li>
+                    <a href="#scalar-value-types" class="toc-h2 toc-link" data-title="Scalar Value Types">Scalar Value Types</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#chain-service-api" class="toc-h1 toc-link" data-title="Chain Service API">Chain Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#chain" class="toc-h2 toc-link" data-title="Chain">Chain</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#delegate-service-api" class="toc-h1 toc-link" data-title="Delegate Service API">Delegate Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#bucketinfo" class="toc-h2 toc-link" data-title="BucketInfo">BucketInfo</a>
+                  </li>
+                  <li>
+                    <a href="#bookkeeping" class="toc-h2 toc-link" data-title="BookKeeping">BookKeeping</a>
+                  </li>
+                  <li>
+                    <a href="#productivity" class="toc-h2 toc-link" data-title="Productivity">Productivity</a>
+                  </li>
+                  <li>
+                    <a href="#reward" class="toc-h2 toc-link" data-title="Reward">Reward</a>
+                  </li>
+                  <li>
+                    <a href="#hermesbydelegate" class="toc-h2 toc-link" data-title="HermesByDelegate">HermesByDelegate</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#account-service-api" class="toc-h1 toc-link" data-title="Account Service API">Account Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#hermes" class="toc-h2 toc-link" data-title="Hermes">Hermes</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='https://iotex.io'>IoTeX</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Analytics is an application built upon IoTeX core API which extracts data from IoTeX blockchain and reindexes them for applications to use via a GraphQL web interface. You can use the <a href="https://analyser-api.iotex.io/graphql">playground here</a>.</p>
+<h2 id='common-attributes'>Common Attributes</h2>
+<p><a name="pagination-Pagination"></a></p>
+<h3 id='pagination'>Pagination</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>skip</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting index of results</td>
+</tr>
+<tr>
+<td>first</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of records per page</td>
+</tr>
+</tbody></table>
+<h2 id='scalar-value-types'>Scalar Value Types</h2>
+<table><thead>
+<tr>
+<th>.proto Type</th>
+<th>Notes</th>
+<th>C++</th>
+<th>Java</th>
+<th>Python</th>
+<th>Go</th>
+<th>C#</th>
+<th>PHP</th>
+<th>Ruby</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><a name="double" /> double</td>
+<td></td>
+<td>double</td>
+<td>double</td>
+<td>float</td>
+<td>float64</td>
+<td>double</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="float" /> float</td>
+<td></td>
+<td>float</td>
+<td>float</td>
+<td>float</td>
+<td>float32</td>
+<td>float</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="int32" /> int32</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="int64" /> int64</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="uint32" /> uint32</td>
+<td>Uses variable-length encoding.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int/long</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="uint64" /> uint64</td>
+<td>Uses variable-length encoding.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint32" /> sint32</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint64" /> sint64</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="fixed32" /> fixed32</td>
+<td>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="fixed64" /> fixed64</td>
+<td>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="sfixed32" /> sfixed32</td>
+<td>Always four bytes.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sfixed64" /> sfixed64</td>
+<td>Always eight bytes.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="bool" /> bool</td>
+<td></td>
+<td>bool</td>
+<td>boolean</td>
+<td>boolean</td>
+<td>bool</td>
+<td>bool</td>
+<td>boolean</td>
+<td>TrueClass/FalseClass</td>
+</tr>
+<tr>
+<td><a name="string" /> string</td>
+<td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td>
+<td>string</td>
+<td>String</td>
+<td>str/unicode</td>
+<td>string</td>
+<td>string</td>
+<td>string</td>
+<td>String (UTF-8)</td>
+</tr>
+<tr>
+<td><a name="bytes" /> bytes</td>
+<td>May contain any arbitrary sequence of bytes.</td>
+<td>string</td>
+<td>ByteString</td>
+<td>str</td>
+<td>[]byte</td>
+<td>ByteString</td>
+<td>string</td>
+<td>String (ASCII-8BIT)</td>
+</tr>
+</tbody></table>
+<h1 id='chain-service-api'>Chain Service API</h1><h2 id='chain'>Chain</h2>
+<p>gives the latest epoch number / block height.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.ChainService.Chain <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">Chain</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">mostRecentEpoch</span><span class="w">
+        </span><span class="n">mostRecentBlockHeight</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"mostRecentEpoch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25935"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mostRecentBlockHeight"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16856649"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request'>HTTP Request</h3>
+<p><code>POST /api.ChainService.Chain</code></p>
+
+<p><a name="api-ChainRequest"></a></p>
+<h3 id='chainrequest'>ChainRequest</h3>
+<p><a name="api-ChainResponse"></a></p>
+<h3 id='chainresponse'>ChainResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mostRecentEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>most recent epoch</td>
+</tr>
+<tr>
+<td>mostRecentBlockHeight</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>most recent block height</td>
+</tr>
+</tbody></table>
+<h1 id='delegate-service-api'>Delegate Service API</h1><h2 id='bucketinfo'>BucketInfo</h2>
+<p>BucketInfo provides voting bucket detail information for candidates within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.BucketInfo <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 24738,
+    "epochCount": 2,
+    "delegateName": "metanyx",
+    "pagination": {
+        "skip": 0,
+        "first": 5
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">BucketInfo</span><span class="p">(</span><span class="w">
+        </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">24738</span><span class="w">
+        </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+        </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"metanyx"</span><span class="w">
+        </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">5</span><span class="w"> </span><span class="p">}</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">bucketInfoList</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="n">epochNumber</span><span class="w">
+            </span><span class="n">count</span><span class="w">
+            </span><span class="n">bucketInfo</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="n">bucketID</span><span class="w">
+                </span><span class="n">voterIotexAddress</span><span class="w">
+                </span><span class="n">votes</span><span class="w">
+                </span><span class="n">weightedVotes</span><span class="w">
+                </span><span class="n">remainingDuration</span><span class="w">
+                </span><span class="n">isNative</span><span class="w">
+                </span><span class="n">startTime</span><span class="w">
+
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bucketInfoList"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"epochNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24738"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7136"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"bucketInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="nl">"voterEthAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x2e0491b4925ebc82af97def12b72ead940613293"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"voterIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io19czfrdyjt67g9tuhmmcjkuh2m9qxzv5nqyve9p"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"isNative"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"votes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1283019032866474771223667"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"weightedVotes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1848668139159798560008586"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"remainingDuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8400h0m0s"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-06-01 18:14:45 +0000 UTC"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"decay"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"bucketID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"39"</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="err">...</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-2'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.BucketInfo</code></p>
+
+<p><a name="api-BucketInfoRequest"></a></p>
+<h3 id='bucketinforequest'>BucketInfoRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of the delegate</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td>Pagination info</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BucketInfoResponse"></a></p>
+<h3 id='bucketinforesponse'>BucketInfoResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has voting bucket information within the specified epoch range</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of buckets in the given epoch for the given delegate</td>
+</tr>
+<tr>
+<td>bucketInfoList</td>
+<td><a href="#api-BucketInfoList">BucketInfoList</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BucketInfo"></a></p>
+<h3 id='bucketinfo-2'>BucketInfo</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter&#39;s IoTeX address</td>
+</tr>
+<tr>
+<td>isNative</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the bucket is native</td>
+</tr>
+<tr>
+<td>votes</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter&#39;s votes</td>
+</tr>
+<tr>
+<td>weightedVotes</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s weighted votes</td>
+</tr>
+<tr>
+<td>remainingDuration</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>bucket remaining duration</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>bucket start time</td>
+</tr>
+<tr>
+<td>decay</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the vote weight decays</td>
+</tr>
+<tr>
+<td>bucketID</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>bucket id</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BucketInfoList"></a></p>
+<h3 id='bucketinfolist'>BucketInfoList</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>epochNumber</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bucketInfo</td>
+<td><a href="#api-BucketInfo">BucketInfo</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='bookkeeping'>BookKeeping</h2>
+<p>BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.BookKeeping <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 23328,
+    "epochCount": 10,
+    "delegateName": "iotexlab",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    },
+    "percentage": 90,
+    "includeBlockReward":true,
+    "includeFoundationBonus":false
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">BookKeeping</span><span class="p">(</span><span class="w">
+    </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">23328</span><span class="w">
+    </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="w">
+    </span><span class="n">percentage</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="w">
+    </span><span class="n">includeFoundationBonus</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="n">includeBlockReward</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">2</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">rewardDistribution</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">voterEthAddress</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5567"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"rewardDistribution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"voterEthAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0002d2d9945709b50cfbac675d7e6bdac34575f4"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"voterIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1qqpd9kv52uym2r8m43n46lntmtp52a05d7s8gj"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"77071218081884295"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.BookKeeping</code></p>
+
+<p><a name="api-BookKeepingRequest"></a></p>
+<h3 id='bookkeepingrequest'>BookKeepingRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>name of the delegate</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td>Pagination info</td>
+</tr>
+<tr>
+<td>percentage</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>percentage of the reward to be paid to the delegate</td>
+</tr>
+<tr>
+<td>includeBlockReward</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether to include block reward</td>
+</tr>
+<tr>
+<td>includeFoundationBonus</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether to include foundation bonus</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BookKeepingResponse"></a></p>
+<h3 id='bookkeepingresponse'>BookKeepingResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has bookkeeping information within the specified epoch range</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of reward distributions</td>
+</tr>
+<tr>
+<td>rewardDistribution</td>
+<td><a href="#api-DelegateRewardDistribution">DelegateRewardDistribution</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-DelegateRewardDistribution"></a></p>
+<h3 id='delegaterewarddistribution'>DelegateRewardDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s IoTeX address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of reward distribution</td>
+</tr>
+</tbody></table>
+<h2 id='productivity'>Productivity</h2>
+<p>Productivity gives block productivity of producers within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.Productivity <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 25020,
+    "epochCount": 10,
+    "delegateName": "iotexlab"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Productivity</span><span class="p">(</span><span class="w">
+    </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">25020</span><span class="w">
+    </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">productivity</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">exist</span><span class="w">
+      </span><span class="n">production</span><span class="w">
+      </span><span class="n">expectedProduction</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"productivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"production"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"expectedProduction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.Productivity</code></p>
+
+<p><a name="api-ProductivityRequest"></a></p>
+<h3 id='productivityrequest'>ProductivityRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch count</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>producer name</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-ProductivityResponse"></a></p>
+<h3 id='productivityresponse'>ProductivityResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>productivity</td>
+<td><a href="#api-Productivity">Productivity</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='productivity-2'>Productivity</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has productivity information within the specified epoch range</td>
+</tr>
+<tr>
+<td>production</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of block productions</td>
+</tr>
+<tr>
+<td>expectedProduction</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of expected block productions</td>
+</tr>
+</tbody></table>
+<h2 id='reward'>Reward</h2>
+<p>Reward provides reward detail information for candidates within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.Reward <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 23000,
+    "epochCount": 1,
+    "delegateName": "iotexlab"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Reward</span><span class="p">(</span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">23000</span><span class="p">,</span><span class="w"> </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">reward</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">exist</span><span class="w">
+      </span><span class="n">blockReward</span><span class="w">
+      </span><span class="n">foundationBonus</span><span class="w">
+      </span><span class="n">epochReward</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"reward"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"blockReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"240000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"epochReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"984040630606589747896"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"foundationBonus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.Reward</code></p>
+
+<p><a name="api-RewardRequest"></a></p>
+<h3 id='rewardrequest'>RewardRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of the delegate</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-RewardResponse"></a></p>
+<h3 id='rewardresponse'>RewardResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>reward</td>
+<td><a href="#api-Reward">Reward</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-Reward"></a></p>
+<h3 id='reward-2'>Reward</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>blockReward</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of block rewards</td>
+</tr>
+<tr>
+<td>epochReward</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of epoch rewards</td>
+</tr>
+<tr>
+<td>foundationBonus</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of foundation bonus</td>
+</tr>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has reward information within the specified epoch range</td>
+</tr>
+</tbody></table>
+<h2 id='hermesbydelegate'>HermesByDelegate</h2>
+<p>HermesByDelegate returns Hermes delegates&#39; distribution history</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.Reward <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 23000,
+    "epochCount": 1,
+    "delegateName": "iotexlab"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Reward</span><span class="p">(</span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">23000</span><span class="p">,</span><span class="w"> </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">reward</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">exist</span><span class="w">
+      </span><span class="n">blockReward</span><span class="w">
+      </span><span class="n">foundationBonus</span><span class="w">
+      </span><span class="n">epochReward</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"reward"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"blockReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"240000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"epochReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"984040630606589747896"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"foundationBonus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-6'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.HermesByDelegate</code></p>
+
+<p><a name="api-HermesByDelegateRequest"></a></p>
+<h3 id='hermesbydelegaterequest'>HermesByDelegateRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of the delegate</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td>Pagination info</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesByDelegateResponse"></a></p>
+<h3 id='hermesbydelegateresponse'>HermesByDelegateResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has hermes information within the specified epoch range</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of reward distributions</td>
+</tr>
+<tr>
+<td>voterInfoList</td>
+<td><a href="#api-HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+<tr>
+<td>totalRewardsDistributed</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total reward amount distributed</td>
+</tr>
+<tr>
+<td>distributionRatio</td>
+<td><a href="#api-HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-DelegateRewardDistribution"></a></p>
+<h3 id='delegaterewarddistribution-2'>DelegateRewardDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s IoTeX address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of reward distribution</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesByDelegateDistributionRatio"></a></p>
+<h3 id='hermesbydelegatedistributionratio'>HermesByDelegateDistributionRatio</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>epochNumber</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch number</td>
+</tr>
+<tr>
+<td>blockRewardRatio</td>
+<td><a href="#double">double</a></td>
+<td></td>
+<td>ratio of block reward being distributed</td>
+</tr>
+<tr>
+<td>epochRewardRatio</td>
+<td><a href="#double">double</a></td>
+<td></td>
+<td>ratio of epoch reward being distributed</td>
+</tr>
+<tr>
+<td>foundationBonusRatio</td>
+<td><a href="#double">double</a></td>
+<td></td>
+<td>ratio of foundation bonus being distributed</td>
+</tr>
+</tbody></table>
+<h1 id='account-service-api'>Account Service API</h1><h2 id='hermes'>Hermes</h2>
+<p>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.Hermes <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 22420,
+    "epochCount": 1,
+    "rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">Hermes</span><span class="p">(</span><span class="w">
+        </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">22420</span><span class="w">
+        </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+        </span><span class="n">rewardAddress</span><span class="p">:</span><span class="w"> </span><span class="s2">"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">hermesDistribution</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="n">delegateName</span><span class="w">
+            </span><span class="n">rewardDistribution</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="n">voterEthAddress</span><span class="w">
+                </span><span class="n">voterIotexAddress</span><span class="w">
+                </span><span class="n">amount</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+            </span><span class="n">stakingIotexAddress</span><span class="w">
+            </span><span class="n">voterCount</span><span class="w">
+            </span><span class="n">waiveServiceFee</span><span class="w">
+            </span><span class="n">refund</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"hermesDistribution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"delegateName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a4x"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"rewardDistribution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="nl">"voterEthAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x009faf509551ea0784b27f14f00c79d972393302"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"voterIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1qz0675y4284q0p9j0u20qrrem9erjvczut23g2"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"810850817586367"</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="err">...</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"stakingIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1c2cacn26mawwg0vpx2ptnegg600q5kpmv75np0"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"voterCount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"260"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"waiveServiceFee"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"refund"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5160457356723700049"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST /api.AccountService.Hermes</code></p>
+
+<p><a name="api-HermesRequest"></a></p>
+<h3 id='hermesrequest'>HermesRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Start epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>rewardAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of reward address</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesResponse"></a></p>
+<h3 id='hermesresponse'>HermesResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>hermesDistribution</td>
+<td><a href="#api-HermesDistribution">HermesDistribution</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesDistribution"></a></p>
+<h3 id='hermesdistribution'>HermesDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate name</td>
+</tr>
+<tr>
+<td>rewardDistribution</td>
+<td><a href="#api-RewardDistribution">RewardDistribution</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+<tr>
+<td>stakingIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate IoTeX staking address</td>
+</tr>
+<tr>
+<td>voterCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of voters</td>
+</tr>
+<tr>
+<td>waiveServiceFee</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate is qualified for waiving the service fee</td>
+</tr>
+<tr>
+<td>refund</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of refund</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-RewardDistribution"></a></p>
+<h3 id='rewarddistribution'>RewardDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s IoTeX address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of reward distribution</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="graphql">graphql</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

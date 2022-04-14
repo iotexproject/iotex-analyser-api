@@ -34,18 +34,18 @@ message HermesRequest {
 }
 
 message RewardDistribution {
-  string voterEthAddress = 1;
-  string voterIotexAddress = 2;
-  string amount = 3;
+  string voterEthAddress = 1; // voter’s ERC20 address
+  string voterIotexAddress = 2; // voter’s IoTeX address
+  string amount = 3; // amount of reward distribution
 }
 
 message HermesDistribution {
-  string delegateName = 1;
+  string delegateName = 1; // delegate name
   repeated RewardDistribution rewardDistribution = 2;
-  string stakingIotexAddress = 3;
-  uint64 voterCount = 4;
-  bool waiveServiceFee = 5;
-  string refund = 6;
+  string stakingIotexAddress = 3; // delegate IoTeX staking address
+  uint64 voterCount = 4; // number of voters
+  bool waiveServiceFee = 5; // whether the delegate is qualified for waiving the service fee
+  string refund = 6; // amount of refund
 }
 
 message HermesResponse {
@@ -73,6 +73,7 @@ service AccountService {
       body: "*"
     };
   };
+  // Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
   rpc Hermes(HermesRequest) returns (HermesResponse) {
     option (graphql.schema) = {
       type: QUERY 
