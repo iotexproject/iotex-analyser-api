@@ -46,7 +46,7 @@ doc:
 	protoc -I  ./proto --doc_out=./doc  --doc_opt=json,docs.json proto/*.proto proto/include/pagination.proto
 
 docs:
-	docuowl --input docs --output docs-html
+	# docuowl --input docs --output docs-html
 	docker run --rm --name slate -v $(pwd)/docs-html:/srv/slate/build -v $(pwd)/docs:/srv/slate/source slatedocs/slate build
 build:
 	$(GOBUILD) -v .

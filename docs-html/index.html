@@ -1,86 +1,1627 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html>
-<head>
-  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAsCAAAAADZMx6kAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEjSURBVDjL3ZVBbcQwEEUXyEcwCIwgCDYIjCAIzKAIQiAMjCAmkDAIAV/2tNLrIc22u8kmXqmV2s7BGtlPlu3/Z3xSeZz+Kgvr7DlrL7D1nPgStp+TVMISz1IdKWEvAHAt2vcWv4HtO1fMAu2BFj1ciY2pbuHtwA8RRlvEq/ZZG6fFFC2D7fvM+dvCuD7y2pMw9F6qwBewQG8KZDv0ulwz0Ulpcd6KHRf/SpLLeFmm22YDOXxON2RTlYnnzdpsIbc3bSO95O8N8qWO/QjkMF/IMkFyXdpmpaoDLl01K5fdfn+weAWGYB+n2O8lnilDbmTTo39WrCPLJ/CqYGjOTlL9rEeBpMAgNdPTd7gTcB59TCOQStijPvkT7EOBpu9i/+k/VBDvUOLeyIV7YagAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
-  
-    <meta name="owl-fts-index" content="b3dsAAEAAAAaH4sIAAAAAAAC/2JiBgQAAP//xyHm6gIAAAA=" />
-    <script type="module">
-      import init,{setup,search}from"./owl_wasm.js";const debounce=(n,t,u)=>{var e;return function(){var i=this,o=arguments,a=u&&!e;clearTimeout(e),e=setTimeout(function(){e=null,u||n.apply(i,o)},t),a&&n.apply(i,o)}};(()=>{async function run(){await init();const ftsData=document.querySelector('meta[name="owl-fts-index"]').getAttribute("content"),instance=setup(ftsData);console.log("Initialisation done");const searchButton=document.querySelector("div.search"),body=document.querySelector("body"),searchInput=document.querySelector("#search-input"),searchResultList=document.querySelector("#result-list"),searchContainer=document.querySelector("#search-container");let searchResults=[],searchActive=!1,activeIndex=-1;const showSearch=()=>{body.classList.add("showing-search"),searchInput.focus(),searchActive=!0},hideSearch=()=>{body.classList.remove("showing-search"),searchActive=!1,activeIndex=-1,searchResults=[],searchResultList.innerHTML="",searchInput.value="",searchInput.blur()},changeActiveIndex=newIndex=>{activeIndex=newIndex;let idx=0;for(let el of searchResultList.children)idx===activeIndex?el.classList.add("active"):el.classList.remove("active"),idx++},findCorrelations=(terms,result)=>{const containerText=document.querySelector(`#content-${result.anchor} .content`).textContent.toLowerCase().replace(/\n/g," ").replace(/\s+/g," ").trim(),allIndexes=terms.map(t=>{const idx=containerText.indexOf(t);return idx===-1?!1:{start:Math.max(0,idx-100),end:idx+100}}).filter(Boolean);if(allIndexes.length===0)return null;const filteredIndexes=[];for(let idx of allIndexes){if(filteredIndexes.length>=2)break;if(filteredIndexes.length===0){filteredIndexes.push(idx);continue}filteredIndexes.some(i=>i.start<=idx.start&&i.end>=idx.end)||filteredIndexes.push(idx)}let resultingText=filteredIndexes.map(i=>{let txt=containerText.substring(i.start,i.end);return i.start!==0&&(txt="&hellip;"+txt.substring(txt.indexOf(" "))),txt+"&hellip;"}).join(" ");return terms.forEach(t=>{resultingText=resultingText.replace(t,x=>`<span class="search-result-match">${x}</span>`)}),resultingText},doSearch=debounce(terms=>{if(terms=terms.trim().toLowerCase(),terms.length===0)return;const then=Date.now();searchResults=search(instance,terms);const now=Date.now();if(console.log(`[owl-fts] Search took ${now-then}ms`),searchResultList.innerHTML="",activeIndex=-1,searchResults.length==0){searchResultList.innerHTML=`<li class="empty">No results for ${terms}</li>`;return}let idx=0;const allTerms=terms.split(" ").map(i=>i.trim()).filter(Boolean),html=searchResults.map(r=>{const correlations=findCorrelations(allTerms,r);if(correlations===null)return null;const anchor=document.querySelector(`#anchor-${r.anchor}`);return`<li class="result" data-to="content-${r.anchor}" data-idx="${idx++}"><div class="search-title">${anchor.textContent}</div><div class="text-matches">${correlations}</div></li>`}).filter(Boolean).join("");searchResultList.innerHTML=html;for(let el of searchResultList.querySelectorAll(".result"))el.addEventListener("mouseenter",e=>{changeActiveIndex(parseInt(e.target.getAttribute("data-idx"),10))}),el.addEventListener("click",e=>{let obj=e.target;for(;obj&&!obj.classList.contains("result");)obj=obj.parentNode;document.querySelector(`#${obj.getAttribute("data-to")}`).scrollIntoView({behavior:"smooth",block:"start"}),document.location.hash=obj.getAttribute("data-to"),hideSearch()})},300);searchContainer.addEventListener("click",e=>{e.target===searchContainer&&hideSearch()}),window.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key=="f"||e.key=="/"&&!searchActive){e.preventDefault(),showSearch();return}if(e.key=="Escape"&&searchActive){e.preventDefault(),hideSearch();return}e.key=="ArrowUp"&&searchActive&&(e.preventDefault(),e.stopPropagation(),activeIndex>0&&changeActiveIndex(activeIndex-1)),e.key=="ArrowDown"&&searchActive&&(e.preventDefault(),e.stopPropagation(),activeIndex+1<searchResults.length&&changeActiveIndex(activeIndex+1))}),searchInput.addEventListener("keyup",e=>{if((e.key=="ArrowDown"||e.key=="ArrowUp")&&searchResults.length!=0){e.preventDefault(),e.stopPropagation();return}if(e.key=="Enter"){e.preventDefault(),e.stopPropagation(),activeIndex!=-1&&searchResultList.querySelector(".active").click();return}doSearch(searchInput.value)}),searchButton.onclick=e=>{e.preventDefault(),e.stopPropagation(),showSearch()}}document.addEventListener("DOMContentLoaded",()=>{run()})})();
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta
+            name="description"
+            content="Documentation for IoTex Analytics API"
+        >
+    <title>IoTeX Analytics API Reference</title>
 
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-b12a2749.js"></script>
+
+    <script>
+      $(function() { setupCodeCopy(); });
     </script>
-  
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="generator" content="Docuowl (https://github.com/docuowl/docuowl)" />
-  <style>
-    *{box-sizing:border-box}html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}details>summary{list-style:none}details>summary::-webkit-details-marker{display:none}input:focus{outline:none}:root{--owl-fontSet--latin: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue","Ubuntu";--owl-fontSet--monospace: "Menlo","Consolas";--owl-baseFont: var(--owl-fontSet--latin),sans-serif;--owl-monospaceFont: var(--owl-fontSet--monospace),monospace;--owl-backgroundColor: #1c1c1c;--owl-sidebar-width: 280px;--primary500: rgb(177, 144, 247);--gray50: #343640;--gray100: #43454f;--gray200: #8c8a8a;--gray300: #9e9ea2;--gray500: #a3acb9;--gray600: #c1c9d2;--gray700: #e3e8ee;--gray800: #f7fafc;--gray900: #fff;--code-background: hsla(0, 0%, 100%, .04);--logo-color: #fff;--search-background-color: transparent;--search-color: var(--gray500);--search-body-color: var(--gray600)}html,body{font-family:var(--owl-baseFont);font-size:14px;font-weight:400;color:#4f566b;background-color:var(--owl-backgroundColor);overflow-x:hidden}body.light{--owl-backgroundColor: rgb(250, 250, 250);--owl-sidebar-width: 280px;--primary500: rgb(121, 74, 219);--gray50: #ffffff;--gray100: rgb(219, 219, 219);--gray200: #999;--gray300: #686868;--gray500: #292929;--gray600: rgb(76, 76, 76);--gray700: #4f4a4a;--gray800: #2f2f2f;--gray900: #424141;--code-background: hsla(0, 0%, 0%, .14);--logo-color: #212121;--search-background-color: #e1e1e1;--search-color: var(--gray800);--search-body-color: #ccc}strong{font-weight:600}a,a:active,a:focus,a:hover,a:visited{text-decoration:none;outline:0;cursor:pointer;color:var(--primary500);font-weight:500}a:active,a:focus,a:hover{color:var(--gray800)}p{margin-top:20px;color:var(--gray600);margin-bottom:0px;line-height:22px}h5{font-weight:400}em{font-style:italic}ol{list-style:decimal}h3,h4,h5,h6{color:var(--gray800);margin-top:20px;padding-bottom:12px;border-bottom:1px solid var(--gray100);font-size:16px;font-weight:500;width:100%;display:flex;align-items:baseline;justify-content:space-between}section img{width:100%;height:auto}.logo g[stroke='#fff']{stroke:var(--logo-color)}.logo g[fill='#fff']{fill:var(--logo-color)}#content{position:absolute;top:0;left:280px;bottom:0;right:0;box-sizing:border-box;-webkit-overflow-scrolling:touch;outline:none !important;overflow-x:hidden;overflow-y:scroll}@media (max-width: 768px){#content{padding-top:51px;position:relative;left:0px}}h1{font-size:24px;line-height:40px;line-height:40px;font-weight:500;color:#2a2f45;color:var(--gray800);margin:0;display:flex;align-items:center;flex-wrap:wrap;margin-left:-24px}h1 .anchor-link{margin-right:8px;opacity:0}h1:hover .anchor-link{opacity:1}.anchor-ref{display:block;margin-top:-41px;padding-top:41px}@media (max-width: 768px){.anchor-ref{margin-top:-82px;padding-top:82px}}section.section{border-bottom:1px solid var(--gray100);display:flex;flex-direction:column;align-items:start}section.section .section-wrapper{display:flex;flex-direction:row;padding:5vw;width:100%;justify-content:space-between}@media (max-width: 768px){section.section .section-wrapper{flex-direction:column}}section.section .content{flex-grow:1;max-width:600px;margin-right:5vw;line-height:26px;color:var(--gray600);margin-bottom:24px}section.section .content .pre-code-block{margin-top:12px;border-radius:8px}section.section .content .pre-code-block pre span{margin:0}@media (max-width: 768px){section.section .content ol{margin-left:24px}}section.section .sidenote{flex-grow:1;position:-webkit-sticky;position:sticky;align-self:flex-start;top:0;min-width:500px;padding-top:50px;max-width:50vw}section.section .sidenote h2{color:var(--gray800);font-weight:600;text-transform:uppercase;font-size:14px}section.section .sidenote p{line-height:26px;margin-top:12px;color:var(--gray500)}section.section .sidenote .box{background:var(--gray50);border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,0.15);margin-bottom:12px;margin-top:24px}section.section .sidenote .box>p{padding:12px 20px;margin-top:initial;line-height:auto}section.section .sidenote .box .title{background:var(--gray100);padding:10px 12px;font-weight:500;font-size:12px;color:var(--gray600);letter-spacing:.01em;display:flex;align-items:center;justify-content:space-between;border-top-right-radius:8px;border-top-left-radius:8px}section.section .sidenote .box .title p{color:var(--gray500);font-size:12px;font-weight:500;text-transform:uppercase;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;pointer-events:none;margin-top:initial;line-height:auto}section.section .sidenote .box table{width:100%;color:var(--gray500)}section.section .sidenote .box table td{padding:12px}@media (max-width: 768px){section.section .sidenote .box{min-width:100%}}@media (max-width: 768px){section.section .sidenote{min-width:100%;padding-top:0}}@media (max-width: 768px){section.section{flex-direction:column}}pre,code{font-family:var(--owl-monospaceFont);margin:0}code{color:#2a2f45;color:var(--gray800);background:var(--code-background);padding:0 3px;margin:0 1px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);font-weight:500;font-size:.9em}.pre-code-block{background:#111;overflow:auto;border-radius:0px 0px 8px 8px}pre{padding:12px 8px;display:inline-block}pre span{margin-bottom:4px;display:inline-block}.owl-list li,.owl-list li.content{margin:0;padding:0}.owl-list p{margin:0;padding:0}.owl-list li.title{font-family:var(--owl-monospaceFont);font-weight:600;color:var(--gray700);font-size:13px;margin-top:15px;margin-bottom:5px}.owl-list li.title code{color:var(--gray500);font-size:12px;background:none;border:none;padding:0}.owl-list li.content{padding-bottom:15px;border-bottom:1px solid var(--gray100)}.owl-list li.content:last-of-type{border-bottom:1px solid transparent}.owl-list li.content>.owl-list{margin-top:12px}.owl-list .owl-list,.owl-list details .owl-list{border-radius:6px;border:1px solid var(--gray100);margin:6px}.owl-list .owl-list .title,.owl-list details .owl-list .title{margin:0}.owl-list .owl-list .title p,.owl-list details .owl-list .title p{padding:0;margin:0;padding-top:8px}.owl-list .owl-list h5,.owl-list details .owl-list h5{padding:0;margin:0;font-size:13px;line-height:20px;font-weight:500;padding:8px 12px;color:var(--gray500)}.owl-list .owl-list h5+.owl-list,.owl-list details .owl-list h5+.owl-list{border:1px solid transparent}.owl-list .owl-list li .title,.owl-list details .owl-list li .title{padding:8px 12px}.owl-list .owl-list li .content,.owl-list details .owl-list li .content{padding:0 12px 12px 12px}.owl-list .owl-list li .content:last-child,.owl-list details .owl-list li .content:last-child{padding-bottom:0}.owl-list details{margin-top:10px}.owl-list details summary{padding:5px 12px}.owl-list details summary:hover{color:var(--gray900);fill:var(--gray900);cursor:pointer}.owl-list details summary svg{transition:transform .3s ease-in;fill:var(--gray500);margin-right:8px}.owl-list details>.owl-list{border:none;padding:0;margin:0}.owl-list details[open]{border-radius:6px;border:1px solid var(--gray100)}.owl-list details[open]>summary{display:block;border-bottom:1px solid var(--gray100)}.owl-list details[open]>summary::after{content:'Hide children attributes'}.owl-list details[open]>summary svg{transform:rotate(45deg)}.owl-list details[open]>.owl-list{margin-bottom:12px}.owl-list details:not([open])>summary{display:inline-block;border:1px solid var(--gray100);border-radius:25px;margin-bottom:12px}.owl-list details:not([open])>summary::after{content:'Show children attributes'}.owl-list .owl-list li{padding-left:6px;padding-right:6px}.owl-list .content>h5{margin-top:12px !important;border:1px solid var(--gray100);border-radius:8px 8px 0 0;padding-left:10px;padding-top:10px}.owl-list .content>h5+.owl-list{margin:0;border-top:0px !important}.owl-list .content>.owl-list{border:1px solid var(--gray100) !important;border-radius:0 0 8px 8px;margin:0}.group>h1{padding-top:5vw;padding-left:5vw;padding-right:5vw;font-size:36px}.group>h1+section.section>.section-wrapper{padding-top:2vw}.toc{margin-top:12px}.toc a{display:block;padding:8px 12px;margin-right:10px}.toc a:active,.toc a:hover{background-color:var(--gray100);border-radius:0px 3px 3px 0px}.toc details{display:block}.toc details summary{padding:8px 12px;color:var(--gray900);text-transform:uppercase;font-weight:700;letter-spacing:1px;display:flex;justify-content:space-between}.toc details summary:hover{padding:8px 12px;cursor:pointer}.toc details summary::before{margin-right:8px}.toc details summary::after{flex:0 0 12px;transform:rotate(90deg);transition:transform .3s ease-out;background-size:12px;background-repeat:no-repeat;background-position:right center;background-image:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwLjg5NCAzLjc4OUwxOCAxOEgyTDkuMTA2IDMuNzg5YTEgMSAwIDAxMS43ODggMHoiIGZpbGw9IiNDMUM5RDIiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==");content:""}.toc details[open] summary::after{transform:rotate(180deg)}body.light .toc details summary::after{background-image:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwLjg5NCAzLjc4OUwxOCAxOEgyTDkuMTA2IDMuNzg5YTEgMSAwIDAxMS43ODggMHoiIGZpbGw9IiMyMTIxMjEiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==")}blockquote{display:flex;flex-direction:row}blockquote::before{display:block;content:'';background-color:var(--primary500);width:5px;margin-right:8px;border-radius:3px}blockquote p{margin-top:0}.group>.group-self-content>.section{border-bottom:none}.group>.group-self-content>.section>.section-wrapper{padding:1vw 5vw}.group>.group-self-content+.section>.section-wrapper{padding-top:1vw}#search-container{display:none;position:absolute;z-index:10;top:0;left:0;right:0;bottom:0;justify-content:center;align-items:flex-start}#search-container .hints{display:flex;justify-content:space-between}#search-container .hints li{padding:8px 0;display:flex;align-items:center;height:30px;margin-top:8px;color:var(--gray200)}#search-container .hints svg{margin-right:8px}#search-container .hints svg g{stroke:var(--gray200)}#sidebar{width:var(--owl-sidebar-width);height:100vh;box-shadow:-1px 0 0 0 var(--gray100) inset;overflow-y:auto;overflow-x:hidden}#sidebar .header{padding:15px;box-shadow:0 -1px 0 0 var(--gray100) inset}#sidebar .header .version-and-toggle{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}#sidebar .header .version-and-toggle .version{display:flex;align-items:center;color:var(--gray800)}#sidebar .header .version-and-toggle .version small{margin-top:5px}@media (max-width: 768px){#sidebar .header .version-and-toggle{color:var(--gray800);width:100%;padding:0 4px;margin:0}}@media (max-width: 768px){#sidebar .header{display:flex;z-index:1;position:fixed;width:100vw;align-items:center;padding:8px;background-color:var(--owl-backgroundColor);border-bottom:1px solid var(--gray100)}}#sidebar .overlay{display:none;position:fixed;width:100vw;height:100vh;background-color:black;opacity:0.4}@media (max-width: 768px){#sidebar .overlay{display:none}}#sidebar .search{background:var(--search-background-color);border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,0.15);padding:8px;display:flex;align-items:center}#sidebar .search:hover{background-color:var(--gray100);cursor:pointer}#sidebar .search span.label{flex:1;margin:0 8px;color:var(--gray500)}#sidebar .search span.keyboard{padding:2px 6px;background-color:var(--gray100);border-radius:3px;color:var(--gray800);line-height:10px;display:block;height:17px}#sidebar .search svg{margin-right:5px}#sidebar .search svg circle,#sidebar .search svg path{stroke:var(--search-color)}@media (max-width: 768px){#sidebar .search{display:none}}#sidebar .desktop-menu-content{display:block}@media (max-width: 768px){#sidebar .desktop-menu-content{display:none}}#sidebar .mobile-menu-content{display:none;position:fixed;top:51px;left:-280px;z-index:1;width:280px;height:calc(100vh - 51px);overflow:scroll;padding:12px 0;flex-direction:column;background-color:var(--owl-backgroundColor);transition:left .4s ease-out}#sidebar .mobile-menu-content .content{width:100%;height:100%;background-color:var(--owl-backgroundColor)}#sidebar .mobile-menu-content .content .toc{margin-top:0}#sidebar .mobile-menu-content .content .toc a{height:40px;line-height:20px}@media (max-width: 768px){#sidebar .mobile-menu-content{display:block}}#sidebar .sidebar-group-wrapper a{padding-left:30px}#sidebar .burger-button{display:none;color:var(--gray800);font-size:18px;background:none;border:none}#sidebar .burger-button:active{opacity:0.4}@media (max-width: 768px){#sidebar .burger-button{display:block}}#sidebar .menu-active{display:none}@media (max-width: 768px){#sidebar .menu-active{display:block;left:0}}#sidebar .open{display:none}@media (max-width: 768px){#sidebar .open{display:block;height:100vh}}@media (max-width: 768px){#sidebar{position:relative;z-index:1;margin-right:48px;height:auto;overflow-y:visible;overflow-x:visible;box-shadow:none}}body.showing-search #search-container{display:flex}body.showing-search #sidebar,body.showing-search #content{filter:blur(5px) saturate(3)}.search-box{margin-top:100px;background-color:#282828;padding:12px;border-radius:8px;box-shadow:0px 1px 8px rgba(11,11,11,0.7);width:500px}.search-box input{border:1px solid #535353;background:#202020;padding:8px 10px;border-radius:3px;color:#fff;font-size:25px;width:100%}#result-list li.empty{padding:12px;text-align:center;color:var(--gray300)}#result-list li.result{font-size:19px;display:flex;flex-direction:column;color:var(--search-body-color);cursor:pointer;padding:0 15px}#result-list li.result:not(:last-child){border-bottom:1px solid var(--gray50)}#result-list li.result.active{background:#1a1919}#result-list li.result .search-title{padding-top:12px;font-size:20px}#result-list li.result .text-matches{padding-top:8px;padding-bottom:10px;font-size:14px}#result-list li.result .text-matches .search-result-match{color:black;background-color:yellow;border-radius:3px;padding:1px 2px;border:1px solid #ecb430}.theme-toggle{overflow:hidden}.theme-toggle input{position:absolute;left:-99em}.theme-toggle .toggle{cursor:pointer;display:inline-block;position:relative;width:48px;height:24px;background-color:#83D8FF;border-radius:84px;transition:background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95)}.theme-toggle .toggle-handler{display:inline-block;position:relative;z-index:1;top:3px;left:3px;width:18px;height:18px;background-color:#FFCF96;border-radius:50px;box-shadow:0 2px 6px rgba(0,0,0,0.3);transition:all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);transform:rotate(-45deg)}.theme-toggle .toggle-handler .crater{position:absolute;background-color:#E8CDA5;opacity:0;transition:opacity 200ms ease-in-out;border-radius:100%}.theme-toggle .toggle-handler .crater--1{top:4px;left:8px;width:4px;height:4px}.theme-toggle .toggle-handler .crater--2{top:11px;left:4px;width:6px;height:6px}.theme-toggle .toggle-handler .crater--3{top:10px;left:14px;width:2px;height:2px}.theme-toggle .star{position:absolute;background-color:#ffffff;transition:all 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);border-radius:50%}.theme-toggle .star--1{top:10px;left:24px;z-index:0;width:15px;height:2px}.theme-toggle .star--2{top:18px;left:32px;z-index:0;width:10px;height:2px}.theme-toggle .star--3{top:27px;left:40px;z-index:0;width:30px;height:3px}.theme-toggle .star--4,.theme-toggle .star--5,.theme-toggle .star--6{opacity:0;transition:all 300ms 0 cubic-bezier(0.445, 0.05, 0.55, 0.95)}.theme-toggle .star--4{top:16px;left:11px;z-index:0;width:2px;height:2px;transform:translate3d(3px, 0, 0)}.theme-toggle .star--5{top:32px;left:17px;z-index:0;width:3px;height:3px;transform:translate3d(3px, 0, 0)}.theme-toggle .star--6{top:36px;left:28px;z-index:0;width:2px;height:2px;transform:translate3d(3px, 0, 0)}.theme-toggle input:checked+.toggle{background-color:#749DD6}.theme-toggle input:checked+.toggle .toggle-handler{background-color:#FFE5B5;transform:translate3d(24px, 0, 0) rotate(0)}.theme-toggle input:checked+.toggle .toggle-handler .crater{opacity:1}.theme-toggle input:checked+.toggle .star--1{width:2px;height:2px}.theme-toggle input:checked+.toggle .star--2{width:4px;height:4px;transform:translate3d(-5px, 0, 0)}.theme-toggle input:checked+.toggle .star--3{width:2px;height:2px;transform:translate3d(-7px, 0, 0)}.theme-toggle input:checked+.toggle .star--4,.theme-toggle input:checked+.toggle .star--5,.theme-toggle input:checked+.toggle .star--6{opacity:1;transform:translate3d(0, 0, 0)}.theme-toggle input:checked+.toggle .star--4{transition:all 300ms 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95)}.theme-toggle input:checked+.toggle .star--5{transition:all 300ms 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95)}.theme-toggle input:checked+.toggle .star--6{transition:all 300ms 400ms cubic-bezier(0.445, 0.05, 0.55, 0.95)}body .pre-code-block{background-color:#282a36}body .chroma{color:#e2e4e5;background-color:#282a36}body .chroma .err{color:#ff5c57}body .chroma .lntd{vertical-align:top;padding:0;margin:0;border:0}body .chroma .lntable{border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block}body .chroma .hl{display:block;width:100%;background-color:#3d3f4a}body .chroma .lnt{margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f}body .chroma .ln{margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f}body .chroma .k{color:#ff6ac1}body .chroma .kc{color:#ff6ac1}body .chroma .kd{color:#ff5c57}body .chroma .kn{color:#ff6ac1}body .chroma .kp{color:#ff6ac1}body .chroma .kr{color:#ff6ac1}body .chroma .kt{color:#9aedfe}body .chroma .na{color:#57c7ff}body .chroma .nb{color:#ff5c57}body .chroma .nc{color:#f3f99d}body .chroma .no{color:#ff9f43}body .chroma .nd{color:#ff9f43}body .chroma .nf{color:#57c7ff}body .chroma .nl{color:#ff5c57}body .chroma .nt{color:#ff6ac1}body .chroma .nv{color:#ff5c57}body .chroma .vc{color:#ff5c57}body .chroma .vg{color:#ff5c57}body .chroma .vi{color:#ff5c57}body .chroma .s{color:#5af78e}body .chroma .sa{color:#5af78e}body .chroma .sb{color:#5af78e}body .chroma .sc{color:#5af78e}body .chroma .dl{color:#5af78e}body .chroma .sd{color:#5af78e}body .chroma .s2{color:#5af78e}body .chroma .se{color:#5af78e}body .chroma .sh{color:#5af78e}body .chroma .si{color:#5af78e}body .chroma .sx{color:#5af78e}body .chroma .sr{color:#5af78e}body .chroma .s1{color:#5af78e}body .chroma .ss{color:#5af78e}body .chroma .m{color:#ff9f43}body .chroma .mb{color:#ff9f43}body .chroma .mf{color:#ff9f43}body .chroma .mh{color:#ff9f43}body .chroma .mi{color:#ff9f43}body .chroma .il{color:#ff9f43}body .chroma .mo{color:#ff9f43}body .chroma .o{color:#ff6ac1}body .chroma .ow{color:#ff6ac1}body .chroma .c{color:#78787e}body .chroma .ch{color:#78787e}body .chroma .cm{color:#78787e}body .chroma .c1{color:#78787e}body .chroma .cs{color:#78787e}body .chroma .cp{color:#78787e}body .chroma .cpf{color:#78787e}body .chroma .gd{color:#ff5c57}body .chroma .ge{text-decoration:underline}body .chroma .gr{color:#ff5c57}body .chroma .gh{font-weight:bold}body .chroma .gi{font-weight:bold}body .chroma .go{color:#43454f}body .chroma .gs{font-style:italic}body .chroma .gu{font-weight:bold}body .chroma .gl{text-decoration:underline}body.light .pre-code-block{background-color:#ffffff}body.light .chroma{color:#000000;background-color:#ffffff}body.light .chroma .err{color:#ff0000}body.light .chroma .lntd{vertical-align:top;padding:0;margin:0;border:0}body.light .chroma .lntable{border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block}body.light .chroma .hl{display:block;width:100%;background-color:#e5e5e5}body.light .chroma .lnt{margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f}body.light .chroma .ln{margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f}body.light .chroma .k{color:#0000ff}body.light .chroma .kc{color:#0000ff}body.light .chroma .kd{color:#0000ff}body.light .chroma .kn{color:#0000ff}body.light .chroma .kp{color:#0000ff}body.light .chroma .kr{color:#0000ff}body.light .chroma .kt{color:#0000ff}body.light .chroma .n{color:#000000}body.light .chroma .na{color:#000000}body.light .chroma .nb{color:#000000}body.light .chroma .bp{color:#000000}body.light .chroma .nc{color:#000000}body.light .chroma .no{color:#000000}body.light .chroma .nd{color:#000000}body.light .chroma .ni{color:#000000}body.light .chroma .ne{color:#000000}body.light .chroma .nf{color:#000000}body.light .chroma .fm{color:#000000}body.light .chroma .nl{color:#000000}body.light .chroma .nn{color:#000000}body.light .chroma .nx{color:#000000}body.light .chroma .py{color:#000000}body.light .chroma .nt{color:#000000}body.light .chroma .nv{color:#000000}body.light .chroma .vc{color:#000000}body.light .chroma .vg{color:#000000}body.light .chroma .vi{color:#000000}body.light .chroma .vm{color:#000000}body.light .chroma .s{color:#55aa22}body.light .chroma .sa{color:#55aa22}body.light .chroma .sb{color:#55aa22}body.light .chroma .sc{color:#55aa22}body.light .chroma .dl{color:#55aa22}body.light .chroma .sd{color:#55aa22}body.light .chroma .s2{color:#55aa22}body.light .chroma .se{color:#55aa22}body.light .chroma .sh{color:#55aa22}body.light .chroma .si{color:#55aa22}body.light .chroma .sx{color:#55aa22}body.light .chroma .sr{color:#55aa22}body.light .chroma .s1{color:#55aa22}body.light .chroma .ss{color:#55aa22}body.light .chroma .m{color:#33aaff}body.light .chroma .mb{color:#33aaff}body.light .chroma .mf{color:#33aaff}body.light .chroma .mh{color:#33aaff}body.light .chroma .mi{color:#33aaff}body.light .chroma .il{color:#33aaff}body.light .chroma .mo{color:#33aaff}body.light .chroma .ow{color:#0000ff}body.light .chroma .c{color:#888888;font-style:italic}body.light .chroma .ch{color:#888888;font-style:italic}body.light .chroma .cm{color:#888888;font-style:italic}body.light .chroma .c1{color:#888888;font-style:italic}body.light .chroma .cs{color:#888888;font-style:italic}body.light .chroma .cp{color:#888888;font-style:italic}body.light .chroma .cpf{color:#888888;font-style:italic}
+  </head>
 
-  </style>
-  <title>Docuowl</title>
-</head>
-<body>
-<section id="search-container">
-  <div class="search-box">
-    <input type="text" id="search-input" placeholder="Type to search..." autocomplete="off" />
-    <ul class="hints">
-      <li><svg width="22" height="14" xmlns="http://www.w3.org/2000/svg"><g stroke="#000" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.636L7 13V1M11 9l-4 4"/><g><path d="M19 5.364L15 1v12M11 5l4-4"/></g></g></svg> <span>Navigate</span></li>
-      <li><svg width="22" height="14" xmlns="http://www.w3.org/2000/svg"><g stroke="#000" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13l-2-2 2-2"/><path d="M4 11h9.333C15.911 11 18 8.761 18 6s-2.09-5-4.667-5H9.6"/></g></svg> <span>Go</span></li>
-    </ul>
-    <ul id="result-list"></ul>
-  </div>
-</section>
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;graphql&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-33cd65cd.png" class="logo" alt="" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="graphql">graphql</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#common-attributes" class="toc-h2 toc-link" data-title="Common Attributes">Common Attributes</a>
+                  </li>
+                  <li>
+                    <a href="#scalar-value-types" class="toc-h2 toc-link" data-title="Scalar Value Types">Scalar Value Types</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#chain-service-api" class="toc-h1 toc-link" data-title="Chain Service API">Chain Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#chain" class="toc-h2 toc-link" data-title="Chain">Chain</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#delegate-service-api" class="toc-h1 toc-link" data-title="Delegate Service API">Delegate Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#bucketinfo" class="toc-h2 toc-link" data-title="BucketInfo">BucketInfo</a>
+                  </li>
+                  <li>
+                    <a href="#bookkeeping" class="toc-h2 toc-link" data-title="BookKeeping">BookKeeping</a>
+                  </li>
+                  <li>
+                    <a href="#productivity" class="toc-h2 toc-link" data-title="Productivity">Productivity</a>
+                  </li>
+                  <li>
+                    <a href="#reward" class="toc-h2 toc-link" data-title="Reward">Reward</a>
+                  </li>
+                  <li>
+                    <a href="#hermesbydelegate" class="toc-h2 toc-link" data-title="HermesByDelegate">HermesByDelegate</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#account-service-api" class="toc-h1 toc-link" data-title="Account Service API">Account Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#hermes" class="toc-h2 toc-link" data-title="Hermes">Hermes</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='https://iotex.io'>IoTeX</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Analytics is an application built upon IoTeX core API which extracts data from IoTeX blockchain and reindexes them for applications to use via a GraphQL web interface. You can use the <a href="https://analyser-api.iotex.io/graphql">playground here</a>.</p>
+<h2 id='common-attributes'>Common Attributes</h2>
+<p><a name="pagination-Pagination"></a></p>
+<h3 id='pagination'>Pagination</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>skip</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting index of results</td>
+</tr>
+<tr>
+<td>first</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of records per page</td>
+</tr>
+</tbody></table>
+<h2 id='scalar-value-types'>Scalar Value Types</h2>
+<table><thead>
+<tr>
+<th>.proto Type</th>
+<th>Notes</th>
+<th>C++</th>
+<th>Java</th>
+<th>Python</th>
+<th>Go</th>
+<th>C#</th>
+<th>PHP</th>
+<th>Ruby</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><a name="double" /> double</td>
+<td></td>
+<td>double</td>
+<td>double</td>
+<td>float</td>
+<td>float64</td>
+<td>double</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="float" /> float</td>
+<td></td>
+<td>float</td>
+<td>float</td>
+<td>float</td>
+<td>float32</td>
+<td>float</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="int32" /> int32</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="int64" /> int64</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="uint32" /> uint32</td>
+<td>Uses variable-length encoding.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int/long</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="uint64" /> uint64</td>
+<td>Uses variable-length encoding.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint32" /> sint32</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint64" /> sint64</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="fixed32" /> fixed32</td>
+<td>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="fixed64" /> fixed64</td>
+<td>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="sfixed32" /> sfixed32</td>
+<td>Always four bytes.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sfixed64" /> sfixed64</td>
+<td>Always eight bytes.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="bool" /> bool</td>
+<td></td>
+<td>bool</td>
+<td>boolean</td>
+<td>boolean</td>
+<td>bool</td>
+<td>bool</td>
+<td>boolean</td>
+<td>TrueClass/FalseClass</td>
+</tr>
+<tr>
+<td><a name="string" /> string</td>
+<td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td>
+<td>string</td>
+<td>String</td>
+<td>str/unicode</td>
+<td>string</td>
+<td>string</td>
+<td>string</td>
+<td>String (UTF-8)</td>
+</tr>
+<tr>
+<td><a name="bytes" /> bytes</td>
+<td>May contain any arbitrary sequence of bytes.</td>
+<td>string</td>
+<td>ByteString</td>
+<td>str</td>
+<td>[]byte</td>
+<td>ByteString</td>
+<td>string</td>
+<td>String (ASCII-8BIT)</td>
+</tr>
+</tbody></table>
+<h1 id='chain-service-api'>Chain Service API</h1><h2 id='chain'>Chain</h2>
+<p>gives the latest epoch number / block height.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.ChainService.Chain <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">Chain</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">mostRecentEpoch</span><span class="w">
+        </span><span class="n">mostRecentBlockHeight</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 
-<section id="sidebar">
-  <div class="overlay"></div>
-  <div class="header">
-    <div class="version-and-toggle">
-      <button class="burger-button">☰</button>
-      <div class="version">
-        <svg class="logo" style="shape-rendering: geometricPrecision" xmlns="http://www.w3.org/2000/svg" width="114" height="34"><g fill="none" fill-rule="evenodd"><g stroke="#fff" stroke-width="2"><path d="M1 1c0 .443 0 2.475 1.431 3.845s5.476 1.702 7.112 0a5.22 5.22 0 0 0 .557-.688C11 2.831 11 1.038 11 1" stroke-linecap="square"/><path d="M11 0v10.87"/><path d="M1 10.263c1.679-.63 3.369.282 5.07 2.737 1.211-2.122 2.855-3.118 4.93-2.989" stroke-linecap="round"/><path d="M11 10c1.699.014 3.014.42 3.947 1.218 1.319 1.172 3.752 5.95 6.656 8.789.962 1.413 4.637.895 7.396.919M9 16.037c2.398-.153 4.055.173 4.974.978 1.298 1.182 5.193 8.015 6.454 8.799 2.483 1.766 5.8 1.038 8.572 1.038" stroke-linejoin="round"/><path d="M1 17.99c0 .941.706 1.802 2.118 2.581l8.061 3.171c1.952.656 3.226 1.208 3.822 1.653s.929 1.114.999 2.004V31"/><path d="M6.382 21.841c2.013 1.012 3.065 1.646 3.158 1.903.139.386.368 1.799.368 1.799.123.699.123 2.518 0 5.457l-.368 1.139"/><path d="M5 32.07l15.871-.061M1 1v16.99"/></g><g fill="#fff"><path d="M1 5l1.471.725h6.444L10 5l.57 5-4.835 2-4.344-1.739z"/><path d="M40.238 24c1.511 0 2.823-.323 3.938-.968a6.51 6.51 0 0 0 2.574-2.728c.601-1.173.902-2.552.902-4.136 0-1.437-.275-2.746-.825-3.927s-1.371-2.119-2.464-2.816-2.468-1.045-4.125-1.045h0-5.192V24h5.192zm0-1.012h-4.07V9.392h4.07c1.349 0 2.49.29 3.421.869s1.643 1.382 2.134 2.409.737 2.193.737 3.498c0 1.276-.238 2.431-.715 3.465s-1.184 1.852-2.123 2.453-2.09.902-3.454.902h0zm13.471 1.232c.792 0 1.529-.154 2.211-.462a5.44 5.44 0 0 0 1.782-1.287 5.97 5.97 0 0 0 1.177-1.903c.279-.719.418-1.474.418-2.266 0-.807-.139-1.566-.418-2.277a5.9 5.9 0 0 0-1.188-1.892c-.513-.55-1.107-.983-1.782-1.298a5.13 5.13 0 0 0-2.2-.473c-.792 0-1.529.158-2.211.473a5.58 5.58 0 0 0-1.782 1.298 6 6 0 0 0-1.177 1.892c-.279.711-.418 1.47-.418 2.277 0 .792.139 1.547.418 2.266s.667 1.353 1.166 1.903a5.32 5.32 0 0 0 1.771 1.287c.682.308 1.426.462 2.233.462zm-.022-.99a4.02 4.02 0 0 1-2.244-.66 4.83 4.83 0 0 1-1.617-1.771c-.403-.741-.605-1.558-.605-2.453 0-.924.205-1.76.616-2.508s.953-1.349 1.628-1.804 1.423-.682 2.244-.682a3.99 3.99 0 0 1 2.233.671c.682.447 1.225 1.045 1.628 1.793s.605 1.569.605 2.464-.202 1.72-.605 2.475a4.84 4.84 0 0 1-1.628 1.804c-.682.447-1.434.671-2.255.671zm11.612.99c.719 0 1.39-.121 2.013-.363a5.35 5.35 0 0 0 1.639-.99c.469-.418.799-.898.99-1.441h0l-1.078-.308c-.117.367-.363.711-.737 1.034s-.814.583-1.32.781-1.023.297-1.551.297c-.821 0-1.573-.224-2.255-.671s-1.228-1.052-1.639-1.815-.616-1.599-.616-2.508c0-.924.202-1.756.605-2.497s.942-1.324 1.617-1.749a4.16 4.16 0 0 1 2.266-.638c.748 0 1.434.18 2.057.539s1.104.854 1.441 1.485h0l1.078-.352c-.396-.821-.99-1.47-1.782-1.947s-1.709-.715-2.75-.715c-1.085 0-2.053.264-2.904.792a5.65 5.65 0 0 0-2.002 2.112c-.484.88-.726 1.87-.726 2.97a6.19 6.19 0 0 0 .429 2.31c.286.719.686 1.353 1.199 1.903a5.67 5.67 0 0 0 1.804 1.298c.689.315 1.43.473 2.222.473zm9.178 0a5.42 5.42 0 0 0 2.827-.781c.873-.521 1.558-1.236 2.057-2.145h0l.022 1.716c.015.264.103.488.264.671s.367.29.616.319a.87.87 0 0 0 .209.022 3.67 3.67 0 0 0 .341-.022h0v-.902c-.147-.015-.26-.066-.341-.154s-.121-.22-.121-.396h0V12.56h-1.1v7.216c-.22.689-.557 1.294-1.012 1.815s-.979.924-1.573 1.21-1.214.429-1.859.429c-.968 0-1.69-.348-2.167-1.045s-.715-1.756-.715-3.179h0V12.56h-1.1v6.6c0 1.672.308 2.933.924 3.784s1.525 1.276 2.728 1.276zm12.675 0c.792 0 1.529-.154 2.211-.462a5.44 5.44 0 0 0 1.782-1.287 5.97 5.97 0 0 0 1.177-1.903c.279-.719.418-1.474.418-2.266 0-.807-.139-1.566-.418-2.277a5.9 5.9 0 0 0-1.188-1.892c-.513-.55-1.107-.983-1.782-1.298a5.13 5.13 0 0 0-2.2-.473c-.792 0-1.529.158-2.211.473a5.58 5.58 0 0 0-1.782 1.298 6 6 0 0 0-1.177 1.892c-.279.711-.418 1.47-.418 2.277 0 .792.139 1.547.418 2.266s.667 1.353 1.166 1.903a5.32 5.32 0 0 0 1.771 1.287c.682.308 1.426.462 2.233.462zm-.022-.99a4.02 4.02 0 0 1-2.244-.66 4.83 4.83 0 0 1-1.617-1.771c-.403-.741-.605-1.558-.605-2.453 0-.924.205-1.76.616-2.508s.953-1.349 1.628-1.804 1.423-.682 2.244-.682a3.99 3.99 0 0 1 2.233.671c.682.447 1.225 1.045 1.628 1.793s.605 1.569.605 2.464-.202 1.72-.605 2.475a4.84 4.84 0 0 1-1.628 1.804c-.682.447-1.434.671-2.255.671zm10.952.77l2.53-5.962 2.53 5.962h.968l4.95-11.44h-1.1l-4.356 10.23-2.354-5.588 1.914-4.62h-1.012l-1.54 3.762-1.562-3.762h-.99l1.914 4.62-2.354 5.588-4.378-10.23h-1.078L97.114 24h.968zm13.75.132c.264 0 .579-.037.946-.11s.675-.154.924-.242h0l-.22-.902c-.191.073-.411.132-.66.176s-.491.066-.726.066c-.352 0-.638-.099-.858-.297s-.33-.561-.33-1.089h0V7.94h-1.122v14.124c0 .631.187 1.133.561 1.507s.869.561 1.485.561z" fill-rule="nonzero"/></g></g><defs /></svg>
-        <small>v0.2.3</small>
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"mostRecentEpoch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25935"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mostRecentBlockHeight"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16856649"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request'>HTTP Request</h3>
+<p><code>POST /api.ChainService.Chain</code></p>
+
+<p><a name="api-ChainRequest"></a></p>
+<h3 id='chainrequest'>ChainRequest</h3>
+<p><a name="api-ChainResponse"></a></p>
+<h3 id='chainresponse'>ChainResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mostRecentEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>most recent epoch</td>
+</tr>
+<tr>
+<td>mostRecentBlockHeight</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>most recent block height</td>
+</tr>
+</tbody></table>
+<h1 id='delegate-service-api'>Delegate Service API</h1><h2 id='bucketinfo'>BucketInfo</h2>
+<p>BucketInfo provides voting bucket detail information for candidates within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.BucketInfo <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 24738,
+    "epochCount": 2,
+    "delegateName": "metanyx",
+    "pagination": {
+        "skip": 0,
+        "first": 5
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">BucketInfo</span><span class="p">(</span><span class="w">
+        </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">24738</span><span class="w">
+        </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+        </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"metanyx"</span><span class="w">
+        </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">5</span><span class="w"> </span><span class="p">}</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">bucketInfoList</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="n">epochNumber</span><span class="w">
+            </span><span class="n">count</span><span class="w">
+            </span><span class="n">bucketInfo</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="n">bucketID</span><span class="w">
+                </span><span class="n">voterIotexAddress</span><span class="w">
+                </span><span class="n">votes</span><span class="w">
+                </span><span class="n">weightedVotes</span><span class="w">
+                </span><span class="n">remainingDuration</span><span class="w">
+                </span><span class="n">isNative</span><span class="w">
+                </span><span class="n">startTime</span><span class="w">
+
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bucketInfoList"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"epochNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24738"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7136"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"bucketInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="nl">"voterEthAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x2e0491b4925ebc82af97def12b72ead940613293"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"voterIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io19czfrdyjt67g9tuhmmcjkuh2m9qxzv5nqyve9p"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"isNative"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"votes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1283019032866474771223667"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"weightedVotes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1848668139159798560008586"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"remainingDuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8400h0m0s"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-06-01 18:14:45 +0000 UTC"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"decay"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"bucketID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"39"</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="err">...</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-2'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.BucketInfo</code></p>
+
+<p><a name="api-BucketInfoRequest"></a></p>
+<h3 id='bucketinforequest'>BucketInfoRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of the delegate</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td>Pagination info</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BucketInfoResponse"></a></p>
+<h3 id='bucketinforesponse'>BucketInfoResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has voting bucket information within the specified epoch range</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of buckets in the given epoch for the given delegate</td>
+</tr>
+<tr>
+<td>bucketInfoList</td>
+<td><a href="#api-BucketInfoList">BucketInfoList</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BucketInfo"></a></p>
+<h3 id='bucketinfo-2'>BucketInfo</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter&#39;s IoTeX address</td>
+</tr>
+<tr>
+<td>isNative</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the bucket is native</td>
+</tr>
+<tr>
+<td>votes</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter&#39;s votes</td>
+</tr>
+<tr>
+<td>weightedVotes</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s weighted votes</td>
+</tr>
+<tr>
+<td>remainingDuration</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>bucket remaining duration</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>bucket start time</td>
+</tr>
+<tr>
+<td>decay</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the vote weight decays</td>
+</tr>
+<tr>
+<td>bucketID</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>bucket id</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BucketInfoList"></a></p>
+<h3 id='bucketinfolist'>BucketInfoList</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>epochNumber</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bucketInfo</td>
+<td><a href="#api-BucketInfo">BucketInfo</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='bookkeeping'>BookKeeping</h2>
+<p>BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.BookKeeping <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 23328,
+    "epochCount": 10,
+    "delegateName": "iotexlab",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    },
+    "percentage": 90,
+    "includeBlockReward":true,
+    "includeFoundationBonus":false
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">BookKeeping</span><span class="p">(</span><span class="w">
+    </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">23328</span><span class="w">
+    </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="w">
+    </span><span class="n">percentage</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="w">
+    </span><span class="n">includeFoundationBonus</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="n">includeBlockReward</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">2</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">rewardDistribution</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">voterEthAddress</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5567"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"rewardDistribution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"voterEthAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0002d2d9945709b50cfbac675d7e6bdac34575f4"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"voterIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1qqpd9kv52uym2r8m43n46lntmtp52a05d7s8gj"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"77071218081884295"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.BookKeeping</code></p>
+
+<p><a name="api-BookKeepingRequest"></a></p>
+<h3 id='bookkeepingrequest'>BookKeepingRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>name of the delegate</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td>Pagination info</td>
+</tr>
+<tr>
+<td>percentage</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>percentage of the reward to be paid to the delegate</td>
+</tr>
+<tr>
+<td>includeBlockReward</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether to include block reward</td>
+</tr>
+<tr>
+<td>includeFoundationBonus</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether to include foundation bonus</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BookKeepingResponse"></a></p>
+<h3 id='bookkeepingresponse'>BookKeepingResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has bookkeeping information within the specified epoch range</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of reward distributions</td>
+</tr>
+<tr>
+<td>rewardDistribution</td>
+<td><a href="#api-DelegateRewardDistribution">DelegateRewardDistribution</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-DelegateRewardDistribution"></a></p>
+<h3 id='delegaterewarddistribution'>DelegateRewardDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s IoTeX address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of reward distribution</td>
+</tr>
+</tbody></table>
+<h2 id='productivity'>Productivity</h2>
+<p>Productivity gives block productivity of producers within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.Productivity <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 25020,
+    "epochCount": 10,
+    "delegateName": "iotexlab"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Productivity</span><span class="p">(</span><span class="w">
+    </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">25020</span><span class="w">
+    </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">productivity</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">exist</span><span class="w">
+      </span><span class="n">production</span><span class="w">
+      </span><span class="n">expectedProduction</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"productivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"production"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"expectedProduction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.Productivity</code></p>
+
+<p><a name="api-ProductivityRequest"></a></p>
+<h3 id='productivityrequest'>ProductivityRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch count</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>producer name</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-ProductivityResponse"></a></p>
+<h3 id='productivityresponse'>ProductivityResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>productivity</td>
+<td><a href="#api-Productivity">Productivity</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='productivity-2'>Productivity</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has productivity information within the specified epoch range</td>
+</tr>
+<tr>
+<td>production</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of block productions</td>
+</tr>
+<tr>
+<td>expectedProduction</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of expected block productions</td>
+</tr>
+</tbody></table>
+<h2 id='reward'>Reward</h2>
+<p>Reward provides reward detail information for candidates within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.Reward <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 23000,
+    "epochCount": 1,
+    "delegateName": "iotexlab"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Reward</span><span class="p">(</span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">23000</span><span class="p">,</span><span class="w"> </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">reward</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">exist</span><span class="w">
+      </span><span class="n">blockReward</span><span class="w">
+      </span><span class="n">foundationBonus</span><span class="w">
+      </span><span class="n">epochReward</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"reward"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"blockReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"240000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"epochReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"984040630606589747896"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"foundationBonus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.Reward</code></p>
+
+<p><a name="api-RewardRequest"></a></p>
+<h3 id='rewardrequest'>RewardRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of the delegate</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-RewardResponse"></a></p>
+<h3 id='rewardresponse'>RewardResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>reward</td>
+<td><a href="#api-Reward">Reward</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-Reward"></a></p>
+<h3 id='reward-2'>Reward</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>blockReward</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of block rewards</td>
+</tr>
+<tr>
+<td>epochReward</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of epoch rewards</td>
+</tr>
+<tr>
+<td>foundationBonus</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of foundation bonus</td>
+</tr>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has reward information within the specified epoch range</td>
+</tr>
+</tbody></table>
+<h2 id='hermesbydelegate'>HermesByDelegate</h2>
+<p>HermesByDelegate returns Hermes delegates&#39; distribution history</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.Reward <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 23000,
+    "epochCount": 1,
+    "delegateName": "iotexlab"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Reward</span><span class="p">(</span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">23000</span><span class="p">,</span><span class="w"> </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"iotexlab"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">reward</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">exist</span><span class="w">
+      </span><span class="n">blockReward</span><span class="w">
+      </span><span class="n">foundationBonus</span><span class="w">
+      </span><span class="n">epochReward</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"reward"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"blockReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"240000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"epochReward"</span><span class="p">:</span><span class="w"> </span><span class="s2">"984040630606589747896"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"foundationBonus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-6'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.HermesByDelegate</code></p>
+
+<p><a name="api-HermesByDelegateRequest"></a></p>
+<h3 id='hermesbydelegaterequest'>HermesByDelegateRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Epoch number to start from</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of the delegate</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td>Pagination info</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesByDelegateResponse"></a></p>
+<h3 id='hermesbydelegateresponse'>HermesByDelegateResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has hermes information within the specified epoch range</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of reward distributions</td>
+</tr>
+<tr>
+<td>voterInfoList</td>
+<td><a href="#api-HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+<tr>
+<td>totalRewardsDistributed</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total reward amount distributed</td>
+</tr>
+<tr>
+<td>distributionRatio</td>
+<td><a href="#api-HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-DelegateRewardDistribution"></a></p>
+<h3 id='delegaterewarddistribution-2'>DelegateRewardDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s IoTeX address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of reward distribution</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesByDelegateDistributionRatio"></a></p>
+<h3 id='hermesbydelegatedistributionratio'>HermesByDelegateDistributionRatio</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>epochNumber</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch number</td>
+</tr>
+<tr>
+<td>blockRewardRatio</td>
+<td><a href="#double">double</a></td>
+<td></td>
+<td>ratio of block reward being distributed</td>
+</tr>
+<tr>
+<td>epochRewardRatio</td>
+<td><a href="#double">double</a></td>
+<td></td>
+<td>ratio of epoch reward being distributed</td>
+</tr>
+<tr>
+<td>foundationBonusRatio</td>
+<td><a href="#double">double</a></td>
+<td></td>
+<td>ratio of foundation bonus being distributed</td>
+</tr>
+</tbody></table>
+<h1 id='account-service-api'>Account Service API</h1><h2 id='hermes'>Hermes</h2>
+<p>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.Hermes <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 22420,
+    "epochCount": 1,
+    "rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">Hermes</span><span class="p">(</span><span class="w">
+        </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">22420</span><span class="w">
+        </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+        </span><span class="n">rewardAddress</span><span class="p">:</span><span class="w"> </span><span class="s2">"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">hermesDistribution</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="n">delegateName</span><span class="w">
+            </span><span class="n">rewardDistribution</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="n">voterEthAddress</span><span class="w">
+                </span><span class="n">voterIotexAddress</span><span class="w">
+                </span><span class="n">amount</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+            </span><span class="n">stakingIotexAddress</span><span class="w">
+            </span><span class="n">voterCount</span><span class="w">
+            </span><span class="n">waiveServiceFee</span><span class="w">
+            </span><span class="n">refund</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"hermesDistribution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"delegateName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a4x"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"rewardDistribution"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="nl">"voterEthAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x009faf509551ea0784b27f14f00c79d972393302"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"voterIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1qz0675y4284q0p9j0u20qrrem9erjvczut23g2"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"810850817586367"</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="err">...</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"stakingIotexAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1c2cacn26mawwg0vpx2ptnegg600q5kpmv75np0"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"voterCount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"260"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"waiveServiceFee"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"refund"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5160457356723700049"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST /api.AccountService.Hermes</code></p>
+
+<p><a name="api-HermesRequest"></a></p>
+<h3 id='hermesrequest'>HermesRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Start epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Number of epochs to query</td>
+</tr>
+<tr>
+<td>rewardAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name of reward address</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesResponse"></a></p>
+<h3 id='hermesresponse'>HermesResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>hermesDistribution</td>
+<td><a href="#api-HermesDistribution">HermesDistribution</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-HermesDistribution"></a></p>
+<h3 id='hermesdistribution'>HermesDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate name</td>
+</tr>
+<tr>
+<td>rewardDistribution</td>
+<td><a href="#api-RewardDistribution">RewardDistribution</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+<tr>
+<td>stakingIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate IoTeX staking address</td>
+</tr>
+<tr>
+<td>voterCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of voters</td>
+</tr>
+<tr>
+<td>waiveServiceFee</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate is qualified for waiving the service fee</td>
+</tr>
+<tr>
+<td>refund</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of refund</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-RewardDistribution"></a></p>
+<h3 id='rewarddistribution'>RewardDistribution</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>voterEthAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s ERC20 address</td>
+</tr>
+<tr>
+<td>voterIotexAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voter’s IoTeX address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount of reward distribution</td>
+</tr>
+</tbody></table>
+
       </div>
-      <div class="theme-toggle">
-        <input type="checkbox" class="dn" id="theme-selector"/>
-        <label for="theme-selector" class="toggle">
-          <span class="toggle-handler">
-            <span class="crater crater--1"></span>
-            <span class="crater crater--2"></span>
-            <span class="crater crater--3"></span>
-          </span>
-          <span class="star star--1"></span>
-          <span class="star star--2"></span>
-          <span class="star star--3"></span>
-          <span class="star star--4"></span>
-        </label>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="graphql">graphql</a>
+          </div>
       </div>
     </div>
-    <script type="text/javascript">
-      (()=>{const c=localStorage.getItem("theme")||"dark",e=document.querySelector("#theme-selector"),t=document.body;e.checked=c==="dark",c==="light"&&t.classList.add("light"),e.addEventListener("change",()=>{localStorage.setItem("theme",e.checked?"dark":"light"),e.checked?t.classList.remove("light"):t.classList.add("light")})})();
-
-    </script>
-    
-    <div class="search">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15"><g fill="none"><circle stroke="#f6f6f6" cx="5" cy="5" r="4.5"/><path stroke="#fff" d="M8.23 7.865l6.467 6.467"/></g><defs /></svg>
-      <span class="label">Search...</span>
-      <span class="keyboard">/</span>
-    </div>
-    
-  </div>
-  <!-- Desktop menu -->
-  <div class="desktop-menu-content toc">
-    
-  </div>
-  <!-- Mobile menu -->
-  <div class="mobile-menu-content">
-    <div class="content">
-      <div class="toc">
-        
-      </div>
-    </div>
-  </div>
-  <script type="text/javascript">
-    (()=>{const o=document.querySelector(".burger-button"),c=document.querySelector(".mobile-menu-content"),e=document.querySelector("#sidebar .overlay"),n=()=>{if(c.classList.toggle("menu-active"),e.style.display==="block"){e.style.display="none";return}e.style.display="block"};o.addEventListener("click",t=>{t.target===o&&n()}),e.addEventListener("click",t=>{t.target===e&&n()}),c.addEventListener("click",t=>{t.target.tagName==="A"&&n()})})();
-
-  </script>
-</section>
-<section id="content">
+  </body>
+</html>
