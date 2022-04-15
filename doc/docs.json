@@ -2182,7 +2182,7 @@
           "fields": [
             {
               "name": "epochNumber",
-              "description": "",
+              "description": "epoch number",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -2194,7 +2194,7 @@
             },
             {
               "name": "count",
-              "description": "",
+              "description": "total number of buckets in the given epoch for the given delegate",
               "label": "",
               "type": "uint64",
               "longType": "uint64",

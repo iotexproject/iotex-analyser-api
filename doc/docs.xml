@@ -1874,14 +1874,14 @@
               <entry>epochNumber</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>epoch number</para></entry>
             </row>
             
             <row>
               <entry>count</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>total number of buckets in the given epoch for the given delegate</para></entry>
             </row>
             
             <row>

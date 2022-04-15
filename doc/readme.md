@@ -715,8 +715,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| epochNumber | [uint64](#uint64) |  |  |
-| count | [uint64](#uint64) |  |  |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| count | [uint64](#uint64) |  | total number of buckets in the given epoch for the given delegate |
 | bucketInfo | [BucketInfo](#api-BucketInfo) | repeated |  |
 
 

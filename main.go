@@ -16,11 +16,15 @@ import (
 //go:embed templates
 var templates embed.FS
 
+//go:embed docs-html/*
+var docsHtml embed.FS
+
 const (
 	ConfigPath = "ConfigPath"
 )
 
 func main() {
+
 	configPath := os.Getenv(ConfigPath)
 	//first load config from env
 	if configPath == "" {
@@ -43,6 +47,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect DB, %v", err)
 	}
+
+	apiservice.DocsHTML = docsHtml
 
 	ctx := context.Background()
 	go func() {
