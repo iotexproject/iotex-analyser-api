@@ -4,6 +4,8 @@ import (
 	"context"
 	"embed"
 	"fmt"
+	"io/fs"
+	"log"
 	"net"
 	"net/http"
 	"text/template"
@@ -15,6 +17,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
+
+var DocsHTML embed.FS
 
 func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterAccountServiceServer(grpcServer, &AccountService{})
@@ -110,6 +114,11 @@ func StartGRPCProxyService(templates embed.FS) error {
 	}
 
 	http.Handle("/graphql", graphqlMux)
+	fsys, err := fs.Sub(DocsHTML, "docs-html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	http.Handle("/docs/", http.StripPrefix("/docs/", http.FileServer(http.FS(fsys))))
 	http.Handle("/", gwmux)
 
 	port := fmt.Sprintf(":%d", config.Default.Server.HTTPAPIPort)

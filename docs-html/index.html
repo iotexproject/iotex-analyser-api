@@ -838,13 +838,13 @@
 <td>epochNumber</td>
 <td><a href="#uint64">uint64</a></td>
 <td></td>
-<td></td>
+<td>epoch number</td>
 </tr>
 <tr>
 <td>count</td>
 <td><a href="#uint64">uint64</a></td>
 <td></td>
-<td></td>
+<td>total number of buckets in the given epoch for the given delegate</td>
 </tr>
 <tr>
 <td>bucketInfo</td>
@@ -1367,8 +1367,8 @@
 </tr>
 </tbody></table>
 
-<p><a name="api-DelegateRewardDistribution"></a></p>
-<h3 id='delegaterewarddistribution-2'>DelegateRewardDistribution</h3>
+<p><a name="api-HermesByDelegateVoterInfo"></a></p>
+<h3 id='hermesbydelegatevoterinfo'>HermesByDelegateVoterInfo</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -1378,22 +1378,40 @@
 </tr>
 </thead><tbody>
 <tr>
-<td>voterEthAddress</td>
+<td>voterAddress</td>
 <td><a href="#string">string</a></td>
 <td></td>
-<td>voter’s ERC20 address</td>
+<td>voter address</td>
 </tr>
 <tr>
-<td>voterIotexAddress</td>
-<td><a href="#string">string</a></td>
+<td>fromEpoch</td>
+<td><a href="#uint64">uint64</a></td>
 <td></td>
-<td>voter’s IoTeX address</td>
+<td>starting epoch</td>
+</tr>
+<tr>
+<td>toEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>ending epoch</td>
 </tr>
 <tr>
 <td>amount</td>
 <td><a href="#string">string</a></td>
 <td></td>
-<td>amount of reward distribution</td>
+<td>distributino amount</td>
+</tr>
+<tr>
+<td>actionHash</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>action hash</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>timestamp</td>
 </tr>
 </tbody></table>
 

@@ -33,8 +33,8 @@ message BucketInfo {
 }
 
 message BucketInfoList {
-  uint64 epochNumber = 1;
-	uint64 count = 2;
+  uint64 epochNumber = 1; // epoch number
+	uint64 count = 2; //total number of buckets in the given epoch for the given delegate
   repeated BucketInfo  bucketInfo = 3;
 }
 

@@ -246,8 +246,8 @@ query {
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| epochNumber | [uint64](#uint64) |  |  |
-| count | [uint64](#uint64) |  |  |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| count | [uint64](#uint64) |  | total number of buckets in the given epoch for the given delegate |
 | bucketInfo | [BucketInfo](#api-BucketInfo) | repeated |  |
 
 
@@ -603,21 +603,18 @@ query {
 | distributionRatio | [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio) | repeated |  |
 
 
-<a name="api-DelegateRewardDistribution"></a>
+<a name="api-HermesByDelegateVoterInfo"></a>
 
-### DelegateRewardDistribution
-
-
+### HermesByDelegateVoterInfo
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
-| voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
-| amount | [string](#string) |  | amount of reward distribution |
-
-
-
-
+| voterAddress | [string](#string) |  | voter address |
+| fromEpoch | [uint64](#uint64) |  | starting epoch |
+| toEpoch | [uint64](#uint64) |  | ending epoch |
+| amount | [string](#string) |  | distributino amount |
+| actionHash | [string](#string) |  | action hash |
+| timestamp | [string](#string) |  | timestamp |
 
 
 <a name="api-HermesByDelegateDistributionRatio"></a>

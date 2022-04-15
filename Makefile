@@ -14,6 +14,7 @@ GOLINT=golint
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
+CWD=$(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
 
 .PHONY: build doc docs proto all run
 
@@ -47,7 +48,7 @@ doc:
 
 docs:
 	# docuowl --input docs --output docs-html
-	docker run --rm --name slate -v $(pwd)/docs-html:/srv/slate/build -v $(pwd)/docs:/srv/slate/source slatedocs/slate build
+	docker run --rm --name slate -v $(CWD)/docs-html:/srv/slate/build -v $(CWD)/docs:/srv/slate/source slatedocs/slate build
 build:
 	$(GOBUILD) -v .
 
