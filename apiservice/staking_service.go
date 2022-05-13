@@ -221,6 +221,7 @@ func getVoteBucketParams(addr string, height, bucketID uint64) (uint32, bool, bo
 
 func getCandidateStaking(height uint64, addr string) ([]*Staking, error) {
 	db := db.DB()
+	//TODO: fix the query, it's too slow
 	query := "select id,block_height,bucket_id,owner_address,candidate,(select sum(b.amount) from staking_actions b where b.block_height<=? and b.bucket_id=a.bucket_id) as amount,act_type,auto_stake,duration from staking_actions a where id=any(array(select max(id) from staking_actions where block_height<=? and bucket_id=any(array(select distinct bucket_id from staking_actions where block_height<=? and candidate=?)) group by bucket_id))  and candidate=?"
 	rows, err := db.Raw(query, height, height, height, addr, addr).Rows()
 	if err != nil {
