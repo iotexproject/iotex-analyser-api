@@ -10,9 +10,19 @@ message ChainRequest {
 
 }
 
+message VotingResultMeta {
+    uint64 totalCandidates = 1;
+    string totalWeightedVotes = 2;
+    string votedTokens = 3;
+}
+
 message ChainResponse {
     uint64 mostRecentEpoch = 1; // most recent epoch
     uint64 mostRecentBlockHeight = 2; // most recent block height
+    string totalSupply = 3;
+    string totalCirculatingSupply = 4;
+    string totalCirculatingSupplyNoRewardPool = 5;
+    VotingResultMeta votingResultMeta = 6;
 }
 
 service ChainService {

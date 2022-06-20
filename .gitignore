@@ -3,3 +3,4 @@ iotex-analyser-api
 .build
 config_mainlive.yml
 config_local.yml
+.DS_Store
