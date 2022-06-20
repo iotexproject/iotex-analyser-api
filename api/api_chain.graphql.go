@@ -11,9 +11,31 @@ import (
 )
 
 var (
-	gql__type_ChainResponse  *graphql.Object      // message ChainResponse in api_chain.proto
-	gql__input_ChainResponse *graphql.InputObject // message ChainResponse in api_chain.proto
+	gql__type_VotingResultMeta  *graphql.Object      // message VotingResultMeta in api_chain.proto
+	gql__type_ChainResponse     *graphql.Object      // message ChainResponse in api_chain.proto
+	gql__input_VotingResultMeta *graphql.InputObject // message VotingResultMeta in api_chain.proto
+	gql__input_ChainResponse    *graphql.InputObject // message ChainResponse in api_chain.proto
 )
+
+func Gql__type_VotingResultMeta() *graphql.Object {
+	if gql__type_VotingResultMeta == nil {
+		gql__type_VotingResultMeta = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_VotingResultMeta",
+			Fields: graphql.Fields{
+				"totalCandidates": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"totalWeightedVotes": &graphql.Field{
+					Type: graphql.String,
+				},
+				"votedTokens": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_VotingResultMeta
+}
 
 func Gql__type_ChainResponse() *graphql.Object {
 	if gql__type_ChainResponse == nil {
@@ -26,10 +48,42 @@ func Gql__type_ChainResponse() *graphql.Object {
 				"mostRecentBlockHeight": &graphql.Field{
 					Type: graphql.Int,
 				},
+				"totalSupply": &graphql.Field{
+					Type: graphql.String,
+				},
+				"totalCirculatingSupply": &graphql.Field{
+					Type: graphql.String,
+				},
+				"totalCirculatingSupplyNoRewardPool": &graphql.Field{
+					Type: graphql.String,
+				},
+				"votingResultMeta": &graphql.Field{
+					Type: Gql__type_VotingResultMeta(),
+				},
 			},
 		})
 	}
 	return gql__type_ChainResponse
+}
+
+func Gql__input_VotingResultMeta() *graphql.InputObject {
+	if gql__input_VotingResultMeta == nil {
+		gql__input_VotingResultMeta = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_VotingResultMeta",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"totalCandidates": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"totalWeightedVotes": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"votedTokens": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_VotingResultMeta
 }
 
 func Gql__input_ChainResponse() *graphql.InputObject {
@@ -42,6 +96,18 @@ func Gql__input_ChainResponse() *graphql.InputObject {
 				},
 				"mostRecentBlockHeight": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
+				},
+				"totalSupply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"totalCirculatingSupply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"totalCirculatingSupplyNoRewardPool": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"votingResultMeta": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_VotingResultMeta(),
 				},
 			},
 		})

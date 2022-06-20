@@ -82,3 +82,19 @@ func CalcRemainingTime(bucket *iotextypes.VoteBucket) time.Duration {
 	}
 	return duration
 }
+
+type VotingResultMeta struct {
+	TotalCandidates    uint64
+	TotalWeightedVotes string
+	VotedTokens        string
+}
+
+func GetVotingMeta() (*VotingResultMeta, error) {
+	db := db.DB()
+	var result *VotingResultMeta
+	query := "select count(1) as total_candidates, sum(stake_amount) as total_weighted_votes, sum(vote_weight) as voted_tokens from delegate"
+	if err := db.Raw(query).Scan(&result).Error; err != nil {
+		return nil, err
+	}
+	return result, nil
+}
