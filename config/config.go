@@ -30,6 +30,7 @@ var (
 			User:   "postgres",
 			Name:   "test",
 		},
+		RPC: "api.iotex.one:443",
 		Genesis: Genesis{
 			VoteWeightCalConsts: genesis.VoteWeightCalConsts{
 				DurationLg: 1.2,
@@ -60,6 +61,7 @@ type (
 	Config struct {
 		Server   Server   `yaml:"server"`
 		Database Database `yaml:"database"`
+		RPC      string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
 		Genesis  Genesis  `yaml:"genesis"`
 	}
 )

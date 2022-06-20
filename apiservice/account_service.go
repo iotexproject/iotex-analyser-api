@@ -8,6 +8,7 @@ import (
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
+	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/common/rewards"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/ioctl/util"
@@ -23,30 +24,16 @@ func (s *AccountService) IotexBalanceByHeight(ctx context.Context, req *api.Iote
 	resp := &api.IotexBalanceByHeightResponse{
 		Height: req.GetHeight(),
 	}
-	db := db.DB()
-	height := req.GetHeight()
-	for _, addr := range req.GetAddress() {
-		if addr[:2] == "0x" || addr[:2] == "0X" {
-			add, err := address.FromHex(addr)
-			if err != nil {
-				return nil, err
-			}
-
-			addr = add.String()
-		}
-
-		var amount sql.NullString
-		query := "SELECT sum(in_flow)-sum(out_flow) from account_income WHERE block_height<=? and address=?"
-		err := db.Raw(query, height, addr).Scan(&amount).Error
-		if err != nil {
-			return nil, err
-		}
-		balance, ok := big.NewInt(0).SetString(amount.String, 10)
-		if !ok {
-			balance = big.NewInt(0)
-		}
-		resp.Balance = append(resp.Balance, util.RauToString(balance, util.IotxDecimalNum))
+	balance, err := common.AccountBalanceByHeight(req.GetHeight(), req.Address)
+	if err != nil {
+		return nil, err
 	}
+	balances := make([]string, len(balance))
+	for i := 0; i < len(balance); i++ {
+		balances[i] = util.RauToString(balance[i], util.IotxDecimalNum)
+	}
+
+	resp.Balance = balances
 
 	return resp, nil
 }

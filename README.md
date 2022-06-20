@@ -31,8 +31,7 @@ make
 API service depends on [iotex-analyser](https://github.com/iotexproject/iotex-analyser). You need to use docker start `iotex-analyser` before that.
 
 ```
-docker run -p 8888:8888 -p 8889:8889 -e "GRPC_API_PORT=8888" -e "HTTP_API_PORT=8889" -e "DB_DRIVER=postgres" -e "DB_HOST=x.x.x.x" -e "DB_PORT=5432" -e "DB_USER=user" -e "DB_PASSWORD=password" -e "DB_NAME=dbname" iotexproject/iotex-analyser-api
-
+docker run -p 8888:8888 -p 8889:8889 -e "GRPC_API_PORT=8888" -e "HTTP_API_PORT=8889" -e "CHAIN_GRPC_ENDPOINT=api.iotex.one:443" -e "DB_DRIVER=postgres" -e "DB_HOST=x.x.x.x" -e "DB_PORT=5432" -e "DB_USER=user" -e "DB_PASSWORD=password" -e "DB_NAME=dbname" iotexproject/iotex-analyser-api
 ```
 * Note: Please change your database config in command 
 
