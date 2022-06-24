@@ -1582,6 +1582,237 @@
               <entry><para>most recent block height</para></entry>
             </row>
             
+            <row>
+              <entry>totalSupply</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total supply</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalCirculatingSupply</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total circulating supply</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalCirculatingSupplyNoRewardPool</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total circulating supply no reward pool</para></entry>
+            </row>
+            
+            <row>
+              <entry>votingResultMeta</entry>
+              <entry><link linkend="api.VotingResultMeta">VotingResultMeta</link></entry>
+              <entry></entry>
+              <entry><para>voting result meta</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.MostRecentTPSRequest">
+      <title>MostRecentTPSRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>MostRecentTPSRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>blockWindow</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of last blocks that are backtracked to compute TPS</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.MostRecentTPSResponse">
+      <title>MostRecentTPSResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>MostRecentTPSResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>mostRecentTPS</entry>
+              <entry><link linkend="double">double</link></entry>
+              <entry></entry>
+              <entry><para>latest transactions per second</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.NumberOfActionsRequest">
+      <title>NumberOfActionsRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>NumberOfActionsRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.NumberOfActionsResponse">
+      <title>NumberOfActionsResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>NumberOfActionsResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the starting epoch number is less than the most recent epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of actions</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.VotingResultMeta">
+      <title>VotingResultMeta</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>VotingResultMeta</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>totalCandidates</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total candidates</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalWeightedVotes</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total weighted votes</para></entry>
+            </row>
+            
+            <row>
+              <entry>votedTokens</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>voted tokens</para></entry>
+            </row>
+            
           </tbody>
         </tgroup>
       </table>
@@ -1619,6 +1850,20 @@
               <entry><link linkend="api.ChainRequest">ChainRequest</link></entry>
               <entry><link linkend="api.ChainResponse">ChainResponse</link></entry>
               <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>MostRecentTPS</entry>
+              <entry><link linkend="api.MostRecentTPSRequest">MostRecentTPSRequest</link></entry>
+              <entry><link linkend="api.MostRecentTPSResponse">MostRecentTPSResponse</link></entry>
+              <entry><para>MostRecentTPS gives the latest transactions per second</para></entry>
+            </row>
+            
+            <row>
+              <entry>NumberOfActions</entry>
+              <entry><link linkend="api.NumberOfActionsRequest">NumberOfActionsRequest</link></entry>
+              <entry><link linkend="api.NumberOfActionsResponse">NumberOfActionsResponse</link></entry>
+              <entry><para>NumberOfActions gives the number of actions</para></entry>
             </row>
             
           </tbody>

@@ -42,6 +42,11 @@
 - [api_chain.proto](#api_chain-proto)
     - [ChainRequest](#api-ChainRequest)
     - [ChainResponse](#api-ChainResponse)
+    - [MostRecentTPSRequest](#api-MostRecentTPSRequest)
+    - [MostRecentTPSResponse](#api-MostRecentTPSResponse)
+    - [NumberOfActionsRequest](#api-NumberOfActionsRequest)
+    - [NumberOfActionsResponse](#api-NumberOfActionsResponse)
+    - [VotingResultMeta](#api-VotingResultMeta)
   
     - [ChainService](#api-ChainService)
   
@@ -614,6 +619,89 @@
 | ----- | ---- | ----- | ----------- |
 | mostRecentEpoch | [uint64](#uint64) |  | most recent epoch |
 | mostRecentBlockHeight | [uint64](#uint64) |  | most recent block height |
+| totalSupply | [string](#string) |  | total supply |
+| totalCirculatingSupply | [string](#string) |  | total circulating supply |
+| totalCirculatingSupplyNoRewardPool | [string](#string) |  | total circulating supply no reward pool |
+| votingResultMeta | [VotingResultMeta](#api-VotingResultMeta) |  | voting result meta |
+
+
+
+
+
+
+<a name="api-MostRecentTPSRequest"></a>
+
+### MostRecentTPSRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| blockWindow | [uint64](#uint64) |  | number of last blocks that are backtracked to compute TPS |
+
+
+
+
+
+
+<a name="api-MostRecentTPSResponse"></a>
+
+### MostRecentTPSResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| mostRecentTPS | [double](#double) |  | latest transactions per second |
+
+
+
+
+
+
+<a name="api-NumberOfActionsRequest"></a>
+
+### NumberOfActionsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-NumberOfActionsResponse"></a>
+
+### NumberOfActionsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the starting epoch number is less than the most recent epoch number |
+| count | [uint64](#uint64) |  | number of actions |
+
+
+
+
+
+
+<a name="api-VotingResultMeta"></a>
+
+### VotingResultMeta
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalCandidates | [uint64](#uint64) |  | total candidates |
+| totalWeightedVotes | [string](#string) |  | total weighted votes |
+| votedTokens | [string](#string) |  | voted tokens |
 
 
 
@@ -634,6 +722,8 @@
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | Chain | [ChainRequest](#api-ChainRequest) | [ChainResponse](#api-ChainResponse) |  |
+| MostRecentTPS | [MostRecentTPSRequest](#api-MostRecentTPSRequest) | [MostRecentTPSResponse](#api-MostRecentTPSResponse) | MostRecentTPS gives the latest transactions per second |
+| NumberOfActions | [NumberOfActionsRequest](#api-NumberOfActionsRequest) | [NumberOfActionsResponse](#api-NumberOfActionsResponse) | NumberOfActions gives the number of actions |
 
  
 

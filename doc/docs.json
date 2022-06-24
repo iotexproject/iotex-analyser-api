@@ -1857,6 +1857,222 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "totalSupply",
+              "description": "total supply",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalCirculatingSupply",
+              "description": "total circulating supply",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalCirculatingSupplyNoRewardPool",
+              "description": "total circulating supply no reward pool",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "votingResultMeta",
+              "description": "voting result meta",
+              "label": "",
+              "type": "VotingResultMeta",
+              "longType": "VotingResultMeta",
+              "fullType": "api.VotingResultMeta",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MostRecentTPSRequest",
+          "longName": "MostRecentTPSRequest",
+          "fullName": "api.MostRecentTPSRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "blockWindow",
+              "description": "number of last blocks that are backtracked to compute TPS",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MostRecentTPSResponse",
+          "longName": "MostRecentTPSResponse",
+          "fullName": "api.MostRecentTPSResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "mostRecentTPS",
+              "description": "latest transactions per second",
+              "label": "",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "NumberOfActionsRequest",
+          "longName": "NumberOfActionsRequest",
+          "fullName": "api.NumberOfActionsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "NumberOfActionsResponse",
+          "longName": "NumberOfActionsResponse",
+          "fullName": "api.NumberOfActionsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the starting epoch number is less than the most recent epoch number",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "number of actions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "VotingResultMeta",
+          "longName": "VotingResultMeta",
+          "fullName": "api.VotingResultMeta",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "totalCandidates",
+              "description": "total candidates",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalWeightedVotes",
+              "description": "total weighted votes",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "votedTokens",
+              "description": "voted tokens",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         }
@@ -1885,6 +2101,52 @@
                     {
                       "method": "POST",
                       "pattern": "/api.ChainService.Chain",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "MostRecentTPS",
+              "description": "MostRecentTPS gives the latest transactions per second",
+              "requestType": "MostRecentTPSRequest",
+              "requestLongType": "MostRecentTPSRequest",
+              "requestFullType": "api.MostRecentTPSRequest",
+              "requestStreaming": false,
+              "responseType": "MostRecentTPSResponse",
+              "responseLongType": "MostRecentTPSResponse",
+              "responseFullType": "api.MostRecentTPSResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.MostRecentTPS",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "NumberOfActions",
+              "description": "NumberOfActions gives the number of actions",
+              "requestType": "NumberOfActionsRequest",
+              "requestLongType": "NumberOfActionsRequest",
+              "requestFullType": "api.NumberOfActionsRequest",
+              "requestStreaming": false,
+              "responseType": "NumberOfActionsResponse",
+              "responseLongType": "NumberOfActionsResponse",
+              "responseFullType": "api.NumberOfActionsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.NumberOfActions",
                       "body": "*"
                     }
                   ]

@@ -114,7 +114,155 @@ query {
 | ----- | ---- | ----- | ----------- |
 | mostRecentEpoch | [uint64](#uint64) |  | most recent epoch |
 | mostRecentBlockHeight | [uint64](#uint64) |  | most recent block height |
+| totalSupply | [string](#string) |  | total supply |
+| totalCirculatingSupply | [string](#string) |  | total circulating supply |
+| totalCirculatingSupplyNoRewardPool | [string](#string) |  | total circulating supply no reward pool |
+| votingResultMeta | [VotingResultMeta](#api-VotingResultMeta) |  | voting result meta |
 
+<a name="api-VotingResultMeta"></a>
+
+### VotingResultMeta
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalCandidates | [uint64](#uint64) |  | total candidates |
+| totalWeightedVotes | [string](#string) |  | total weighted votes |
+| votedTokens | [string](#string) |  | voted tokens |
+
+## MostRecentTPS
+
+gives the latest transactions per second
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.MostRecentTPS \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"blockWindow": 5
+}'
+```
+
+```graphql
+query {
+	MostRecentTPS(blockWindow: 5) {
+		mostRecentTPS
+	}
+}
+
+
+```
+
+> Example response:
+
+```json
+{
+	"data": {
+		"MostRecentTPS": {
+			"mostRecentTPS": 0.8421052631578947
+		}
+	}
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.MostRecentTPS`
+
+<a name="api-MostRecentTPSRequest"></a>
+
+### MostRecentTPSRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| blockWindow | [uint64](#uint64) |  | number of last blocks that are backtracked to compute TPS |
+
+
+
+
+
+
+<a name="api-MostRecentTPSResponse"></a>
+
+### MostRecentTPSResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| mostRecentTPS | [double](#double) |  | latest transactions per second |
+
+## NumberOfActions
+
+gives the number of actions
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.NumberOfActions \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 20000,
+	"epochCount": 5,
+}'
+```
+
+```graphql
+query {
+	NumberOfActions(startEpoch: 20000, epochCount: 5) {
+		exist
+		count
+	}
+}
+
+
+```
+
+> Example response:
+
+```json
+{
+	"data": {
+		"NumberOfActions": {
+			"count": 12744,
+			"exist": true
+		}
+	}
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.NumberOfActions`
+
+<a name="api-NumberOfActionsRequest"></a>
+
+### NumberOfActionsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-NumberOfActionsResponse"></a>
+
+### NumberOfActionsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the starting epoch number is less than the most recent epoch number |
+| count | [uint64](#uint64) |  | number of actions |
 
 # Delegate Service API
 
