@@ -11,10 +11,18 @@ import (
 )
 
 var (
-	gql__type_VotingResultMeta  *graphql.Object      // message VotingResultMeta in api_chain.proto
-	gql__type_ChainResponse     *graphql.Object      // message ChainResponse in api_chain.proto
-	gql__input_VotingResultMeta *graphql.InputObject // message VotingResultMeta in api_chain.proto
-	gql__input_ChainResponse    *graphql.InputObject // message ChainResponse in api_chain.proto
+	gql__type_VotingResultMeta         *graphql.Object      // message VotingResultMeta in api_chain.proto
+	gql__type_NumberOfActionsResponse  *graphql.Object      // message NumberOfActionsResponse in api_chain.proto
+	gql__type_NumberOfActionsRequest   *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
+	gql__type_MostRecentTPSResponse    *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
+	gql__type_MostRecentTPSRequest     *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
+	gql__type_ChainResponse            *graphql.Object      // message ChainResponse in api_chain.proto
+	gql__input_VotingResultMeta        *graphql.InputObject // message VotingResultMeta in api_chain.proto
+	gql__input_NumberOfActionsResponse *graphql.InputObject // message NumberOfActionsResponse in api_chain.proto
+	gql__input_NumberOfActionsRequest  *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
+	gql__input_MostRecentTPSResponse   *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
+	gql__input_MostRecentTPSRequest    *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
+	gql__input_ChainResponse           *graphql.InputObject // message ChainResponse in api_chain.proto
 )
 
 func Gql__type_VotingResultMeta() *graphql.Object {
@@ -35,6 +43,68 @@ func Gql__type_VotingResultMeta() *graphql.Object {
 		})
 	}
 	return gql__type_VotingResultMeta
+}
+
+func Gql__type_NumberOfActionsResponse() *graphql.Object {
+	if gql__type_NumberOfActionsResponse == nil {
+		gql__type_NumberOfActionsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_NumberOfActionsResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_NumberOfActionsResponse
+}
+
+func Gql__type_NumberOfActionsRequest() *graphql.Object {
+	if gql__type_NumberOfActionsRequest == nil {
+		gql__type_NumberOfActionsRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_NumberOfActionsRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_NumberOfActionsRequest
+}
+
+func Gql__type_MostRecentTPSResponse() *graphql.Object {
+	if gql__type_MostRecentTPSResponse == nil {
+		gql__type_MostRecentTPSResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_MostRecentTPSResponse",
+			Fields: graphql.Fields{
+				"mostRecentTPS": &graphql.Field{
+					Type: graphql.Float,
+				},
+			},
+		})
+	}
+	return gql__type_MostRecentTPSResponse
+}
+
+func Gql__type_MostRecentTPSRequest() *graphql.Object {
+	if gql__type_MostRecentTPSRequest == nil {
+		gql__type_MostRecentTPSRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_MostRecentTPSRequest",
+			Fields: graphql.Fields{
+				"blockWindow": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_MostRecentTPSRequest
 }
 
 func Gql__type_ChainResponse() *graphql.Object {
@@ -84,6 +154,68 @@ func Gql__input_VotingResultMeta() *graphql.InputObject {
 		})
 	}
 	return gql__input_VotingResultMeta
+}
+
+func Gql__input_NumberOfActionsResponse() *graphql.InputObject {
+	if gql__input_NumberOfActionsResponse == nil {
+		gql__input_NumberOfActionsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_NumberOfActionsResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_NumberOfActionsResponse
+}
+
+func Gql__input_NumberOfActionsRequest() *graphql.InputObject {
+	if gql__input_NumberOfActionsRequest == nil {
+		gql__input_NumberOfActionsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_NumberOfActionsRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_NumberOfActionsRequest
+}
+
+func Gql__input_MostRecentTPSResponse() *graphql.InputObject {
+	if gql__input_MostRecentTPSResponse == nil {
+		gql__input_MostRecentTPSResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_MostRecentTPSResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"mostRecentTPS": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+			},
+		})
+	}
+	return gql__input_MostRecentTPSResponse
+}
+
+func Gql__input_MostRecentTPSRequest() *graphql.InputObject {
+	if gql__input_MostRecentTPSRequest == nil {
+		gql__input_MostRecentTPSRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_MostRecentTPSRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"blockWindow": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_MostRecentTPSRequest
 }
 
 func Gql__input_ChainResponse() *graphql.InputObject {
@@ -169,6 +301,49 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 				resp, err := client.Chain(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC Chain")
+				}
+				return resp, nil
+			},
+		},
+		"MostRecentTPS": &graphql.Field{
+			Type: Gql__type_MostRecentTPSResponse(),
+			Args: graphql.FieldConfigArgument{
+				"blockWindow": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req MostRecentTPSRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for MostRecentTPS")
+				}
+				client := NewChainServiceClient(conn)
+				resp, err := client.MostRecentTPS(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC MostRecentTPS")
+				}
+				return resp, nil
+			},
+		},
+		"NumberOfActions": &graphql.Field{
+			Type: Gql__type_NumberOfActionsResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req NumberOfActionsRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for NumberOfActions")
+				}
+				client := NewChainServiceClient(conn)
+				resp, err := client.NumberOfActions(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC NumberOfActions")
 				}
 				return resp, nil
 			},

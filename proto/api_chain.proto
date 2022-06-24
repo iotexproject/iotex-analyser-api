@@ -25,6 +25,24 @@ message ChainResponse {
     VotingResultMeta votingResultMeta = 6; // voting result meta
 }
 
+message MostRecentTPSRequest {
+  uint64 blockWindow = 1; // number of last blocks that are backtracked to compute TPS
+}
+
+message MostRecentTPSResponse {
+  double mostRecentTPS = 1; // latest transactions per second
+}
+
+message NumberOfActionsRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+}
+
+message NumberOfActionsResponse {
+  bool exist = 1; // whether the starting epoch number is less than the most recent epoch number
+  uint64 count = 2; // number of actions
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -33,6 +51,30 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.Chain"
+      body: "*"
+    };
+  };
+
+  // MostRecentTPS gives the latest transactions per second
+  rpc MostRecentTPS(MostRecentTPSRequest) returns (MostRecentTPSResponse) {
+    option (graphql.schema) = {
+      type: QUERY   // declare as Query
+      name: "MostRecentTPS" // query name
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.MostRecentTPS"
+      body: "*"
+    };
+  };
+
+  // NumberOfActions gives the number of actions
+  rpc NumberOfActions(NumberOfActionsRequest) returns (NumberOfActionsResponse) {
+    option (graphql.schema) = {
+      type: QUERY   // declare as Query
+      name: "NumberOfActions" // query name
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.NumberOfActions"
       body: "*"
     };
   };

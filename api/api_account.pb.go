@@ -326,9 +326,9 @@ type RewardDistribution struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	VoterEthAddress   string `protobuf:"bytes,1,opt,name=voterEthAddress,proto3" json:"voterEthAddress,omitempty"`
-	VoterIotexAddress string `protobuf:"bytes,2,opt,name=voterIotexAddress,proto3" json:"voterIotexAddress,omitempty"`
-	Amount            string `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	VoterEthAddress   string `protobuf:"bytes,1,opt,name=voterEthAddress,proto3" json:"voterEthAddress,omitempty"`     // voter’s ERC20 address
+	VoterIotexAddress string `protobuf:"bytes,2,opt,name=voterIotexAddress,proto3" json:"voterIotexAddress,omitempty"` // voter’s IoTeX address
+	Amount            string `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`                       // amount of reward distribution
 }
 
 func (x *RewardDistribution) Reset() {
@@ -389,12 +389,12 @@ type HermesDistribution struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	DelegateName        string                `protobuf:"bytes,1,opt,name=delegateName,proto3" json:"delegateName,omitempty"`
+	DelegateName        string                `protobuf:"bytes,1,opt,name=delegateName,proto3" json:"delegateName,omitempty"` // delegate name
 	RewardDistribution  []*RewardDistribution `protobuf:"bytes,2,rep,name=rewardDistribution,proto3" json:"rewardDistribution,omitempty"`
-	StakingIotexAddress string                `protobuf:"bytes,3,opt,name=stakingIotexAddress,proto3" json:"stakingIotexAddress,omitempty"`
-	VoterCount          uint64                `protobuf:"varint,4,opt,name=voterCount,proto3" json:"voterCount,omitempty"`
-	WaiveServiceFee     bool                  `protobuf:"varint,5,opt,name=waiveServiceFee,proto3" json:"waiveServiceFee,omitempty"`
-	Refund              string                `protobuf:"bytes,6,opt,name=refund,proto3" json:"refund,omitempty"`
+	StakingIotexAddress string                `protobuf:"bytes,3,opt,name=stakingIotexAddress,proto3" json:"stakingIotexAddress,omitempty"` // delegate IoTeX staking address
+	VoterCount          uint64                `protobuf:"varint,4,opt,name=voterCount,proto3" json:"voterCount,omitempty"`                  // number of voters
+	WaiveServiceFee     bool                  `protobuf:"varint,5,opt,name=waiveServiceFee,proto3" json:"waiveServiceFee,omitempty"`        // whether the delegate is qualified for waiving the service fee
+	Refund              string                `protobuf:"bytes,6,opt,name=refund,proto3" json:"refund,omitempty"`                           // amount of refund
 }
 
 func (x *HermesDistribution) Reset() {
