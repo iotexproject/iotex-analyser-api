@@ -323,6 +323,26 @@
                   <a href="#api.ChainResponse"><span class="badge">M</span>ChainResponse</a>
                 </li>
               
+                <li>
+                  <a href="#api.MostRecentTPSRequest"><span class="badge">M</span>MostRecentTPSRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.MostRecentTPSResponse"><span class="badge">M</span>MostRecentTPSResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.NumberOfActionsRequest"><span class="badge">M</span>NumberOfActionsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.NumberOfActionsResponse"><span class="badge">M</span>NumberOfActionsResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.VotingResultMeta"><span class="badge">M</span>VotingResultMeta</a>
+                </li>
+              
               
               
               
@@ -1929,6 +1949,182 @@
                   <td><p>most recent block height </p></td>
                 </tr>
               
+                <tr>
+                  <td>totalSupply</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total supply </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalCirculatingSupply</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total circulating supply </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalCirculatingSupplyNoRewardPool</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total circulating supply no reward pool </p></td>
+                </tr>
+              
+                <tr>
+                  <td>votingResultMeta</td>
+                  <td><a href="#api.VotingResultMeta">VotingResultMeta</a></td>
+                  <td></td>
+                  <td><p>voting result meta </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.MostRecentTPSRequest">MostRecentTPSRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>blockWindow</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of last blocks that are backtracked to compute TPS </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.MostRecentTPSResponse">MostRecentTPSResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>mostRecentTPS</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>latest transactions per second </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.NumberOfActionsRequest">NumberOfActionsRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.NumberOfActionsResponse">NumberOfActionsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the starting epoch number is less than the most recent epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of actions </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.VotingResultMeta">VotingResultMeta</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>totalCandidates</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total candidates </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalWeightedVotes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total weighted votes </p></td>
+                </tr>
+              
+                <tr>
+                  <td>votedTokens</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>voted tokens </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -1957,6 +2153,20 @@
                 <td><p></p></td>
               </tr>
             
+              <tr>
+                <td>MostRecentTPS</td>
+                <td><a href="#api.MostRecentTPSRequest">MostRecentTPSRequest</a></td>
+                <td><a href="#api.MostRecentTPSResponse">MostRecentTPSResponse</a></td>
+                <td><p>MostRecentTPS gives the latest transactions per second</p></td>
+              </tr>
+            
+              <tr>
+                <td>NumberOfActions</td>
+                <td><a href="#api.NumberOfActionsRequest">NumberOfActionsRequest</a></td>
+                <td><a href="#api.NumberOfActionsResponse">NumberOfActionsResponse</a></td>
+                <td><p>NumberOfActions gives the number of actions</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -1981,6 +2191,26 @@
                 <td>Chain</td>
                 <td>POST</td>
                 <td>/api.ChainService.Chain</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>MostRecentTPS</td>
+                <td>POST</td>
+                <td>/api.ChainService.MostRecentTPS</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>NumberOfActions</td>
+                <td>POST</td>
+                <td>/api.ChainService.NumberOfActions</td>
                 <td>*</td>
               </tr>
               

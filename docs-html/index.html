@@ -330,6 +330,12 @@
                   <li>
                     <a href="#chain" class="toc-h2 toc-link" data-title="Chain">Chain</a>
                   </li>
+                  <li>
+                    <a href="#mostrecenttps" class="toc-h2 toc-link" data-title="MostRecentTPS">MostRecentTPS</a>
+                  </li>
+                  <li>
+                    <a href="#numberofactions" class="toc-h2 toc-link" data-title="NumberOfActions">NumberOfActions</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -622,6 +628,203 @@
 <td></td>
 <td>most recent block height</td>
 </tr>
+<tr>
+<td>totalSupply</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total supply</td>
+</tr>
+<tr>
+<td>totalCirculatingSupply</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total circulating supply</td>
+</tr>
+<tr>
+<td>totalCirculatingSupplyNoRewardPool</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total circulating supply no reward pool</td>
+</tr>
+<tr>
+<td>votingResultMeta</td>
+<td><a href="#api-VotingResultMeta">VotingResultMeta</a></td>
+<td></td>
+<td>voting result meta</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-VotingResultMeta"></a></p>
+<h3 id='votingresultmeta'>VotingResultMeta</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>totalCandidates</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total candidates</td>
+</tr>
+<tr>
+<td>totalWeightedVotes</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total weighted votes</td>
+</tr>
+<tr>
+<td>votedTokens</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voted tokens</td>
+</tr>
+</tbody></table>
+<h2 id='mostrecenttps'>MostRecentTPS</h2>
+<p>gives the latest transactions per second</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.ChainService.MostRecentTPS <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "blockWindow": 5
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">MostRecentTPS</span><span class="p">(</span><span class="n">blockWindow</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">mostRecentTPS</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"MostRecentTPS"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"mostRecentTPS"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8421052631578947</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-2'>HTTP Request</h3>
+<p><code>POST /api.ChainService.MostRecentTPS</code></p>
+
+<p><a name="api-MostRecentTPSRequest"></a></p>
+<h3 id='mostrecenttpsrequest'>MostRecentTPSRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>blockWindow</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of last blocks that are backtracked to compute TPS</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-MostRecentTPSResponse"></a></p>
+<h3 id='mostrecenttpsresponse'>MostRecentTPSResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mostRecentTPS</td>
+<td><a href="#double">double</a></td>
+<td></td>
+<td>latest transactions per second</td>
+</tr>
+</tbody></table>
+<h2 id='numberofactions'>NumberOfActions</h2>
+<p>gives the number of actions</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.ChainService.NumberOfActions <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 20000,
+    "epochCount": 5,
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">NumberOfActions</span><span class="p">(</span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w"> </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">exist</span><span class="w">
+        </span><span class="n">count</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"NumberOfActions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">12744</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST /api.ChainService.NumberOfActions</code></p>
+
+<p><a name="api-NumberOfActionsRequest"></a></p>
+<h3 id='numberofactionsrequest'>NumberOfActionsRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch count</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-NumberOfActionsResponse"></a></p>
+<h3 id='numberofactionsresponse'>NumberOfActionsResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the starting epoch number is less than the most recent epoch number</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of actions</td>
+</tr>
 </tbody></table>
 <h1 id='delegate-service-api'>Delegate Service API</h1><h2 id='bucketinfo'>BucketInfo</h2>
 <p>BucketInfo provides voting bucket detail information for candidates within a range of epochs</p>
@@ -689,7 +892,7 @@
         </span><span class="err">...</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-2'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-4'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.BucketInfo</code></p>
 
 <p><a name="api-BucketInfoRequest"></a></p>
@@ -904,7 +1107,7 @@
         </span><span class="err">...</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-3'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.BookKeeping</code></p>
 
 <p><a name="api-BookKeepingRequest"></a></p>
@@ -1056,7 +1259,7 @@
         </span><span class="nl">"expectedProduction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-4'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-6'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.Productivity</code></p>
 
 <p><a name="api-ProductivityRequest"></a></p>
@@ -1167,7 +1370,7 @@
         </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-5'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-7'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.Reward</code></p>
 
 <p><a name="api-RewardRequest"></a></p>
@@ -1286,7 +1489,7 @@
         </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-6'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-8'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.HermesByDelegate</code></p>
 
 <p><a name="api-HermesByDelegateRequest"></a></p>
@@ -1504,7 +1707,7 @@
         </span><span class="p">},</span><span class="w">
         </span><span class="err">...</span><span class="w">
 </span><span class="err">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-7'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-9'>HTTP Request</h3>
 <p><code>POST /api.AccountService.Hermes</code></p>
 
 <p><a name="api-HermesRequest"></a></p>
