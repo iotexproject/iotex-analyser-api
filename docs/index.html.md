@@ -205,7 +205,7 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
 	"startEpoch": 20000,
-	"epochCount": 5,
+	"epochCount": 5
 }'
 ```
 
