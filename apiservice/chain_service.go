@@ -8,6 +8,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/common/rewards"
 	"github.com/iotexproject/iotex-analyser-api/common/votings"
 	"github.com/iotexproject/iotex-analyser-api/config"
+	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-antenna-go/v2/iotex"
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 )
@@ -66,5 +67,65 @@ func (s *ChainService) Chain(ctx context.Context, req *api.ChainRequest) (*api.C
 		VotedTokens:        meta.VotedTokens,
 	}
 
+	return resp, nil
+}
+
+func (s *ChainService) MostRecentTPS(ctx context.Context, req *api.MostRecentTPSRequest) (*api.MostRecentTPSResponse, error) {
+	resp := &api.MostRecentTPSResponse{}
+
+	_, height, err := common.GetCurrentEpochAndHeight()
+	if err != nil {
+		return nil, err
+	}
+
+	blockWindow := req.GetBlockWindow()
+	if height < blockWindow {
+		blockWindow = height
+	}
+
+	start := height - blockWindow + 1
+	end := height
+	db := db.DB()
+	query := "select (select timestamp from block where block_height=?) start_time,(select timestamp from block where block_height=?) end_time,sum(num_actions) num_actions from block where block_height>=? and block_height<=?"
+	var result struct {
+		StartTime  uint64
+		EndTime    uint64
+		NumActions uint64
+	}
+	err = db.Raw(query, start, end, start, end).Scan(&result).Error
+	if err != nil {
+		return nil, err
+	}
+
+	resp.MostRecentTPS = float64(result.NumActions) / float64(result.EndTime-result.StartTime)
+	return resp, nil
+}
+
+func (s *ChainService) NumberOfActions(ctx context.Context, req *api.NumberOfActionsRequest) (*api.NumberOfActionsResponse, error) {
+	resp := &api.NumberOfActionsResponse{}
+
+	currentEpoch, _, err := common.GetCurrentEpochAndHeight()
+	if err != nil {
+		return nil, err
+	}
+
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	if startEpoch > currentEpoch {
+		return resp, nil
+	}
+	endEpoch := startEpoch + epochCount - 1
+	db := db.DB()
+	query := "select sum(num_actions) num_actions from block b right join block_meta bm on bm.block_height=b.block_height where bm.epoch_num>=? and bm.epoch_num<=?"
+	var result struct {
+		NumActions uint64
+	}
+	err = db.Raw(query, startEpoch, endEpoch).Scan(&result).Error
+	if err != nil {
+		return nil, err
+	}
+
+	resp.Exist = true
+	resp.Count = result.NumActions
 	return resp, nil
 }

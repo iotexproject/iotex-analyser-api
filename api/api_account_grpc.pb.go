@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AccountServiceClient interface {
 	IotexBalanceByHeight(ctx context.Context, in *IotexBalanceByHeightRequest, opts ...grpc.CallOption) (*IotexBalanceByHeightResponse, error)
 	Erc20TokenBalanceByHeight(ctx context.Context, in *Erc20TokenBalanceByHeightRequest, opts ...grpc.CallOption) (*Erc20TokenBalanceByHeightResponse, error)
+	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
 	Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error)
 }
 
@@ -64,6 +65,7 @@ func (c *accountServiceClient) Hermes(ctx context.Context, in *HermesRequest, op
 type AccountServiceServer interface {
 	IotexBalanceByHeight(context.Context, *IotexBalanceByHeightRequest) (*IotexBalanceByHeightResponse, error)
 	Erc20TokenBalanceByHeight(context.Context, *Erc20TokenBalanceByHeightRequest) (*Erc20TokenBalanceByHeightResponse, error)
+	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
 	Hermes(context.Context, *HermesRequest) (*HermesResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }

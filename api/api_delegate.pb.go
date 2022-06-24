@@ -273,8 +273,8 @@ type BucketInfoList struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	EpochNumber uint64        `protobuf:"varint,1,opt,name=epochNumber,proto3" json:"epochNumber,omitempty"`
-	Count       uint64        `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	EpochNumber uint64        `protobuf:"varint,1,opt,name=epochNumber,proto3" json:"epochNumber,omitempty"` // epoch number
+	Count       uint64        `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`             //total number of buckets in the given epoch for the given delegate
 	BucketInfo  []*BucketInfo `protobuf:"bytes,3,rep,name=bucketInfo,proto3" json:"bucketInfo,omitempty"`
 }
 
