@@ -6,13 +6,13 @@ import "include/graphql.proto";
 option go_package = "./api";
 
 message IotexBalanceByHeightRequest {
-  repeated string address = 1;
-  uint64 height = 2;
+  repeated string address = 1; //address lists
+  uint64 height = 2; //block height
 }
 
 message IotexBalanceByHeightResponse {
-  uint64 height = 1;
-  repeated string balance  = 2;
+  uint64 height = 1; //block height
+  repeated string balance  = 2; //balance at the given height.
 }
 
 message Erc20TokenBalanceByHeightResponse {
@@ -52,7 +52,48 @@ message HermesResponse {
   repeated HermesDistribution hermesDistribution = 1;
 }
 
+message ActiveAccountsRequest {
+  uint64 count = 1; // number of account addresses to be queried for active accounts
+}
+
+message ActiveAccountsResponse {
+  repeated string activeAccounts = 1; //list of account addresses
+}
+
+message OperatorAddressRequest {
+  string aliasName = 1; // delegate's alias name
+}
+
+message OperatorAddressResponse {
+  bool exist = 1; // whether the alias name exists
+  string operatorAddress = 2; // operator address associated with the given alias name
+}
+
+message AliasRequest {
+  string operatorAddress = 1; // delegate's operator address
+}
+
+message AliasResponse {
+  bool exist = 1; // whether the operator address exists
+  string aliasName = 2;// delegate's alias name
+}
+
+message TotalNumberOfHoldersRequest {
+}
+
+message TotalNumberOfHoldersResponse {
+  uint64 totalNumberOfHolders = 1; // total number of IOTX holders so far
+}
+
+message TotalAccountSupplyRequest {
+}
+
+message TotalAccountSupplyResponse {
+  string totalAccountSupply = 1; // total amount of tokens held by IoTeX accounts
+}
+
 service AccountService {
+  // IotexBalanceByHeight returns the balance of the given address at the given height.
   rpc IotexBalanceByHeight(IotexBalanceByHeightRequest) returns (IotexBalanceByHeightResponse) {
     option (graphql.schema) = {
       type: QUERY
@@ -84,4 +125,59 @@ service AccountService {
       body: "*"
     };
   };
+  // ActiveAccounts lists most recently active accounts
+  rpc ActiveAccounts(ActiveAccountsRequest) returns (ActiveAccountsResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "ActiveAccounts"
+    };
+    option (google.api.http) = {
+      post: "/api.AccountService.ActiveAccounts"
+      body: "*"
+    };
+  };
+  // OperatorAddress finds the delegate's operator address given the delegate's alias name
+  rpc OperatorAddress(OperatorAddressRequest) returns (OperatorAddressResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "OperatorAddress"
+    };
+    option (google.api.http) = {
+      post: "/api.AccountService.OperatorAddress"
+      body: "*"
+    };
+  };
+  // Alias finds the delegate's alias name given the delegate's operator address
+  rpc Alias(AliasRequest) returns (AliasResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "Alias"
+    };
+    option (google.api.http) = {
+      post: "/api.AccountService.Alias"
+      body: "*"
+    };
+  };
+  // TotalNumberOfHolders returns total number of IOTX holders so far
+  rpc TotalNumberOfHolders(TotalNumberOfHoldersRequest) returns (TotalNumberOfHoldersResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "TotalNumberOfHolders"
+    };
+    option (google.api.http) = {
+      post: "/api.AccountService.TotalNumberOfHolders"
+      body: "*"
+    };
+  };
+  // TotalAccountSupply returns total amount of tokens held by IoTeX accounts
+  rpc TotalAccountSupply(TotalAccountSupplyRequest) returns (TotalAccountSupplyResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "TotalAccountSupply"
+    };
+    option (google.api.http) = {
+      post: "/api.AccountService.TotalAccountSupply"
+      body: "*"
+    };
+  };  
 }

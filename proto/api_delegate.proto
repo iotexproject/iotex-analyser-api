@@ -123,6 +123,33 @@ message HermesByDelegateResponse {
   repeated HermesByDelegateDistributionRatio distributionRatio = 5;
 }
 
+message StakingRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+  string delegateName = 3; // candidate name
+}
+
+message StakingResponse {
+  bool exist = 1; // whether the delegate has staking information within the specified epoch range
+  message StakingInfo {
+    uint64 epochNumber = 1; //epoch number
+    string totalStaking = 2; // total staking amount
+    string selfStaking = 3; // candidate’s self-staking amount
+  }
+  repeated StakingInfo stakingInfo = 2;
+}
+
+message ProbationHistoricalRateRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+  string delegateName = 3; // candidate name
+}
+
+message ProbationHistoricalRateResponse {
+  string probationHistoricalRate = 1; // probation historical rate
+}
+
+
 service DelegateService {
   // BucketInfo provides voting bucket detail information for candidates within a range of epochs
   rpc BucketInfo(BucketInfoRequest) returns (BucketInfoResponse) {
@@ -176,6 +203,28 @@ service DelegateService {
     };
     option (google.api.http) = {
       post: "/api.DelegateService.HermesByDelegate"
+      body: "*"
+    };
+  };
+  // Staking provides staking information for candidates within a range of epochs
+  rpc Staking(StakingRequest) returns (StakingResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "Staking"
+    };
+    option (google.api.http) = {
+      post: "/api.DelegateService.Staking"
+      body: "*"
+    };
+  };
+  // ProbationHistoricalRate provides the rate of probation for a given delegate
+  rpc ProbationHistoricalRate(ProbationHistoricalRateRequest) returns (ProbationHistoricalRateResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "ProbationHistoricalRate"
+    };
+    option (google.api.http) = {
+      post: "/api.DelegateService.ProbationHistoricalRate"
       body: "*"
     };
   };

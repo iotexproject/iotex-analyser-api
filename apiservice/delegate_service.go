@@ -2,6 +2,8 @@ package apiservice
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"sort"
 	"time"
 
@@ -246,5 +248,72 @@ func (s *DelegateService) HermesByDelegate(ctx context.Context, req *api.HermesB
 			})
 		}
 	}
+	return resp, nil
+}
+
+// Staking returns the staking info of the delegate
+func (s *DelegateService) Staking(ctx context.Context, req *api.StakingRequest) (*api.StakingResponse, error) {
+	resp := &api.StakingResponse{}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	delegateName := req.GetDelegateName()
+	endEpoch := startEpoch + epochCount - 1
+	db := db.DB()
+	query := "SELECT epoch_number,total_weighted_votes,self_staking FROM hermes_voting_results WHERE epoch_number >= ? AND epoch_number <= ? AND delegate_name = ?"
+	var result []struct {
+		EpochNumber        uint64
+		TotalWeightedVotes string
+		SelfStaking        string
+	}
+	if err := db.Raw(query, startEpoch, endEpoch, delegateName).Scan(&result).Error; err != nil {
+		return nil, err
+	}
+	resp.Exist = len(result) > 0
+	resp.StakingInfo = make([]*api.StakingResponse_StakingInfo, 0)
+	for _, v := range result {
+		resp.StakingInfo = append(resp.StakingInfo, &api.StakingResponse_StakingInfo{
+			EpochNumber:  v.EpochNumber,
+			TotalStaking: v.TotalWeightedVotes,
+			SelfStaking:  v.SelfStaking,
+		})
+	}
+	return resp, nil
+}
+
+// ProbationHistoricalRate returns the probation historical rate of the delegate
+func (s *DelegateService) ProbationHistoricalRate(ctx context.Context, req *api.ProbationHistoricalRateRequest) (*api.ProbationHistoricalRateResponse, error) {
+	resp := &api.ProbationHistoricalRateResponse{}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	delegateName := req.GetDelegateName()
+	endEpoch := startEpoch + epochCount - 1
+	db := db.DB()
+	query := "SELECT count(epoch_number) FROM hermes_voting_results WHERE epoch_number >= ? AND epoch_number <= ? AND delegate_name = ?"
+	var count int
+	if err := db.WithContext(ctx).Raw(query, startEpoch, endEpoch, delegateName).Scan(&count).Error; err != nil {
+		return nil, err
+	}
+	probationExist := func(epochNumber uint64, address string) bool {
+		query := "SELECT count(*) FROM probation WHERE epoch_number = ? AND address = ?"
+		var count int
+		if err := db.WithContext(ctx).Raw(query, epochNumber, address).Scan(&count).Error; err != nil {
+			return false
+		}
+		return count > 0
+	}
+	probationCount := uint64(0)
+	for i := startEpoch; i < startEpoch+epochCount; i++ {
+		address, err := votings.GetOperatorAddress(delegateName, i)
+		if err != nil {
+			return nil, err
+		}
+		exist := probationExist(i, address)
+		if exist {
+			probationCount++
+		}
+	}
+	rate := float64(probationCount) / float64(count)
+	log.Printf("probationCount: %d, count: %d, rate: %f", probationCount, count, rate)
+	resp.ProbationHistoricalRate = fmt.Sprintf("%.2f", rate)
 	return resp, nil
 }

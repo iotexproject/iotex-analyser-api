@@ -6,6 +6,153 @@
     <title>api_account.proto</title>
     <para></para>
     
+    <section id="api.ActiveAccountsRequest">
+      <title>ActiveAccountsRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActiveAccountsRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of account addresses to be queried for active accounts</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActiveAccountsResponse">
+      <title>ActiveAccountsResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActiveAccountsResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>activeAccounts</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para>list of account addresses</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.AliasRequest">
+      <title>AliasRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>AliasRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>operatorAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate's operator address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.AliasResponse">
+      <title>AliasResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>AliasResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the operator address exists</para></entry>
+            </row>
+            
+            <row>
+              <entry>aliasName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate's alias name</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     <section id="api.Erc20TokenBalanceByHeightRequest">
       <title>Erc20TokenBalanceByHeightRequest</title>
       <para></para>
@@ -283,14 +430,14 @@
               <entry>address</entry>
               <entry><link linkend="string">string</link></entry>
               <entry>repeated</entry>
-              <entry><para></para></entry>
+              <entry><para>address lists</para></entry>
             </row>
             
             <row>
               <entry>height</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>block height</para></entry>
             </row>
             
           </tbody>
@@ -325,14 +472,91 @@
               <entry>height</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>block height</para></entry>
             </row>
             
             <row>
               <entry>balance</entry>
               <entry><link linkend="string">string</link></entry>
               <entry>repeated</entry>
-              <entry><para></para></entry>
+              <entry><para>balance at the given height.</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.OperatorAddressRequest">
+      <title>OperatorAddressRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>OperatorAddressRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>aliasName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate's alias name</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.OperatorAddressResponse">
+      <title>OperatorAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>OperatorAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the alias name exists</para></entry>
+            </row>
+            
+            <row>
+              <entry>operatorAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>operator address associated with the given alias name</para></entry>
             </row>
             
           </tbody>
@@ -391,6 +615,90 @@
       
     </section>
     
+    <section id="api.TotalAccountSupplyRequest">
+      <title>TotalAccountSupplyRequest</title>
+      <para></para>
+      
+      
+    </section>
+    
+    <section id="api.TotalAccountSupplyResponse">
+      <title>TotalAccountSupplyResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>TotalAccountSupplyResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>totalAccountSupply</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total amount of tokens held by IoTeX accounts</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.TotalNumberOfHoldersRequest">
+      <title>TotalNumberOfHoldersRequest</title>
+      <para></para>
+      
+      
+    </section>
+    
+    <section id="api.TotalNumberOfHoldersResponse">
+      <title>TotalNumberOfHoldersResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>TotalNumberOfHoldersResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>totalNumberOfHolders</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of IOTX holders so far</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     
 
     
@@ -420,7 +728,7 @@
               <entry>IotexBalanceByHeight</entry>
               <entry><link linkend="api.IotexBalanceByHeightRequest">IotexBalanceByHeightRequest</link></entry>
               <entry><link linkend="api.IotexBalanceByHeightResponse">IotexBalanceByHeightResponse</link></entry>
-              <entry><para></para></entry>
+              <entry><para>IotexBalanceByHeight returns the balance of the given address at the given height.</para></entry>
             </row>
             
             <row>
@@ -435,6 +743,41 @@
               <entry><link linkend="api.HermesRequest">HermesRequest</link></entry>
               <entry><link linkend="api.HermesResponse">HermesResponse</link></entry>
               <entry><para>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</para></entry>
+            </row>
+            
+            <row>
+              <entry>ActiveAccounts</entry>
+              <entry><link linkend="api.ActiveAccountsRequest">ActiveAccountsRequest</link></entry>
+              <entry><link linkend="api.ActiveAccountsResponse">ActiveAccountsResponse</link></entry>
+              <entry><para>ActiveAccounts lists most recently active accounts</para></entry>
+            </row>
+            
+            <row>
+              <entry>OperatorAddress</entry>
+              <entry><link linkend="api.OperatorAddressRequest">OperatorAddressRequest</link></entry>
+              <entry><link linkend="api.OperatorAddressResponse">OperatorAddressResponse</link></entry>
+              <entry><para>OperatorAddress finds the delegate's operator address given the delegate's alias name</para></entry>
+            </row>
+            
+            <row>
+              <entry>Alias</entry>
+              <entry><link linkend="api.AliasRequest">AliasRequest</link></entry>
+              <entry><link linkend="api.AliasResponse">AliasResponse</link></entry>
+              <entry><para>Alias finds the delegate's alias name given the delegate's operator address</para></entry>
+            </row>
+            
+            <row>
+              <entry>TotalNumberOfHolders</entry>
+              <entry><link linkend="api.TotalNumberOfHoldersRequest">TotalNumberOfHoldersRequest</link></entry>
+              <entry><link linkend="api.TotalNumberOfHoldersResponse">TotalNumberOfHoldersResponse</link></entry>
+              <entry><para>TotalNumberOfHolders returns total number of IOTX holders so far</para></entry>
+            </row>
+            
+            <row>
+              <entry>TotalAccountSupply</entry>
+              <entry><link linkend="api.TotalAccountSupplyRequest">TotalAccountSupplyRequest</link></entry>
+              <entry><link linkend="api.TotalAccountSupplyResponse">TotalAccountSupplyResponse</link></entry>
+              <entry><para>TotalAccountSupply returns total amount of tokens held by IoTeX accounts</para></entry>
             </row>
             
           </tbody>
@@ -2542,6 +2885,90 @@
       
     </section>
     
+    <section id="api.ProbationHistoricalRateRequest">
+      <title>ProbationHistoricalRateRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ProbationHistoricalRateRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate name</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ProbationHistoricalRateResponse">
+      <title>ProbationHistoricalRateResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ProbationHistoricalRateResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>probationHistoricalRate</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>probation historical rate</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     <section id="api.Productivity">
       <title>Productivity</title>
       <para></para>
@@ -2815,6 +3242,146 @@
       
     </section>
     
+    <section id="api.StakingRequest">
+      <title>StakingRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>StakingRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate name</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.StakingResponse">
+      <title>StakingResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>StakingResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the delegate has staking information within the specified epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>stakingInfo</entry>
+              <entry><link linkend="api.StakingResponse.StakingInfo">StakingResponse.StakingInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.StakingResponse.StakingInfo">
+      <title>StakingResponse.StakingInfo</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>StakingResponse.StakingInfo</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>epochNumber</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalStaking</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total staking amount</para></entry>
+            </row>
+            
+            <row>
+              <entry>selfStaking</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate’s self-staking amount</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     
 
     
@@ -2873,6 +3440,20 @@
               <entry><link linkend="api.HermesByDelegateRequest">HermesByDelegateRequest</link></entry>
               <entry><link linkend="api.HermesByDelegateResponse">HermesByDelegateResponse</link></entry>
               <entry><para>HermesByDelegate returns Hermes delegates' distribution history</para></entry>
+            </row>
+            
+            <row>
+              <entry>Staking</entry>
+              <entry><link linkend="api.StakingRequest">StakingRequest</link></entry>
+              <entry><link linkend="api.StakingResponse">StakingResponse</link></entry>
+              <entry><para>Staking provides staking information for candidates within a range of epochs</para></entry>
+            </row>
+            
+            <row>
+              <entry>ProbationHistoricalRate</entry>
+              <entry><link linkend="api.ProbationHistoricalRateRequest">ProbationHistoricalRateRequest</link></entry>
+              <entry><link linkend="api.ProbationHistoricalRateResponse">ProbationHistoricalRateResponse</link></entry>
+              <entry><para>ProbationHistoricalRate provides the rate of probation for a given delegate</para></entry>
             </row>
             
           </tbody>

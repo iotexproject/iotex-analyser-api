@@ -778,6 +778,179 @@ query {
 | epochRewardRatio | [double](#double) |  | ratio of epoch reward being distributed |
 | foundationBonusRatio | [double](#double) |  | ratio of foundation bonus being distributed |
 
+## Staking
+
+Staking provides staking information for candidates within a range of epochs
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.DelegateService.Staking \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 20000,
+	"epochCount": 2,
+	"delegateName": "metanyx"
+}'
+```
+
+```graphql
+query {
+  Staking(startEpoch: 20000, epochCount: 2, delegateName: "metanyx") {
+    exist
+    stakingInfo {
+      epochNumber
+      totalStaking
+      selfStaking
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "Staking": {
+      "exist": true,
+      "stakingInfo": [
+        {
+          "epochNumber": 20000,
+          "selfStaking": "1266890287625445522068595",
+          "totalStaking": "219516310335741609989431119"
+        },
+        {
+          "epochNumber": 20001,
+          "selfStaking": "1266890287625445522068595",
+          "totalStaking": "219518846815421318945180493"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.DelegateService.Staking`
+
+<a name="api-StakingRequest"></a>
+
+### StakingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| delegateName | [string](#string) |  | candidate name |
+
+
+
+
+
+
+<a name="api-StakingResponse"></a>
+
+### StakingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the delegate has staking information within the specified epoch range |
+| stakingInfo | [StakingResponse.StakingInfo](#api-StakingResponse-StakingInfo) | repeated |  |
+
+
+
+
+
+
+<a name="api-StakingResponse-StakingInfo"></a>
+
+### StakingResponse.StakingInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| totalStaking | [string](#string) |  | total staking amount |
+| selfStaking | [string](#string) |  | candidate’s self-staking amount |
+
+## ProbationHistoricalRate
+
+ProbationHistoricalRate provides the rate of probation for a given delegate
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.DelegateService.ProbationHistoricalRate \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 27650,
+	"epochCount": 5,
+	"delegateName": "chainshield"
+}'
+```
+
+```graphql
+query {
+  ProbationHistoricalRate(
+    startEpoch: 27650
+    epochCount: 5
+    delegateName: "chainshield"
+  ) {
+    probationHistoricalRate
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ProbationHistoricalRate": {
+      "probationHistoricalRate": "0.80"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.DelegateService.ProbationHistoricalRate`
+
+<a name="api-ProbationHistoricalRateRequest"></a>
+
+### ProbationHistoricalRateRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| delegateName | [string](#string) |  | candidate name |
+
+
+
+
+
+
+<a name="api-ProbationHistoricalRateResponse"></a>
+
+### ProbationHistoricalRateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| probationHistoricalRate | [string](#string) |  | probation historical rate |
+
+
+
 # Account Service API
 
 ## Hermes
@@ -891,3 +1064,392 @@ query {
 | voterEthAddress | [string](#string) |  | voter’s ERC20 address |
 | voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
 | amount | [string](#string) |  | amount of reward distribution |
+
+## IotexBalanceByHeight
+
+IotexBalanceByHeight returns the balance of the given address at the given height.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.IotexBalanceByHeight \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"address": ["io1qnpz47hx5q6r3w876axtrn6yz95d70cjl35r53"], 
+  	"height":8927781 
+}'
+```
+
+```graphql
+query {
+  IotexBalanceByHeight(
+    address: ["io1qnpz47hx5q6r3w876axtrn6yz95d70cjl35r53"]
+    height: 8927781
+  ) {
+    balance
+    height
+  }
+}
+
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "IotexBalanceByHeight": {
+      "balance": [
+        "957.111886573698936216"
+      ],
+      "height": 8927781
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.IotexBalanceByHeight`
+
+<a name="api-IotexBalanceByHeightRequest"></a>
+
+### IotexBalanceByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) | repeated | address lists |
+| height | [uint64](#uint64) |  | block height |
+
+
+
+
+
+
+<a name="api-IotexBalanceByHeightResponse"></a>
+
+### IotexBalanceByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+| balance | [string](#string) | repeated | balance at the given height. |
+
+## ActiveAccounts
+
+ActiveAccounts lists most recently active accounts
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.ActiveAccounts \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"count": 5
+}'
+```
+
+```graphql
+query {
+  ActiveAccounts(count:5){
+    activeAccounts
+  }
+}
+
+
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActiveAccounts": {
+      "activeAccounts": [
+        "io1aqf30kqz5rqh6zn82c00j684p2h2t5cg30wm8t",
+        "io1lhukp867ume3qn2g7cxn4e47pj0ugfxeqj7nm8",
+        "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85",
+        "io12p2td5p5tmaqqztdejl0dqdqalmajylw57x3e8",
+        "io17cmrextyfeu4gddwd89g5qncedsnc553dhz7xa"
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.ActiveAccounts`
+
+<a name="api-ActiveAccountsRequest"></a>
+
+### ActiveAccountsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | number of account addresses to be queried for active accounts |
+
+
+
+
+
+
+<a name="api-ActiveAccountsResponse"></a>
+
+### ActiveAccountsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| activeAccounts | [string](#string) | repeated | list of account addresses |
+
+## OperatorAddress
+
+OperatorAddress finds the delegate's operator address given the delegate's alias name
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.OperatorAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"aliasName": "metanyxa"
+}'
+```
+
+```graphql
+query {
+  OperatorAddress(aliasName:"metanyx") {
+    exist
+    operatorAddress
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "OperatorAddress": {
+      "exist": true,
+      "operatorAddress": "io10reczcaelglh5xmkay65h9vw3e5dp82e8vw0rz"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.OperatorAddress`
+
+<a name="api-OperatorAddressRequest"></a>
+
+### OperatorAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| aliasName | [string](#string) |  | delegate&#39;s alias name |
+
+
+
+
+
+
+<a name="api-OperatorAddressResponse"></a>
+
+### OperatorAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the alias name exists |
+| operatorAddress | [string](#string) |  | operator address associated with the given alias name |
+
+## Alias
+
+Alias finds the delegate's alias name given the delegate's operator address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.Alias \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"operatorAddress": "io10reczcaelglh5xmkay65h9vw3e5dp82e8vw0rz"
+}'
+```
+
+```graphql
+query {
+  Alias(operatorAddress:"io10reczcaelglh5xmkay65h9vw3e5dp82e8vw0rz") {
+    exist
+    aliasName
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "Alias": {
+      "aliasName": "metanyx",
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.Alias`
+
+<a name="api-AliasRequest"></a>
+
+### AliasRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| operatorAddress | [string](#string) |  | delegate&#39;s operator address |
+
+
+
+
+
+
+<a name="api-AliasResponse"></a>
+
+### AliasResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the operator address exists |
+| aliasName | [string](#string) |  | delegate&#39;s alias name |
+
+## TotalNumberOfHolders
+
+TotalNumberOfHolders returns total number of IOTX holders so far
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.TotalNumberOfHolders \
+  --header 'Content-Type: application/json' \
+  --data '{
+}'
+```
+
+```graphql
+query {
+  TotalNumberOfHolders{
+    totalNumberOfHolders
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "TotalNumberOfHolders": {
+      "totalNumberOfHolders": 511692
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.TotalNumberOfHolders`
+
+<a name="api-TotalNumberOfHoldersRequest"></a>
+
+### TotalNumberOfHoldersRequest
+
+
+
+
+
+
+
+<a name="api-TotalNumberOfHoldersResponse"></a>
+
+### TotalNumberOfHoldersResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalNumberOfHolders | [uint64](#uint64) |  | total number of IOTX holders so far |
+
+## TotalAccountSupply
+
+TotalAccountSupply returns total amount of tokens held by IoTeX accounts
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.TotalAccountSupply \
+  --header 'Content-Type: application/json' \
+  --data '{
+}'
+```
+
+```graphql
+query {
+  TotalAccountSupply{
+    totalAccountSupply
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "TotalAccountSupply": {
+      "totalAccountSupply": "12496299023824745920503427462"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.TotalAccountSupply`
+
+<a name="api-TotalAccountSupplyRequest"></a>
+
+### TotalAccountSupplyRequest
+
+
+
+
+
+
+
+<a name="api-TotalAccountSupplyResponse"></a>
+
+### TotalAccountSupplyResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalAccountSupply | [string](#string) |  | total amount of tokens held by IoTeX accounts |
+

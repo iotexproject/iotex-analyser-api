@@ -4,6 +4,10 @@
 ## Table of Contents
 
 - [api_account.proto](#api_account-proto)
+    - [ActiveAccountsRequest](#api-ActiveAccountsRequest)
+    - [ActiveAccountsResponse](#api-ActiveAccountsResponse)
+    - [AliasRequest](#api-AliasRequest)
+    - [AliasResponse](#api-AliasResponse)
     - [Erc20TokenBalanceByHeightRequest](#api-Erc20TokenBalanceByHeightRequest)
     - [Erc20TokenBalanceByHeightResponse](#api-Erc20TokenBalanceByHeightResponse)
     - [HermesDistribution](#api-HermesDistribution)
@@ -11,7 +15,13 @@
     - [HermesResponse](#api-HermesResponse)
     - [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest)
     - [IotexBalanceByHeightResponse](#api-IotexBalanceByHeightResponse)
+    - [OperatorAddressRequest](#api-OperatorAddressRequest)
+    - [OperatorAddressResponse](#api-OperatorAddressResponse)
     - [RewardDistribution](#api-RewardDistribution)
+    - [TotalAccountSupplyRequest](#api-TotalAccountSupplyRequest)
+    - [TotalAccountSupplyResponse](#api-TotalAccountSupplyResponse)
+    - [TotalNumberOfHoldersRequest](#api-TotalNumberOfHoldersRequest)
+    - [TotalNumberOfHoldersResponse](#api-TotalNumberOfHoldersResponse)
   
     - [AccountService](#api-AccountService)
   
@@ -62,12 +72,17 @@
     - [HermesByDelegateRequest](#api-HermesByDelegateRequest)
     - [HermesByDelegateResponse](#api-HermesByDelegateResponse)
     - [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo)
+    - [ProbationHistoricalRateRequest](#api-ProbationHistoricalRateRequest)
+    - [ProbationHistoricalRateResponse](#api-ProbationHistoricalRateResponse)
     - [Productivity](#api-Productivity)
     - [ProductivityRequest](#api-ProductivityRequest)
     - [ProductivityResponse](#api-ProductivityResponse)
     - [Reward](#api-Reward)
     - [RewardRequest](#api-RewardRequest)
     - [RewardResponse](#api-RewardResponse)
+    - [StakingRequest](#api-StakingRequest)
+    - [StakingResponse](#api-StakingResponse)
+    - [StakingResponse.StakingInfo](#api-StakingResponse-StakingInfo)
   
     - [DelegateService](#api-DelegateService)
   
@@ -90,6 +105,67 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## api_account.proto
+
+
+
+<a name="api-ActiveAccountsRequest"></a>
+
+### ActiveAccountsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | number of account addresses to be queried for active accounts |
+
+
+
+
+
+
+<a name="api-ActiveAccountsResponse"></a>
+
+### ActiveAccountsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| activeAccounts | [string](#string) | repeated | list of account addresses |
+
+
+
+
+
+
+<a name="api-AliasRequest"></a>
+
+### AliasRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| operatorAddress | [string](#string) |  | delegate&#39;s operator address |
+
+
+
+
+
+
+<a name="api-AliasResponse"></a>
+
+### AliasResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the operator address exists |
+| aliasName | [string](#string) |  | delegate&#39;s alias name |
+
+
+
 
 
 
@@ -187,8 +263,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| address | [string](#string) | repeated |  |
-| height | [uint64](#uint64) |  |  |
+| address | [string](#string) | repeated | address lists |
+| height | [uint64](#uint64) |  | block height |
 
 
 
@@ -203,8 +279,39 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| height | [uint64](#uint64) |  |  |
-| balance | [string](#string) | repeated |  |
+| height | [uint64](#uint64) |  | block height |
+| balance | [string](#string) | repeated | balance at the given height. |
+
+
+
+
+
+
+<a name="api-OperatorAddressRequest"></a>
+
+### OperatorAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| aliasName | [string](#string) |  | delegate&#39;s alias name |
+
+
+
+
+
+
+<a name="api-OperatorAddressResponse"></a>
+
+### OperatorAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the alias name exists |
+| operatorAddress | [string](#string) |  | operator address associated with the given alias name |
 
 
 
@@ -227,6 +334,56 @@
 
 
 
+
+<a name="api-TotalAccountSupplyRequest"></a>
+
+### TotalAccountSupplyRequest
+
+
+
+
+
+
+
+<a name="api-TotalAccountSupplyResponse"></a>
+
+### TotalAccountSupplyResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalAccountSupply | [string](#string) |  | total amount of tokens held by IoTeX accounts |
+
+
+
+
+
+
+<a name="api-TotalNumberOfHoldersRequest"></a>
+
+### TotalNumberOfHoldersRequest
+
+
+
+
+
+
+
+<a name="api-TotalNumberOfHoldersResponse"></a>
+
+### TotalNumberOfHoldersResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalNumberOfHolders | [uint64](#uint64) |  | total number of IOTX holders so far |
+
+
+
+
+
  
 
  
@@ -241,9 +398,14 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| IotexBalanceByHeight | [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest) | [IotexBalanceByHeightResponse](#api-IotexBalanceByHeightResponse) |  |
+| IotexBalanceByHeight | [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest) | [IotexBalanceByHeightResponse](#api-IotexBalanceByHeightResponse) | IotexBalanceByHeight returns the balance of the given address at the given height. |
 | Erc20TokenBalanceByHeight | [Erc20TokenBalanceByHeightRequest](#api-Erc20TokenBalanceByHeightRequest) | [Erc20TokenBalanceByHeightResponse](#api-Erc20TokenBalanceByHeightResponse) |  |
 | Hermes | [HermesRequest](#api-HermesRequest) | [HermesResponse](#api-HermesResponse) | Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs |
+| ActiveAccounts | [ActiveAccountsRequest](#api-ActiveAccountsRequest) | [ActiveAccountsResponse](#api-ActiveAccountsResponse) | ActiveAccounts lists most recently active accounts |
+| OperatorAddress | [OperatorAddressRequest](#api-OperatorAddressRequest) | [OperatorAddressResponse](#api-OperatorAddressResponse) | OperatorAddress finds the delegate&#39;s operator address given the delegate&#39;s alias name |
+| Alias | [AliasRequest](#api-AliasRequest) | [AliasResponse](#api-AliasResponse) | Alias finds the delegate&#39;s alias name given the delegate&#39;s operator address |
+| TotalNumberOfHolders | [TotalNumberOfHoldersRequest](#api-TotalNumberOfHoldersRequest) | [TotalNumberOfHoldersResponse](#api-TotalNumberOfHoldersResponse) | TotalNumberOfHolders returns total number of IOTX holders so far |
+| TotalAccountSupply | [TotalAccountSupplyRequest](#api-TotalAccountSupplyRequest) | [TotalAccountSupplyResponse](#api-TotalAccountSupplyResponse) | TotalAccountSupply returns total amount of tokens held by IoTeX accounts |
 
  
 
@@ -941,6 +1103,38 @@
 
 
 
+<a name="api-ProbationHistoricalRateRequest"></a>
+
+### ProbationHistoricalRateRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| delegateName | [string](#string) |  | candidate name |
+
+
+
+
+
+
+<a name="api-ProbationHistoricalRateResponse"></a>
+
+### ProbationHistoricalRateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| probationHistoricalRate | [string](#string) |  | probation historical rate |
+
+
+
+
+
+
 <a name="api-Productivity"></a>
 
 ### Productivity
@@ -1039,6 +1233,56 @@
 
 
 
+
+<a name="api-StakingRequest"></a>
+
+### StakingRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| delegateName | [string](#string) |  | candidate name |
+
+
+
+
+
+
+<a name="api-StakingResponse"></a>
+
+### StakingResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the delegate has staking information within the specified epoch range |
+| stakingInfo | [StakingResponse.StakingInfo](#api-StakingResponse-StakingInfo) | repeated |  |
+
+
+
+
+
+
+<a name="api-StakingResponse-StakingInfo"></a>
+
+### StakingResponse.StakingInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| totalStaking | [string](#string) |  | total staking amount |
+| selfStaking | [string](#string) |  | candidate’s self-staking amount |
+
+
+
+
+
  
 
  
@@ -1058,6 +1302,8 @@
 | Productivity | [ProductivityRequest](#api-ProductivityRequest) | [ProductivityResponse](#api-ProductivityResponse) | Productivity gives block productivity of producers within a range of epochs |
 | Reward | [RewardRequest](#api-RewardRequest) | [RewardResponse](#api-RewardResponse) | Rewards provides reward detail information for candidates within a range of epochs |
 | HermesByDelegate | [HermesByDelegateRequest](#api-HermesByDelegateRequest) | [HermesByDelegateResponse](#api-HermesByDelegateResponse) | HermesByDelegate returns Hermes delegates&#39; distribution history |
+| Staking | [StakingRequest](#api-StakingRequest) | [StakingResponse](#api-StakingResponse) | Staking provides staking information for candidates within a range of epochs |
+| ProbationHistoricalRate | [ProbationHistoricalRateRequest](#api-ProbationHistoricalRateRequest) | [ProbationHistoricalRateResponse](#api-ProbationHistoricalRateResponse) | ProbationHistoricalRate provides the rate of probation for a given delegate |
 
  
 

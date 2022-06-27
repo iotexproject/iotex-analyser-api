@@ -179,6 +179,22 @@
             <ul>
               
                 <li>
+                  <a href="#api.ActiveAccountsRequest"><span class="badge">M</span>ActiveAccountsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActiveAccountsResponse"><span class="badge">M</span>ActiveAccountsResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.AliasRequest"><span class="badge">M</span>AliasRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.AliasResponse"><span class="badge">M</span>AliasResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.Erc20TokenBalanceByHeightRequest"><span class="badge">M</span>Erc20TokenBalanceByHeightRequest</a>
                 </li>
               
@@ -207,7 +223,31 @@
                 </li>
               
                 <li>
+                  <a href="#api.OperatorAddressRequest"><span class="badge">M</span>OperatorAddressRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.OperatorAddressResponse"><span class="badge">M</span>OperatorAddressResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.RewardDistribution"><span class="badge">M</span>RewardDistribution</a>
+                </li>
+              
+                <li>
+                  <a href="#api.TotalAccountSupplyRequest"><span class="badge">M</span>TotalAccountSupplyRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.TotalAccountSupplyResponse"><span class="badge">M</span>TotalAccountSupplyResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.TotalNumberOfHoldersRequest"><span class="badge">M</span>TotalNumberOfHoldersRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.TotalNumberOfHoldersResponse"><span class="badge">M</span>TotalNumberOfHoldersResponse</a>
                 </li>
               
               
@@ -403,6 +443,14 @@
                 </li>
               
                 <li>
+                  <a href="#api.ProbationHistoricalRateRequest"><span class="badge">M</span>ProbationHistoricalRateRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ProbationHistoricalRateResponse"><span class="badge">M</span>ProbationHistoricalRateResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.Productivity"><span class="badge">M</span>Productivity</a>
                 </li>
               
@@ -424,6 +472,18 @@
               
                 <li>
                   <a href="#api.RewardResponse"><span class="badge">M</span>RewardResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.StakingRequest"><span class="badge">M</span>StakingRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.StakingResponse"><span class="badge">M</span>StakingResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.StakingResponse.StakingInfo"><span class="badge">M</span>StakingResponse.StakingInfo</a>
                 </li>
               
               
@@ -493,6 +553,109 @@
       </div>
       <p></p>
 
+      
+        <h3 id="api.ActiveAccountsRequest">ActiveAccountsRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of account addresses to be queried for active accounts </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActiveAccountsResponse">ActiveAccountsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>activeAccounts</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>list of account addresses </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.AliasRequest">AliasRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>operatorAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate&#39;s operator address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.AliasResponse">AliasResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the operator address exists </p></td>
+                </tr>
+              
+                <tr>
+                  <td>aliasName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate&#39;s alias name </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
       
         <h3 id="api.Erc20TokenBalanceByHeightRequest">Erc20TokenBalanceByHeightRequest</h3>
         <p></p>
@@ -705,14 +868,14 @@
                   <td>address</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
+                  <td><p>address lists </p></td>
                 </tr>
               
                 <tr>
                   <td>height</td>
                   <td><a href="#uint64">uint64</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>block height </p></td>
                 </tr>
               
             </tbody>
@@ -736,14 +899,69 @@
                   <td>height</td>
                   <td><a href="#uint64">uint64</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>block height </p></td>
                 </tr>
               
                 <tr>
                   <td>balance</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
+                  <td><p>balance at the given height. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.OperatorAddressRequest">OperatorAddressRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>aliasName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate&#39;s alias name </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.OperatorAddressResponse">OperatorAddressResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the alias name exists </p></td>
+                </tr>
+              
+                <tr>
+                  <td>operatorAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>operator address associated with the given alias name </p></td>
                 </tr>
               
             </tbody>
@@ -791,6 +1009,68 @@
 
         
       
+        <h3 id="api.TotalAccountSupplyRequest">TotalAccountSupplyRequest</h3>
+        <p></p>
+
+        
+
+        
+      
+        <h3 id="api.TotalAccountSupplyResponse">TotalAccountSupplyResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>totalAccountSupply</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total amount of tokens held by IoTeX accounts </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.TotalNumberOfHoldersRequest">TotalNumberOfHoldersRequest</h3>
+        <p></p>
+
+        
+
+        
+      
+        <h3 id="api.TotalNumberOfHoldersResponse">TotalNumberOfHoldersResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>totalNumberOfHolders</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of IOTX holders so far </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -809,7 +1089,7 @@
                 <td>IotexBalanceByHeight</td>
                 <td><a href="#api.IotexBalanceByHeightRequest">IotexBalanceByHeightRequest</a></td>
                 <td><a href="#api.IotexBalanceByHeightResponse">IotexBalanceByHeightResponse</a></td>
-                <td><p></p></td>
+                <td><p>IotexBalanceByHeight returns the balance of the given address at the given height.</p></td>
               </tr>
             
               <tr>
@@ -824,6 +1104,41 @@
                 <td><a href="#api.HermesRequest">HermesRequest</a></td>
                 <td><a href="#api.HermesResponse">HermesResponse</a></td>
                 <td><p>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</p></td>
+              </tr>
+            
+              <tr>
+                <td>ActiveAccounts</td>
+                <td><a href="#api.ActiveAccountsRequest">ActiveAccountsRequest</a></td>
+                <td><a href="#api.ActiveAccountsResponse">ActiveAccountsResponse</a></td>
+                <td><p>ActiveAccounts lists most recently active accounts</p></td>
+              </tr>
+            
+              <tr>
+                <td>OperatorAddress</td>
+                <td><a href="#api.OperatorAddressRequest">OperatorAddressRequest</a></td>
+                <td><a href="#api.OperatorAddressResponse">OperatorAddressResponse</a></td>
+                <td><p>OperatorAddress finds the delegate&#39;s operator address given the delegate&#39;s alias name</p></td>
+              </tr>
+            
+              <tr>
+                <td>Alias</td>
+                <td><a href="#api.AliasRequest">AliasRequest</a></td>
+                <td><a href="#api.AliasResponse">AliasResponse</a></td>
+                <td><p>Alias finds the delegate&#39;s alias name given the delegate&#39;s operator address</p></td>
+              </tr>
+            
+              <tr>
+                <td>TotalNumberOfHolders</td>
+                <td><a href="#api.TotalNumberOfHoldersRequest">TotalNumberOfHoldersRequest</a></td>
+                <td><a href="#api.TotalNumberOfHoldersResponse">TotalNumberOfHoldersResponse</a></td>
+                <td><p>TotalNumberOfHolders returns total number of IOTX holders so far</p></td>
+              </tr>
+            
+              <tr>
+                <td>TotalAccountSupply</td>
+                <td><a href="#api.TotalAccountSupplyRequest">TotalAccountSupplyRequest</a></td>
+                <td><a href="#api.TotalAccountSupplyResponse">TotalAccountSupplyResponse</a></td>
+                <td><p>TotalAccountSupply returns total amount of tokens held by IoTeX accounts</p></td>
               </tr>
             
           </tbody>
@@ -870,6 +1185,56 @@
                 <td>Hermes</td>
                 <td>POST</td>
                 <td>/api.AccountService.Hermes</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>ActiveAccounts</td>
+                <td>POST</td>
+                <td>/api.AccountService.ActiveAccounts</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>OperatorAddress</td>
+                <td>POST</td>
+                <td>/api.AccountService.OperatorAddress</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>Alias</td>
+                <td>POST</td>
+                <td>/api.AccountService.Alias</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>TotalNumberOfHolders</td>
+                <td>POST</td>
+                <td>/api.AccountService.TotalNumberOfHolders</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>TotalAccountSupply</td>
+                <td>POST</td>
+                <td>/api.AccountService.TotalAccountSupply</td>
                 <td>*</td>
               </tr>
               
@@ -2771,6 +3136,68 @@
 
         
       
+        <h3 id="api.ProbationHistoricalRateRequest">ProbationHistoricalRateRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate name </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ProbationHistoricalRateResponse">ProbationHistoricalRateResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>probationHistoricalRate</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>probation historical rate </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.Productivity">Productivity</h3>
         <p></p>
 
@@ -2978,6 +3405,113 @@
 
         
       
+        <h3 id="api.StakingRequest">StakingRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate name </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.StakingResponse">StakingResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the delegate has staking information within the specified epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>stakingInfo</td>
+                  <td><a href="#api.StakingResponse.StakingInfo">StakingResponse.StakingInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.StakingResponse.StakingInfo">StakingResponse.StakingInfo</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>epochNumber</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalStaking</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total staking amount </p></td>
+                </tr>
+              
+                <tr>
+                  <td>selfStaking</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate’s self-staking amount </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -3025,6 +3559,20 @@
                 <td><a href="#api.HermesByDelegateRequest">HermesByDelegateRequest</a></td>
                 <td><a href="#api.HermesByDelegateResponse">HermesByDelegateResponse</a></td>
                 <td><p>HermesByDelegate returns Hermes delegates&#39; distribution history</p></td>
+              </tr>
+            
+              <tr>
+                <td>Staking</td>
+                <td><a href="#api.StakingRequest">StakingRequest</a></td>
+                <td><a href="#api.StakingResponse">StakingResponse</a></td>
+                <td><p>Staking provides staking information for candidates within a range of epochs</p></td>
+              </tr>
+            
+              <tr>
+                <td>ProbationHistoricalRate</td>
+                <td><a href="#api.ProbationHistoricalRateRequest">ProbationHistoricalRateRequest</a></td>
+                <td><a href="#api.ProbationHistoricalRateResponse">ProbationHistoricalRateResponse</a></td>
+                <td><p>ProbationHistoricalRate provides the rate of probation for a given delegate</p></td>
               </tr>
             
           </tbody>
@@ -3091,6 +3639,26 @@
                 <td>HermesByDelegate</td>
                 <td>POST</td>
                 <td>/api.DelegateService.HermesByDelegate</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>Staking</td>
+                <td>POST</td>
+                <td>/api.DelegateService.Staking</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>ProbationHistoricalRate</td>
+                <td>POST</td>
+                <td>/api.DelegateService.ProbationHistoricalRate</td>
                 <td>*</td>
               </tr>
               

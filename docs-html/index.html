@@ -356,6 +356,12 @@
                   <li>
                     <a href="#hermesbydelegate" class="toc-h2 toc-link" data-title="HermesByDelegate">HermesByDelegate</a>
                   </li>
+                  <li>
+                    <a href="#staking" class="toc-h2 toc-link" data-title="Staking">Staking</a>
+                  </li>
+                  <li>
+                    <a href="#probationhistoricalrate" class="toc-h2 toc-link" data-title="ProbationHistoricalRate">ProbationHistoricalRate</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -363,6 +369,24 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#hermes" class="toc-h2 toc-link" data-title="Hermes">Hermes</a>
+                  </li>
+                  <li>
+                    <a href="#iotexbalancebyheight" class="toc-h2 toc-link" data-title="IotexBalanceByHeight">IotexBalanceByHeight</a>
+                  </li>
+                  <li>
+                    <a href="#activeaccounts" class="toc-h2 toc-link" data-title="ActiveAccounts">ActiveAccounts</a>
+                  </li>
+                  <li>
+                    <a href="#operatoraddress" class="toc-h2 toc-link" data-title="OperatorAddress">OperatorAddress</a>
+                  </li>
+                  <li>
+                    <a href="#alias" class="toc-h2 toc-link" data-title="Alias">Alias</a>
+                  </li>
+                  <li>
+                    <a href="#totalnumberofholders" class="toc-h2 toc-link" data-title="TotalNumberOfHolders">TotalNumberOfHolders</a>
+                  </li>
+                  <li>
+                    <a href="#totalaccountsupply" class="toc-h2 toc-link" data-title="TotalAccountSupply">TotalAccountSupply</a>
                   </li>
               </ul>
           </li>
@@ -1653,6 +1677,215 @@
 <td>ratio of foundation bonus being distributed</td>
 </tr>
 </tbody></table>
+<h2 id='staking'>Staking</h2>
+<p>Staking provides staking information for candidates within a range of epochs</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.Staking <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 20000,
+    "epochCount": 2,
+    "delegateName": "metanyx"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Staking</span><span class="p">(</span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w"> </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"metanyx"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">stakingInfo</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">epochNumber</span><span class="w">
+      </span><span class="n">totalStaking</span><span class="w">
+      </span><span class="n">selfStaking</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Staking"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"stakingInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"epochNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"selfStaking"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1266890287625445522068595"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"totalStaking"</span><span class="p">:</span><span class="w"> </span><span class="s2">"219516310335741609989431119"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"epochNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">20001</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"selfStaking"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1266890287625445522068595"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"totalStaking"</span><span class="p">:</span><span class="w"> </span><span class="s2">"219518846815421318945180493"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-9'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.Staking</code></p>
+
+<p><a name="api-StakingRequest"></a></p>
+<h3 id='stakingrequest'>StakingRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch count</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>candidate name</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-StakingResponse"></a></p>
+<h3 id='stakingresponse'>StakingResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the delegate has staking information within the specified epoch range</td>
+</tr>
+<tr>
+<td>stakingInfo</td>
+<td><a href="#api-StakingResponse-StakingInfo">StakingResponse.StakingInfo</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-StakingResponse-StakingInfo"></a></p>
+<h3 id='stakingresponse-stakinginfo'>StakingResponse.StakingInfo</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>epochNumber</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch number</td>
+</tr>
+<tr>
+<td>totalStaking</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total staking amount</td>
+</tr>
+<tr>
+<td>selfStaking</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>candidate’s self-staking amount</td>
+</tr>
+</tbody></table>
+<h2 id='probationhistoricalrate'>ProbationHistoricalRate</h2>
+<p>ProbationHistoricalRate provides the rate of probation for a given delegate</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.DelegateService.ProbationHistoricalRate <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "startEpoch": 27650,
+    "epochCount": 5,
+    "delegateName": "chainshield"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">ProbationHistoricalRate</span><span class="p">(</span><span class="w">
+    </span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">27650</span><span class="w">
+    </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="n">delegateName</span><span class="p">:</span><span class="w"> </span><span class="s2">"chainshield"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">probationHistoricalRate</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"ProbationHistoricalRate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"probationHistoricalRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.80"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-10'>HTTP Request</h3>
+<p><code>POST /api.DelegateService.ProbationHistoricalRate</code></p>
+
+<p><a name="api-ProbationHistoricalRateRequest"></a></p>
+<h3 id='probationhistoricalraterequest'>ProbationHistoricalRateRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch count</td>
+</tr>
+<tr>
+<td>delegateName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>candidate name</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-ProbationHistoricalRateResponse"></a></p>
+<h3 id='probationhistoricalrateresponse'>ProbationHistoricalRateResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>probationHistoricalRate</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>probation historical rate</td>
+</tr>
+</tbody></table>
 <h1 id='account-service-api'>Account Service API</h1><h2 id='hermes'>Hermes</h2>
 <p>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</p>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
@@ -1707,7 +1940,7 @@
         </span><span class="p">},</span><span class="w">
         </span><span class="err">...</span><span class="w">
 </span><span class="err">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-9'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-11'>HTTP Request</h3>
 <p><code>POST /api.AccountService.Hermes</code></p>
 
 <p><a name="api-HermesRequest"></a></p>
@@ -1833,6 +2066,392 @@
 <td><a href="#string">string</a></td>
 <td></td>
 <td>amount of reward distribution</td>
+</tr>
+</tbody></table>
+<h2 id='iotexbalancebyheight'>IotexBalanceByHeight</h2>
+<p>IotexBalanceByHeight returns the balance of the given address at the given height.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.IotexBalanceByHeight <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "address": ["io1qnpz47hx5q6r3w876axtrn6yz95d70cjl35r53"], 
+    "height":8927781 
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">IotexBalanceByHeight</span><span class="p">(</span><span class="w">
+    </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"io1qnpz47hx5q6r3w876axtrn6yz95d70cjl35r53"</span><span class="p">]</span><span class="w">
+    </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="mi">8927781</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">balance</span><span class="w">
+    </span><span class="n">height</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"IotexBalanceByHeight"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"balance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"957.111886573698936216"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nl">"height"</span><span class="p">:</span><span class="w"> </span><span class="mi">8927781</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-12'>HTTP Request</h3>
+<p><code>POST /api.AccountService.IotexBalanceByHeight</code></p>
+
+<p><a name="api-IotexBalanceByHeightRequest"></a></p>
+<h3 id='iotexbalancebyheightrequest'>IotexBalanceByHeightRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>address lists</td>
+</tr>
+<tr>
+<td>height</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>block height</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-IotexBalanceByHeightResponse"></a></p>
+<h3 id='iotexbalancebyheightresponse'>IotexBalanceByHeightResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>height</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>block height</td>
+</tr>
+<tr>
+<td>balance</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>balance at the given height.</td>
+</tr>
+</tbody></table>
+<h2 id='activeaccounts'>ActiveAccounts</h2>
+<p>ActiveAccounts lists most recently active accounts</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.ActiveAccounts <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "count": 5
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">ActiveAccounts</span><span class="p">(</span><span class="n">count</span><span class="p">:</span><span class="mi">5</span><span class="p">){</span><span class="w">
+    </span><span class="n">activeAccounts</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"ActiveAccounts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"activeAccounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"io1aqf30kqz5rqh6zn82c00j684p2h2t5cg30wm8t"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io1lhukp867ume3qn2g7cxn4e47pj0ugfxeqj7nm8"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io12p2td5p5tmaqqztdejl0dqdqalmajylw57x3e8"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io17cmrextyfeu4gddwd89g5qncedsnc553dhz7xa"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-13'>HTTP Request</h3>
+<p><code>POST /api.AccountService.ActiveAccounts</code></p>
+
+<p><a name="api-ActiveAccountsRequest"></a></p>
+<h3 id='activeaccountsrequest'>ActiveAccountsRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>number of account addresses to be queried for active accounts</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-ActiveAccountsResponse"></a></p>
+<h3 id='activeaccountsresponse'>ActiveAccountsResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>activeAccounts</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>list of account addresses</td>
+</tr>
+</tbody></table>
+<h2 id='operatoraddress'>OperatorAddress</h2>
+<p>OperatorAddress finds the delegate&#39;s operator address given the delegate&#39;s alias name</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.OperatorAddress <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "aliasName": "metanyxa"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">OperatorAddress</span><span class="p">(</span><span class="n">aliasName</span><span class="p">:</span><span class="s2">"metanyx"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">operatorAddress</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"OperatorAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"operatorAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io10reczcaelglh5xmkay65h9vw3e5dp82e8vw0rz"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-14'>HTTP Request</h3>
+<p><code>POST /api.AccountService.OperatorAddress</code></p>
+
+<p><a name="api-OperatorAddressRequest"></a></p>
+<h3 id='operatoraddressrequest'>OperatorAddressRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>aliasName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate&#39;s alias name</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-OperatorAddressResponse"></a></p>
+<h3 id='operatoraddressresponse'>OperatorAddressResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the alias name exists</td>
+</tr>
+<tr>
+<td>operatorAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>operator address associated with the given alias name</td>
+</tr>
+</tbody></table>
+<h2 id='alias'>Alias</h2>
+<p>Alias finds the delegate&#39;s alias name given the delegate&#39;s operator address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.Alias <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "operatorAddress": "io10reczcaelglh5xmkay65h9vw3e5dp82e8vw0rz"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">Alias</span><span class="p">(</span><span class="n">operatorAddress</span><span class="p">:</span><span class="s2">"io10reczcaelglh5xmkay65h9vw3e5dp82e8vw0rz"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">aliasName</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Alias"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"aliasName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"metanyx"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-15'>HTTP Request</h3>
+<p><code>POST /api.AccountService.Alias</code></p>
+
+<p><a name="api-AliasRequest"></a></p>
+<h3 id='aliasrequest'>AliasRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>operatorAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate&#39;s operator address</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-AliasResponse"></a></p>
+<h3 id='aliasresponse'>AliasResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the operator address exists</td>
+</tr>
+<tr>
+<td>aliasName</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate&#39;s alias name</td>
+</tr>
+</tbody></table>
+<h2 id='totalnumberofholders'>TotalNumberOfHolders</h2>
+<p>TotalNumberOfHolders returns total number of IOTX holders so far</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.TotalNumberOfHolders <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">TotalNumberOfHolders</span><span class="p">{</span><span class="w">
+    </span><span class="n">totalNumberOfHolders</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"TotalNumberOfHolders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"totalNumberOfHolders"</span><span class="p">:</span><span class="w"> </span><span class="mi">511692</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-16'>HTTP Request</h3>
+<p><code>POST /api.AccountService.TotalNumberOfHolders</code></p>
+
+<p><a name="api-TotalNumberOfHoldersRequest"></a></p>
+<h3 id='totalnumberofholdersrequest'>TotalNumberOfHoldersRequest</h3>
+<p><a name="api-TotalNumberOfHoldersResponse"></a></p>
+<h3 id='totalnumberofholdersresponse'>TotalNumberOfHoldersResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>totalNumberOfHolders</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of IOTX holders so far</td>
+</tr>
+</tbody></table>
+<h2 id='totalaccountsupply'>TotalAccountSupply</h2>
+<p>TotalAccountSupply returns total amount of tokens held by IoTeX accounts</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.TotalAccountSupply <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">TotalAccountSupply</span><span class="p">{</span><span class="w">
+    </span><span class="n">totalAccountSupply</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"TotalAccountSupply"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"totalAccountSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12496299023824745920503427462"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-17'>HTTP Request</h3>
+<p><code>POST /api.AccountService.TotalAccountSupply</code></p>
+
+<p><a name="api-TotalAccountSupplyRequest"></a></p>
+<h3 id='totalaccountsupplyrequest'>TotalAccountSupplyRequest</h3>
+<p><a name="api-TotalAccountSupplyResponse"></a></p>
+<h3 id='totalaccountsupplyresponse'>TotalAccountSupplyResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>totalAccountSupply</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total amount of tokens held by IoTeX accounts</td>
 </tr>
 </tbody></table>
 

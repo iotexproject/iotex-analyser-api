@@ -11,7 +11,11 @@ import (
 )
 
 var (
+	gql__type_TotalNumberOfHoldersResponse       *graphql.Object      // message TotalNumberOfHoldersResponse in api_account.proto
+	gql__type_TotalAccountSupplyResponse         *graphql.Object      // message TotalAccountSupplyResponse in api_account.proto
 	gql__type_RewardDistribution                 *graphql.Object      // message RewardDistribution in api_account.proto
+	gql__type_OperatorAddressResponse            *graphql.Object      // message OperatorAddressResponse in api_account.proto
+	gql__type_OperatorAddressRequest             *graphql.Object      // message OperatorAddressRequest in api_account.proto
 	gql__type_IotexBalanceByHeightResponse       *graphql.Object      // message IotexBalanceByHeightResponse in api_account.proto
 	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
 	gql__type_HermesResponse                     *graphql.Object      // message HermesResponse in api_account.proto
@@ -19,7 +23,15 @@ var (
 	gql__type_HermesDistribution                 *graphql.Object      // message HermesDistribution in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightResponse  *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightRequest   *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__type_AliasResponse                      *graphql.Object      // message AliasResponse in api_account.proto
+	gql__type_AliasRequest                       *graphql.Object      // message AliasRequest in api_account.proto
+	gql__type_ActiveAccountsResponse             *graphql.Object      // message ActiveAccountsResponse in api_account.proto
+	gql__type_ActiveAccountsRequest              *graphql.Object      // message ActiveAccountsRequest in api_account.proto
+	gql__input_TotalNumberOfHoldersResponse      *graphql.InputObject // message TotalNumberOfHoldersResponse in api_account.proto
+	gql__input_TotalAccountSupplyResponse        *graphql.InputObject // message TotalAccountSupplyResponse in api_account.proto
 	gql__input_RewardDistribution                *graphql.InputObject // message RewardDistribution in api_account.proto
+	gql__input_OperatorAddressResponse           *graphql.InputObject // message OperatorAddressResponse in api_account.proto
+	gql__input_OperatorAddressRequest            *graphql.InputObject // message OperatorAddressRequest in api_account.proto
 	gql__input_IotexBalanceByHeightResponse      *graphql.InputObject // message IotexBalanceByHeightResponse in api_account.proto
 	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
 	gql__input_HermesResponse                    *graphql.InputObject // message HermesResponse in api_account.proto
@@ -27,7 +39,39 @@ var (
 	gql__input_HermesDistribution                *graphql.InputObject // message HermesDistribution in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightResponse *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightRequest  *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__input_AliasResponse                     *graphql.InputObject // message AliasResponse in api_account.proto
+	gql__input_AliasRequest                      *graphql.InputObject // message AliasRequest in api_account.proto
+	gql__input_ActiveAccountsResponse            *graphql.InputObject // message ActiveAccountsResponse in api_account.proto
+	gql__input_ActiveAccountsRequest             *graphql.InputObject // message ActiveAccountsRequest in api_account.proto
 )
+
+func Gql__type_TotalNumberOfHoldersResponse() *graphql.Object {
+	if gql__type_TotalNumberOfHoldersResponse == nil {
+		gql__type_TotalNumberOfHoldersResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_TotalNumberOfHoldersResponse",
+			Fields: graphql.Fields{
+				"totalNumberOfHolders": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_TotalNumberOfHoldersResponse
+}
+
+func Gql__type_TotalAccountSupplyResponse() *graphql.Object {
+	if gql__type_TotalAccountSupplyResponse == nil {
+		gql__type_TotalAccountSupplyResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_TotalAccountSupplyResponse",
+			Fields: graphql.Fields{
+				"totalAccountSupply": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_TotalAccountSupplyResponse
+}
 
 func Gql__type_RewardDistribution() *graphql.Object {
 	if gql__type_RewardDistribution == nil {
@@ -47,6 +91,37 @@ func Gql__type_RewardDistribution() *graphql.Object {
 		})
 	}
 	return gql__type_RewardDistribution
+}
+
+func Gql__type_OperatorAddressResponse() *graphql.Object {
+	if gql__type_OperatorAddressResponse == nil {
+		gql__type_OperatorAddressResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_OperatorAddressResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"operatorAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_OperatorAddressResponse
+}
+
+func Gql__type_OperatorAddressRequest() *graphql.Object {
+	if gql__type_OperatorAddressRequest == nil {
+		gql__type_OperatorAddressRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_OperatorAddressRequest",
+			Fields: graphql.Fields{
+				"aliasName": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_OperatorAddressRequest
 }
 
 func Gql__type_IotexBalanceByHeightResponse() *graphql.Object {
@@ -186,6 +261,93 @@ func Gql__type_Erc20TokenBalanceByHeightRequest() *graphql.Object {
 	return gql__type_Erc20TokenBalanceByHeightRequest
 }
 
+func Gql__type_AliasResponse() *graphql.Object {
+	if gql__type_AliasResponse == nil {
+		gql__type_AliasResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_AliasResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"aliasName": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_AliasResponse
+}
+
+func Gql__type_AliasRequest() *graphql.Object {
+	if gql__type_AliasRequest == nil {
+		gql__type_AliasRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_AliasRequest",
+			Fields: graphql.Fields{
+				"operatorAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_AliasRequest
+}
+
+func Gql__type_ActiveAccountsResponse() *graphql.Object {
+	if gql__type_ActiveAccountsResponse == nil {
+		gql__type_ActiveAccountsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActiveAccountsResponse",
+			Fields: graphql.Fields{
+				"activeAccounts": &graphql.Field{
+					Type: graphql.NewList(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__type_ActiveAccountsResponse
+}
+
+func Gql__type_ActiveAccountsRequest() *graphql.Object {
+	if gql__type_ActiveAccountsRequest == nil {
+		gql__type_ActiveAccountsRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActiveAccountsRequest",
+			Fields: graphql.Fields{
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_ActiveAccountsRequest
+}
+
+func Gql__input_TotalNumberOfHoldersResponse() *graphql.InputObject {
+	if gql__input_TotalNumberOfHoldersResponse == nil {
+		gql__input_TotalNumberOfHoldersResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_TotalNumberOfHoldersResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"totalNumberOfHolders": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_TotalNumberOfHoldersResponse
+}
+
+func Gql__input_TotalAccountSupplyResponse() *graphql.InputObject {
+	if gql__input_TotalAccountSupplyResponse == nil {
+		gql__input_TotalAccountSupplyResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_TotalAccountSupplyResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"totalAccountSupply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_TotalAccountSupplyResponse
+}
+
 func Gql__input_RewardDistribution() *graphql.InputObject {
 	if gql__input_RewardDistribution == nil {
 		gql__input_RewardDistribution = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -204,6 +366,37 @@ func Gql__input_RewardDistribution() *graphql.InputObject {
 		})
 	}
 	return gql__input_RewardDistribution
+}
+
+func Gql__input_OperatorAddressResponse() *graphql.InputObject {
+	if gql__input_OperatorAddressResponse == nil {
+		gql__input_OperatorAddressResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_OperatorAddressResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"operatorAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_OperatorAddressResponse
+}
+
+func Gql__input_OperatorAddressRequest() *graphql.InputObject {
+	if gql__input_OperatorAddressRequest == nil {
+		gql__input_OperatorAddressRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_OperatorAddressRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"aliasName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_OperatorAddressRequest
 }
 
 func Gql__input_IotexBalanceByHeightResponse() *graphql.InputObject {
@@ -343,6 +536,65 @@ func Gql__input_Erc20TokenBalanceByHeightRequest() *graphql.InputObject {
 	return gql__input_Erc20TokenBalanceByHeightRequest
 }
 
+func Gql__input_AliasResponse() *graphql.InputObject {
+	if gql__input_AliasResponse == nil {
+		gql__input_AliasResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_AliasResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"aliasName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_AliasResponse
+}
+
+func Gql__input_AliasRequest() *graphql.InputObject {
+	if gql__input_AliasRequest == nil {
+		gql__input_AliasRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_AliasRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"operatorAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_AliasRequest
+}
+
+func Gql__input_ActiveAccountsResponse() *graphql.InputObject {
+	if gql__input_ActiveAccountsResponse == nil {
+		gql__input_ActiveAccountsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActiveAccountsResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"activeAccounts": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__input_ActiveAccountsResponse
+}
+
+func Gql__input_ActiveAccountsRequest() *graphql.InputObject {
+	if gql__input_ActiveAccountsRequest == nil {
+		gql__input_ActiveAccountsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActiveAccountsRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_ActiveAccountsRequest
+}
+
 // graphql__resolver_AccountService is a struct for making query, mutation and resolve fields.
 // This struct must be implemented runtime.SchemaBuilder interface.
 type graphql__resolver_AccountService struct {
@@ -456,6 +708,98 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 				resp, err := client.Hermes(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC Hermes")
+				}
+				return resp, nil
+			},
+		},
+		"ActiveAccounts": &graphql.Field{
+			Type: Gql__type_ActiveAccountsResponse(),
+			Args: graphql.FieldConfigArgument{
+				"count": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ActiveAccountsRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for ActiveAccounts")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.ActiveAccounts(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ActiveAccounts")
+				}
+				return resp, nil
+			},
+		},
+		"OperatorAddress": &graphql.Field{
+			Type: Gql__type_OperatorAddressResponse(),
+			Args: graphql.FieldConfigArgument{
+				"aliasName": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req OperatorAddressRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for OperatorAddress")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.OperatorAddress(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC OperatorAddress")
+				}
+				return resp, nil
+			},
+		},
+		"Alias": &graphql.Field{
+			Type: Gql__type_AliasResponse(),
+			Args: graphql.FieldConfigArgument{
+				"operatorAddress": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req AliasRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for Alias")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.Alias(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC Alias")
+				}
+				return resp, nil
+			},
+		},
+		"TotalNumberOfHolders": &graphql.Field{
+			Type: Gql__type_TotalNumberOfHoldersResponse(),
+			Args: graphql.FieldConfigArgument{},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req TotalNumberOfHoldersRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for TotalNumberOfHolders")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.TotalNumberOfHolders(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC TotalNumberOfHolders")
+				}
+				return resp, nil
+			},
+		},
+		"TotalAccountSupply": &graphql.Field{
+			Type: Gql__type_TotalAccountSupplyResponse(),
+			Args: graphql.FieldConfigArgument{},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req TotalAccountSupplyRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for TotalAccountSupply")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.TotalAccountSupply(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC TotalAccountSupply")
 				}
 				return resp, nil
 			},
