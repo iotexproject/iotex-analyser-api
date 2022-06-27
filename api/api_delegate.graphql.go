@@ -12,12 +12,17 @@ import (
 )
 
 var (
+	gql__type_StakingResponse_StakingInfo        *graphql.Object      // message StakingResponse.StakingInfo in api_delegate.proto
+	gql__type_StakingResponse                    *graphql.Object      // message StakingResponse in api_delegate.proto
+	gql__type_StakingRequest                     *graphql.Object      // message StakingRequest in api_delegate.proto
 	gql__type_RewardResponse                     *graphql.Object      // message RewardResponse in api_delegate.proto
 	gql__type_RewardRequest                      *graphql.Object      // message RewardRequest in api_delegate.proto
 	gql__type_Reward                             *graphql.Object      // message Reward in api_delegate.proto
 	gql__type_ProductivityResponse               *graphql.Object      // message ProductivityResponse in api_delegate.proto
 	gql__type_ProductivityRequest                *graphql.Object      // message ProductivityRequest in api_delegate.proto
 	gql__type_Productivity                       *graphql.Object      // message Productivity in api_delegate.proto
+	gql__type_ProbationHistoricalRateResponse    *graphql.Object      // message ProbationHistoricalRateResponse in api_delegate.proto
+	gql__type_ProbationHistoricalRateRequest     *graphql.Object      // message ProbationHistoricalRateRequest in api_delegate.proto
 	gql__type_HermesByDelegateVoterInfo          *graphql.Object      // message HermesByDelegateVoterInfo in api_delegate.proto
 	gql__type_HermesByDelegateResponse           *graphql.Object      // message HermesByDelegateResponse in api_delegate.proto
 	gql__type_HermesByDelegateRequest            *graphql.Object      // message HermesByDelegateRequest in api_delegate.proto
@@ -29,12 +34,17 @@ var (
 	gql__type_BucketInfo                         *graphql.Object      // message BucketInfo in api_delegate.proto
 	gql__type_BookKeepingResponse                *graphql.Object      // message BookKeepingResponse in api_delegate.proto
 	gql__type_BookKeepingRequest                 *graphql.Object      // message BookKeepingRequest in api_delegate.proto
+	gql__input_StakingResponse_StakingInfo       *graphql.InputObject // message StakingResponse.StakingInfo in api_delegate.proto
+	gql__input_StakingResponse                   *graphql.InputObject // message StakingResponse in api_delegate.proto
+	gql__input_StakingRequest                    *graphql.InputObject // message StakingRequest in api_delegate.proto
 	gql__input_RewardResponse                    *graphql.InputObject // message RewardResponse in api_delegate.proto
 	gql__input_RewardRequest                     *graphql.InputObject // message RewardRequest in api_delegate.proto
 	gql__input_Reward                            *graphql.InputObject // message Reward in api_delegate.proto
 	gql__input_ProductivityResponse              *graphql.InputObject // message ProductivityResponse in api_delegate.proto
 	gql__input_ProductivityRequest               *graphql.InputObject // message ProductivityRequest in api_delegate.proto
 	gql__input_Productivity                      *graphql.InputObject // message Productivity in api_delegate.proto
+	gql__input_ProbationHistoricalRateResponse   *graphql.InputObject // message ProbationHistoricalRateResponse in api_delegate.proto
+	gql__input_ProbationHistoricalRateRequest    *graphql.InputObject // message ProbationHistoricalRateRequest in api_delegate.proto
 	gql__input_HermesByDelegateVoterInfo         *graphql.InputObject // message HermesByDelegateVoterInfo in api_delegate.proto
 	gql__input_HermesByDelegateResponse          *graphql.InputObject // message HermesByDelegateResponse in api_delegate.proto
 	gql__input_HermesByDelegateRequest           *graphql.InputObject // message HermesByDelegateRequest in api_delegate.proto
@@ -47,6 +57,63 @@ var (
 	gql__input_BookKeepingResponse               *graphql.InputObject // message BookKeepingResponse in api_delegate.proto
 	gql__input_BookKeepingRequest                *graphql.InputObject // message BookKeepingRequest in api_delegate.proto
 )
+
+func Gql__type_StakingResponse_StakingInfo() *graphql.Object {
+	if gql__type_StakingResponse_StakingInfo == nil {
+		gql__type_StakingResponse_StakingInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_StakingResponse_StakingInfo",
+			Fields: graphql.Fields{
+				"epochNumber": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"totalStaking": &graphql.Field{
+					Type: graphql.String,
+				},
+				"selfStaking": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_StakingResponse_StakingInfo
+}
+
+func Gql__type_StakingResponse() *graphql.Object {
+	if gql__type_StakingResponse == nil {
+		gql__type_StakingResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_StakingResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"stakingInfo": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingResponse_StakingInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_StakingResponse
+}
+
+func Gql__type_StakingRequest() *graphql.Object {
+	if gql__type_StakingRequest == nil {
+		gql__type_StakingRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_StakingRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_StakingRequest
+}
 
 func Gql__type_RewardResponse() *graphql.Object {
 	if gql__type_RewardResponse == nil {
@@ -157,6 +224,40 @@ func Gql__type_Productivity() *graphql.Object {
 		})
 	}
 	return gql__type_Productivity
+}
+
+func Gql__type_ProbationHistoricalRateResponse() *graphql.Object {
+	if gql__type_ProbationHistoricalRateResponse == nil {
+		gql__type_ProbationHistoricalRateResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ProbationHistoricalRateResponse",
+			Fields: graphql.Fields{
+				"probationHistoricalRate": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ProbationHistoricalRateResponse
+}
+
+func Gql__type_ProbationHistoricalRateRequest() *graphql.Object {
+	if gql__type_ProbationHistoricalRateRequest == nil {
+		gql__type_ProbationHistoricalRateRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ProbationHistoricalRateRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ProbationHistoricalRateRequest
 }
 
 func Gql__type_HermesByDelegateVoterInfo() *graphql.Object {
@@ -433,6 +534,63 @@ func Gql__type_BookKeepingRequest() *graphql.Object {
 	return gql__type_BookKeepingRequest
 }
 
+func Gql__input_StakingResponse_StakingInfo() *graphql.InputObject {
+	if gql__input_StakingResponse_StakingInfo == nil {
+		gql__input_StakingResponse_StakingInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_StakingResponse_StakingInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"epochNumber": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"totalStaking": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"selfStaking": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_StakingResponse_StakingInfo
+}
+
+func Gql__input_StakingResponse() *graphql.InputObject {
+	if gql__input_StakingResponse == nil {
+		gql__input_StakingResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_StakingResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"stakingInfo": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingResponse_StakingInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_StakingResponse
+}
+
+func Gql__input_StakingRequest() *graphql.InputObject {
+	if gql__input_StakingRequest == nil {
+		gql__input_StakingRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_StakingRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_StakingRequest
+}
+
 func Gql__input_RewardResponse() *graphql.InputObject {
 	if gql__input_RewardResponse == nil {
 		gql__input_RewardResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -542,6 +700,40 @@ func Gql__input_Productivity() *graphql.InputObject {
 		})
 	}
 	return gql__input_Productivity
+}
+
+func Gql__input_ProbationHistoricalRateResponse() *graphql.InputObject {
+	if gql__input_ProbationHistoricalRateResponse == nil {
+		gql__input_ProbationHistoricalRateResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ProbationHistoricalRateResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"probationHistoricalRate": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ProbationHistoricalRateResponse
+}
+
+func Gql__input_ProbationHistoricalRateRequest() *graphql.InputObject {
+	if gql__input_ProbationHistoricalRateRequest == nil {
+		gql__input_ProbationHistoricalRateRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ProbationHistoricalRateRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ProbationHistoricalRateRequest
 }
 
 func Gql__input_HermesByDelegateVoterInfo() *graphql.InputObject {
@@ -1004,6 +1196,58 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				resp, err := client.HermesByDelegate(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC HermesByDelegate")
+				}
+				return resp, nil
+			},
+		},
+		"Staking": &graphql.Field{
+			Type: Gql__type_StakingResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req StakingRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for Staking")
+				}
+				client := NewDelegateServiceClient(conn)
+				resp, err := client.Staking(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC Staking")
+				}
+				return resp, nil
+			},
+		},
+		"ProbationHistoricalRate": &graphql.Field{
+			Type: Gql__type_ProbationHistoricalRateResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ProbationHistoricalRateRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for ProbationHistoricalRate")
+				}
+				client := NewDelegateServiceClient(conn)
+				resp, err := client.ProbationHistoricalRate(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ProbationHistoricalRate")
 				}
 				return resp, nil
 			},

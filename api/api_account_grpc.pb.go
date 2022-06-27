@@ -18,10 +18,21 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountServiceClient interface {
+	// IotexBalanceByHeight returns the balance of the given address at the given height.
 	IotexBalanceByHeight(ctx context.Context, in *IotexBalanceByHeightRequest, opts ...grpc.CallOption) (*IotexBalanceByHeightResponse, error)
 	Erc20TokenBalanceByHeight(ctx context.Context, in *Erc20TokenBalanceByHeightRequest, opts ...grpc.CallOption) (*Erc20TokenBalanceByHeightResponse, error)
 	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
 	Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error)
+	// ActiveAccounts lists most recently active accounts
+	ActiveAccounts(ctx context.Context, in *ActiveAccountsRequest, opts ...grpc.CallOption) (*ActiveAccountsResponse, error)
+	// OperatorAddress finds the delegate's operator address given the delegate's alias name
+	OperatorAddress(ctx context.Context, in *OperatorAddressRequest, opts ...grpc.CallOption) (*OperatorAddressResponse, error)
+	// Alias finds the delegate's alias name given the delegate's operator address
+	Alias(ctx context.Context, in *AliasRequest, opts ...grpc.CallOption) (*AliasResponse, error)
+	// TotalNumberOfHolders returns total number of IOTX holders so far
+	TotalNumberOfHolders(ctx context.Context, in *TotalNumberOfHoldersRequest, opts ...grpc.CallOption) (*TotalNumberOfHoldersResponse, error)
+	// TotalAccountSupply returns total amount of tokens held by IoTeX accounts
+	TotalAccountSupply(ctx context.Context, in *TotalAccountSupplyRequest, opts ...grpc.CallOption) (*TotalAccountSupplyResponse, error)
 }
 
 type accountServiceClient struct {
@@ -59,14 +70,70 @@ func (c *accountServiceClient) Hermes(ctx context.Context, in *HermesRequest, op
 	return out, nil
 }
 
+func (c *accountServiceClient) ActiveAccounts(ctx context.Context, in *ActiveAccountsRequest, opts ...grpc.CallOption) (*ActiveAccountsResponse, error) {
+	out := new(ActiveAccountsResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/ActiveAccounts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) OperatorAddress(ctx context.Context, in *OperatorAddressRequest, opts ...grpc.CallOption) (*OperatorAddressResponse, error) {
+	out := new(OperatorAddressResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/OperatorAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) Alias(ctx context.Context, in *AliasRequest, opts ...grpc.CallOption) (*AliasResponse, error) {
+	out := new(AliasResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/Alias", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) TotalNumberOfHolders(ctx context.Context, in *TotalNumberOfHoldersRequest, opts ...grpc.CallOption) (*TotalNumberOfHoldersResponse, error) {
+	out := new(TotalNumberOfHoldersResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/TotalNumberOfHolders", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) TotalAccountSupply(ctx context.Context, in *TotalAccountSupplyRequest, opts ...grpc.CallOption) (*TotalAccountSupplyResponse, error) {
+	out := new(TotalAccountSupplyResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/TotalAccountSupply", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
 type AccountServiceServer interface {
+	// IotexBalanceByHeight returns the balance of the given address at the given height.
 	IotexBalanceByHeight(context.Context, *IotexBalanceByHeightRequest) (*IotexBalanceByHeightResponse, error)
 	Erc20TokenBalanceByHeight(context.Context, *Erc20TokenBalanceByHeightRequest) (*Erc20TokenBalanceByHeightResponse, error)
 	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
 	Hermes(context.Context, *HermesRequest) (*HermesResponse, error)
+	// ActiveAccounts lists most recently active accounts
+	ActiveAccounts(context.Context, *ActiveAccountsRequest) (*ActiveAccountsResponse, error)
+	// OperatorAddress finds the delegate's operator address given the delegate's alias name
+	OperatorAddress(context.Context, *OperatorAddressRequest) (*OperatorAddressResponse, error)
+	// Alias finds the delegate's alias name given the delegate's operator address
+	Alias(context.Context, *AliasRequest) (*AliasResponse, error)
+	// TotalNumberOfHolders returns total number of IOTX holders so far
+	TotalNumberOfHolders(context.Context, *TotalNumberOfHoldersRequest) (*TotalNumberOfHoldersResponse, error)
+	// TotalAccountSupply returns total amount of tokens held by IoTeX accounts
+	TotalAccountSupply(context.Context, *TotalAccountSupplyRequest) (*TotalAccountSupplyResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -82,6 +149,21 @@ func (UnimplementedAccountServiceServer) Erc20TokenBalanceByHeight(context.Conte
 }
 func (UnimplementedAccountServiceServer) Hermes(context.Context, *HermesRequest) (*HermesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Hermes not implemented")
+}
+func (UnimplementedAccountServiceServer) ActiveAccounts(context.Context, *ActiveAccountsRequest) (*ActiveAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActiveAccounts not implemented")
+}
+func (UnimplementedAccountServiceServer) OperatorAddress(context.Context, *OperatorAddressRequest) (*OperatorAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OperatorAddress not implemented")
+}
+func (UnimplementedAccountServiceServer) Alias(context.Context, *AliasRequest) (*AliasResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Alias not implemented")
+}
+func (UnimplementedAccountServiceServer) TotalNumberOfHolders(context.Context, *TotalNumberOfHoldersRequest) (*TotalNumberOfHoldersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TotalNumberOfHolders not implemented")
+}
+func (UnimplementedAccountServiceServer) TotalAccountSupply(context.Context, *TotalAccountSupplyRequest) (*TotalAccountSupplyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TotalAccountSupply not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -150,6 +232,96 @@ func _AccountService_Hermes_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_ActiveAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActiveAccountsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).ActiveAccounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.AccountService/ActiveAccounts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).ActiveAccounts(ctx, req.(*ActiveAccountsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_OperatorAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperatorAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).OperatorAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.AccountService/OperatorAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).OperatorAddress(ctx, req.(*OperatorAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_Alias_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AliasRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).Alias(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.AccountService/Alias",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).Alias(ctx, req.(*AliasRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_TotalNumberOfHolders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TotalNumberOfHoldersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).TotalNumberOfHolders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.AccountService/TotalNumberOfHolders",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).TotalNumberOfHolders(ctx, req.(*TotalNumberOfHoldersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_TotalAccountSupply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TotalAccountSupplyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).TotalAccountSupply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.AccountService/TotalAccountSupply",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).TotalAccountSupply(ctx, req.(*TotalAccountSupplyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -168,6 +340,26 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Hermes",
 			Handler:    _AccountService_Hermes_Handler,
+		},
+		{
+			MethodName: "ActiveAccounts",
+			Handler:    _AccountService_ActiveAccounts_Handler,
+		},
+		{
+			MethodName: "OperatorAddress",
+			Handler:    _AccountService_OperatorAddress_Handler,
+		},
+		{
+			MethodName: "Alias",
+			Handler:    _AccountService_Alias_Handler,
+		},
+		{
+			MethodName: "TotalNumberOfHolders",
+			Handler:    _AccountService_TotalNumberOfHolders_Handler,
+		},
+		{
+			MethodName: "TotalAccountSupply",
+			Handler:    _AccountService_TotalAccountSupply_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

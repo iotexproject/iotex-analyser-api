@@ -28,6 +28,10 @@ type DelegateServiceClient interface {
 	Reward(ctx context.Context, in *RewardRequest, opts ...grpc.CallOption) (*RewardResponse, error)
 	// HermesByDelegate returns Hermes delegates' distribution history
 	HermesByDelegate(ctx context.Context, in *HermesByDelegateRequest, opts ...grpc.CallOption) (*HermesByDelegateResponse, error)
+	// Staking provides staking information for candidates within a range of epochs
+	Staking(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error)
+	// ProbationHistoricalRate provides the rate of probation for a given delegate
+	ProbationHistoricalRate(ctx context.Context, in *ProbationHistoricalRateRequest, opts ...grpc.CallOption) (*ProbationHistoricalRateResponse, error)
 }
 
 type delegateServiceClient struct {
@@ -83,6 +87,24 @@ func (c *delegateServiceClient) HermesByDelegate(ctx context.Context, in *Hermes
 	return out, nil
 }
 
+func (c *delegateServiceClient) Staking(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error) {
+	out := new(StakingResponse)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/Staking", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *delegateServiceClient) ProbationHistoricalRate(ctx context.Context, in *ProbationHistoricalRateRequest, opts ...grpc.CallOption) (*ProbationHistoricalRateResponse, error) {
+	out := new(ProbationHistoricalRateResponse)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/ProbationHistoricalRate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DelegateServiceServer is the server API for DelegateService service.
 // All implementations must embed UnimplementedDelegateServiceServer
 // for forward compatibility
@@ -97,6 +119,10 @@ type DelegateServiceServer interface {
 	Reward(context.Context, *RewardRequest) (*RewardResponse, error)
 	// HermesByDelegate returns Hermes delegates' distribution history
 	HermesByDelegate(context.Context, *HermesByDelegateRequest) (*HermesByDelegateResponse, error)
+	// Staking provides staking information for candidates within a range of epochs
+	Staking(context.Context, *StakingRequest) (*StakingResponse, error)
+	// ProbationHistoricalRate provides the rate of probation for a given delegate
+	ProbationHistoricalRate(context.Context, *ProbationHistoricalRateRequest) (*ProbationHistoricalRateResponse, error)
 	mustEmbedUnimplementedDelegateServiceServer()
 }
 
@@ -118,6 +144,12 @@ func (UnimplementedDelegateServiceServer) Reward(context.Context, *RewardRequest
 }
 func (UnimplementedDelegateServiceServer) HermesByDelegate(context.Context, *HermesByDelegateRequest) (*HermesByDelegateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HermesByDelegate not implemented")
+}
+func (UnimplementedDelegateServiceServer) Staking(context.Context, *StakingRequest) (*StakingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Staking not implemented")
+}
+func (UnimplementedDelegateServiceServer) ProbationHistoricalRate(context.Context, *ProbationHistoricalRateRequest) (*ProbationHistoricalRateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProbationHistoricalRate not implemented")
 }
 func (UnimplementedDelegateServiceServer) mustEmbedUnimplementedDelegateServiceServer() {}
 
@@ -222,6 +254,42 @@ func _DelegateService_HermesByDelegate_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DelegateService_Staking_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StakingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).Staking(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.DelegateService/Staking",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).Staking(ctx, req.(*StakingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DelegateService_ProbationHistoricalRate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProbationHistoricalRateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).ProbationHistoricalRate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.DelegateService/ProbationHistoricalRate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).ProbationHistoricalRate(ctx, req.(*ProbationHistoricalRateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DelegateService_ServiceDesc is the grpc.ServiceDesc for DelegateService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +316,14 @@ var DelegateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "HermesByDelegate",
 			Handler:    _DelegateService_HermesByDelegate_Handler,
+		},
+		{
+			MethodName: "Staking",
+			Handler:    _DelegateService_Staking_Handler,
+		},
+		{
+			MethodName: "ProbationHistoricalRate",
+			Handler:    _DelegateService_ProbationHistoricalRate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

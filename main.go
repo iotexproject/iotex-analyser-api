@@ -47,6 +47,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect DB, %v", err)
 	}
+	log.Printf("connected to DB")
 
 	apiservice.DocsHTML = docsHtml
 

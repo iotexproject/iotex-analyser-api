@@ -12,6 +12,114 @@
       "extensions": [],
       "messages": [
         {
+          "name": "ActiveAccountsRequest",
+          "longName": "ActiveAccountsRequest",
+          "fullName": "api.ActiveAccountsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "count",
+              "description": "number of account addresses to be queried for active accounts",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActiveAccountsResponse",
+          "longName": "ActiveAccountsResponse",
+          "fullName": "api.ActiveAccountsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "activeAccounts",
+              "description": "list of account addresses",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "AliasRequest",
+          "longName": "AliasRequest",
+          "fullName": "api.AliasRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "operatorAddress",
+              "description": "delegate's operator address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "AliasResponse",
+          "longName": "AliasResponse",
+          "fullName": "api.AliasResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the operator address exists",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "aliasName",
+              "description": "delegate's alias name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "Erc20TokenBalanceByHeightRequest",
           "longName": "Erc20TokenBalanceByHeightRequest",
           "fullName": "api.Erc20TokenBalanceByHeightRequest",
@@ -275,7 +383,7 @@
           "fields": [
             {
               "name": "address",
-              "description": "",
+              "description": "address lists",
               "label": "repeated",
               "type": "string",
               "longType": "string",
@@ -287,7 +395,7 @@
             },
             {
               "name": "height",
-              "description": "",
+              "description": "block height",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -311,7 +419,7 @@
           "fields": [
             {
               "name": "height",
-              "description": "",
+              "description": "block height",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -323,8 +431,68 @@
             },
             {
               "name": "balance",
-              "description": "",
+              "description": "balance at the given height.",
               "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "OperatorAddressRequest",
+          "longName": "OperatorAddressRequest",
+          "fullName": "api.OperatorAddressRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "aliasName",
+              "description": "delegate's alias name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "OperatorAddressResponse",
+          "longName": "OperatorAddressResponse",
+          "fullName": "api.OperatorAddressResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the alias name exists",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "operatorAddress",
+              "description": "operator address associated with the given alias name",
+              "label": "",
               "type": "string",
               "longType": "string",
               "fullType": "string",
@@ -382,6 +550,76 @@
               "defaultValue": ""
             }
           ]
+        },
+        {
+          "name": "TotalAccountSupplyRequest",
+          "longName": "TotalAccountSupplyRequest",
+          "fullName": "api.TotalAccountSupplyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "TotalAccountSupplyResponse",
+          "longName": "TotalAccountSupplyResponse",
+          "fullName": "api.TotalAccountSupplyResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "totalAccountSupply",
+              "description": "total amount of tokens held by IoTeX accounts",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TotalNumberOfHoldersRequest",
+          "longName": "TotalNumberOfHoldersRequest",
+          "fullName": "api.TotalNumberOfHoldersRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "TotalNumberOfHoldersResponse",
+          "longName": "TotalNumberOfHoldersResponse",
+          "fullName": "api.TotalNumberOfHoldersResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "totalNumberOfHolders",
+              "description": "total number of IOTX holders so far",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
         }
       ],
       "services": [
@@ -393,7 +631,7 @@
           "methods": [
             {
               "name": "IotexBalanceByHeight",
-              "description": "",
+              "description": "IotexBalanceByHeight returns the balance of the given address at the given height.",
               "requestType": "IotexBalanceByHeightRequest",
               "requestLongType": "IotexBalanceByHeightRequest",
               "requestFullType": "api.IotexBalanceByHeightRequest",
@@ -454,6 +692,121 @@
                     {
                       "method": "POST",
                       "pattern": "/api.AccountService.Hermes",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ActiveAccounts",
+              "description": "ActiveAccounts lists most recently active accounts",
+              "requestType": "ActiveAccountsRequest",
+              "requestLongType": "ActiveAccountsRequest",
+              "requestFullType": "api.ActiveAccountsRequest",
+              "requestStreaming": false,
+              "responseType": "ActiveAccountsResponse",
+              "responseLongType": "ActiveAccountsResponse",
+              "responseFullType": "api.ActiveAccountsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.AccountService.ActiveAccounts",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "OperatorAddress",
+              "description": "OperatorAddress finds the delegate's operator address given the delegate's alias name",
+              "requestType": "OperatorAddressRequest",
+              "requestLongType": "OperatorAddressRequest",
+              "requestFullType": "api.OperatorAddressRequest",
+              "requestStreaming": false,
+              "responseType": "OperatorAddressResponse",
+              "responseLongType": "OperatorAddressResponse",
+              "responseFullType": "api.OperatorAddressResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.AccountService.OperatorAddress",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Alias",
+              "description": "Alias finds the delegate's alias name given the delegate's operator address",
+              "requestType": "AliasRequest",
+              "requestLongType": "AliasRequest",
+              "requestFullType": "api.AliasRequest",
+              "requestStreaming": false,
+              "responseType": "AliasResponse",
+              "responseLongType": "AliasResponse",
+              "responseFullType": "api.AliasResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.AccountService.Alias",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "TotalNumberOfHolders",
+              "description": "TotalNumberOfHolders returns total number of IOTX holders so far",
+              "requestType": "TotalNumberOfHoldersRequest",
+              "requestLongType": "TotalNumberOfHoldersRequest",
+              "requestFullType": "api.TotalNumberOfHoldersRequest",
+              "requestStreaming": false,
+              "responseType": "TotalNumberOfHoldersResponse",
+              "responseLongType": "TotalNumberOfHoldersResponse",
+              "responseFullType": "api.TotalNumberOfHoldersResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.AccountService.TotalNumberOfHolders",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "TotalAccountSupply",
+              "description": "TotalAccountSupply returns total amount of tokens held by IoTeX accounts",
+              "requestType": "TotalAccountSupplyRequest",
+              "requestLongType": "TotalAccountSupplyRequest",
+              "requestFullType": "api.TotalAccountSupplyRequest",
+              "requestStreaming": false,
+              "responseType": "TotalAccountSupplyResponse",
+              "responseLongType": "TotalAccountSupplyResponse",
+              "responseFullType": "api.TotalAccountSupplyResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.AccountService.TotalAccountSupply",
                       "body": "*"
                     }
                   ]
@@ -2913,6 +3266,78 @@
           ]
         },
         {
+          "name": "ProbationHistoricalRateRequest",
+          "longName": "ProbationHistoricalRateRequest",
+          "fullName": "api.ProbationHistoricalRateRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "delegateName",
+              "description": "candidate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ProbationHistoricalRateResponse",
+          "longName": "ProbationHistoricalRateResponse",
+          "fullName": "api.ProbationHistoricalRateResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "probationHistoricalRate",
+              "description": "probation historical rate",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "Productivity",
           "longName": "Productivity",
           "fullName": "api.Productivity",
@@ -3163,6 +3588,138 @@
               "defaultValue": ""
             }
           ]
+        },
+        {
+          "name": "StakingRequest",
+          "longName": "StakingRequest",
+          "fullName": "api.StakingRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "delegateName",
+              "description": "candidate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "StakingResponse",
+          "longName": "StakingResponse",
+          "fullName": "api.StakingResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the delegate has staking information within the specified epoch range",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "stakingInfo",
+              "description": "",
+              "label": "repeated",
+              "type": "StakingInfo",
+              "longType": "StakingResponse.StakingInfo",
+              "fullType": "api.StakingResponse.StakingInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "StakingInfo",
+          "longName": "StakingResponse.StakingInfo",
+          "fullName": "api.StakingResponse.StakingInfo",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "epochNumber",
+              "description": "epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalStaking",
+              "description": "total staking amount",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "selfStaking",
+              "description": "candidate’s self-staking amount",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
         }
       ],
       "services": [
@@ -3281,6 +3838,52 @@
                     {
                       "method": "POST",
                       "pattern": "/api.DelegateService.HermesByDelegate",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Staking",
+              "description": "Staking provides staking information for candidates within a range of epochs",
+              "requestType": "StakingRequest",
+              "requestLongType": "StakingRequest",
+              "requestFullType": "api.StakingRequest",
+              "requestStreaming": false,
+              "responseType": "StakingResponse",
+              "responseLongType": "StakingResponse",
+              "responseFullType": "api.StakingResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.DelegateService.Staking",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ProbationHistoricalRate",
+              "description": "ProbationHistoricalRate provides the rate of probation for a given delegate",
+              "requestType": "ProbationHistoricalRateRequest",
+              "requestLongType": "ProbationHistoricalRateRequest",
+              "requestFullType": "api.ProbationHistoricalRateRequest",
+              "requestStreaming": false,
+              "responseType": "ProbationHistoricalRateResponse",
+              "responseLongType": "ProbationHistoricalRateResponse",
+              "responseFullType": "api.ProbationHistoricalRateResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.DelegateService.ProbationHistoricalRate",
                       "body": "*"
                     }
                   ]
