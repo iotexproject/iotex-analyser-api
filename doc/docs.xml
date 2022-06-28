@@ -2114,6 +2114,83 @@
       
     </section>
     
+    <section id="api.TotalTransferredTokensRequest">
+      <title>TotalTransferredTokensRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>TotalTransferredTokensRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.TotalTransferredTokensResponse">
+      <title>TotalTransferredTokensResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>TotalTransferredTokensResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>totalTransferredTokens</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total tranferred tokens</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     <section id="api.VotingResultMeta">
       <title>VotingResultMeta</title>
       <para></para>
@@ -2207,6 +2284,13 @@
               <entry><link linkend="api.NumberOfActionsRequest">NumberOfActionsRequest</link></entry>
               <entry><link linkend="api.NumberOfActionsResponse">NumberOfActionsResponse</link></entry>
               <entry><para>NumberOfActions gives the number of actions</para></entry>
+            </row>
+            
+            <row>
+              <entry>TotalTransferredTokens</entry>
+              <entry><link linkend="api.TotalTransferredTokensRequest">TotalTransferredTokensRequest</link></entry>
+              <entry><link linkend="api.TotalTransferredTokensResponse">TotalTransferredTokensResponse</link></entry>
+              <entry><para>TotalTransferredTokens gives the amount of tokens transferred within a time frame</para></entry>
             </row>
             
           </tbody>

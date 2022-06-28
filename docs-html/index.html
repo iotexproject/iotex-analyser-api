@@ -336,6 +336,9 @@
                   <li>
                     <a href="#numberofactions" class="toc-h2 toc-link" data-title="NumberOfActions">NumberOfActions</a>
                   </li>
+                  <li>
+                    <a href="#totaltransferredtokens" class="toc-h2 toc-link" data-title="TotalTransferredTokens">TotalTransferredTokens</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -850,6 +853,76 @@
 <td>number of actions</td>
 </tr>
 </tbody></table>
+<h2 id='totaltransferredtokens'>TotalTransferredTokens</h2>
+<p>TotalTransferredTokens gives the amount of tokens transferred within a time frame</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.ChainService.TotalTransferredTokens <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "epochStart": 20000,
+  "epochCount": 2
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">TotalTransferredTokens</span><span class="p">(</span><span class="n">startEpoch</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w"> </span><span class="n">epochCount</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">totalTransferredTokens</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"TotalTransferredTokens"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"totalTransferredTokens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2689365862730085490074594"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST /api.ChainService.TotalTransferredTokens</code></p>
+
+<p><a name="api-TotalTransferredTokensRequest"></a></p>
+<h3 id='totaltransferredtokensrequest'>TotalTransferredTokensRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>startEpoch</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>starting epoch number</td>
+</tr>
+<tr>
+<td>epochCount</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>epoch count</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-TotalTransferredTokensResponse"></a></p>
+<h3 id='totaltransferredtokensresponse'>TotalTransferredTokensResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>totalTransferredTokens</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total tranferred tokens</td>
+</tr>
+</tbody></table>
 <h1 id='delegate-service-api'>Delegate Service API</h1><h2 id='bucketinfo'>BucketInfo</h2>
 <p>BucketInfo provides voting bucket detail information for candidates within a range of epochs</p>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
@@ -916,7 +989,7 @@
         </span><span class="err">...</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-4'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.BucketInfo</code></p>
 
 <p><a name="api-BucketInfoRequest"></a></p>
@@ -1131,7 +1204,7 @@
         </span><span class="err">...</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-5'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-6'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.BookKeeping</code></p>
 
 <p><a name="api-BookKeepingRequest"></a></p>
@@ -1283,7 +1356,7 @@
         </span><span class="nl">"expectedProduction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-6'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-7'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.Productivity</code></p>
 
 <p><a name="api-ProductivityRequest"></a></p>
@@ -1394,7 +1467,7 @@
         </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-7'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-8'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.Reward</code></p>
 
 <p><a name="api-RewardRequest"></a></p>
@@ -1513,7 +1586,7 @@
         </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-8'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-9'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.HermesByDelegate</code></p>
 
 <p><a name="api-HermesByDelegateRequest"></a></p>
@@ -1720,7 +1793,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-9'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-10'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.Staking</code></p>
 
 <p><a name="api-StakingRequest"></a></p>
@@ -1836,7 +1909,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-10'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-11'>HTTP Request</h3>
 <p><code>POST /api.DelegateService.ProbationHistoricalRate</code></p>
 
 <p><a name="api-ProbationHistoricalRateRequest"></a></p>
@@ -1940,7 +2013,7 @@
         </span><span class="p">},</span><span class="w">
         </span><span class="err">...</span><span class="w">
 </span><span class="err">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-11'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-12'>HTTP Request</h3>
 <p><code>POST /api.AccountService.Hermes</code></p>
 
 <p><a name="api-HermesRequest"></a></p>
@@ -2102,7 +2175,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-12'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-13'>HTTP Request</h3>
 <p><code>POST /api.AccountService.IotexBalanceByHeight</code></p>
 
 <p><a name="api-IotexBalanceByHeightRequest"></a></p>
@@ -2185,7 +2258,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-13'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-14'>HTTP Request</h3>
 <p><code>POST /api.AccountService.ActiveAccounts</code></p>
 
 <p><a name="api-ActiveAccountsRequest"></a></p>
@@ -2249,7 +2322,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-14'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-15'>HTTP Request</h3>
 <p><code>POST /api.AccountService.OperatorAddress</code></p>
 
 <p><a name="api-OperatorAddressRequest"></a></p>
@@ -2320,7 +2393,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-15'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-16'>HTTP Request</h3>
 <p><code>POST /api.AccountService.Alias</code></p>
 
 <p><a name="api-AliasRequest"></a></p>
@@ -2387,7 +2460,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-16'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-17'>HTTP Request</h3>
 <p><code>POST /api.AccountService.TotalNumberOfHolders</code></p>
 
 <p><a name="api-TotalNumberOfHoldersRequest"></a></p>
@@ -2432,7 +2505,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-17'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-18'>HTTP Request</h3>
 <p><code>POST /api.AccountService.TotalAccountSupply</code></p>
 
 <p><a name="api-TotalAccountSupplyRequest"></a></p>

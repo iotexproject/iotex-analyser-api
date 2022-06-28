@@ -23,6 +23,8 @@ type ChainServiceClient interface {
 	MostRecentTPS(ctx context.Context, in *MostRecentTPSRequest, opts ...grpc.CallOption) (*MostRecentTPSResponse, error)
 	// NumberOfActions gives the number of actions
 	NumberOfActions(ctx context.Context, in *NumberOfActionsRequest, opts ...grpc.CallOption) (*NumberOfActionsResponse, error)
+	// TotalTransferredTokens gives the amount of tokens transferred within a time frame
+	TotalTransferredTokens(ctx context.Context, in *TotalTransferredTokensRequest, opts ...grpc.CallOption) (*TotalTransferredTokensResponse, error)
 }
 
 type chainServiceClient struct {
@@ -60,6 +62,15 @@ func (c *chainServiceClient) NumberOfActions(ctx context.Context, in *NumberOfAc
 	return out, nil
 }
 
+func (c *chainServiceClient) TotalTransferredTokens(ctx context.Context, in *TotalTransferredTokensRequest, opts ...grpc.CallOption) (*TotalTransferredTokensResponse, error) {
+	out := new(TotalTransferredTokensResponse)
+	err := c.cc.Invoke(ctx, "/api.ChainService/TotalTransferredTokens", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility
@@ -69,6 +80,8 @@ type ChainServiceServer interface {
 	MostRecentTPS(context.Context, *MostRecentTPSRequest) (*MostRecentTPSResponse, error)
 	// NumberOfActions gives the number of actions
 	NumberOfActions(context.Context, *NumberOfActionsRequest) (*NumberOfActionsResponse, error)
+	// TotalTransferredTokens gives the amount of tokens transferred within a time frame
+	TotalTransferredTokens(context.Context, *TotalTransferredTokensRequest) (*TotalTransferredTokensResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -84,6 +97,9 @@ func (UnimplementedChainServiceServer) MostRecentTPS(context.Context, *MostRecen
 }
 func (UnimplementedChainServiceServer) NumberOfActions(context.Context, *NumberOfActionsRequest) (*NumberOfActionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NumberOfActions not implemented")
+}
+func (UnimplementedChainServiceServer) TotalTransferredTokens(context.Context, *TotalTransferredTokensRequest) (*TotalTransferredTokensResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TotalTransferredTokens not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 
@@ -152,6 +168,24 @@ func _ChainService_NumberOfActions_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_TotalTransferredTokens_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TotalTransferredTokensRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).TotalTransferredTokens(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ChainService/TotalTransferredTokens",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).TotalTransferredTokens(ctx, req.(*TotalTransferredTokensRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -170,6 +204,10 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "NumberOfActions",
 			Handler:    _ChainService_NumberOfActions_Handler,
+		},
+		{
+			MethodName: "TotalTransferredTokens",
+			Handler:    _ChainService_TotalTransferredTokens_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
