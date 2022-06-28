@@ -43,6 +43,15 @@ message NumberOfActionsResponse {
   uint64 count = 2; // number of actions
 }
 
+message TotalTransferredTokensRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+}
+
+message TotalTransferredTokensResponse {
+  string totalTransferredTokens = 1; // total tranferred tokens
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -75,6 +84,17 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.NumberOfActions"
+      body: "*"
+    };
+  };
+  // TotalTransferredTokens gives the amount of tokens transferred within a time frame
+  rpc TotalTransferredTokens(TotalTransferredTokensRequest) returns (TotalTransferredTokensResponse) {
+    option (graphql.schema) = {
+      type: QUERY   // declare as Query
+      name: "TotalTransferredTokens" // query name
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.TotalTransferredTokens"
       body: "*"
     };
   };

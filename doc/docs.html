@@ -380,6 +380,14 @@
                 </li>
               
                 <li>
+                  <a href="#api.TotalTransferredTokensRequest"><span class="badge">M</span>TotalTransferredTokensRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.TotalTransferredTokensResponse"><span class="badge">M</span>TotalTransferredTokensResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.VotingResultMeta"><span class="badge">M</span>VotingResultMeta</a>
                 </li>
               
@@ -2459,6 +2467,61 @@
 
         
       
+        <h3 id="api.TotalTransferredTokensRequest">TotalTransferredTokensRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.TotalTransferredTokensResponse">TotalTransferredTokensResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>totalTransferredTokens</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total tranferred tokens </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.VotingResultMeta">VotingResultMeta</h3>
         <p></p>
 
@@ -2532,6 +2595,13 @@
                 <td><p>NumberOfActions gives the number of actions</p></td>
               </tr>
             
+              <tr>
+                <td>TotalTransferredTokens</td>
+                <td><a href="#api.TotalTransferredTokensRequest">TotalTransferredTokensRequest</a></td>
+                <td><a href="#api.TotalTransferredTokensResponse">TotalTransferredTokensResponse</a></td>
+                <td><p>TotalTransferredTokens gives the amount of tokens transferred within a time frame</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -2576,6 +2646,16 @@
                 <td>NumberOfActions</td>
                 <td>POST</td>
                 <td>/api.ChainService.NumberOfActions</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>TotalTransferredTokens</td>
+                <td>POST</td>
+                <td>/api.ChainService.TotalTransferredTokens</td>
                 <td>*</td>
               </tr>
               

@@ -264,6 +264,72 @@ query {
 | exist | [bool](#bool) |  | whether the starting epoch number is less than the most recent epoch number |
 | count | [uint64](#uint64) |  | number of actions |
 
+## TotalTransferredTokens
+
+TotalTransferredTokens gives the amount of tokens transferred within a time frame
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.TotalTransferredTokens \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"epochStart": 20000,
+  "epochCount": 2
+}'
+```
+
+```graphql
+query {
+  TotalTransferredTokens(startEpoch: 20000, epochCount: 2) {
+    totalTransferredTokens
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "TotalTransferredTokens": {
+      "totalTransferredTokens": "2689365862730085490074594"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.TotalTransferredTokens`
+
+<a name="api-TotalTransferredTokensRequest"></a>
+
+### TotalTransferredTokensRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-TotalTransferredTokensResponse"></a>
+
+### TotalTransferredTokensResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalTransferredTokens | [string](#string) |  | total tranferred tokens |
+
+
 # Delegate Service API
 
 ## BucketInfo

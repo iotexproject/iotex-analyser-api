@@ -11,18 +11,22 @@ import (
 )
 
 var (
-	gql__type_VotingResultMeta         *graphql.Object      // message VotingResultMeta in api_chain.proto
-	gql__type_NumberOfActionsResponse  *graphql.Object      // message NumberOfActionsResponse in api_chain.proto
-	gql__type_NumberOfActionsRequest   *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
-	gql__type_MostRecentTPSResponse    *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
-	gql__type_MostRecentTPSRequest     *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
-	gql__type_ChainResponse            *graphql.Object      // message ChainResponse in api_chain.proto
-	gql__input_VotingResultMeta        *graphql.InputObject // message VotingResultMeta in api_chain.proto
-	gql__input_NumberOfActionsResponse *graphql.InputObject // message NumberOfActionsResponse in api_chain.proto
-	gql__input_NumberOfActionsRequest  *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
-	gql__input_MostRecentTPSResponse   *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
-	gql__input_MostRecentTPSRequest    *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
-	gql__input_ChainResponse           *graphql.InputObject // message ChainResponse in api_chain.proto
+	gql__type_VotingResultMeta                *graphql.Object      // message VotingResultMeta in api_chain.proto
+	gql__type_TotalTransferredTokensResponse  *graphql.Object      // message TotalTransferredTokensResponse in api_chain.proto
+	gql__type_TotalTransferredTokensRequest   *graphql.Object      // message TotalTransferredTokensRequest in api_chain.proto
+	gql__type_NumberOfActionsResponse         *graphql.Object      // message NumberOfActionsResponse in api_chain.proto
+	gql__type_NumberOfActionsRequest          *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
+	gql__type_MostRecentTPSResponse           *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
+	gql__type_MostRecentTPSRequest            *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
+	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
+	gql__input_VotingResultMeta               *graphql.InputObject // message VotingResultMeta in api_chain.proto
+	gql__input_TotalTransferredTokensResponse *graphql.InputObject // message TotalTransferredTokensResponse in api_chain.proto
+	gql__input_TotalTransferredTokensRequest  *graphql.InputObject // message TotalTransferredTokensRequest in api_chain.proto
+	gql__input_NumberOfActionsResponse        *graphql.InputObject // message NumberOfActionsResponse in api_chain.proto
+	gql__input_NumberOfActionsRequest         *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
+	gql__input_MostRecentTPSResponse          *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
+	gql__input_MostRecentTPSRequest           *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
+	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
 )
 
 func Gql__type_VotingResultMeta() *graphql.Object {
@@ -43,6 +47,37 @@ func Gql__type_VotingResultMeta() *graphql.Object {
 		})
 	}
 	return gql__type_VotingResultMeta
+}
+
+func Gql__type_TotalTransferredTokensResponse() *graphql.Object {
+	if gql__type_TotalTransferredTokensResponse == nil {
+		gql__type_TotalTransferredTokensResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_TotalTransferredTokensResponse",
+			Fields: graphql.Fields{
+				"totalTransferredTokens": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_TotalTransferredTokensResponse
+}
+
+func Gql__type_TotalTransferredTokensRequest() *graphql.Object {
+	if gql__type_TotalTransferredTokensRequest == nil {
+		gql__type_TotalTransferredTokensRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_TotalTransferredTokensRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_TotalTransferredTokensRequest
 }
 
 func Gql__type_NumberOfActionsResponse() *graphql.Object {
@@ -154,6 +189,37 @@ func Gql__input_VotingResultMeta() *graphql.InputObject {
 		})
 	}
 	return gql__input_VotingResultMeta
+}
+
+func Gql__input_TotalTransferredTokensResponse() *graphql.InputObject {
+	if gql__input_TotalTransferredTokensResponse == nil {
+		gql__input_TotalTransferredTokensResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_TotalTransferredTokensResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"totalTransferredTokens": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_TotalTransferredTokensResponse
+}
+
+func Gql__input_TotalTransferredTokensRequest() *graphql.InputObject {
+	if gql__input_TotalTransferredTokensRequest == nil {
+		gql__input_TotalTransferredTokensRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_TotalTransferredTokensRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_TotalTransferredTokensRequest
 }
 
 func Gql__input_NumberOfActionsResponse() *graphql.InputObject {
@@ -344,6 +410,29 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 				resp, err := client.NumberOfActions(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC NumberOfActions")
+				}
+				return resp, nil
+			},
+		},
+		"TotalTransferredTokens": &graphql.Field{
+			Type: Gql__type_TotalTransferredTokensResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req TotalTransferredTokensRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for TotalTransferredTokens")
+				}
+				client := NewChainServiceClient(conn)
+				resp, err := client.TotalTransferredTokens(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC TotalTransferredTokens")
 				}
 				return resp, nil
 			},

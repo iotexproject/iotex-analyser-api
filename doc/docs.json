@@ -2382,6 +2382,66 @@
           ]
         },
         {
+          "name": "TotalTransferredTokensRequest",
+          "longName": "TotalTransferredTokensRequest",
+          "fullName": "api.TotalTransferredTokensRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TotalTransferredTokensResponse",
+          "longName": "TotalTransferredTokensResponse",
+          "fullName": "api.TotalTransferredTokensResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "totalTransferredTokens",
+              "description": "total tranferred tokens",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "VotingResultMeta",
           "longName": "VotingResultMeta",
           "fullName": "api.VotingResultMeta",
@@ -2500,6 +2560,29 @@
                     {
                       "method": "POST",
                       "pattern": "/api.ChainService.NumberOfActions",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "TotalTransferredTokens",
+              "description": "TotalTransferredTokens gives the amount of tokens transferred within a time frame",
+              "requestType": "TotalTransferredTokensRequest",
+              "requestLongType": "TotalTransferredTokensRequest",
+              "requestFullType": "api.TotalTransferredTokensRequest",
+              "requestStreaming": false,
+              "responseType": "TotalTransferredTokensResponse",
+              "responseLongType": "TotalTransferredTokensResponse",
+              "responseFullType": "api.TotalTransferredTokensResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.TotalTransferredTokens",
                       "body": "*"
                     }
                   ]

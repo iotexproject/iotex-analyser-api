@@ -11,6 +11,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-antenna-go/v2/iotex"
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
+	"github.com/pkg/errors"
 )
 
 type ChainService struct {
@@ -127,5 +128,25 @@ func (s *ChainService) NumberOfActions(ctx context.Context, req *api.NumberOfAct
 
 	resp.Exist = true
 	resp.Count = result.NumActions
+	return resp, nil
+}
+
+// TotalTransferredTokens gives the amount of tokens transferred within a time frame
+func (s *ChainService) TotalTransferredTokens(ctx context.Context, req *api.TotalTransferredTokensRequest) (*api.TotalTransferredTokensResponse, error) {
+	db := db.DB()
+	resp := &api.TotalTransferredTokensResponse{}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	endEpoch := startEpoch + epochCount - 1
+	startHeight := common.GetEpochHeight(startEpoch)
+	endHeight := common.GetEpochLastBlockHeight(endEpoch)
+	query := "select SUM(amount) from block_receipt_transactions where block_height>=? and block_height<=?"
+
+	var result string
+	if err := db.WithContext(ctx).Raw(query, startHeight, endHeight).Scan(&result).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get total number of holders")
+	}
+
+	resp.TotalTransferredTokens = result
 	return resp, nil
 }

@@ -56,6 +56,8 @@
     - [MostRecentTPSResponse](#api-MostRecentTPSResponse)
     - [NumberOfActionsRequest](#api-NumberOfActionsRequest)
     - [NumberOfActionsResponse](#api-NumberOfActionsResponse)
+    - [TotalTransferredTokensRequest](#api-TotalTransferredTokensRequest)
+    - [TotalTransferredTokensResponse](#api-TotalTransferredTokensResponse)
     - [VotingResultMeta](#api-VotingResultMeta)
   
     - [ChainService](#api-ChainService)
@@ -853,6 +855,37 @@
 
 
 
+<a name="api-TotalTransferredTokensRequest"></a>
+
+### TotalTransferredTokensRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-TotalTransferredTokensResponse"></a>
+
+### TotalTransferredTokensResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalTransferredTokens | [string](#string) |  | total tranferred tokens |
+
+
+
+
+
+
 <a name="api-VotingResultMeta"></a>
 
 ### VotingResultMeta
@@ -886,6 +919,7 @@
 | Chain | [ChainRequest](#api-ChainRequest) | [ChainResponse](#api-ChainResponse) |  |
 | MostRecentTPS | [MostRecentTPSRequest](#api-MostRecentTPSRequest) | [MostRecentTPSResponse](#api-MostRecentTPSResponse) | MostRecentTPS gives the latest transactions per second |
 | NumberOfActions | [NumberOfActionsRequest](#api-NumberOfActionsRequest) | [NumberOfActionsResponse](#api-NumberOfActionsResponse) | NumberOfActions gives the number of actions |
+| TotalTransferredTokens | [TotalTransferredTokensRequest](#api-TotalTransferredTokensRequest) | [TotalTransferredTokensResponse](#api-TotalTransferredTokensResponse) | TotalTransferredTokens gives the amount of tokens transferred within a time frame |
 
  
 
