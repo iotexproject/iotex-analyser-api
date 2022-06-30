@@ -791,6 +791,419 @@
     <title>api_action.proto</title>
     <para></para>
     
+    <section id="api.ActionByAddressRequest">
+      <title>ActionByAddressRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByAddressRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByAddressResponse">
+      <title>ActionByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether actions exist for the given address</para></entry>
+            </row>
+            
+            <row>
+              <entry>actions</entry>
+              <entry><link linkend="api.ActionInfo">ActionInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of actions for the given address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByDatesRequest">
+      <title>ActionByDatesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByDatesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startDate</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>start date in unix epoch time</para></entry>
+            </row>
+            
+            <row>
+              <entry>endDate</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>end date in unix epoch time</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByDatesResponse">
+      <title>ActionByDatesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByDatesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether actions exist within the time frame</para></entry>
+            </row>
+            
+            <row>
+              <entry>actions</entry>
+              <entry><link linkend="api.ActionInfo">ActionInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of actions within the time frame</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByHashRequest">
+      <title>ActionByHashRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByHashRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>action hash</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByHashResponse">
+      <title>ActionByHashResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByHashResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether actions exist within the time frame</para></entry>
+            </row>
+            
+            <row>
+              <entry>actionInfo</entry>
+              <entry><link linkend="api.ActionInfo">ActionInfo</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>evmTransfers</entry>
+              <entry><link linkend="api.ActionByHashResponse.EvmTransfers">ActionByHashResponse.EvmTransfers</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByHashResponse.EvmTransfers">
+      <title>ActionByHashResponse.EvmTransfers</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByHashResponse.EvmTransfers</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address</para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>amount transferred</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByTypeRequest">
+      <title>ActionByTypeRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByTypeRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>type</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>action type</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ActionByTypeResponse">
+      <title>ActionByTypeResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ActionByTypeResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether actions exist for the given type</para></entry>
+            </row>
+            
+            <row>
+              <entry>actions</entry>
+              <entry><link linkend="api.ActionInfo">ActionInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of actions for the given type</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     <section id="api.ActionInfo">
       <title>ActionInfo</title>
       <para></para>
@@ -816,63 +1229,63 @@
               <entry>actHash</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>action hash</para></entry>
             </row>
             
             <row>
               <entry>blkHash</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>block hash</para></entry>
             </row>
             
             <row>
               <entry>actType</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>action type</para></entry>
             </row>
             
             <row>
               <entry>sender</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>sender address</para></entry>
             </row>
             
             <row>
               <entry>recipient</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>recipient address</para></entry>
             </row>
             
             <row>
               <entry>amount</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>amount transferred</para></entry>
             </row>
             
             <row>
               <entry>timestamp</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>unix timestamp</para></entry>
             </row>
             
             <row>
               <entry>gasFee</entry>
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>gas fee</para></entry>
             </row>
             
             <row>
               <entry>blkHeight</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>block height</para></entry>
             </row>
             
           </tbody>
@@ -1071,6 +1484,174 @@
       
     </section>
     
+    <section id="api.EvmTransfersByAddressRequest">
+      <title>EvmTransfersByAddressRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>EvmTransfersByAddressRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.EvmTransfersByAddressResponse">
+      <title>EvmTransfersByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>EvmTransfersByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether EVM transfers exist for the given address</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of EVM transfers for the given address</para></entry>
+            </row>
+            
+            <row>
+              <entry>evmTransfers</entry>
+              <entry><link linkend="api.EvmTransfersByAddressResponse.EvmTransfer">EvmTransfersByAddressResponse.EvmTransfer</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.EvmTransfersByAddressResponse.EvmTransfer">
+      <title>EvmTransfersByAddressResponse.EvmTransfer</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>EvmTransfersByAddressResponse.EvmTransfer</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>action hash</para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>block hash</para></entry>
+            </row>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address</para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>amount transferred</para></entry>
+            </row>
+            
+            <row>
+              <entry>blkHeight</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>block height</para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>unix timestamp</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     <section id="api.XrcInfo">
       <title>XrcInfo</title>
       <para></para>
@@ -1181,24 +1762,45 @@
             </row>
             
             <row>
-              <entry>ActionByAddress</entry>
-              <entry><link linkend="api.ActionRequest">ActionRequest</link></entry>
-              <entry><link linkend="api.ActionResponse">ActionResponse</link></entry>
-              <entry><para></para></entry>
-            </row>
-            
-            <row>
-              <entry>EvmTransfersByAddress</entry>
-              <entry><link linkend="api.ActionRequest">ActionRequest</link></entry>
-              <entry><link linkend="api.ActionResponse">ActionResponse</link></entry>
-              <entry><para></para></entry>
-            </row>
-            
-            <row>
               <entry>GetXrc20ByAddress</entry>
               <entry><link linkend="api.ActionRequest">ActionRequest</link></entry>
               <entry><link linkend="api.ActionResponse">ActionResponse</link></entry>
               <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>ActionByDates</entry>
+              <entry><link linkend="api.ActionByDatesRequest">ActionByDatesRequest</link></entry>
+              <entry><link linkend="api.ActionByDatesResponse">ActionByDatesResponse</link></entry>
+              <entry><para>ActionByDates finds actions by dates</para></entry>
+            </row>
+            
+            <row>
+              <entry>ActionByHash</entry>
+              <entry><link linkend="api.ActionByHashRequest">ActionByHashRequest</link></entry>
+              <entry><link linkend="api.ActionByHashResponse">ActionByHashResponse</link></entry>
+              <entry><para>ActionByHash finds actions by hash</para></entry>
+            </row>
+            
+            <row>
+              <entry>ActionByAddress</entry>
+              <entry><link linkend="api.ActionByAddressRequest">ActionByAddressRequest</link></entry>
+              <entry><link linkend="api.ActionByAddressResponse">ActionByAddressResponse</link></entry>
+              <entry><para>ActionByAddress finds actions by address</para></entry>
+            </row>
+            
+            <row>
+              <entry>ActionByType</entry>
+              <entry><link linkend="api.ActionByTypeRequest">ActionByTypeRequest</link></entry>
+              <entry><link linkend="api.ActionByTypeResponse">ActionByTypeResponse</link></entry>
+              <entry><para>ActionByType finds actions by action type</para></entry>
+            </row>
+            
+            <row>
+              <entry>EvmTransfersByAddress</entry>
+              <entry><link linkend="api.EvmTransfersByAddressRequest">EvmTransfersByAddressRequest</link></entry>
+              <entry><link linkend="api.EvmTransfersByAddressResponse">EvmTransfersByAddressResponse</link></entry>
+              <entry><para>EvmTransfersByAddress finds EVM transfers by address</para></entry>
             </row>
             
           </tbody>
@@ -3777,6 +4379,378 @@
               <entry><link linkend="api.CandidateVoteByHeightRequest">CandidateVoteByHeightRequest</link></entry>
               <entry><link linkend="api.CandidateVoteByHeightResponse">CandidateVoteByHeightResponse</link></entry>
               <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_voting.proto</title>
+    <para></para>
+    
+    <section id="api.CandidateInfoRequest">
+      <title>CandidateInfoRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>CandidateInfoRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.CandidateInfoResponse">
+      <title>CandidateInfoResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>CandidateInfoResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>candidateInfo</entry>
+              <entry><link linkend="api.CandidateInfoResponse.CandidateInfo">CandidateInfoResponse.CandidateInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.CandidateInfoResponse.CandidateInfo">
+      <title>CandidateInfoResponse.CandidateInfo</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>CandidateInfoResponse.CandidateInfo</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>epochNumber</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>candidates</entry>
+              <entry><link linkend="api.CandidateInfoResponse.Candidates">CandidateInfoResponse.Candidates</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.CandidateInfoResponse.Candidates">
+      <title>CandidateInfoResponse.Candidates</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>CandidateInfoResponse.Candidates</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>name</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate name</para></entry>
+            </row>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>canddiate address</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalWeightedVotes</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total weighted votes</para></entry>
+            </row>
+            
+            <row>
+              <entry>selfStakingTokens</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate self-staking tokens</para></entry>
+            </row>
+            
+            <row>
+              <entry>operatorAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate operator address</para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate reward address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.RewardSourcesRequest">
+      <title>RewardSourcesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>RewardSourcesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+            <row>
+              <entry>voterIotxAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>voter IoTeX address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.RewardSourcesResponse">
+      <title>RewardSourcesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>RewardSourcesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the voter has reward information within the specified epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateDistributions</entry>
+              <entry><link linkend="api.RewardSourcesResponse.DelegateDistributions">RewardSourcesResponse.DelegateDistributions</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.RewardSourcesResponse.DelegateDistributions">
+      <title>RewardSourcesResponse.DelegateDistributions</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>RewardSourcesResponse.DelegateDistributions</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate name</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>amount of reward distribution</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.VotingService">
+      <title>VotingService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>VotingService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>CandidateInfo</entry>
+              <entry><link linkend="api.CandidateInfoRequest">CandidateInfoRequest</link></entry>
+              <entry><link linkend="api.CandidateInfoResponse">CandidateInfoResponse</link></entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>RewardSources</entry>
+              <entry><link linkend="api.RewardSourcesRequest">RewardSourcesRequest</link></entry>
+              <entry><link linkend="api.RewardSourcesResponse">RewardSourcesResponse</link></entry>
+              <entry><para>RewardSources provides reward sources for voters</para></entry>
             </row>
             
           </tbody>

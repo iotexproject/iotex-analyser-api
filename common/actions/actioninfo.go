@@ -11,3 +11,13 @@ type ActionInfo struct {
 	GasFee    string
 	Timestamp uint64
 }
+
+type BlockReceiptTransaction struct {
+	ID          uint64
+	BlockHeight uint64
+	ActionHash  string
+	Type        string
+	Amount      string
+	Sender      string
+	Recipient   string
+}
