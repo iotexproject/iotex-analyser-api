@@ -266,6 +266,42 @@
             <ul>
               
                 <li>
+                  <a href="#api.ActionByAddressRequest"><span class="badge">M</span>ActionByAddressRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByAddressResponse"><span class="badge">M</span>ActionByAddressResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByDatesRequest"><span class="badge">M</span>ActionByDatesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByDatesResponse"><span class="badge">M</span>ActionByDatesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByHashRequest"><span class="badge">M</span>ActionByHashRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByHashResponse"><span class="badge">M</span>ActionByHashResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByHashResponse.EvmTransfers"><span class="badge">M</span>ActionByHashResponse.EvmTransfers</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByTypeRequest"><span class="badge">M</span>ActionByTypeRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ActionByTypeResponse"><span class="badge">M</span>ActionByTypeResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.ActionInfo"><span class="badge">M</span>ActionInfo</a>
                 </li>
               
@@ -279,6 +315,18 @@
               
                 <li>
                   <a href="#api.EvmTransferInfo"><span class="badge">M</span>EvmTransferInfo</a>
+                </li>
+              
+                <li>
+                  <a href="#api.EvmTransfersByAddressRequest"><span class="badge">M</span>EvmTransfersByAddressRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.EvmTransfersByAddressResponse"><span class="badge">M</span>EvmTransfersByAddressResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.EvmTransfersByAddressResponse.EvmTransfer"><span class="badge">M</span>EvmTransfersByAddressResponse.EvmTransfer</a>
                 </li>
               
                 <li>
@@ -530,6 +578,49 @@
               
                 <li>
                   <a href="#api.StakingService"><span class="badge">S</span>StakingService</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#api_voting.proto">api_voting.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#api.CandidateInfoRequest"><span class="badge">M</span>CandidateInfoRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.CandidateInfoResponse"><span class="badge">M</span>CandidateInfoResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.CandidateInfoResponse.CandidateInfo"><span class="badge">M</span>CandidateInfoResponse.CandidateInfo</a>
+                </li>
+              
+                <li>
+                  <a href="#api.CandidateInfoResponse.Candidates"><span class="badge">M</span>CandidateInfoResponse.Candidates</a>
+                </li>
+              
+                <li>
+                  <a href="#api.RewardSourcesRequest"><span class="badge">M</span>RewardSourcesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.RewardSourcesResponse"><span class="badge">M</span>RewardSourcesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.RewardSourcesResponse.DelegateDistributions"><span class="badge">M</span>RewardSourcesResponse.DelegateDistributions</a>
+                </li>
+              
+              
+              
+              
+                <li>
+                  <a href="#api.VotingService"><span class="badge">S</span>VotingService</a>
                 </li>
               
             </ul>
@@ -1259,6 +1350,320 @@
       <p></p>
 
       
+        <h3 id="api.ActionByAddressRequest">ActionByAddressRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>address</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address or recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByAddressResponse">ActionByAddressResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether actions exist for the given address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actions</td>
+                  <td><a href="#api.ActionInfo">ActionInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of actions for the given address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByDatesRequest">ActionByDatesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startDate</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>start date in unix epoch time </p></td>
+                </tr>
+              
+                <tr>
+                  <td>endDate</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>end date in unix epoch time </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByDatesResponse">ActionByDatesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether actions exist within the time frame </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actions</td>
+                  <td><a href="#api.ActionInfo">ActionInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of actions within the time frame </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByHashRequest">ActionByHashRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>actHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>action hash </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByHashResponse">ActionByHashResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether actions exist within the time frame </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actionInfo</td>
+                  <td><a href="#api.ActionInfo">ActionInfo</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>evmTransfers</td>
+                  <td><a href="#api.ActionByHashResponse.EvmTransfers">ActionByHashResponse.EvmTransfers</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByHashResponse.EvmTransfers">ActionByHashResponse.EvmTransfers</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>sender</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>recipient</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount transferred </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByTypeRequest">ActionByTypeRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>action type </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ActionByTypeResponse">ActionByTypeResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether actions exist for the given type </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actions</td>
+                  <td><a href="#api.ActionInfo">ActionInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of actions for the given type </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.ActionInfo">ActionInfo</h3>
         <p></p>
 
@@ -1273,63 +1678,63 @@
                   <td>actHash</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>action hash </p></td>
                 </tr>
               
                 <tr>
                   <td>blkHash</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>block hash </p></td>
                 </tr>
               
                 <tr>
                   <td>actType</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>action type </p></td>
                 </tr>
               
                 <tr>
                   <td>sender</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>sender address </p></td>
                 </tr>
               
                 <tr>
                   <td>recipient</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>recipient address </p></td>
                 </tr>
               
                 <tr>
                   <td>amount</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>amount transferred </p></td>
                 </tr>
               
                 <tr>
                   <td>timestamp</td>
                   <td><a href="#uint64">uint64</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>unix timestamp </p></td>
                 </tr>
               
                 <tr>
                   <td>gasFee</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>gas fee </p></td>
                 </tr>
               
                 <tr>
                   <td>blkHeight</td>
                   <td><a href="#uint64">uint64</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>block height </p></td>
                 </tr>
               
             </tbody>
@@ -1495,6 +1900,141 @@
 
         
       
+        <h3 id="api.EvmTransfersByAddressRequest">EvmTransfersByAddressRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>address</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address or recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.EvmTransfersByAddressResponse">EvmTransfersByAddressResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether EVM transfers exist for the given address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of EVM transfers for the given address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>evmTransfers</td>
+                  <td><a href="#api.EvmTransfersByAddressResponse.EvmTransfer">EvmTransfersByAddressResponse.EvmTransfer</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.EvmTransfersByAddressResponse.EvmTransfer">EvmTransfersByAddressResponse.EvmTransfer</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>actHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>action hash </p></td>
+                </tr>
+              
+                <tr>
+                  <td>blkHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>block hash </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sender</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>recipient</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount transferred </p></td>
+                </tr>
+              
+                <tr>
+                  <td>blkHeight</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>block height </p></td>
+                </tr>
+              
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>unix timestamp </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.XrcInfo">XrcInfo</h3>
         <p></p>
 
@@ -1583,24 +2123,45 @@
               </tr>
             
               <tr>
-                <td>ActionByAddress</td>
-                <td><a href="#api.ActionRequest">ActionRequest</a></td>
-                <td><a href="#api.ActionResponse">ActionResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>EvmTransfersByAddress</td>
-                <td><a href="#api.ActionRequest">ActionRequest</a></td>
-                <td><a href="#api.ActionResponse">ActionResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
                 <td>GetXrc20ByAddress</td>
                 <td><a href="#api.ActionRequest">ActionRequest</a></td>
                 <td><a href="#api.ActionResponse">ActionResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ActionByDates</td>
+                <td><a href="#api.ActionByDatesRequest">ActionByDatesRequest</a></td>
+                <td><a href="#api.ActionByDatesResponse">ActionByDatesResponse</a></td>
+                <td><p>ActionByDates finds actions by dates</p></td>
+              </tr>
+            
+              <tr>
+                <td>ActionByHash</td>
+                <td><a href="#api.ActionByHashRequest">ActionByHashRequest</a></td>
+                <td><a href="#api.ActionByHashResponse">ActionByHashResponse</a></td>
+                <td><p>ActionByHash finds actions by hash</p></td>
+              </tr>
+            
+              <tr>
+                <td>ActionByAddress</td>
+                <td><a href="#api.ActionByAddressRequest">ActionByAddressRequest</a></td>
+                <td><a href="#api.ActionByAddressResponse">ActionByAddressResponse</a></td>
+                <td><p>ActionByAddress finds actions by address</p></td>
+              </tr>
+            
+              <tr>
+                <td>ActionByType</td>
+                <td><a href="#api.ActionByTypeRequest">ActionByTypeRequest</a></td>
+                <td><a href="#api.ActionByTypeResponse">ActionByTypeResponse</a></td>
+                <td><p>ActionByType finds actions by action type</p></td>
+              </tr>
+            
+              <tr>
+                <td>EvmTransfersByAddress</td>
+                <td><a href="#api.EvmTransfersByAddressRequest">EvmTransfersByAddressRequest</a></td>
+                <td><a href="#api.EvmTransfersByAddressResponse">EvmTransfersByAddressResponse</a></td>
+                <td><p>EvmTransfersByAddress finds EVM transfers by address</p></td>
               </tr>
             
           </tbody>
@@ -1634,6 +2195,36 @@
               
               
               <tr>
+                <td>GetXrc20ByAddress</td>
+                <td>POST</td>
+                <td>/api.ActionService.GetXrc20ByAddress</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>ActionByDates</td>
+                <td>POST</td>
+                <td>/api.ActionService.ActionByDates</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>ActionByHash</td>
+                <td>POST</td>
+                <td>/api.ActionService.ActionByHash</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
                 <td>ActionByAddress</td>
                 <td>POST</td>
                 <td>/api.ActionsService.ActionByAddress</td>
@@ -1644,9 +2235,9 @@
               
               
               <tr>
-                <td>EvmTransfersByAddress</td>
+                <td>ActionByType</td>
                 <td>POST</td>
-                <td>/api.ActionService.EvmTransfersByAddress</td>
+                <td>/api.ActionsService.ActionByType</td>
                 <td>*</td>
               </tr>
               
@@ -1654,9 +2245,9 @@
               
               
               <tr>
-                <td>GetXrc20ByAddress</td>
+                <td>EvmTransfersByAddress</td>
                 <td>POST</td>
-                <td>/api.ActionService.GetXrc20ByAddress</td>
+                <td>/api.ActionService.EvmTransfersByAddress</td>
                 <td>*</td>
               </tr>
               
@@ -3962,6 +4553,329 @@
                 <td>CandidateVoteByHeight</td>
                 <td>POST</td>
                 <td>/api.StakingService.CandidateVoteByHeight</td>
+                <td>*</td>
+              </tr>
+              
+            
+            </tbody>
+          </table>
+          
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="api_voting.proto">api_voting.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="api.CandidateInfoRequest">CandidateInfoRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.CandidateInfoResponse">CandidateInfoResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>candidateInfo</td>
+                  <td><a href="#api.CandidateInfoResponse.CandidateInfo">CandidateInfoResponse.CandidateInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.CandidateInfoResponse.CandidateInfo">CandidateInfoResponse.CandidateInfo</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>epochNumber</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>candidates</td>
+                  <td><a href="#api.CandidateInfoResponse.Candidates">CandidateInfoResponse.Candidates</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.CandidateInfoResponse.Candidates">CandidateInfoResponse.Candidates</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>address</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>canddiate address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalWeightedVotes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total weighted votes </p></td>
+                </tr>
+              
+                <tr>
+                  <td>selfStakingTokens</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate self-staking tokens </p></td>
+                </tr>
+              
+                <tr>
+                  <td>operatorAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate operator address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rewardAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate reward address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.RewardSourcesRequest">RewardSourcesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+                <tr>
+                  <td>voterIotxAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>voter IoTeX address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.RewardSourcesResponse">RewardSourcesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the voter has reward information within the specified epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>delegateDistributions</td>
+                  <td><a href="#api.RewardSourcesResponse.DelegateDistributions">RewardSourcesResponse.DelegateDistributions</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.RewardSourcesResponse.DelegateDistributions">RewardSourcesResponse.DelegateDistributions</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount of reward distribution </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+        <h3 id="api.VotingService">VotingService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>CandidateInfo</td>
+                <td><a href="#api.CandidateInfoRequest">CandidateInfoRequest</a></td>
+                <td><a href="#api.CandidateInfoResponse">CandidateInfoResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>RewardSources</td>
+                <td><a href="#api.RewardSourcesRequest">RewardSourcesRequest</a></td>
+                <td><a href="#api.RewardSourcesResponse">RewardSourcesResponse</a></td>
+                <td><p>RewardSources provides reward sources for voters</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+          
+          
+          <h4>Methods with HTTP bindings</h4>
+          <table>
+            <thead>
+              <tr>
+                <td>Method Name</td>
+                <td>Method</td>
+                <td>Pattern</td>
+                <td>Body</td>
+              </tr>
+            </thead>
+            <tbody>
+            
+              
+              
+              <tr>
+                <td>CandidateInfo</td>
+                <td>POST</td>
+                <td>/api.VotingService.CandidateInfo</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>RewardSources</td>
+                <td>POST</td>
+                <td>/api.VotingService.RewardSources</td>
                 <td>*</td>
               </tr>
               

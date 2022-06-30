@@ -21,15 +21,15 @@ message ActionResponse {
 }
 
 message ActionInfo {
-  string actHash = 1;
-  string blkHash = 2;
-  string actType = 3;
-  string sender = 4;
-  string recipient = 5;
-  string amount = 6;
-  uint64 timestamp = 7;
-  string gasFee = 8;
-  uint64 blkHeight = 9;
+  string actHash = 1; // action hash
+  string blkHash = 2; // block hash
+  string actType = 3; // action type
+  string sender = 4; // sender address
+  string recipient = 5; // recipient address
+  string amount = 6; // amount transferred
+  uint64 timestamp = 7; // unix timestamp
+  string gasFee = 8; // gas fee
+  uint64 blkHeight = 9; // block height
 }
 
 message EvmTransferInfo {
@@ -52,6 +52,70 @@ message XrcInfo {
   string contract = 7;
 }
 
+message ActionByDatesRequest {
+  uint64 startDate = 1; // start date in unix epoch time
+  uint64 endDate = 2; // end date in unix epoch time
+  pagination.Pagination pagination = 3;
+}
+message ActionByDatesResponse {
+  bool exist = 1; // whether actions exist within the time frame
+  repeated ActionInfo actions = 2;
+  uint64 count = 3; // total number of actions within the time frame
+}
+
+message ActionByHashRequest {
+  string actHash = 1; // action hash
+}
+message ActionByHashResponse {
+  bool exist = 1; // whether actions exist within the time frame
+  ActionInfo actionInfo = 2;
+  message EvmTransfers {
+    string sender = 1; // sender address
+    string recipient = 2; // recipient address
+    string amount = 3; // amount transferred
+  }
+  repeated EvmTransfers evmTransfers = 3;
+}
+
+message ActionByAddressRequest {
+  string address = 1; // sender address or recipient address
+  pagination.Pagination pagination = 2;
+}
+message ActionByAddressResponse {
+  bool exist = 1; // whether actions exist for the given address
+  repeated ActionInfo actions = 2;
+  uint64 count = 3; // total number of actions for the given address
+}
+
+message ActionByTypeRequest {
+  string type = 1; // action type
+  pagination.Pagination pagination = 2;
+}
+message ActionByTypeResponse {
+  bool exist = 1; // whether actions exist for the given type
+  repeated ActionInfo actions = 2;
+  uint64 count = 3; // total number of actions for the given type
+}
+
+message EvmTransfersByAddressRequest {
+  string address = 1; // sender address or recipient address
+  pagination.Pagination pagination = 2;
+}
+
+message EvmTransfersByAddressResponse {
+  bool exist = 1; // whether EVM transfers exist for the given address
+  uint64 count = 2; // total number of EVM transfers for the given address
+  message EvmTransfer {
+    string actHash = 1; // action hash
+    string blkHash = 2; // block hash
+    string sender = 3; // sender address
+    string recipient = 4; // recipient address
+    string amount = 5; // amount transferred
+    uint64 blkHeight = 6; // block height
+    uint64 timestamp = 7; // unix timestamp
+  }
+  repeated EvmTransfer evmTransfers = 3;
+}
 service ActionService {
   rpc ActionByVoter(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
@@ -60,26 +124,6 @@ service ActionService {
     };
     option (google.api.http) = {
       post: "/api.ActionService.ActionByVoter"
-      body: "*"
-    };
-  };
-  rpc ActionByAddress(ActionRequest) returns (ActionResponse) {
-    option (graphql.schema) = {
-      type: QUERY
-      name: "ActionByAddress"
-    };
-    option (google.api.http) = {
-      post: "/api.ActionsService.ActionByAddress"
-      body: "*"
-    };
-  };
-  rpc EvmTransfersByAddress(ActionRequest) returns (ActionResponse) {
-    option (graphql.schema) = {
-      type: QUERY
-      name: "EvmTransfersByAddress" 
-    };
-    option (google.api.http) = {
-      post: "/api.ActionService.EvmTransfersByAddress"
       body: "*"
     };
   };
@@ -93,4 +137,60 @@ service ActionService {
       body: "*"
     };
   };
+  //ActionByDates finds actions by dates
+  rpc ActionByDates(ActionByDatesRequest) returns (ActionByDatesResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "ActionByDates"
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.ActionByDates"
+      body: "*"
+    };
+  };
+  //ActionByHash finds actions by hash
+  rpc ActionByHash(ActionByHashRequest) returns (ActionByHashResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "ActionByHash"
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.ActionByHash"
+      body: "*"
+    };
+  };
+  //ActionByAddress finds actions by address
+  rpc ActionByAddress(ActionByAddressRequest) returns (ActionByAddressResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "ActionByAddress"
+    };
+    option (google.api.http) = {
+      post: "/api.ActionsService.ActionByAddress"
+      body: "*"
+    };
+  };
+  //ActionByType finds actions by action type
+  rpc ActionByType(ActionByTypeRequest) returns (ActionByTypeResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "ActionByType"
+    };
+    option (google.api.http) = {
+      post: "/api.ActionsService.ActionByType"
+      body: "*"
+    };
+  };
+  // EvmTransfersByAddress finds EVM transfers by address
+  rpc EvmTransfersByAddress(EvmTransfersByAddressRequest) returns (EvmTransfersByAddressResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "EvmTransfersByAddress" 
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.EvmTransfersByAddress"
+      body: "*"
+    };
+  };
+
 }

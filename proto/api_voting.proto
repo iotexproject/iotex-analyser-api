@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package api;
+import "google/api/annotations.proto";
+import "include/graphql.proto";
+// import "include/pagination.proto";
+option go_package = "./api";
+
+message CandidateInfoRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+}
+
+message CandidateInfoResponse {
+  message Candidates {
+    string name = 1; // candidate name
+    string address = 2; // canddiate address
+    string totalWeightedVotes = 3; // total weighted votes
+    string selfStakingTokens = 4; // candidate self-staking tokens
+    string operatorAddress = 5; // candidate operator address
+    string rewardAddress = 6; // candidate reward address
+  }
+  message CandidateInfo {
+    uint64 epochNumber = 1; // epoch number
+    repeated Candidates candidates = 2;
+  }
+  repeated CandidateInfo candidateInfo = 1;
+}
+
+message RewardSourcesRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+  string voterIotxAddress = 3; // voter IoTeX address
+}
+
+message RewardSourcesResponse {
+  bool exist = 1; // whether the voter has reward information within the specified epoch range
+  message DelegateDistributions {
+    string delegateName = 1; // delegate name
+    string amount = 2; // amount of reward distribution
+  }
+  repeated DelegateDistributions delegateDistributions = 2;
+}
+service VotingService {
+  rpc CandidateInfo(CandidateInfoRequest) returns (CandidateInfoResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "CandidateInfo"
+    };
+    option (google.api.http) = {
+      post: "/api.VotingService.CandidateInfo"
+      body: "*"
+    };
+  };
+  // RewardSources provides reward sources for voters 
+  rpc RewardSources(RewardSourcesRequest) returns (RewardSourcesResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "RewardSources"
+    };
+    option (google.api.http) = {
+      post: "/api.VotingService.RewardSources"
+      body: "*"
+    };
+  };
+  
+}

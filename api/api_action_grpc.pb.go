@@ -19,9 +19,17 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ActionServiceClient interface {
 	ActionByVoter(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
-	ActionByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
-	EvmTransfersByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
 	GetXrc20ByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error)
+	//ActionByDates finds actions by dates
+	ActionByDates(ctx context.Context, in *ActionByDatesRequest, opts ...grpc.CallOption) (*ActionByDatesResponse, error)
+	//ActionByHash finds actions by hash
+	ActionByHash(ctx context.Context, in *ActionByHashRequest, opts ...grpc.CallOption) (*ActionByHashResponse, error)
+	//ActionByAddress finds actions by address
+	ActionByAddress(ctx context.Context, in *ActionByAddressRequest, opts ...grpc.CallOption) (*ActionByAddressResponse, error)
+	//ActionByType finds actions by action type
+	ActionByType(ctx context.Context, in *ActionByTypeRequest, opts ...grpc.CallOption) (*ActionByTypeResponse, error)
+	// EvmTransfersByAddress finds EVM transfers by address
+	EvmTransfersByAddress(ctx context.Context, in *EvmTransfersByAddressRequest, opts ...grpc.CallOption) (*EvmTransfersByAddressResponse, error)
 }
 
 type actionServiceClient struct {
@@ -41,8 +49,35 @@ func (c *actionServiceClient) ActionByVoter(ctx context.Context, in *ActionReque
 	return out, nil
 }
 
-func (c *actionServiceClient) ActionByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
+func (c *actionServiceClient) GetXrc20ByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
 	out := new(ActionResponse)
+	err := c.cc.Invoke(ctx, "/api.ActionService/GetXrc20ByAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *actionServiceClient) ActionByDates(ctx context.Context, in *ActionByDatesRequest, opts ...grpc.CallOption) (*ActionByDatesResponse, error) {
+	out := new(ActionByDatesResponse)
+	err := c.cc.Invoke(ctx, "/api.ActionService/ActionByDates", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *actionServiceClient) ActionByHash(ctx context.Context, in *ActionByHashRequest, opts ...grpc.CallOption) (*ActionByHashResponse, error) {
+	out := new(ActionByHashResponse)
+	err := c.cc.Invoke(ctx, "/api.ActionService/ActionByHash", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *actionServiceClient) ActionByAddress(ctx context.Context, in *ActionByAddressRequest, opts ...grpc.CallOption) (*ActionByAddressResponse, error) {
+	out := new(ActionByAddressResponse)
 	err := c.cc.Invoke(ctx, "/api.ActionService/ActionByAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -50,18 +85,18 @@ func (c *actionServiceClient) ActionByAddress(ctx context.Context, in *ActionReq
 	return out, nil
 }
 
-func (c *actionServiceClient) EvmTransfersByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
-	out := new(ActionResponse)
-	err := c.cc.Invoke(ctx, "/api.ActionService/EvmTransfersByAddress", in, out, opts...)
+func (c *actionServiceClient) ActionByType(ctx context.Context, in *ActionByTypeRequest, opts ...grpc.CallOption) (*ActionByTypeResponse, error) {
+	out := new(ActionByTypeResponse)
+	err := c.cc.Invoke(ctx, "/api.ActionService/ActionByType", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *actionServiceClient) GetXrc20ByAddress(ctx context.Context, in *ActionRequest, opts ...grpc.CallOption) (*ActionResponse, error) {
-	out := new(ActionResponse)
-	err := c.cc.Invoke(ctx, "/api.ActionService/GetXrc20ByAddress", in, out, opts...)
+func (c *actionServiceClient) EvmTransfersByAddress(ctx context.Context, in *EvmTransfersByAddressRequest, opts ...grpc.CallOption) (*EvmTransfersByAddressResponse, error) {
+	out := new(EvmTransfersByAddressResponse)
+	err := c.cc.Invoke(ctx, "/api.ActionService/EvmTransfersByAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,9 +108,17 @@ func (c *actionServiceClient) GetXrc20ByAddress(ctx context.Context, in *ActionR
 // for forward compatibility
 type ActionServiceServer interface {
 	ActionByVoter(context.Context, *ActionRequest) (*ActionResponse, error)
-	ActionByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
-	EvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
 	GetXrc20ByAddress(context.Context, *ActionRequest) (*ActionResponse, error)
+	//ActionByDates finds actions by dates
+	ActionByDates(context.Context, *ActionByDatesRequest) (*ActionByDatesResponse, error)
+	//ActionByHash finds actions by hash
+	ActionByHash(context.Context, *ActionByHashRequest) (*ActionByHashResponse, error)
+	//ActionByAddress finds actions by address
+	ActionByAddress(context.Context, *ActionByAddressRequest) (*ActionByAddressResponse, error)
+	//ActionByType finds actions by action type
+	ActionByType(context.Context, *ActionByTypeRequest) (*ActionByTypeResponse, error)
+	// EvmTransfersByAddress finds EVM transfers by address
+	EvmTransfersByAddress(context.Context, *EvmTransfersByAddressRequest) (*EvmTransfersByAddressResponse, error)
 	mustEmbedUnimplementedActionServiceServer()
 }
 
@@ -86,14 +129,23 @@ type UnimplementedActionServiceServer struct {
 func (UnimplementedActionServiceServer) ActionByVoter(context.Context, *ActionRequest) (*ActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActionByVoter not implemented")
 }
-func (UnimplementedActionServiceServer) ActionByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ActionByAddress not implemented")
-}
-func (UnimplementedActionServiceServer) EvmTransfersByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method EvmTransfersByAddress not implemented")
-}
 func (UnimplementedActionServiceServer) GetXrc20ByAddress(context.Context, *ActionRequest) (*ActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetXrc20ByAddress not implemented")
+}
+func (UnimplementedActionServiceServer) ActionByDates(context.Context, *ActionByDatesRequest) (*ActionByDatesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActionByDates not implemented")
+}
+func (UnimplementedActionServiceServer) ActionByHash(context.Context, *ActionByHashRequest) (*ActionByHashResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActionByHash not implemented")
+}
+func (UnimplementedActionServiceServer) ActionByAddress(context.Context, *ActionByAddressRequest) (*ActionByAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActionByAddress not implemented")
+}
+func (UnimplementedActionServiceServer) ActionByType(context.Context, *ActionByTypeRequest) (*ActionByTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActionByType not implemented")
+}
+func (UnimplementedActionServiceServer) EvmTransfersByAddress(context.Context, *EvmTransfersByAddressRequest) (*EvmTransfersByAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EvmTransfersByAddress not implemented")
 }
 func (UnimplementedActionServiceServer) mustEmbedUnimplementedActionServiceServer() {}
 
@@ -126,42 +178,6 @@ func _ActionService_ActionByVoter_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ActionService_ActionByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ActionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ActionServiceServer).ActionByAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.ActionService/ActionByAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ActionServiceServer).ActionByAddress(ctx, req.(*ActionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ActionService_EvmTransfersByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ActionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ActionServiceServer).EvmTransfersByAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.ActionService/EvmTransfersByAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ActionServiceServer).EvmTransfersByAddress(ctx, req.(*ActionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ActionService_GetXrc20ByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ActionRequest)
 	if err := dec(in); err != nil {
@@ -180,6 +196,96 @@ func _ActionService_GetXrc20ByAddress_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActionService_ActionByDates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActionByDatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).ActionByDates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ActionService/ActionByDates",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).ActionByDates(ctx, req.(*ActionByDatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActionService_ActionByHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActionByHashRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).ActionByHash(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ActionService/ActionByHash",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).ActionByHash(ctx, req.(*ActionByHashRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActionService_ActionByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActionByAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).ActionByAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ActionService/ActionByAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).ActionByAddress(ctx, req.(*ActionByAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActionService_ActionByType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActionByTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).ActionByType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ActionService/ActionByType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).ActionByType(ctx, req.(*ActionByTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActionService_EvmTransfersByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvmTransfersByAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).EvmTransfersByAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ActionService/EvmTransfersByAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).EvmTransfersByAddress(ctx, req.(*EvmTransfersByAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActionService_ServiceDesc is the grpc.ServiceDesc for ActionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -192,16 +298,28 @@ var ActionService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ActionService_ActionByVoter_Handler,
 		},
 		{
+			MethodName: "GetXrc20ByAddress",
+			Handler:    _ActionService_GetXrc20ByAddress_Handler,
+		},
+		{
+			MethodName: "ActionByDates",
+			Handler:    _ActionService_ActionByDates_Handler,
+		},
+		{
+			MethodName: "ActionByHash",
+			Handler:    _ActionService_ActionByHash_Handler,
+		},
+		{
 			MethodName: "ActionByAddress",
 			Handler:    _ActionService_ActionByAddress_Handler,
 		},
 		{
-			MethodName: "EvmTransfersByAddress",
-			Handler:    _ActionService_EvmTransfersByAddress_Handler,
+			MethodName: "ActionByType",
+			Handler:    _ActionService_ActionByType_Handler,
 		},
 		{
-			MethodName: "GetXrc20ByAddress",
-			Handler:    _ActionService_GetXrc20ByAddress_Handler,
+			MethodName: "EvmTransfersByAddress",
+			Handler:    _ActionService_EvmTransfersByAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

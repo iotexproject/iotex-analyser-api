@@ -27,6 +27,7 @@ func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterDelegateServiceServer(grpcServer, &DelegateService{})
 	api.RegisterChainServiceServer(grpcServer, &ChainService{})
 	api.RegisterActionServiceServer(grpcServer, &ActionService{})
+	api.RegisterVotingServiceServer(grpcServer, &VotingService{})
 }
 
 func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
@@ -46,6 +47,9 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 		return err
 	}
 	if err := api.RegisterActionServiceHandlerServer(ctx, mux, &ActionService{}); err != nil {
+		return err
+	}
+	if err := api.RegisterVotingServiceHandlerServer(ctx, mux, &VotingService{}); err != nil {
 		return err
 	}
 	return nil
@@ -75,9 +79,13 @@ func registerGraphQLAPIService(ctx context.Context, mux *graphqlruntime.ServeMux
 	if err := api.RegisterActionServiceGraphqlHandler(mux, conn); err != nil {
 		return err
 	}
+	if err := api.RegisterVotingServiceGraphqlHandler(mux, conn); err != nil {
+		return err
+	}
 	return nil
 }
 
+// StartGRPCService starts the GRPC service
 func StartGRPCService(ctx context.Context) error {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", config.Default.Server.GrpcAPIPort))
 	if err != nil {
@@ -89,6 +97,7 @@ func StartGRPCService(ctx context.Context) error {
 	return grpcServer.Serve(lis)
 }
 
+// StartGRPCProxyService starts the GRPC API Proxy service
 func StartGRPCProxyService(templates embed.FS) error {
 	gwmux := runtime.NewServeMux()
 	ctx := context.Background()

@@ -829,9 +829,189 @@
       "extensions": [],
       "messages": [
         {
-          "name": "ActionInfo",
-          "longName": "ActionInfo",
-          "fullName": "api.ActionInfo",
+          "name": "ActionByAddressRequest",
+          "longName": "ActionByAddressRequest",
+          "fullName": "api.ActionByAddressRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "address",
+              "description": "sender address or recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionByAddressResponse",
+          "longName": "ActionByAddressResponse",
+          "fullName": "api.ActionByAddressResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether actions exist for the given address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "actions",
+              "description": "",
+              "label": "repeated",
+              "type": "ActionInfo",
+              "longType": "ActionInfo",
+              "fullType": "api.ActionInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of actions for the given address",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionByDatesRequest",
+          "longName": "ActionByDatesRequest",
+          "fullName": "api.ActionByDatesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startDate",
+              "description": "start date in unix epoch time",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "endDate",
+              "description": "end date in unix epoch time",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionByDatesResponse",
+          "longName": "ActionByDatesResponse",
+          "fullName": "api.ActionByDatesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether actions exist within the time frame",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "actions",
+              "description": "",
+              "label": "repeated",
+              "type": "ActionInfo",
+              "longType": "ActionInfo",
+              "fullType": "api.ActionInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of actions within the time frame",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionByHashRequest",
+          "longName": "ActionByHashRequest",
+          "fullName": "api.ActionByHashRequest",
           "description": "",
           "hasExtensions": false,
           "hasFields": true,
@@ -840,43 +1020,79 @@
           "fields": [
             {
               "name": "actHash",
-              "description": "",
+              "description": "action hash",
               "label": "",
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionByHashResponse",
+          "longName": "ActionByHashResponse",
+          "fullName": "api.ActionByHashResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether actions exist within the time frame",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
             },
             {
-              "name": "blkHash",
+              "name": "actionInfo",
               "description": "",
               "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
+              "type": "ActionInfo",
+              "longType": "ActionInfo",
+              "fullType": "api.ActionInfo",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
             },
             {
-              "name": "actType",
+              "name": "evmTransfers",
               "description": "",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
+              "label": "repeated",
+              "type": "EvmTransfers",
+              "longType": "ActionByHashResponse.EvmTransfers",
+              "fullType": "api.ActionByHashResponse.EvmTransfers",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
-            },
+            }
+          ]
+        },
+        {
+          "name": "EvmTransfers",
+          "longName": "ActionByHashResponse.EvmTransfers",
+          "fullName": "api.ActionByHashResponse.EvmTransfers",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
             {
               "name": "sender",
-              "description": "",
+              "description": "sender address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -888,7 +1104,7 @@
             },
             {
               "name": "recipient",
-              "description": "",
+              "description": "recipient address",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -900,7 +1116,175 @@
             },
             {
               "name": "amount",
+              "description": "amount transferred",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionByTypeRequest",
+          "longName": "ActionByTypeRequest",
+          "fullName": "api.ActionByTypeRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "type",
+              "description": "action type",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
               "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionByTypeResponse",
+          "longName": "ActionByTypeResponse",
+          "fullName": "api.ActionByTypeResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether actions exist for the given type",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "actions",
+              "description": "",
+              "label": "repeated",
+              "type": "ActionInfo",
+              "longType": "ActionInfo",
+              "fullType": "api.ActionInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of actions for the given type",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ActionInfo",
+          "longName": "ActionInfo",
+          "fullName": "api.ActionInfo",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "actHash",
+              "description": "action hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "blkHash",
+              "description": "block hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "actType",
+              "description": "action type",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sender",
+              "description": "sender address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "recipient",
+              "description": "recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "amount transferred",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -912,7 +1296,7 @@
             },
             {
               "name": "timestamp",
-              "description": "",
+              "description": "unix timestamp",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -924,7 +1308,7 @@
             },
             {
               "name": "gasFee",
-              "description": "",
+              "description": "gas fee",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -936,7 +1320,7 @@
             },
             {
               "name": "blkHeight",
-              "description": "",
+              "description": "block height",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -1165,6 +1549,186 @@
           ]
         },
         {
+          "name": "EvmTransfersByAddressRequest",
+          "longName": "EvmTransfersByAddressRequest",
+          "fullName": "api.EvmTransfersByAddressRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "address",
+              "description": "sender address or recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "EvmTransfersByAddressResponse",
+          "longName": "EvmTransfersByAddressResponse",
+          "fullName": "api.EvmTransfersByAddressResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether EVM transfers exist for the given address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of EVM transfers for the given address",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "evmTransfers",
+              "description": "",
+              "label": "repeated",
+              "type": "EvmTransfer",
+              "longType": "EvmTransfersByAddressResponse.EvmTransfer",
+              "fullType": "api.EvmTransfersByAddressResponse.EvmTransfer",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "EvmTransfer",
+          "longName": "EvmTransfersByAddressResponse.EvmTransfer",
+          "fullName": "api.EvmTransfersByAddressResponse.EvmTransfer",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "actHash",
+              "description": "action hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "blkHash",
+              "description": "block hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sender",
+              "description": "sender address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "recipient",
+              "description": "recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "amount transferred",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "blkHeight",
+              "description": "block height",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "timestamp",
+              "description": "unix timestamp",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "XrcInfo",
           "longName": "XrcInfo",
           "fullName": "api.XrcInfo",
@@ -1292,52 +1856,6 @@
               }
             },
             {
-              "name": "ActionByAddress",
-              "description": "",
-              "requestType": "ActionRequest",
-              "requestLongType": "ActionRequest",
-              "requestFullType": "api.ActionRequest",
-              "requestStreaming": false,
-              "responseType": "ActionResponse",
-              "responseLongType": "ActionResponse",
-              "responseFullType": "api.ActionResponse",
-              "responseStreaming": false,
-              "options": {
-                "google.api.http": {
-                  "rules": [
-                    {
-                      "method": "POST",
-                      "pattern": "/api.ActionsService.ActionByAddress",
-                      "body": "*"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "name": "EvmTransfersByAddress",
-              "description": "",
-              "requestType": "ActionRequest",
-              "requestLongType": "ActionRequest",
-              "requestFullType": "api.ActionRequest",
-              "requestStreaming": false,
-              "responseType": "ActionResponse",
-              "responseLongType": "ActionResponse",
-              "responseFullType": "api.ActionResponse",
-              "responseStreaming": false,
-              "options": {
-                "google.api.http": {
-                  "rules": [
-                    {
-                      "method": "POST",
-                      "pattern": "/api.ActionService.EvmTransfersByAddress",
-                      "body": "*"
-                    }
-                  ]
-                }
-              }
-            },
-            {
               "name": "GetXrc20ByAddress",
               "description": "",
               "requestType": "ActionRequest",
@@ -1354,6 +1872,121 @@
                     {
                       "method": "POST",
                       "pattern": "/api.ActionService.GetXrc20ByAddress",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ActionByDates",
+              "description": "ActionByDates finds actions by dates",
+              "requestType": "ActionByDatesRequest",
+              "requestLongType": "ActionByDatesRequest",
+              "requestFullType": "api.ActionByDatesRequest",
+              "requestStreaming": false,
+              "responseType": "ActionByDatesResponse",
+              "responseLongType": "ActionByDatesResponse",
+              "responseFullType": "api.ActionByDatesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ActionService.ActionByDates",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ActionByHash",
+              "description": "ActionByHash finds actions by hash",
+              "requestType": "ActionByHashRequest",
+              "requestLongType": "ActionByHashRequest",
+              "requestFullType": "api.ActionByHashRequest",
+              "requestStreaming": false,
+              "responseType": "ActionByHashResponse",
+              "responseLongType": "ActionByHashResponse",
+              "responseFullType": "api.ActionByHashResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ActionService.ActionByHash",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ActionByAddress",
+              "description": "ActionByAddress finds actions by address",
+              "requestType": "ActionByAddressRequest",
+              "requestLongType": "ActionByAddressRequest",
+              "requestFullType": "api.ActionByAddressRequest",
+              "requestStreaming": false,
+              "responseType": "ActionByAddressResponse",
+              "responseLongType": "ActionByAddressResponse",
+              "responseFullType": "api.ActionByAddressResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ActionsService.ActionByAddress",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ActionByType",
+              "description": "ActionByType finds actions by action type",
+              "requestType": "ActionByTypeRequest",
+              "requestLongType": "ActionByTypeRequest",
+              "requestFullType": "api.ActionByTypeRequest",
+              "requestStreaming": false,
+              "responseType": "ActionByTypeResponse",
+              "responseLongType": "ActionByTypeResponse",
+              "responseFullType": "api.ActionByTypeResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ActionsService.ActionByType",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "EvmTransfersByAddress",
+              "description": "EvmTransfersByAddress finds EVM transfers by address",
+              "requestType": "EvmTransfersByAddressRequest",
+              "requestLongType": "EvmTransfersByAddressRequest",
+              "requestFullType": "api.EvmTransfersByAddressRequest",
+              "requestStreaming": false,
+              "responseType": "EvmTransfersByAddressResponse",
+              "responseLongType": "EvmTransfersByAddressResponse",
+              "responseFullType": "api.EvmTransfersByAddressResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ActionService.EvmTransfersByAddress",
                       "body": "*"
                     }
                   ]
@@ -4216,6 +4849,375 @@
                     {
                       "method": "POST",
                       "pattern": "/api.StakingService.CandidateVoteByHeight",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api_voting.proto",
+      "description": "",
+      "package": "api",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": true,
+      "enums": [],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "CandidateInfoRequest",
+          "longName": "CandidateInfoRequest",
+          "fullName": "api.CandidateInfoRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CandidateInfoResponse",
+          "longName": "CandidateInfoResponse",
+          "fullName": "api.CandidateInfoResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "candidateInfo",
+              "description": "",
+              "label": "repeated",
+              "type": "CandidateInfo",
+              "longType": "CandidateInfoResponse.CandidateInfo",
+              "fullType": "api.CandidateInfoResponse.CandidateInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CandidateInfo",
+          "longName": "CandidateInfoResponse.CandidateInfo",
+          "fullName": "api.CandidateInfoResponse.CandidateInfo",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "epochNumber",
+              "description": "epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "candidates",
+              "description": "",
+              "label": "repeated",
+              "type": "Candidates",
+              "longType": "CandidateInfoResponse.Candidates",
+              "fullType": "api.CandidateInfoResponse.Candidates",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Candidates",
+          "longName": "CandidateInfoResponse.Candidates",
+          "fullName": "api.CandidateInfoResponse.Candidates",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "candidate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "address",
+              "description": "canddiate address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalWeightedVotes",
+              "description": "total weighted votes",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "selfStakingTokens",
+              "description": "candidate self-staking tokens",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "operatorAddress",
+              "description": "candidate operator address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "rewardAddress",
+              "description": "candidate reward address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "RewardSourcesRequest",
+          "longName": "RewardSourcesRequest",
+          "fullName": "api.RewardSourcesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "voterIotxAddress",
+              "description": "voter IoTeX address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "RewardSourcesResponse",
+          "longName": "RewardSourcesResponse",
+          "fullName": "api.RewardSourcesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the voter has reward information within the specified epoch range",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "delegateDistributions",
+              "description": "",
+              "label": "repeated",
+              "type": "DelegateDistributions",
+              "longType": "RewardSourcesResponse.DelegateDistributions",
+              "fullType": "api.RewardSourcesResponse.DelegateDistributions",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DelegateDistributions",
+          "longName": "RewardSourcesResponse.DelegateDistributions",
+          "fullName": "api.RewardSourcesResponse.DelegateDistributions",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "delegateName",
+              "description": "delegate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "amount of reward distribution",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "VotingService",
+          "longName": "VotingService",
+          "fullName": "api.VotingService",
+          "description": "",
+          "methods": [
+            {
+              "name": "CandidateInfo",
+              "description": "",
+              "requestType": "CandidateInfoRequest",
+              "requestLongType": "CandidateInfoRequest",
+              "requestFullType": "api.CandidateInfoRequest",
+              "requestStreaming": false,
+              "responseType": "CandidateInfoResponse",
+              "responseLongType": "CandidateInfoResponse",
+              "responseFullType": "api.CandidateInfoResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.VotingService.CandidateInfo",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "RewardSources",
+              "description": "RewardSources provides reward sources for voters",
+              "requestType": "RewardSourcesRequest",
+              "requestLongType": "RewardSourcesRequest",
+              "requestFullType": "api.RewardSourcesRequest",
+              "requestStreaming": false,
+              "responseType": "RewardSourcesResponse",
+              "responseLongType": "RewardSourcesResponse",
+              "responseFullType": "api.RewardSourcesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.VotingService.RewardSources",
                       "body": "*"
                     }
                   ]

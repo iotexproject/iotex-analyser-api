@@ -1519,3 +1519,799 @@ query {
 | ----- | ---- | ----- | ----------- |
 | totalAccountSupply | [string](#string) |  | total amount of tokens held by IoTeX accounts |
 
+# Voting Service API
+
+## CandidateInfo
+
+CandidateInfo provides candidate information
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.VotingService.CandidateInfo \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "epochStart": 20000,
+    "epochCount": 2
+}'
+```
+
+```graphql
+query {
+  CandidateInfo(startEpoch: 20000, epochCount: 2) {
+    candidateInfo {
+      epochNumber
+      candidates {
+        name
+        address
+        totalWeightedVotes
+        selfStakingTokens
+        operatorAddress
+        rewardAddress
+      }
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "CandidateInfo": {
+      "candidateInfo": [
+        {
+          "candidates": [
+            {
+              "address": "io1x3us2fktfq6tnftjzwtvgxh3ymvcfwy9fts7td",
+              "name": "binancevote",
+              "operatorAddress": "io1jzteq7gc5sh8tfp5auz8wwj97kvdapr9y8wzne",
+              "rewardAddress": "io1x3us2fktfq6tnftjzwtvgxh3ymvcfwy9fts7td",
+              "selfStakingTokens": "1230047466749539291090944",
+              "totalWeightedVotes": "431578548518498595882908724"
+            },
+            ...
+          ],
+          "epochNumber": 20000
+        },
+        {
+          "candidates": [
+            {
+              "address": "io1x3us2fktfq6tnftjzwtvgxh3ymvcfwy9fts7td",
+              "name": "binancevote",
+              "operatorAddress": "io1jzteq7gc5sh8tfp5auz8wwj97kvdapr9y8wzne",
+              "rewardAddress": "io1x3us2fktfq6tnftjzwtvgxh3ymvcfwy9fts7td",
+              "selfStakingTokens": "1230047466749539291090944",
+              "totalWeightedVotes": "431556053359847416499574130"
+            },
+            ...
+          ],
+          "epochNumber": 20001
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.VotingService.CandidateInfo`
+
+<a name="api-CandidateInfoRequest"></a>
+
+### CandidateInfoRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-CandidateInfoResponse"></a>
+
+### CandidateInfoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| candidateInfo | [CandidateInfoResponse.CandidateInfo](#api-CandidateInfoResponse-CandidateInfo) | repeated |  |
+
+
+
+
+
+
+<a name="api-CandidateInfoResponse-CandidateInfo"></a>
+
+### CandidateInfoResponse.CandidateInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| candidates | [CandidateInfoResponse.Candidates](#api-CandidateInfoResponse-Candidates) | repeated |  |
+
+
+
+
+
+
+<a name="api-CandidateInfoResponse-Candidates"></a>
+
+### CandidateInfoResponse.Candidates
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | candidate name |
+| address | [string](#string) |  | canddiate address |
+| totalWeightedVotes | [string](#string) |  | total weighted votes |
+| selfStakingTokens | [string](#string) |  | candidate self-staking tokens |
+| operatorAddress | [string](#string) |  | candidate operator address |
+| rewardAddress | [string](#string) |  | candidate reward address |
+
+## RewardSources
+
+RewardSources provides reward sources for voters 
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.VotingService.RewardSources \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "epochStart": 20000,
+    "epochCount": 2,
+    "voterIotxAddress": "io1rl62pepun2g7sed2tpv4tx7ujynye34fqjv40t"
+}'
+```
+
+```graphql
+query {
+  RewardSources(
+    startEpoch: 20000
+    epochCount: 2
+    voterIotxAddress: "io1rl62pepun2g7sed2tpv4tx7ujynye34fqjv40t"
+  ) {
+    exist
+    delegateDistributions {
+      delegateName
+      amount
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "RewardSources": {
+      "delegateDistributions": [
+        {
+          "amount": "940751518955182",
+          "delegateName": "a4x"
+        }
+      ],
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.VotingService.RewardSources`
+
+<a name="api-RewardSourcesRequest"></a>
+
+### RewardSourcesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| voterIotxAddress | [string](#string) |  | voter IoTeX address |
+
+
+
+
+
+
+<a name="api-RewardSourcesResponse"></a>
+
+### RewardSourcesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the voter has reward information within the specified epoch range |
+| delegateDistributions | [RewardSourcesResponse.DelegateDistributions](#api-RewardSourcesResponse-DelegateDistributions) | repeated |  |
+
+
+
+
+
+
+<a name="api-RewardSourcesResponse-DelegateDistributions"></a>
+
+### RewardSourcesResponse.DelegateDistributions
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| amount | [string](#string) |  | amount of reward distribution |
+
+# Action Service API
+
+## ActionByDates
+
+ActionByDates finds actions by dates
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ActionByDates \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "startDate": 1624503172,
+    "endDate": 1624503182,
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  ActionByDates(
+    startDate: 1624503172
+    endDate: 1624503182
+    pagination: { skip: 0, first: 1 }
+  ) {
+    exist
+    count
+    actions {
+      actHash
+      blkHash
+      timestamp
+      actType
+      sender
+      recipient
+      amount
+      gasFee
+      blkHeight
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActionByDates": {
+      "actions": [
+        {
+          "actHash": "55cd01e165839ce6c9047bc5b2997808a6177ee23d7194ebe3c2bad419356a02",
+          "actType": "grantReward",
+          "amount": "0",
+          "blkHash": "6ef7a5d37d15bf71d8a9bb9dac87177d6594214ec18f8ce929327382a8b5a54f",
+          "blkHeight": 11792456,
+          "gasFee": "0",
+          "recipient": "",
+          "sender": "io1ha87fd54jmgmes5eswsyd52gwm0qjxnnsqlyl0",
+          "timestamp": 1624503175
+        }
+      ],
+      "count": 4,
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ActionByDates`
+
+<a name="api-ActionByDatesRequest"></a>
+
+### ActionByDatesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startDate | [uint64](#uint64) |  | start date in unix epoch time |
+| endDate | [uint64](#uint64) |  | end date in unix epoch time |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-ActionByDatesResponse"></a>
+
+### ActionByDatesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist within the time frame |
+| actions | [ActionInfo](#api-ActionInfo) | repeated |  |
+| count | [uint64](#uint64) |  | total number of actions within the time frame |
+
+
+
+
+
+
+<a name="api-ActionInfo"></a>
+
+### ActionInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| blkHash | [string](#string) |  | block hash |
+| actType | [string](#string) |  | action type |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+| gasFee | [string](#string) |  | gas fee |
+| blkHeight | [uint64](#uint64) |  | block height |
+
+## ActionByHash
+
+ActionByHash finds actions by hash
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ActionByHash \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "actHash": "160a75d845c5ef35e6b2e697dc752066ee7a0dacf750c8c1a6a187090dd3df9f"
+}'
+```
+
+```graphql
+query {
+  ActionByHash(
+    actHash: "160a75d845c5ef35e6b2e697dc752066ee7a0dacf750c8c1a6a187090dd3df9f"
+  ) {
+    actionInfo {
+      actHash
+      blkHash
+      timestamp
+      actType
+      sender
+      recipient
+      amount
+      gasFee
+      blkHeight
+    }
+    evmTransfers {
+      sender
+      recipient
+      amount
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActionByHash": {
+      "actionInfo": {
+        "actHash": "160a75d845c5ef35e6b2e697dc752066ee7a0dacf750c8c1a6a187090dd3df9f",
+        "actType": "depositToStake",
+        "amount": "173450647808345216",
+        "blkHash": "c1504d3181b3065a780f196d601358c0017546d659c7c3324931f16c27e3f135",
+        "blkHeight": 17667450,
+        "gasFee": "10000000000000000",
+        "recipient": "",
+        "sender": "io1unvkgm98ma3r2fnfrhep24arjxf6kc8stx0nuc",
+        "timestamp": 1653981420
+      },
+      "evmTransfers": [
+        {
+          "amount": "10000000000000000",
+          "recipient": "io0000000000000000000000rewardingprotocol",
+          "sender": "io1unvkgm98ma3r2fnfrhep24arjxf6kc8stx0nuc"
+        },
+        {
+          "amount": "173450647808345216",
+          "recipient": "io000000000000000000000000stakingprotocol",
+          "sender": "io1unvkgm98ma3r2fnfrhep24arjxf6kc8stx0nuc"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ActionByHash`
+
+<a name="api-ActionByHashRequest"></a>
+
+### ActionByHashRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+
+
+
+
+
+
+<a name="api-ActionByHashResponse"></a>
+
+### ActionByHashResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist within the time frame |
+| actionInfo | [ActionInfo](#api-ActionInfo) |  |  |
+| evmTransfers | [ActionByHashResponse.EvmTransfers](#api-ActionByHashResponse-EvmTransfers) | repeated |  |
+
+
+
+
+
+
+<a name="api-ActionByHashResponse-EvmTransfers"></a>
+
+### ActionByHashResponse.EvmTransfers
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+
+## ActionByAddress
+
+ActionByAddress finds actions by address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ActionByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4",
+    "pagination": {
+      "skip": 0,
+      "first": 5
+    }
+}'
+```
+
+```graphql
+query {
+  ActionByAddress(
+    address: "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+    pagination:{skip:0, first:1}
+  ) {
+    count
+    actions {
+      actHash
+      blkHash
+      timestamp
+      actType
+      sender
+      recipient
+      amount
+      gasFee
+      blkHeight
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActionByAddress": {
+      "actions": [
+        {
+          "actHash": "a9eb718db8ec8832badc6bc930e6e1f01717fc9ca2126693c7457b10340f3b73",
+          "actType": "transfer",
+          "amount": "1000000000000000000000",
+          "blkHash": "e6d90aac3af1277ebaafc8e56945037c3c9500732a67472651970caf7dc2da14",
+          "blkHeight": 16306635,
+          "gasFee": "10000000000000000",
+          "recipient": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4",
+          "sender": "io1z0r07tl77tvphmd8rluuh8h2sa2xqdkzpsuvrh",
+          "timestamp": 1647148170
+        }
+      ],
+      "count": 13693
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ActionByAddress`
+
+<a name="api-ActionByAddressRequest"></a>
+
+### ActionByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-ActionByAddressResponse"></a>
+
+### ActionByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist for the given address |
+| actions | [ActionInfo](#api-ActionInfo) | repeated |  |
+| count | [uint64](#uint64) |  | total number of actions for the given address |
+
+## ActionByType
+
+ActionByType finds actions by action type
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ActionByType \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "type": "transfer",
+    "pagination": {
+      "skip": 0,
+      "first": 5
+    }
+}'
+```
+
+```graphql
+query {
+  ActionByType(
+    type: "execution"
+    pagination:{skip:0, first:1}
+  ) {
+    count
+    actions {
+      actHash
+      blkHash
+      timestamp
+      actType
+      sender
+      recipient
+      amount
+      gasFee
+      blkHeight
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActionByType": {
+      "actions": [
+        {
+          "actHash": "edf65e7ccbfb05e4fbd394db1acc276029c309994879e3a8c07023a753ea8886",
+          "actType": "execution",
+          "amount": "0",
+          "blkHash": "ea06e52306ddcc02404427adcea7628a76a301c4a8f5f08b902a2ac672814292",
+          "blkHeight": 5008,
+          "gasFee": "1357294000000000000",
+          "recipient": "",
+          "sender": "io17ch0jth3dxqa7w9vu05yu86mqh0n6502d92lmp",
+          "timestamp": 1555949160
+        }
+      ],
+      "count": 15279705
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ActionByType`
+
+<a name="api-ActionByTypeRequest"></a>
+
+### ActionByTypeRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [string](#string) |  | action type |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-ActionByTypeResponse"></a>
+
+### ActionByTypeResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist for the given type |
+| actions | [ActionInfo](#api-ActionInfo) | repeated |  |
+| count | [uint64](#uint64) |  | total number of actions for the given type |
+
+## EvmTransfersByAddress
+
+EvmTransfersByAddress finds EVM transfers by address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.EvmTransfersByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "address": "io14yqd25kr6k4zss59u7sq9hme4r862yfpezf9dx",
+    "pagination": {
+      "skip": 0,
+      "first": 5
+    }
+}'
+```
+
+```graphql
+query {
+  EvmTransfersByAddress(
+    address: "io14yqd25kr6k4zss59u7sq9hme4r862yfpezf9dx"
+    pagination: { skip: 0, first: 5 }
+  ) {
+    exist
+    count
+    evmTransfers {
+      sender
+      recipient
+      actHash
+      blkHash
+      blkHeight
+      amount
+      timestamp
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "EvmTransfersByAddress": {
+      "count": 303,
+      "evmTransfers": [
+        {
+          "actHash": "fdc21e798a151b866de7adf02b9b2d5e479b96a1865af4aeb108cd4caa528e9a",
+          "amount": "20180406453780587",
+          "blkHash": "589324fef069e1ad9899989e0587eb1fb0fc6d20311dcec63850ecb41923360a",
+          "blkHeight": 18183325,
+          "recipient": "io14yqd25kr6k4zss59u7sq9hme4r862yfpezf9dx",
+          "sender": "io16y9wk2xnwurvtgmd2mds2gcdfe2lmzad6dcw29",
+          "timestamp": 1656565175
+        },
+        ...
+      ],
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.EvmTransfersByAddress`
+
+<a name="api-EvmTransfersByAddressRequest"></a>
+
+### EvmTransfersByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-EvmTransfersByAddressResponse"></a>
+
+### EvmTransfersByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether EVM transfers exist for the given address |
+| count | [uint64](#uint64) |  | total number of EVM transfers for the given address |
+| evmTransfers | [EvmTransfersByAddressResponse.EvmTransfer](#api-EvmTransfersByAddressResponse-EvmTransfer) | repeated |  |
+
+
+
+
+
+
+<a name="api-EvmTransfersByAddressResponse-EvmTransfer"></a>
+
+### EvmTransfersByAddressResponse.EvmTransfer
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| blkHash | [string](#string) |  | block hash |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| blkHeight | [uint64](#uint64) |  | block height |
+| timestamp | [uint64](#uint64) |  | unix timestamp |

@@ -26,10 +26,22 @@
     - [AccountService](#api-AccountService)
   
 - [api_action.proto](#api_action-proto)
+    - [ActionByAddressRequest](#api-ActionByAddressRequest)
+    - [ActionByAddressResponse](#api-ActionByAddressResponse)
+    - [ActionByDatesRequest](#api-ActionByDatesRequest)
+    - [ActionByDatesResponse](#api-ActionByDatesResponse)
+    - [ActionByHashRequest](#api-ActionByHashRequest)
+    - [ActionByHashResponse](#api-ActionByHashResponse)
+    - [ActionByHashResponse.EvmTransfers](#api-ActionByHashResponse-EvmTransfers)
+    - [ActionByTypeRequest](#api-ActionByTypeRequest)
+    - [ActionByTypeResponse](#api-ActionByTypeResponse)
     - [ActionInfo](#api-ActionInfo)
     - [ActionRequest](#api-ActionRequest)
     - [ActionResponse](#api-ActionResponse)
     - [EvmTransferInfo](#api-EvmTransferInfo)
+    - [EvmTransfersByAddressRequest](#api-EvmTransfersByAddressRequest)
+    - [EvmTransfersByAddressResponse](#api-EvmTransfersByAddressResponse)
+    - [EvmTransfersByAddressResponse.EvmTransfer](#api-EvmTransfersByAddressResponse-EvmTransfer)
     - [XrcInfo](#api-XrcInfo)
   
     - [ActionService](#api-ActionService)
@@ -95,6 +107,17 @@
     - [VoteByHeightResponse](#api-VoteByHeightResponse)
   
     - [StakingService](#api-StakingService)
+  
+- [api_voting.proto](#api_voting-proto)
+    - [CandidateInfoRequest](#api-CandidateInfoRequest)
+    - [CandidateInfoResponse](#api-CandidateInfoResponse)
+    - [CandidateInfoResponse.CandidateInfo](#api-CandidateInfoResponse-CandidateInfo)
+    - [CandidateInfoResponse.Candidates](#api-CandidateInfoResponse-Candidates)
+    - [RewardSourcesRequest](#api-RewardSourcesRequest)
+    - [RewardSourcesResponse](#api-RewardSourcesResponse)
+    - [RewardSourcesResponse.DelegateDistributions](#api-RewardSourcesResponse-DelegateDistributions)
+  
+    - [VotingService](#api-VotingService)
   
 - [include/pagination.proto](#include_pagination-proto)
     - [Pagination](#pagination-Pagination)
@@ -420,6 +443,155 @@
 
 
 
+<a name="api-ActionByAddressRequest"></a>
+
+### ActionByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-ActionByAddressResponse"></a>
+
+### ActionByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist for the given address |
+| actions | [ActionInfo](#api-ActionInfo) | repeated |  |
+| count | [uint64](#uint64) |  | total number of actions for the given address |
+
+
+
+
+
+
+<a name="api-ActionByDatesRequest"></a>
+
+### ActionByDatesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startDate | [uint64](#uint64) |  | start date in unix epoch time |
+| endDate | [uint64](#uint64) |  | end date in unix epoch time |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-ActionByDatesResponse"></a>
+
+### ActionByDatesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist within the time frame |
+| actions | [ActionInfo](#api-ActionInfo) | repeated |  |
+| count | [uint64](#uint64) |  | total number of actions within the time frame |
+
+
+
+
+
+
+<a name="api-ActionByHashRequest"></a>
+
+### ActionByHashRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+
+
+
+
+
+
+<a name="api-ActionByHashResponse"></a>
+
+### ActionByHashResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist within the time frame |
+| actionInfo | [ActionInfo](#api-ActionInfo) |  |  |
+| evmTransfers | [ActionByHashResponse.EvmTransfers](#api-ActionByHashResponse-EvmTransfers) | repeated |  |
+
+
+
+
+
+
+<a name="api-ActionByHashResponse-EvmTransfers"></a>
+
+### ActionByHashResponse.EvmTransfers
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+
+
+
+
+
+
+<a name="api-ActionByTypeRequest"></a>
+
+### ActionByTypeRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [string](#string) |  | action type |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-ActionByTypeResponse"></a>
+
+### ActionByTypeResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist for the given type |
+| actions | [ActionInfo](#api-ActionInfo) | repeated |  |
+| count | [uint64](#uint64) |  | total number of actions for the given type |
+
+
+
+
+
+
 <a name="api-ActionInfo"></a>
 
 ### ActionInfo
@@ -428,15 +600,15 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actHash | [string](#string) |  |  |
-| blkHash | [string](#string) |  |  |
-| actType | [string](#string) |  |  |
-| sender | [string](#string) |  |  |
-| recipient | [string](#string) |  |  |
-| amount | [string](#string) |  |  |
-| timestamp | [uint64](#uint64) |  |  |
-| gasFee | [string](#string) |  |  |
-| blkHeight | [uint64](#uint64) |  |  |
+| actHash | [string](#string) |  | action hash |
+| blkHash | [string](#string) |  | block hash |
+| actType | [string](#string) |  | action type |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+| gasFee | [string](#string) |  | gas fee |
+| blkHeight | [uint64](#uint64) |  | block height |
 
 
 
@@ -500,6 +672,60 @@
 
 
 
+<a name="api-EvmTransfersByAddressRequest"></a>
+
+### EvmTransfersByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-EvmTransfersByAddressResponse"></a>
+
+### EvmTransfersByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether EVM transfers exist for the given address |
+| count | [uint64](#uint64) |  | total number of EVM transfers for the given address |
+| evmTransfers | [EvmTransfersByAddressResponse.EvmTransfer](#api-EvmTransfersByAddressResponse-EvmTransfer) | repeated |  |
+
+
+
+
+
+
+<a name="api-EvmTransfersByAddressResponse-EvmTransfer"></a>
+
+### EvmTransfersByAddressResponse.EvmTransfer
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| blkHash | [string](#string) |  | block hash |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| blkHeight | [uint64](#uint64) |  | block height |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+
+
+
+
+
+
 <a name="api-XrcInfo"></a>
 
 ### XrcInfo
@@ -535,9 +761,12 @@
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | ActionByVoter | [ActionRequest](#api-ActionRequest) | [ActionResponse](#api-ActionResponse) |  |
-| ActionByAddress | [ActionRequest](#api-ActionRequest) | [ActionResponse](#api-ActionResponse) |  |
-| EvmTransfersByAddress | [ActionRequest](#api-ActionRequest) | [ActionResponse](#api-ActionResponse) |  |
 | GetXrc20ByAddress | [ActionRequest](#api-ActionRequest) | [ActionResponse](#api-ActionResponse) |  |
+| ActionByDates | [ActionByDatesRequest](#api-ActionByDatesRequest) | [ActionByDatesResponse](#api-ActionByDatesResponse) | ActionByDates finds actions by dates |
+| ActionByHash | [ActionByHashRequest](#api-ActionByHashRequest) | [ActionByHashResponse](#api-ActionByHashResponse) | ActionByHash finds actions by hash |
+| ActionByAddress | [ActionByAddressRequest](#api-ActionByAddressRequest) | [ActionByAddressResponse](#api-ActionByAddressResponse) | ActionByAddress finds actions by address |
+| ActionByType | [ActionByTypeRequest](#api-ActionByTypeRequest) | [ActionByTypeResponse](#api-ActionByTypeResponse) | ActionByType finds actions by action type |
+| EvmTransfersByAddress | [EvmTransfersByAddressRequest](#api-EvmTransfersByAddressRequest) | [EvmTransfersByAddressResponse](#api-EvmTransfersByAddressResponse) | EvmTransfersByAddress finds EVM transfers by address |
 
  
 
@@ -1432,6 +1661,149 @@
 | ----------- | ------------ | ------------- | ------------|
 | VoteByHeight | [VoteByHeightRequest](#api-VoteByHeightRequest) | [VoteByHeightResponse](#api-VoteByHeightResponse) |  |
 | CandidateVoteByHeight | [CandidateVoteByHeightRequest](#api-CandidateVoteByHeightRequest) | [CandidateVoteByHeightResponse](#api-CandidateVoteByHeightResponse) |  |
+
+ 
+
+
+
+<a name="api_voting-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api_voting.proto
+
+
+
+<a name="api-CandidateInfoRequest"></a>
+
+### CandidateInfoRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-CandidateInfoResponse"></a>
+
+### CandidateInfoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| candidateInfo | [CandidateInfoResponse.CandidateInfo](#api-CandidateInfoResponse-CandidateInfo) | repeated |  |
+
+
+
+
+
+
+<a name="api-CandidateInfoResponse-CandidateInfo"></a>
+
+### CandidateInfoResponse.CandidateInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| candidates | [CandidateInfoResponse.Candidates](#api-CandidateInfoResponse-Candidates) | repeated |  |
+
+
+
+
+
+
+<a name="api-CandidateInfoResponse-Candidates"></a>
+
+### CandidateInfoResponse.Candidates
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | candidate name |
+| address | [string](#string) |  | canddiate address |
+| totalWeightedVotes | [string](#string) |  | total weighted votes |
+| selfStakingTokens | [string](#string) |  | candidate self-staking tokens |
+| operatorAddress | [string](#string) |  | candidate operator address |
+| rewardAddress | [string](#string) |  | candidate reward address |
+
+
+
+
+
+
+<a name="api-RewardSourcesRequest"></a>
+
+### RewardSourcesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| voterIotxAddress | [string](#string) |  | voter IoTeX address |
+
+
+
+
+
+
+<a name="api-RewardSourcesResponse"></a>
+
+### RewardSourcesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the voter has reward information within the specified epoch range |
+| delegateDistributions | [RewardSourcesResponse.DelegateDistributions](#api-RewardSourcesResponse-DelegateDistributions) | repeated |  |
+
+
+
+
+
+
+<a name="api-RewardSourcesResponse-DelegateDistributions"></a>
+
+### RewardSourcesResponse.DelegateDistributions
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| amount | [string](#string) |  | amount of reward distribution |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-VotingService"></a>
+
+### VotingService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| CandidateInfo | [CandidateInfoRequest](#api-CandidateInfoRequest) | [CandidateInfoResponse](#api-CandidateInfoResponse) |  |
+| RewardSources | [RewardSourcesRequest](#api-RewardSourcesRequest) | [RewardSourcesResponse](#api-RewardSourcesResponse) | RewardSources provides reward sources for voters |
 
  
 

@@ -37,6 +37,8 @@ proto:
 	rm -f api/api_chain.graphql.go && mv api/api.graphql.go api/api_chain.graphql.go
 	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_action.proto
 	rm -f api/api_action.graphql.go && mv api/api.graphql.go api/api_action.graphql.go
+	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_voting.proto
+	rm -f api/api_voting.graphql.go && mv api/api.graphql.go api/api_voting.graphql.go
 clean:
 	rm -f iotex-analyser-api
 	
