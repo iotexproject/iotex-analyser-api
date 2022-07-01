@@ -2315,3 +2315,902 @@ query {
 | amount | [string](#string) |  | amount transferred |
 | blkHeight | [uint64](#uint64) |  | block height |
 | timestamp | [uint64](#uint64) |  | unix timestamp |
+
+# XRC20 Service API
+
+## XRC20ByAddress
+
+XRC20ByAddress returns Xrc20 actions given the sender address or recipient address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.XRC20ByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "address": "io1mhvlzj7y2t9y2dtzauyvyzzrvle6l7sekcf245",
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC20ByAddress(
+    address: "io1mhvlzj7y2t9y2dtzauyvyzzrvle6l7sekcf245"
+    pagination: { skip: 0, first: 1 }
+  ) {
+    exist
+    count
+    xrc20 {
+      actHash
+      contract
+      sender
+      amount
+      recipient
+      timestamp
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC20ByAddress": {
+      "count": 4027,
+      "exist": true,
+      "xrc20": [
+        {
+          "actHash": "67b01c199e69164679b3fd5c34eb2e73d0d59840e28479321ad6ff15e4aa5c6d",
+          "amount": "177600000000000000",
+          "contract": "io1zl0el07pek4sly8dmscccnm0etd8xr8j02t4y7",
+          "recipient": "io12w7agqdgwx7slp8fgcv7mnqvy3yf6j4tz0fnms",
+          "sender": "io1mhvlzj7y2t9y2dtzauyvyzzrvle6l7sekcf245",
+          "timestamp": 1656639570
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.XRC20ByAddress`
+
+<a name="api-XRC20ByAddressRequest"></a>
+
+### XRC20ByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20ByAddressResponse"></a>
+
+### XRC20ByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 actions exist for the given sender address or recipient address |
+| count | [uint64](#uint64) |  | total number of Xrc20 actions |
+| xrc20 | [Xrc20Action](#api-Xrc20Action) | repeated |  |
+
+
+
+
+
+
+<a name="api-Xrc20Action"></a>
+
+### Xrc20Action
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+| contract | [string](#string) |  | contract address |
+
+## XRC20ByContractAddress
+
+XRC20ByContractAddress returns Xrc20 actions given the Xrc20 contract address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.XRC20ByContractAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "address": "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26",
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC20ByContractAddress(
+    address: "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26"
+    pagination: { skip: 0, first: 1 }
+  ) {
+    exist
+    count
+    xrc20 {
+      actHash
+      contract
+      sender
+      amount
+      recipient
+      timestamp
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC20ByContractAddress": {
+      "count": 1531013,
+      "exist": true,
+      "xrc20": [
+        {
+          "actHash": "40336444117c08caa48c9171a566069dfe374512b6d44bd260911a04a8d7424d",
+          "amount": "312959963682432085397",
+          "contract": "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26",
+          "recipient": "io1h9kmk9x0e6mzhwmtq5eljqnj80agphyvcheky0",
+          "sender": "io19kuwwxhtmtfdk9fnsfn0qs8je38svn7dwe93s4",
+          "timestamp": 1656635825
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.XRC20ByContractAddress`
+
+<a name="api-XRC20ByContractAddressRequest"></a>
+
+### XRC20ByContractAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20ByContractAddressResponse"></a>
+
+### XRC20ByContractAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc20 actions |
+| xrc20 | [Xrc20Action](#api-Xrc20Action) | repeated |  |
+
+## XRC20ByPage
+
+XRC20ByPage returns Xrc20 actions by pagination
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.XRC20ByPage \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC20ByPage(
+    pagination: { skip: 0, first: 1 }
+  ) {
+    exist
+    count
+    xrc20 {
+      actHash
+      contract
+      sender
+      amount
+      recipient
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC20ByPage": {
+      "count": 18238044,
+      "exist": true,
+      "xrc20": [
+        {
+          "actHash": "078895bc0ce32304203ecaa1dc1c7294226b356f9ea79d64c2b75e2817e4dbce",
+          "amount": "10000000000000000",
+          "contract": "io1zl0el07pek4sly8dmscccnm0etd8xr8j02t4y7",
+          "recipient": "io1t7pkdvadx2mrnfukzvhsr0xhc2nsjuq9sren7p",
+          "sender": "io14xf3pqwydy9vpzxflpqcry75ne5f47654f2rn9",
+          "timestamp": 1656642185
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.XRC20ByPage`
+
+<a name="api-XRC20ByPageRequest"></a>
+
+### XRC20ByPageRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20ByPageResponse"></a>
+
+### XRC20ByPageResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc20 actions |
+| xrc20 | [Xrc20Action](#api-Xrc20Action) | repeated |  |
+
+## XRC20Addresses
+
+Xrc20Addresses returns Xrc20 contract addresses
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.XRC20Addresses \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC20Addresses(
+    pagination: { skip: 0, first: 2 }
+  ) {
+    exist
+    count
+    addresses
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC20Addresses": {
+      "addresses": [
+        "io10098dx8ntlqy7sshqkdl67a8xp39vqsyjh08pv",
+        "io1009dgua7q8x63dpk95wncnp79fx9mz0ak65a6s"
+      ],
+      "count": 2174,
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.XRC20Addresses`
+
+<a name="api-XRC20AddressesRequest"></a>
+
+### XRC20AddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20AddressesResponse"></a>
+
+### XRC20AddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 contract addresses exist |
+| count | [uint64](#uint64) |  | total number of Xrc20 contract addresses |
+| addresses | [string](#string) | repeated |  |
+
+## XRC20TokenHolderAddresses
+
+XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.XRC20TokenHolderAddresses \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "tokenAddress": "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26",
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC20TokenHolderAddresses(
+    tokenAddress: "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26"
+    pagination: { skip: 0, first: 5 }
+  ) {
+    count
+    addresses
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC20TokenHolderAddresses": {
+      "addresses": [
+        "io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7",
+        "io19czfrdyjt67g9tuhmmcjkuh2m9qxzv5nqyve9p",
+        "io15lchlhad6dya59fncqtcfm44njwxm6m0j29aq9",
+        "io10mk2dqu0e86x7urmadc34v7m3alqqy5l5t822r",
+        "io1w4686k0r3fkjqghk694j43csgp8w073ge3s0f0"
+      ],
+      "count": 11245
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.XRC20TokenHolderAddresses`
+
+<a name="api-XRC20TokenHolderAddressesRequest"></a>
+
+### XRC20TokenHolderAddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tokenAddress | [string](#string) |  | token contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20TokenHolderAddressesResponse"></a>
+
+### XRC20TokenHolderAddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of token holder addresses |
+| addresses | [string](#string) | repeated |  |
+
+# XRC721 Service API
+
+## XRC721ByAddress
+
+XRC721ByAddress returns Xrc721 actions given the sender address or recipient address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC721Service.XRC721ByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "address": "io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw",
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC721ByAddress(
+    address: "io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw"
+    pagination: { skip: 0, first: 6 }
+  ) {
+    exist
+    count
+    xrc721 {
+      actHash
+      contract
+      sender
+      amount
+      recipient
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC721ByAddress": {
+      "count": 7,
+      "exist": true,
+      "xrc721": [
+        {
+          "actHash": "06de09b214d6f58f0af426388eed400b05e87078ef36b4dd723a6342f16afe61",
+          "amount": "2273",
+          "contract": "io1052s604n44atw5klykwff29tnrtsplqqkdajxf",
+          "recipient": "io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw",
+          "sender": "io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7",
+          "timestamp": 1656631180
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC721Service.XRC721ByAddress`
+
+<a name="api-XRC721ByAddressRequest"></a>
+
+### XRC721ByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721ByAddressResponse"></a>
+
+### XRC721ByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 actions exist for the given sender address or recipient address |
+| count | [uint64](#uint64) |  | total number of Xrc721 actions |
+| xrc721 | [Xrc721Action](#api-Xrc721Action) | repeated |  |
+
+
+<a name="api-Xrc721Action"></a>
+
+### Xrc721Action
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+| contract | [string](#string) |  | contract address |
+
+## XRC721ByContractAddress
+
+XRC721ByContractAddress returns Xrc721 actions given the Xrc721 contract address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC721Service.XRC721ByContractAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "address": "io1052s604n44atw5klykwff29tnrtsplqqkdajxf",
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC721ByContractAddress(
+    address: "io1052s604n44atw5klykwff29tnrtsplqqkdajxf"
+    pagination: { skip: 0, first: 1 }
+  ) {
+    exist
+    count
+    xrc721 {
+      actHash
+      contract
+      sender
+      amount
+      recipient
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC721ByContractAddress": {
+      "count": 2279,
+      "exist": true,
+      "xrc721": [
+        {
+          "actHash": "06de09b214d6f58f0af426388eed400b05e87078ef36b4dd723a6342f16afe61",
+          "amount": "2273",
+          "contract": "io1052s604n44atw5klykwff29tnrtsplqqkdajxf",
+          "recipient": "io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw",
+          "sender": "io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7",
+          "timestamp": 1656631180
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC721Service.XRC721ByContractAddress`
+
+<a name="api-XRC721ByContractAddressRequest"></a>
+
+### XRC721ByContractAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721ByContractAddressResponse"></a>
+
+### XRC721ByContractAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc721 actions |
+| xrc721 | [Xrc721Action](#api-Xrc721Action) | repeated |  |
+
+## XRC721ByPage
+
+XRC721ByPage returns Xrc721 actions by pagination
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC721Service.XRC721ByPage \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC721ByPage(
+    pagination: { skip: 0, first: 1 }
+  ) {
+    exist
+    count
+    xrc721 {
+      actHash
+      contract
+      sender
+      amount
+      recipient
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC721ByPage": {
+      "count": 7251522,
+      "exist": true,
+      "xrc721": [
+        {
+          "actHash": "57353c167e2a3fda74b16949f02e8b339f573a0039af1d5164ff6bb6819ea5fe",
+          "amount": "2063879",
+          "contract": "io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw",
+          "recipient": "io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7",
+          "sender": "io1vygjfdnvv2jrg5szw82fusf9ea4nzz2s4fpy6e",
+          "timestamp": 1656660620
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC721Service.XRC721ByPage`
+
+<a name="api-XRC721ByPageRequest"></a>
+
+### XRC721ByPageRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721ByPageResponse"></a>
+
+### XRC721ByPageResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc721 actions |
+| xrc721 | [Xrc721Action](#api-Xrc721Action) | repeated |  |
+
+## XRC721Addresses
+
+Xrc20Addresses returns Xrc721 contract addresses
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC721Service.XRC721Addresses \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC721Addresses(
+    pagination: { skip: 0, first: 2 }
+  ) {
+    exist
+    count
+    addresses
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC721Addresses": {
+      "addresses": [
+        "io104z744srvrvxdtk0kzp7hkquqyxkvyt9uqz6u7",
+        "io1052s604n44atw5klykwff29tnrtsplqqkdajxf"
+      ],
+      "count": 253,
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC721Service.XRC721Addresses`
+
+<a name="api-XRC721AddressesRequest"></a>
+
+### XRC721AddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721AddressesResponse"></a>
+
+### XRC721AddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 contract addresses exist |
+| count | [uint64](#uint64) |  | total number of Xrc721 contract addresses |
+| addresses | [string](#string) | repeated |  |
+
+## XRC721TokenHolderAddresses
+
+XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC721Service.XRC721TokenHolderAddresses \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "tokenAddress": "io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw",
+    "pagination": {
+		"skip": 0,
+		"first": 2
+	}
+}'
+```
+
+```graphql
+query {
+  XRC721TokenHolderAddresses(
+    tokenAddress: "io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw"
+    pagination: { skip: 0, first: 5 }
+  ) {
+    count
+    addresses
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "XRC721TokenHolderAddresses": {
+      "addresses": [
+        "io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7",
+        "io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw",
+        "io19nja6v0jfxyxxt70xgrp248k429y5nkq6cstpq",
+        "io1mt5u8vzxzuwq7hut99t9tvduhykzgkfclwlsgj",
+        "io14qqv4xz8jzk3hexhmp9qdtdghdpamvyzuqajrd"
+      ],
+      "count": 6348
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC721Service.XRC721TokenHolderAddresses`
+
+<a name="api-XRC721TokenHolderAddressesRequest"></a>
+
+### XRC721TokenHolderAddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tokenAddress | [string](#string) |  | token contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721TokenHolderAddressesResponse"></a>
+
+### XRC721TokenHolderAddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of token holder addresses |
+| addresses | [string](#string) | repeated |  |

@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package api;
+import "google/api/annotations.proto";
+import "include/graphql.proto";
+import "include/pagination.proto";
+option go_package = "./api";
+
+message Xrc20Action {
+  string actHash = 1; // action hash
+  string sender = 2; // sender address
+  string recipient = 3; // recipient address
+  string amount = 4; // amount transferred
+  uint64 timestamp = 5; // unix timestamp
+  string contract = 6; // contract address
+}
+
+
+message XRC20ByAddressRequest {
+  string address = 1; // sender address or recipient address
+  pagination.Pagination pagination = 2;
+}
+
+message XRC20ByAddressResponse {
+  bool exist = 1; // whether Xrc20 actions exist for the given sender address or recipient address
+  uint64 count = 2; // total number of Xrc20 actions
+  repeated Xrc20Action xrc20 = 3;
+}
+
+message XRC20ByContractAddressRequest {
+  string address = 1; // contract address
+  pagination.Pagination pagination = 2;
+}
+
+message XRC20ByContractAddressResponse {
+  bool exist = 1; // whether Xrc20 actions exist for the given contract address
+  uint64 count = 2; // total number of Xrc20 actions
+  repeated Xrc20Action xrc20 = 3;
+}
+
+message XRC20ByPageRequest {
+  pagination.Pagination pagination = 1;
+}
+
+message XRC20ByPageResponse {
+  bool exist = 1; // whether Xrc20 actions exist for the given contract address
+  uint64 count = 2; // total number of Xrc20 actions
+  repeated Xrc20Action xrc20 = 3;
+}
+
+message XRC20AddressesRequest {
+  pagination.Pagination pagination = 1;
+}
+
+message XRC20AddressesResponse {
+  bool exist = 1; // whether Xrc20 contract addresses exist
+  uint64 count = 2; // total number of Xrc20 contract addresses
+  repeated string addresses = 3;
+}
+
+message XRC20TokenHolderAddressesRequest {
+  string tokenAddress = 1; // token contract address
+  pagination.Pagination pagination = 2;
+}
+
+message XRC20TokenHolderAddressesResponse {
+  uint64 count = 1; // total number of token holder addresses
+  repeated string addresses = 2;
+}
+service XRC20Service {
+  //XRC20ByAddress returns Xrc20 actions given the sender address or recipient address
+  rpc XRC20ByAddress(XRC20ByAddressRequest) returns (XRC20ByAddressResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC20ByAddress"
+    };
+    option (google.api.http) = {
+      post: "/api.XRCc20Service.XRC20ByAddress"
+      body: "*"
+    };
+  };
+  //XRC20ByContractAddress returns Xrc20 actions given the Xrc20 contract address
+  rpc XRC20ByContractAddress(XRC20ByContractAddressRequest) returns (XRC20ByContractAddressResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC20ByContractAddress"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC20Service.XRC20ByContractAddress"
+      body: "*"
+    };
+  };
+  //XRC20ByPage returns Xrc20 actions by pagination
+  rpc XRC20ByPage(XRC20ByPageRequest) returns (XRC20ByPageResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC20ByPage"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC20Service.XRC20ByPage"
+      body: "*"
+    };
+  };
+  //XRC20Addresses returns Xrc20 contract addresses
+  rpc XRC20Addresses(XRC20AddressesRequest) returns (XRC20AddressesResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC20Addresses"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC20Service.XRC20Addresses"
+      body: "*"
+    };
+  };
+  //XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address
+  rpc XRC20TokenHolderAddresses(XRC20TokenHolderAddressesRequest) returns (XRC20TokenHolderAddressesResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC20TokenHolderAddresses"
+    };
+    option (google.api.http) = {
+      post: "/api.XRCc20Service.XRC20TokenHolderAddresses"
+      body: "*"
+    };
+  };
+}

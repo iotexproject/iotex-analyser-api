@@ -4761,6 +4761,1156 @@
   </section>
   
   <section>
+    <title>api_xrc20.proto</title>
+    <para></para>
+    
+    <section id="api.XRC20AddressesRequest">
+      <title>XRC20AddressesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20AddressesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20AddressesResponse">
+      <title>XRC20AddressesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20AddressesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc20 contract addresses exist</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc20 contract addresses</para></entry>
+            </row>
+            
+            <row>
+              <entry>addresses</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20ByAddressRequest">
+      <title>XRC20ByAddressRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20ByAddressRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20ByAddressResponse">
+      <title>XRC20ByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20ByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc20 actions exist for the given sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc20 actions</para></entry>
+            </row>
+            
+            <row>
+              <entry>xrc20</entry>
+              <entry><link linkend="api.Xrc20Action">Xrc20Action</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20ByContractAddressRequest">
+      <title>XRC20ByContractAddressRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20ByContractAddressRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20ByContractAddressResponse">
+      <title>XRC20ByContractAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20ByContractAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc20 actions exist for the given contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc20 actions</para></entry>
+            </row>
+            
+            <row>
+              <entry>xrc20</entry>
+              <entry><link linkend="api.Xrc20Action">Xrc20Action</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20ByPageRequest">
+      <title>XRC20ByPageRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20ByPageRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20ByPageResponse">
+      <title>XRC20ByPageResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20ByPageResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc20 actions exist for the given contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc20 actions</para></entry>
+            </row>
+            
+            <row>
+              <entry>xrc20</entry>
+              <entry><link linkend="api.Xrc20Action">Xrc20Action</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20TokenHolderAddressesRequest">
+      <title>XRC20TokenHolderAddressesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20TokenHolderAddressesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>tokenAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>token contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC20TokenHolderAddressesResponse">
+      <title>XRC20TokenHolderAddressesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC20TokenHolderAddressesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of token holder addresses</para></entry>
+            </row>
+            
+            <row>
+              <entry>addresses</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.Xrc20Action">
+      <title>Xrc20Action</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Xrc20Action</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>action hash</para></entry>
+            </row>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address</para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>amount transferred</para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>unix timestamp</para></entry>
+            </row>
+            
+            <row>
+              <entry>contract</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>contract address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.XRC20Service">
+      <title>XRC20Service</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>XRC20Service</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>XRC20ByAddress</entry>
+              <entry><link linkend="api.XRC20ByAddressRequest">XRC20ByAddressRequest</link></entry>
+              <entry><link linkend="api.XRC20ByAddressResponse">XRC20ByAddressResponse</link></entry>
+              <entry><para>XRC20ByAddress returns Xrc20 actions given the sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC20ByContractAddress</entry>
+              <entry><link linkend="api.XRC20ByContractAddressRequest">XRC20ByContractAddressRequest</link></entry>
+              <entry><link linkend="api.XRC20ByContractAddressResponse">XRC20ByContractAddressResponse</link></entry>
+              <entry><para>XRC20ByContractAddress returns Xrc20 actions given the Xrc20 contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC20ByPage</entry>
+              <entry><link linkend="api.XRC20ByPageRequest">XRC20ByPageRequest</link></entry>
+              <entry><link linkend="api.XRC20ByPageResponse">XRC20ByPageResponse</link></entry>
+              <entry><para>XRC20ByPage returns Xrc20 actions by pagination</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC20Addresses</entry>
+              <entry><link linkend="api.XRC20AddressesRequest">XRC20AddressesRequest</link></entry>
+              <entry><link linkend="api.XRC20AddressesResponse">XRC20AddressesResponse</link></entry>
+              <entry><para>XRC20Addresses returns Xrc20 contract addresses</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC20TokenHolderAddresses</entry>
+              <entry><link linkend="api.XRC20TokenHolderAddressesRequest">XRC20TokenHolderAddressesRequest</link></entry>
+              <entry><link linkend="api.XRC20TokenHolderAddressesResponse">XRC20TokenHolderAddressesResponse</link></entry>
+              <entry><para>XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_xrc721.proto</title>
+    <para></para>
+    
+    <section id="api.XRC721AddressesRequest">
+      <title>XRC721AddressesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721AddressesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721AddressesResponse">
+      <title>XRC721AddressesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721AddressesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc721 contract addresses exist</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc721 contract addresses</para></entry>
+            </row>
+            
+            <row>
+              <entry>addresses</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721ByAddressRequest">
+      <title>XRC721ByAddressRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721ByAddressRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721ByAddressResponse">
+      <title>XRC721ByAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721ByAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc721 actions exist for the given sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc721 actions</para></entry>
+            </row>
+            
+            <row>
+              <entry>xrc721</entry>
+              <entry><link linkend="api.Xrc721Action">Xrc721Action</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721ByContractAddressRequest">
+      <title>XRC721ByContractAddressRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721ByContractAddressRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>address</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721ByContractAddressResponse">
+      <title>XRC721ByContractAddressResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721ByContractAddressResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc721 actions exist for the given contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc721 actions</para></entry>
+            </row>
+            
+            <row>
+              <entry>xrc721</entry>
+              <entry><link linkend="api.Xrc721Action">Xrc721Action</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721ByPageRequest">
+      <title>XRC721ByPageRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721ByPageRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721ByPageResponse">
+      <title>XRC721ByPageResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721ByPageResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Xrc721 actions exist for the given contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of Xrc721 actions</para></entry>
+            </row>
+            
+            <row>
+              <entry>xrc721</entry>
+              <entry><link linkend="api.Xrc721Action">Xrc721Action</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721TokenHolderAddressesRequest">
+      <title>XRC721TokenHolderAddressesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721TokenHolderAddressesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>tokenAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>token contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.XRC721TokenHolderAddressesResponse">
+      <title>XRC721TokenHolderAddressesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>XRC721TokenHolderAddressesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of token holder addresses</para></entry>
+            </row>
+            
+            <row>
+              <entry>addresses</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.Xrc721Action">
+      <title>Xrc721Action</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>Xrc721Action</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>action hash</para></entry>
+            </row>
+            
+            <row>
+              <entry>sender</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>sender address</para></entry>
+            </row>
+            
+            <row>
+              <entry>recipient</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>amount transferred</para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>unix timestamp</para></entry>
+            </row>
+            
+            <row>
+              <entry>contract</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>contract address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.XRC721Service">
+      <title>XRC721Service</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>XRC721Service</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>XRC721ByAddress</entry>
+              <entry><link linkend="api.XRC721ByAddressRequest">XRC721ByAddressRequest</link></entry>
+              <entry><link linkend="api.XRC721ByAddressResponse">XRC721ByAddressResponse</link></entry>
+              <entry><para>XRC721ByAddress returns Xrc721 actions given the sender address or recipient address</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC721ByContractAddress</entry>
+              <entry><link linkend="api.XRC721ByContractAddressRequest">XRC721ByContractAddressRequest</link></entry>
+              <entry><link linkend="api.XRC721ByContractAddressResponse">XRC721ByContractAddressResponse</link></entry>
+              <entry><para>XRC721ByContractAddress returns Xrc721 actions given the Xrc721 contract address</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC721ByPage</entry>
+              <entry><link linkend="api.XRC721ByPageRequest">XRC721ByPageRequest</link></entry>
+              <entry><link linkend="api.XRC721ByPageResponse">XRC721ByPageResponse</link></entry>
+              <entry><para>XRC721ByPage returns Xrc721 actions by pagination</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC721Addresses</entry>
+              <entry><link linkend="api.XRC721AddressesRequest">XRC721AddressesRequest</link></entry>
+              <entry><link linkend="api.XRC721AddressesResponse">XRC721AddressesResponse</link></entry>
+              <entry><para>XRC721Addresses returns Xrc721 contract addresses</para></entry>
+            </row>
+            
+            <row>
+              <entry>XRC721TokenHolderAddresses</entry>
+              <entry><link linkend="api.XRC721TokenHolderAddressesRequest">XRC721TokenHolderAddressesRequest</link></entry>
+              <entry><link linkend="api.XRC721TokenHolderAddressesResponse">XRC721TokenHolderAddressesResponse</link></entry>
+              <entry><para>XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
     <title>include/pagination.proto</title>
     <para></para>
     

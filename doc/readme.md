@@ -119,6 +119,36 @@
   
     - [VotingService](#api-VotingService)
   
+- [api_xrc20.proto](#api_xrc20-proto)
+    - [XRC20AddressesRequest](#api-XRC20AddressesRequest)
+    - [XRC20AddressesResponse](#api-XRC20AddressesResponse)
+    - [XRC20ByAddressRequest](#api-XRC20ByAddressRequest)
+    - [XRC20ByAddressResponse](#api-XRC20ByAddressResponse)
+    - [XRC20ByContractAddressRequest](#api-XRC20ByContractAddressRequest)
+    - [XRC20ByContractAddressResponse](#api-XRC20ByContractAddressResponse)
+    - [XRC20ByPageRequest](#api-XRC20ByPageRequest)
+    - [XRC20ByPageResponse](#api-XRC20ByPageResponse)
+    - [XRC20TokenHolderAddressesRequest](#api-XRC20TokenHolderAddressesRequest)
+    - [XRC20TokenHolderAddressesResponse](#api-XRC20TokenHolderAddressesResponse)
+    - [Xrc20Action](#api-Xrc20Action)
+  
+    - [XRC20Service](#api-XRC20Service)
+  
+- [api_xrc721.proto](#api_xrc721-proto)
+    - [XRC721AddressesRequest](#api-XRC721AddressesRequest)
+    - [XRC721AddressesResponse](#api-XRC721AddressesResponse)
+    - [XRC721ByAddressRequest](#api-XRC721ByAddressRequest)
+    - [XRC721ByAddressResponse](#api-XRC721ByAddressResponse)
+    - [XRC721ByContractAddressRequest](#api-XRC721ByContractAddressRequest)
+    - [XRC721ByContractAddressResponse](#api-XRC721ByContractAddressResponse)
+    - [XRC721ByPageRequest](#api-XRC721ByPageRequest)
+    - [XRC721ByPageResponse](#api-XRC721ByPageResponse)
+    - [XRC721TokenHolderAddressesRequest](#api-XRC721TokenHolderAddressesRequest)
+    - [XRC721TokenHolderAddressesResponse](#api-XRC721TokenHolderAddressesResponse)
+    - [Xrc721Action](#api-Xrc721Action)
+  
+    - [XRC721Service](#api-XRC721Service)
+  
 - [include/pagination.proto](#include_pagination-proto)
     - [Pagination](#pagination-Pagination)
   
@@ -1804,6 +1834,430 @@
 | ----------- | ------------ | ------------- | ------------|
 | CandidateInfo | [CandidateInfoRequest](#api-CandidateInfoRequest) | [CandidateInfoResponse](#api-CandidateInfoResponse) |  |
 | RewardSources | [RewardSourcesRequest](#api-RewardSourcesRequest) | [RewardSourcesResponse](#api-RewardSourcesResponse) | RewardSources provides reward sources for voters |
+
+ 
+
+
+
+<a name="api_xrc20-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api_xrc20.proto
+
+
+
+<a name="api-XRC20AddressesRequest"></a>
+
+### XRC20AddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20AddressesResponse"></a>
+
+### XRC20AddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 contract addresses exist |
+| count | [uint64](#uint64) |  | total number of Xrc20 contract addresses |
+| addresses | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC20ByAddressRequest"></a>
+
+### XRC20ByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20ByAddressResponse"></a>
+
+### XRC20ByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 actions exist for the given sender address or recipient address |
+| count | [uint64](#uint64) |  | total number of Xrc20 actions |
+| xrc20 | [Xrc20Action](#api-Xrc20Action) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC20ByContractAddressRequest"></a>
+
+### XRC20ByContractAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20ByContractAddressResponse"></a>
+
+### XRC20ByContractAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc20 actions |
+| xrc20 | [Xrc20Action](#api-Xrc20Action) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC20ByPageRequest"></a>
+
+### XRC20ByPageRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20ByPageResponse"></a>
+
+### XRC20ByPageResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc20 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc20 actions |
+| xrc20 | [Xrc20Action](#api-Xrc20Action) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC20TokenHolderAddressesRequest"></a>
+
+### XRC20TokenHolderAddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tokenAddress | [string](#string) |  | token contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC20TokenHolderAddressesResponse"></a>
+
+### XRC20TokenHolderAddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of token holder addresses |
+| addresses | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="api-Xrc20Action"></a>
+
+### Xrc20Action
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+| contract | [string](#string) |  | contract address |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-XRC20Service"></a>
+
+### XRC20Service
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| XRC20ByAddress | [XRC20ByAddressRequest](#api-XRC20ByAddressRequest) | [XRC20ByAddressResponse](#api-XRC20ByAddressResponse) | XRC20ByAddress returns Xrc20 actions given the sender address or recipient address |
+| XRC20ByContractAddress | [XRC20ByContractAddressRequest](#api-XRC20ByContractAddressRequest) | [XRC20ByContractAddressResponse](#api-XRC20ByContractAddressResponse) | XRC20ByContractAddress returns Xrc20 actions given the Xrc20 contract address |
+| XRC20ByPage | [XRC20ByPageRequest](#api-XRC20ByPageRequest) | [XRC20ByPageResponse](#api-XRC20ByPageResponse) | XRC20ByPage returns Xrc20 actions by pagination |
+| XRC20Addresses | [XRC20AddressesRequest](#api-XRC20AddressesRequest) | [XRC20AddressesResponse](#api-XRC20AddressesResponse) | XRC20Addresses returns Xrc20 contract addresses |
+| XRC20TokenHolderAddresses | [XRC20TokenHolderAddressesRequest](#api-XRC20TokenHolderAddressesRequest) | [XRC20TokenHolderAddressesResponse](#api-XRC20TokenHolderAddressesResponse) | XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address |
+
+ 
+
+
+
+<a name="api_xrc721-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api_xrc721.proto
+
+
+
+<a name="api-XRC721AddressesRequest"></a>
+
+### XRC721AddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721AddressesResponse"></a>
+
+### XRC721AddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 contract addresses exist |
+| count | [uint64](#uint64) |  | total number of Xrc721 contract addresses |
+| addresses | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC721ByAddressRequest"></a>
+
+### XRC721ByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | sender address or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721ByAddressResponse"></a>
+
+### XRC721ByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 actions exist for the given sender address or recipient address |
+| count | [uint64](#uint64) |  | total number of Xrc721 actions |
+| xrc721 | [Xrc721Action](#api-Xrc721Action) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC721ByContractAddressRequest"></a>
+
+### XRC721ByContractAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721ByContractAddressResponse"></a>
+
+### XRC721ByContractAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc721 actions |
+| xrc721 | [Xrc721Action](#api-Xrc721Action) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC721ByPageRequest"></a>
+
+### XRC721ByPageRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721ByPageResponse"></a>
+
+### XRC721ByPageResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Xrc721 actions exist for the given contract address |
+| count | [uint64](#uint64) |  | total number of Xrc721 actions |
+| xrc721 | [Xrc721Action](#api-Xrc721Action) | repeated |  |
+
+
+
+
+
+
+<a name="api-XRC721TokenHolderAddressesRequest"></a>
+
+### XRC721TokenHolderAddressesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tokenAddress | [string](#string) |  | token contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-XRC721TokenHolderAddressesResponse"></a>
+
+### XRC721TokenHolderAddressesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of token holder addresses |
+| addresses | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="api-Xrc721Action"></a>
+
+### Xrc721Action
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | amount transferred |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+| contract | [string](#string) |  | contract address |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-XRC721Service"></a>
+
+### XRC721Service
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| XRC721ByAddress | [XRC721ByAddressRequest](#api-XRC721ByAddressRequest) | [XRC721ByAddressResponse](#api-XRC721ByAddressResponse) | XRC721ByAddress returns Xrc721 actions given the sender address or recipient address |
+| XRC721ByContractAddress | [XRC721ByContractAddressRequest](#api-XRC721ByContractAddressRequest) | [XRC721ByContractAddressResponse](#api-XRC721ByContractAddressResponse) | XRC721ByContractAddress returns Xrc721 actions given the Xrc721 contract address |
+| XRC721ByPage | [XRC721ByPageRequest](#api-XRC721ByPageRequest) | [XRC721ByPageResponse](#api-XRC721ByPageResponse) | XRC721ByPage returns Xrc721 actions by pagination |
+| XRC721Addresses | [XRC721AddressesRequest](#api-XRC721AddressesRequest) | [XRC721AddressesResponse](#api-XRC721AddressesResponse) | XRC721Addresses returns Xrc721 contract addresses |
+| XRC721TokenHolderAddresses | [XRC721TokenHolderAddressesRequest](#api-XRC721TokenHolderAddressesRequest) | [XRC721TokenHolderAddressesResponse](#api-XRC721TokenHolderAddressesResponse) | XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address |
 
  
 

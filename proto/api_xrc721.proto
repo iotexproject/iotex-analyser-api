@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package api;
+import "google/api/annotations.proto";
+import "include/graphql.proto";
+import "include/pagination.proto";
+option go_package = "./api";
+
+message Xrc721Action {
+  string actHash = 1; // action hash
+  string sender = 2; // sender address
+  string recipient = 3; // recipient address
+  string amount = 4; // amount transferred
+  uint64 timestamp = 5; // unix timestamp
+  string contract = 6; // contract address
+}
+
+
+message XRC721ByAddressRequest {
+  string address = 1; // sender address or recipient address
+  pagination.Pagination pagination = 2;
+}
+
+message XRC721ByAddressResponse {
+  bool exist = 1; // whether Xrc721 actions exist for the given sender address or recipient address
+  uint64 count = 2; // total number of Xrc721 actions
+  repeated Xrc721Action xrc721 = 3;
+}
+
+message XRC721ByContractAddressRequest {
+  string address = 1; // contract address
+  pagination.Pagination pagination = 2;
+}
+
+message XRC721ByContractAddressResponse {
+  bool exist = 1; // whether Xrc721 actions exist for the given contract address
+  uint64 count = 2; // total number of Xrc721 actions
+  repeated Xrc721Action xrc721 = 3;
+}
+
+message XRC721ByPageRequest {
+  pagination.Pagination pagination = 1;
+}
+
+message XRC721ByPageResponse {
+  bool exist = 1; // whether Xrc721 actions exist for the given contract address
+  uint64 count = 2; // total number of Xrc721 actions
+  repeated Xrc721Action xrc721 = 3;
+}
+
+message XRC721AddressesRequest {
+  pagination.Pagination pagination = 1;
+}
+
+message XRC721AddressesResponse {
+  bool exist = 1; // whether Xrc721 contract addresses exist
+  uint64 count = 2; // total number of Xrc721 contract addresses
+  repeated string addresses = 3;
+}
+
+message XRC721TokenHolderAddressesRequest {
+  string tokenAddress = 1; // token contract address
+  pagination.Pagination pagination = 2;
+}
+
+message XRC721TokenHolderAddressesResponse {
+  uint64 count = 1; // total number of token holder addresses
+  repeated string addresses = 2;
+}
+service XRC721Service {
+  //XRC721ByAddress returns Xrc721 actions given the sender address or recipient address
+  rpc XRC721ByAddress(XRC721ByAddressRequest) returns (XRC721ByAddressResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC721ByAddress"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC721Service.XRC721ByAddress"
+      body: "*"
+    };
+  };
+  //XRC721ByContractAddress returns Xrc721 actions given the Xrc721 contract address
+  rpc XRC721ByContractAddress(XRC721ByContractAddressRequest) returns (XRC721ByContractAddressResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC721ByContractAddress"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC721Service.XRC721ByContractAddress"
+      body: "*"
+    };
+  };
+  //XRC721ByPage returns Xrc721 actions by pagination
+  rpc XRC721ByPage(XRC721ByPageRequest) returns (XRC721ByPageResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC721ByPage"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC721Service.XRC721ByPage"
+      body: "*"
+    };
+  };
+  //XRC721Addresses returns Xrc721 contract addresses
+  rpc XRC721Addresses(XRC721AddressesRequest) returns (XRC721AddressesResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC721Addresses"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC721Service.XRC721Addresses"
+      body: "*"
+    };
+  };
+  //XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address
+  rpc XRC721TokenHolderAddresses(XRC721TokenHolderAddressesRequest) returns (XRC721TokenHolderAddressesResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "XRC721TokenHolderAddresses"
+    };
+    option (google.api.http) = {
+      post: "/api.XRC721Service.XRC721TokenHolderAddresses"
+      body: "*"
+    };
+  };
+}
