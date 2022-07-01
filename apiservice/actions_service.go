@@ -52,7 +52,7 @@ func (s *ActionsService) GetActionsByAddress(ctx context.Context, req *api.Actio
 	}
 	resp.Count = uint64(count)
 
-	query := "SELECT a.action_hash,a.action_type,a.block_height,a.from,a.to,a.gas_price*r.gas_consumed,a.gas_limit,a.nonce,a.amount,r.status,b.block_hash,b.timestamp FROM block_action a inner join block b on b.block_height=a.block_height inner join block_receipt r on r.action_hash=a.action_hash where a.from=? or a.to=? order by a.id " + sort + " limit ? offset ?"
+	query := "SELECT a.action_hash,a.action_type,a.block_height,a.from,a.to,a.gas_price*r.gas_consumed,a.gas_limit,a.nonce,a.amount,r.status,b.block_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipt r on r.action_hash=a.action_hash where a.from=? or a.to=? order by a.id " + sort + " limit ? offset ?"
 	rows, err := db.Raw(query, addr, addr, size, offset).Rows()
 	if err != nil {
 		return nil, err
@@ -182,7 +182,7 @@ func (s *ActionsService) GetEvmTransferDetailListByAddress(ctx context.Context, 
 	}
 	resp.Count = uint64(count)
 
-	query := "SELECT a.action_hash,a.block_height,a.sender,a.recipient,a.amount,b.block_hash,b.timestamp FROM block_receipt_transaction a inner join block b on b.block_height=a.block_height where a.sender=? or a.recipient=? order by a.id " + sort + " limit ? offset ?"
+	query := "SELECT a.action_hash,a.block_height,a.sender,a.recipient,a.amount,b.block_hash,b.timestamp FROM block_receipt_transaction a left join block b on b.block_height=a.block_height where a.sender=? or a.recipient=? order by a.id " + sort + " limit ? offset ?"
 	rows, err := db.Raw(query, addr, addr, size, offset).Rows()
 	if err != nil {
 		return nil, err
