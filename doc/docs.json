@@ -5229,6 +5229,1218 @@
       ]
     },
     {
+      "name": "api_xrc20.proto",
+      "description": "",
+      "package": "api",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": true,
+      "enums": [],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "XRC20AddressesRequest",
+          "longName": "XRC20AddressesRequest",
+          "fullName": "api.XRC20AddressesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20AddressesResponse",
+          "longName": "XRC20AddressesResponse",
+          "fullName": "api.XRC20AddressesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc20 contract addresses exist",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc20 contract addresses",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "addresses",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20ByAddressRequest",
+          "longName": "XRC20ByAddressRequest",
+          "fullName": "api.XRC20ByAddressRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "address",
+              "description": "sender address or recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20ByAddressResponse",
+          "longName": "XRC20ByAddressResponse",
+          "fullName": "api.XRC20ByAddressResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc20 actions exist for the given sender address or recipient address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc20 actions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xrc20",
+              "description": "",
+              "label": "repeated",
+              "type": "Xrc20Action",
+              "longType": "Xrc20Action",
+              "fullType": "api.Xrc20Action",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20ByContractAddressRequest",
+          "longName": "XRC20ByContractAddressRequest",
+          "fullName": "api.XRC20ByContractAddressRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "address",
+              "description": "contract address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20ByContractAddressResponse",
+          "longName": "XRC20ByContractAddressResponse",
+          "fullName": "api.XRC20ByContractAddressResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc20 actions exist for the given contract address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc20 actions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xrc20",
+              "description": "",
+              "label": "repeated",
+              "type": "Xrc20Action",
+              "longType": "Xrc20Action",
+              "fullType": "api.Xrc20Action",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20ByPageRequest",
+          "longName": "XRC20ByPageRequest",
+          "fullName": "api.XRC20ByPageRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20ByPageResponse",
+          "longName": "XRC20ByPageResponse",
+          "fullName": "api.XRC20ByPageResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc20 actions exist for the given contract address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc20 actions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xrc20",
+              "description": "",
+              "label": "repeated",
+              "type": "Xrc20Action",
+              "longType": "Xrc20Action",
+              "fullType": "api.Xrc20Action",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20TokenHolderAddressesRequest",
+          "longName": "XRC20TokenHolderAddressesRequest",
+          "fullName": "api.XRC20TokenHolderAddressesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "tokenAddress",
+              "description": "token contract address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC20TokenHolderAddressesResponse",
+          "longName": "XRC20TokenHolderAddressesResponse",
+          "fullName": "api.XRC20TokenHolderAddressesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "count",
+              "description": "total number of token holder addresses",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "addresses",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Xrc20Action",
+          "longName": "Xrc20Action",
+          "fullName": "api.Xrc20Action",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "actHash",
+              "description": "action hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sender",
+              "description": "sender address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "recipient",
+              "description": "recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "amount transferred",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "timestamp",
+              "description": "unix timestamp",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "contract",
+              "description": "contract address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "XRC20Service",
+          "longName": "XRC20Service",
+          "fullName": "api.XRC20Service",
+          "description": "",
+          "methods": [
+            {
+              "name": "XRC20ByAddress",
+              "description": "XRC20ByAddress returns Xrc20 actions given the sender address or recipient address",
+              "requestType": "XRC20ByAddressRequest",
+              "requestLongType": "XRC20ByAddressRequest",
+              "requestFullType": "api.XRC20ByAddressRequest",
+              "requestStreaming": false,
+              "responseType": "XRC20ByAddressResponse",
+              "responseLongType": "XRC20ByAddressResponse",
+              "responseFullType": "api.XRC20ByAddressResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRCc20Service.XRC20ByAddress",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC20ByContractAddress",
+              "description": "XRC20ByContractAddress returns Xrc20 actions given the Xrc20 contract address",
+              "requestType": "XRC20ByContractAddressRequest",
+              "requestLongType": "XRC20ByContractAddressRequest",
+              "requestFullType": "api.XRC20ByContractAddressRequest",
+              "requestStreaming": false,
+              "responseType": "XRC20ByContractAddressResponse",
+              "responseLongType": "XRC20ByContractAddressResponse",
+              "responseFullType": "api.XRC20ByContractAddressResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC20Service.XRC20ByContractAddress",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC20ByPage",
+              "description": "XRC20ByPage returns Xrc20 actions by pagination",
+              "requestType": "XRC20ByPageRequest",
+              "requestLongType": "XRC20ByPageRequest",
+              "requestFullType": "api.XRC20ByPageRequest",
+              "requestStreaming": false,
+              "responseType": "XRC20ByPageResponse",
+              "responseLongType": "XRC20ByPageResponse",
+              "responseFullType": "api.XRC20ByPageResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC20Service.XRC20ByPage",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC20Addresses",
+              "description": "XRC20Addresses returns Xrc20 contract addresses",
+              "requestType": "XRC20AddressesRequest",
+              "requestLongType": "XRC20AddressesRequest",
+              "requestFullType": "api.XRC20AddressesRequest",
+              "requestStreaming": false,
+              "responseType": "XRC20AddressesResponse",
+              "responseLongType": "XRC20AddressesResponse",
+              "responseFullType": "api.XRC20AddressesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC20Service.XRC20Addresses",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC20TokenHolderAddresses",
+              "description": "XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address",
+              "requestType": "XRC20TokenHolderAddressesRequest",
+              "requestLongType": "XRC20TokenHolderAddressesRequest",
+              "requestFullType": "api.XRC20TokenHolderAddressesRequest",
+              "requestStreaming": false,
+              "responseType": "XRC20TokenHolderAddressesResponse",
+              "responseLongType": "XRC20TokenHolderAddressesResponse",
+              "responseFullType": "api.XRC20TokenHolderAddressesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRCc20Service.XRC20TokenHolderAddresses",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api_xrc721.proto",
+      "description": "",
+      "package": "api",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": true,
+      "enums": [],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "XRC721AddressesRequest",
+          "longName": "XRC721AddressesRequest",
+          "fullName": "api.XRC721AddressesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721AddressesResponse",
+          "longName": "XRC721AddressesResponse",
+          "fullName": "api.XRC721AddressesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc721 contract addresses exist",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc721 contract addresses",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "addresses",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721ByAddressRequest",
+          "longName": "XRC721ByAddressRequest",
+          "fullName": "api.XRC721ByAddressRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "address",
+              "description": "sender address or recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721ByAddressResponse",
+          "longName": "XRC721ByAddressResponse",
+          "fullName": "api.XRC721ByAddressResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc721 actions exist for the given sender address or recipient address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc721 actions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xrc721",
+              "description": "",
+              "label": "repeated",
+              "type": "Xrc721Action",
+              "longType": "Xrc721Action",
+              "fullType": "api.Xrc721Action",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721ByContractAddressRequest",
+          "longName": "XRC721ByContractAddressRequest",
+          "fullName": "api.XRC721ByContractAddressRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "address",
+              "description": "contract address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721ByContractAddressResponse",
+          "longName": "XRC721ByContractAddressResponse",
+          "fullName": "api.XRC721ByContractAddressResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc721 actions exist for the given contract address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc721 actions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xrc721",
+              "description": "",
+              "label": "repeated",
+              "type": "Xrc721Action",
+              "longType": "Xrc721Action",
+              "fullType": "api.Xrc721Action",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721ByPageRequest",
+          "longName": "XRC721ByPageRequest",
+          "fullName": "api.XRC721ByPageRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721ByPageResponse",
+          "longName": "XRC721ByPageResponse",
+          "fullName": "api.XRC721ByPageResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Xrc721 actions exist for the given contract address",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of Xrc721 actions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xrc721",
+              "description": "",
+              "label": "repeated",
+              "type": "Xrc721Action",
+              "longType": "Xrc721Action",
+              "fullType": "api.Xrc721Action",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721TokenHolderAddressesRequest",
+          "longName": "XRC721TokenHolderAddressesRequest",
+          "fullName": "api.XRC721TokenHolderAddressesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "tokenAddress",
+              "description": "token contract address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "XRC721TokenHolderAddressesResponse",
+          "longName": "XRC721TokenHolderAddressesResponse",
+          "fullName": "api.XRC721TokenHolderAddressesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "count",
+              "description": "total number of token holder addresses",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "addresses",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Xrc721Action",
+          "longName": "Xrc721Action",
+          "fullName": "api.Xrc721Action",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "actHash",
+              "description": "action hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sender",
+              "description": "sender address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "recipient",
+              "description": "recipient address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "amount transferred",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "timestamp",
+              "description": "unix timestamp",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "contract",
+              "description": "contract address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "XRC721Service",
+          "longName": "XRC721Service",
+          "fullName": "api.XRC721Service",
+          "description": "",
+          "methods": [
+            {
+              "name": "XRC721ByAddress",
+              "description": "XRC721ByAddress returns Xrc721 actions given the sender address or recipient address",
+              "requestType": "XRC721ByAddressRequest",
+              "requestLongType": "XRC721ByAddressRequest",
+              "requestFullType": "api.XRC721ByAddressRequest",
+              "requestStreaming": false,
+              "responseType": "XRC721ByAddressResponse",
+              "responseLongType": "XRC721ByAddressResponse",
+              "responseFullType": "api.XRC721ByAddressResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC721Service.XRC721ByAddress",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC721ByContractAddress",
+              "description": "XRC721ByContractAddress returns Xrc721 actions given the Xrc721 contract address",
+              "requestType": "XRC721ByContractAddressRequest",
+              "requestLongType": "XRC721ByContractAddressRequest",
+              "requestFullType": "api.XRC721ByContractAddressRequest",
+              "requestStreaming": false,
+              "responseType": "XRC721ByContractAddressResponse",
+              "responseLongType": "XRC721ByContractAddressResponse",
+              "responseFullType": "api.XRC721ByContractAddressResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC721Service.XRC721ByContractAddress",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC721ByPage",
+              "description": "XRC721ByPage returns Xrc721 actions by pagination",
+              "requestType": "XRC721ByPageRequest",
+              "requestLongType": "XRC721ByPageRequest",
+              "requestFullType": "api.XRC721ByPageRequest",
+              "requestStreaming": false,
+              "responseType": "XRC721ByPageResponse",
+              "responseLongType": "XRC721ByPageResponse",
+              "responseFullType": "api.XRC721ByPageResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC721Service.XRC721ByPage",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC721Addresses",
+              "description": "XRC721Addresses returns Xrc721 contract addresses",
+              "requestType": "XRC721AddressesRequest",
+              "requestLongType": "XRC721AddressesRequest",
+              "requestFullType": "api.XRC721AddressesRequest",
+              "requestStreaming": false,
+              "responseType": "XRC721AddressesResponse",
+              "responseLongType": "XRC721AddressesResponse",
+              "responseFullType": "api.XRC721AddressesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC721Service.XRC721Addresses",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "XRC721TokenHolderAddresses",
+              "description": "XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address",
+              "requestType": "XRC721TokenHolderAddressesRequest",
+              "requestLongType": "XRC721TokenHolderAddressesRequest",
+              "requestFullType": "api.XRC721TokenHolderAddressesRequest",
+              "requestStreaming": false,
+              "responseType": "XRC721TokenHolderAddressesResponse",
+              "responseLongType": "XRC721TokenHolderAddressesResponse",
+              "responseFullType": "api.XRC721TokenHolderAddressesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC721Service.XRC721TokenHolderAddresses",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "include/pagination.proto",
       "description": "",
       "package": "pagination",

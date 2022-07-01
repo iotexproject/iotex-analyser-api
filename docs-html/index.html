@@ -424,6 +424,46 @@
                   </li>
               </ul>
           </li>
+          <li>
+            <a href="#xrc20-service-api" class="toc-h1 toc-link" data-title="XRC20 Service API">XRC20 Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#xrc20byaddress" class="toc-h2 toc-link" data-title="XRC20ByAddress">XRC20ByAddress</a>
+                  </li>
+                  <li>
+                    <a href="#xrc20bycontractaddress" class="toc-h2 toc-link" data-title="XRC20ByContractAddress">XRC20ByContractAddress</a>
+                  </li>
+                  <li>
+                    <a href="#xrc20bypage" class="toc-h2 toc-link" data-title="XRC20ByPage">XRC20ByPage</a>
+                  </li>
+                  <li>
+                    <a href="#xrc20addresses" class="toc-h2 toc-link" data-title="XRC20Addresses">XRC20Addresses</a>
+                  </li>
+                  <li>
+                    <a href="#xrc20tokenholderaddresses" class="toc-h2 toc-link" data-title="XRC20TokenHolderAddresses">XRC20TokenHolderAddresses</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#xrc721-service-api" class="toc-h1 toc-link" data-title="XRC721 Service API">XRC721 Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#xrc721byaddress" class="toc-h2 toc-link" data-title="XRC721ByAddress">XRC721ByAddress</a>
+                  </li>
+                  <li>
+                    <a href="#xrc721bycontractaddress" class="toc-h2 toc-link" data-title="XRC721ByContractAddress">XRC721ByContractAddress</a>
+                  </li>
+                  <li>
+                    <a href="#xrc721bypage" class="toc-h2 toc-link" data-title="XRC721ByPage">XRC721ByPage</a>
+                  </li>
+                  <li>
+                    <a href="#xrc721addresses" class="toc-h2 toc-link" data-title="XRC721Addresses">XRC721Addresses</a>
+                  </li>
+                  <li>
+                    <a href="#xrc721tokenholderaddresses" class="toc-h2 toc-link" data-title="XRC721TokenHolderAddresses">XRC721TokenHolderAddresses</a>
+                  </li>
+              </ul>
+          </li>
       </ul>
         <ul class="toc-footer">
             <li><a href='https://iotex.io'>IoTeX</a></li>
@@ -3577,6 +3617,1081 @@
 <td><a href="#uint64">uint64</a></td>
 <td></td>
 <td>unix timestamp</td>
+</tr>
+</tbody></table>
+<h1 id='xrc20-service-api'>XRC20 Service API</h1><h2 id='xrc20byaddress'>XRC20ByAddress</h2>
+<p>XRC20ByAddress returns Xrc20 actions given the sender address or recipient address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC20Service.XRC20ByAddress <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "address": "io1mhvlzj7y2t9y2dtzauyvyzzrvle6l7sekcf245",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC20ByAddress</span><span class="p">(</span><span class="w">
+    </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1mhvlzj7y2t9y2dtzauyvyzzrvle6l7sekcf245"</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">1</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">xrc20</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">actHash</span><span class="w">
+      </span><span class="n">contract</span><span class="w">
+      </span><span class="n">sender</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+      </span><span class="n">recipient</span><span class="w">
+      </span><span class="n">timestamp</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC20ByAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">4027</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"xrc20"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"actHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"67b01c199e69164679b3fd5c34eb2e73d0d59840e28479321ad6ff15e4aa5c6d"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"177600000000000000"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1zl0el07pek4sly8dmscccnm0etd8xr8j02t4y7"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"recipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io12w7agqdgwx7slp8fgcv7mnqvy3yf6j4tz0fnms"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1mhvlzj7y2t9y2dtzauyvyzzrvle6l7sekcf245"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1656639570</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-26'>HTTP Request</h3>
+<p><code>POST /api.XRC20Service.XRC20ByAddress</code></p>
+
+<p><a name="api-XRC20ByAddressRequest"></a></p>
+<h3 id='xrc20byaddressrequest'>XRC20ByAddressRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>sender address or recipient address</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC20ByAddressResponse"></a></p>
+<h3 id='xrc20byaddressresponse'>XRC20ByAddressResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc20 actions exist for the given sender address or recipient address</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc20 actions</td>
+</tr>
+<tr>
+<td>xrc20</td>
+<td><a href="#api-Xrc20Action">Xrc20Action</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-Xrc20Action"></a></p>
+<h3 id='xrc20action'>Xrc20Action</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>actHash</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>action hash</td>
+</tr>
+<tr>
+<td>sender</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>sender address</td>
+</tr>
+<tr>
+<td>recipient</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>recipient address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount transferred</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>unix timestamp</td>
+</tr>
+<tr>
+<td>contract</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract address</td>
+</tr>
+</tbody></table>
+<h2 id='xrc20bycontractaddress'>XRC20ByContractAddress</h2>
+<p>XRC20ByContractAddress returns Xrc20 actions given the Xrc20 contract address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC20Service.XRC20ByContractAddress <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "address": "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC20ByContractAddress</span><span class="p">(</span><span class="w">
+    </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26"</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">1</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">xrc20</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">actHash</span><span class="w">
+      </span><span class="n">contract</span><span class="w">
+      </span><span class="n">sender</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+      </span><span class="n">recipient</span><span class="w">
+      </span><span class="n">timestamp</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC20ByContractAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1531013</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"xrc20"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"actHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40336444117c08caa48c9171a566069dfe374512b6d44bd260911a04a8d7424d"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"312959963682432085397"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"recipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1h9kmk9x0e6mzhwmtq5eljqnj80agphyvcheky0"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io19kuwwxhtmtfdk9fnsfn0qs8je38svn7dwe93s4"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1656635825</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-27'>HTTP Request</h3>
+<p><code>POST /api.XRC20Service.XRC20ByContractAddress</code></p>
+
+<p><a name="api-XRC20ByContractAddressRequest"></a></p>
+<h3 id='xrc20bycontractaddressrequest'>XRC20ByContractAddressRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract address</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC20ByContractAddressResponse"></a></p>
+<h3 id='xrc20bycontractaddressresponse'>XRC20ByContractAddressResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc20 actions exist for the given contract address</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc20 actions</td>
+</tr>
+<tr>
+<td>xrc20</td>
+<td><a href="#api-Xrc20Action">Xrc20Action</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='xrc20bypage'>XRC20ByPage</h2>
+<p>XRC20ByPage returns Xrc20 actions by pagination</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC20Service.XRC20ByPage <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC20ByPage</span><span class="p">(</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">1</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">xrc20</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">actHash</span><span class="w">
+      </span><span class="n">contract</span><span class="w">
+      </span><span class="n">sender</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+      </span><span class="n">recipient</span><span class="w">
+      </span><span class="n">timestamp</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC20ByPage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">18238044</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"xrc20"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"actHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"078895bc0ce32304203ecaa1dc1c7294226b356f9ea79d64c2b75e2817e4dbce"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10000000000000000"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1zl0el07pek4sly8dmscccnm0etd8xr8j02t4y7"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"recipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1t7pkdvadx2mrnfukzvhsr0xhc2nsjuq9sren7p"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io14xf3pqwydy9vpzxflpqcry75ne5f47654f2rn9"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1656642185</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-28'>HTTP Request</h3>
+<p><code>POST /api.XRC20Service.XRC20ByPage</code></p>
+
+<p><a name="api-XRC20ByPageRequest"></a></p>
+<h3 id='xrc20bypagerequest'>XRC20ByPageRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC20ByPageResponse"></a></p>
+<h3 id='xrc20bypageresponse'>XRC20ByPageResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc20 actions exist for the given contract address</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc20 actions</td>
+</tr>
+<tr>
+<td>xrc20</td>
+<td><a href="#api-Xrc20Action">Xrc20Action</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='xrc20addresses'>XRC20Addresses</h2>
+<p>Xrc20Addresses returns Xrc20 contract addresses</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC20Service.XRC20Addresses <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC20Addresses</span><span class="p">(</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">2</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">addresses</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC20Addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"io10098dx8ntlqy7sshqkdl67a8xp39vqsyjh08pv"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io1009dgua7q8x63dpk95wncnp79fx9mz0ak65a6s"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2174</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-29'>HTTP Request</h3>
+<p><code>POST /api.XRC20Service.XRC20Addresses</code></p>
+
+<p><a name="api-XRC20AddressesRequest"></a></p>
+<h3 id='xrc20addressesrequest'>XRC20AddressesRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC20AddressesResponse"></a></p>
+<h3 id='xrc20addressesresponse'>XRC20AddressesResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc20 contract addresses exist</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc20 contract addresses</td>
+</tr>
+<tr>
+<td>addresses</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='xrc20tokenholderaddresses'>XRC20TokenHolderAddresses</h2>
+<p>XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC20Service.XRC20TokenHolderAddresses <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "tokenAddress": "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC20TokenHolderAddresses</span><span class="p">(</span><span class="w">
+    </span><span class="n">tokenAddress</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26"</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">5</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">addresses</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC20TokenHolderAddresses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io19czfrdyjt67g9tuhmmcjkuh2m9qxzv5nqyve9p"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io15lchlhad6dya59fncqtcfm44njwxm6m0j29aq9"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io10mk2dqu0e86x7urmadc34v7m3alqqy5l5t822r"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io1w4686k0r3fkjqghk694j43csgp8w073ge3s0f0"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">11245</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-30'>HTTP Request</h3>
+<p><code>POST /api.XRC20Service.XRC20TokenHolderAddresses</code></p>
+
+<p><a name="api-XRC20TokenHolderAddressesRequest"></a></p>
+<h3 id='xrc20tokenholderaddressesrequest'>XRC20TokenHolderAddressesRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>token contract address</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC20TokenHolderAddressesResponse"></a></p>
+<h3 id='xrc20tokenholderaddressesresponse'>XRC20TokenHolderAddressesResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of token holder addresses</td>
+</tr>
+<tr>
+<td>addresses</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id='xrc721-service-api'>XRC721 Service API</h1><h2 id='xrc721byaddress'>XRC721ByAddress</h2>
+<p>XRC721ByAddress returns Xrc721 actions given the sender address or recipient address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC721Service.XRC721ByAddress <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "address": "io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC721ByAddress</span><span class="p">(</span><span class="w">
+    </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw"</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">6</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">xrc721</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">actHash</span><span class="w">
+      </span><span class="n">contract</span><span class="w">
+      </span><span class="n">sender</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+      </span><span class="n">recipient</span><span class="w">
+      </span><span class="n">timestamp</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC721ByAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"xrc721"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"actHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"06de09b214d6f58f0af426388eed400b05e87078ef36b4dd723a6342f16afe61"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2273"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1052s604n44atw5klykwff29tnrtsplqqkdajxf"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"recipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1656631180</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-31'>HTTP Request</h3>
+<p><code>POST /api.XRC721Service.XRC721ByAddress</code></p>
+
+<p><a name="api-XRC721ByAddressRequest"></a></p>
+<h3 id='xrc721byaddressrequest'>XRC721ByAddressRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>sender address or recipient address</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC721ByAddressResponse"></a></p>
+<h3 id='xrc721byaddressresponse'>XRC721ByAddressResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc721 actions exist for the given sender address or recipient address</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc721 actions</td>
+</tr>
+<tr>
+<td>xrc721</td>
+<td><a href="#api-Xrc721Action">Xrc721Action</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-Xrc721Action"></a></p>
+<h3 id='xrc721action'>Xrc721Action</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>actHash</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>action hash</td>
+</tr>
+<tr>
+<td>sender</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>sender address</td>
+</tr>
+<tr>
+<td>recipient</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>recipient address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>amount transferred</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>unix timestamp</td>
+</tr>
+<tr>
+<td>contract</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract address</td>
+</tr>
+</tbody></table>
+<h2 id='xrc721bycontractaddress'>XRC721ByContractAddress</h2>
+<p>XRC721ByContractAddress returns Xrc721 actions given the Xrc721 contract address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC721Service.XRC721ByContractAddress <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "address": "io1052s604n44atw5klykwff29tnrtsplqqkdajxf",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC721ByContractAddress</span><span class="p">(</span><span class="w">
+    </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1052s604n44atw5klykwff29tnrtsplqqkdajxf"</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">1</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">xrc721</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">actHash</span><span class="w">
+      </span><span class="n">contract</span><span class="w">
+      </span><span class="n">sender</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+      </span><span class="n">recipient</span><span class="w">
+      </span><span class="n">timestamp</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC721ByContractAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2279</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"xrc721"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"actHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"06de09b214d6f58f0af426388eed400b05e87078ef36b4dd723a6342f16afe61"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2273"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1052s604n44atw5klykwff29tnrtsplqqkdajxf"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"recipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1656631180</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-32'>HTTP Request</h3>
+<p><code>POST /api.XRC721Service.XRC721ByContractAddress</code></p>
+
+<p><a name="api-XRC721ByContractAddressRequest"></a></p>
+<h3 id='xrc721bycontractaddressrequest'>XRC721ByContractAddressRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract address</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC721ByContractAddressResponse"></a></p>
+<h3 id='xrc721bycontractaddressresponse'>XRC721ByContractAddressResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc721 actions exist for the given contract address</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc721 actions</td>
+</tr>
+<tr>
+<td>xrc721</td>
+<td><a href="#api-Xrc721Action">Xrc721Action</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='xrc721bypage'>XRC721ByPage</h2>
+<p>XRC721ByPage returns Xrc721 actions by pagination</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC721Service.XRC721ByPage <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC721ByPage</span><span class="p">(</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">1</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">xrc721</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">actHash</span><span class="w">
+      </span><span class="n">contract</span><span class="w">
+      </span><span class="n">sender</span><span class="w">
+      </span><span class="n">amount</span><span class="w">
+      </span><span class="n">recipient</span><span class="w">
+      </span><span class="n">timestamp</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC721ByPage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">7251522</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"xrc721"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"actHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"57353c167e2a3fda74b16949f02e8b339f573a0039af1d5164ff6bb6819ea5fe"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2063879"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"recipient"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1vygjfdnvv2jrg5szw82fusf9ea4nzz2s4fpy6e"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1656660620</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-33'>HTTP Request</h3>
+<p><code>POST /api.XRC721Service.XRC721ByPage</code></p>
+
+<p><a name="api-XRC721ByPageRequest"></a></p>
+<h3 id='xrc721bypagerequest'>XRC721ByPageRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC721ByPageResponse"></a></p>
+<h3 id='xrc721bypageresponse'>XRC721ByPageResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc721 actions exist for the given contract address</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc721 actions</td>
+</tr>
+<tr>
+<td>xrc721</td>
+<td><a href="#api-Xrc721Action">Xrc721Action</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='xrc721addresses'>XRC721Addresses</h2>
+<p>Xrc20Addresses returns Xrc721 contract addresses</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC721Service.XRC721Addresses <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC721Addresses</span><span class="p">(</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">2</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">addresses</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC721Addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"io104z744srvrvxdtk0kzp7hkquqyxkvyt9uqz6u7"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io1052s604n44atw5klykwff29tnrtsplqqkdajxf"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">253</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-34'>HTTP Request</h3>
+<p><code>POST /api.XRC721Service.XRC721Addresses</code></p>
+
+<p><a name="api-XRC721AddressesRequest"></a></p>
+<h3 id='xrc721addressesrequest'>XRC721AddressesRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC721AddressesResponse"></a></p>
+<h3 id='xrc721addressesresponse'>XRC721AddressesResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether Xrc721 contract addresses exist</td>
+</tr>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of Xrc721 contract addresses</td>
+</tr>
+<tr>
+<td>addresses</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='xrc721tokenholderaddresses'>XRC721TokenHolderAddresses</h2>
+<p>XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.XRC721Service.XRC721TokenHolderAddresses <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "tokenAddress": "io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw",
+    "pagination": {
+        "skip": 0,
+        "first": 2
+    }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">XRC721TokenHolderAddresses</span><span class="p">(</span><span class="w">
+    </span><span class="n">tokenAddress</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw"</span><span class="w">
+    </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="err">:</span><span class="w"> </span><span class="err">5</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">count</span><span class="w">
+    </span><span class="n">addresses</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"XRC721TokenHolderAddresses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io19nja6v0jfxyxxt70xgrp248k429y5nkq6cstpq"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io1mt5u8vzxzuwq7hut99t9tvduhykzgkfclwlsgj"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"io14qqv4xz8jzk3hexhmp9qdtdghdpamvyzuqajrd"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">6348</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-35'>HTTP Request</h3>
+<p><code>POST /api.XRC721Service.XRC721TokenHolderAddresses</code></p>
+
+<p><a name="api-XRC721TokenHolderAddressesRequest"></a></p>
+<h3 id='xrc721tokenholderaddressesrequest'>XRC721TokenHolderAddressesRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>token contract address</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td><a href="#pagination-Pagination">pagination.Pagination</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-XRC721TokenHolderAddressesResponse"></a></p>
+<h3 id='xrc721tokenholderaddressesresponse'>XRC721TokenHolderAddressesResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>count</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>total number of token holder addresses</td>
+</tr>
+<tr>
+<td>addresses</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
 </tr>
 </tbody></table>
 

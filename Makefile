@@ -39,6 +39,10 @@ proto:
 	rm -f api/api_action.graphql.go && mv api/api.graphql.go api/api_action.graphql.go
 	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_voting.proto
 	rm -f api/api_voting.graphql.go && mv api/api.graphql.go api/api_voting.graphql.go
+	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_xrc20.proto
+	rm -f api/api_xrc20.graphql.go && mv api/api.graphql.go api/api_xrc20.graphql.go
+	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_xrc721.proto
+	rm -f api/api_xrc721.graphql.go && mv api/api.graphql.go api/api_xrc721.graphql.go
 clean:
 	rm -f iotex-analyser-api
 	

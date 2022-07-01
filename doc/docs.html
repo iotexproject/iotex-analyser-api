@@ -628,6 +628,124 @@
         
           
           <li>
+            <a href="#api_xrc20.proto">api_xrc20.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#api.XRC20AddressesRequest"><span class="badge">M</span>XRC20AddressesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20AddressesResponse"><span class="badge">M</span>XRC20AddressesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20ByAddressRequest"><span class="badge">M</span>XRC20ByAddressRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20ByAddressResponse"><span class="badge">M</span>XRC20ByAddressResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20ByContractAddressRequest"><span class="badge">M</span>XRC20ByContractAddressRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20ByContractAddressResponse"><span class="badge">M</span>XRC20ByContractAddressResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20ByPageRequest"><span class="badge">M</span>XRC20ByPageRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20ByPageResponse"><span class="badge">M</span>XRC20ByPageResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20TokenHolderAddressesRequest"><span class="badge">M</span>XRC20TokenHolderAddressesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC20TokenHolderAddressesResponse"><span class="badge">M</span>XRC20TokenHolderAddressesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.Xrc20Action"><span class="badge">M</span>Xrc20Action</a>
+                </li>
+              
+              
+              
+              
+                <li>
+                  <a href="#api.XRC20Service"><span class="badge">S</span>XRC20Service</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#api_xrc721.proto">api_xrc721.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#api.XRC721AddressesRequest"><span class="badge">M</span>XRC721AddressesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721AddressesResponse"><span class="badge">M</span>XRC721AddressesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721ByAddressRequest"><span class="badge">M</span>XRC721ByAddressRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721ByAddressResponse"><span class="badge">M</span>XRC721ByAddressResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721ByContractAddressRequest"><span class="badge">M</span>XRC721ByContractAddressRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721ByContractAddressResponse"><span class="badge">M</span>XRC721ByContractAddressResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721ByPageRequest"><span class="badge">M</span>XRC721ByPageRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721ByPageResponse"><span class="badge">M</span>XRC721ByPageResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721TokenHolderAddressesRequest"><span class="badge">M</span>XRC721TokenHolderAddressesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.XRC721TokenHolderAddressesResponse"><span class="badge">M</span>XRC721TokenHolderAddressesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.Xrc721Action"><span class="badge">M</span>Xrc721Action</a>
+                </li>
+              
+              
+              
+              
+                <li>
+                  <a href="#api.XRC721Service"><span class="badge">S</span>XRC721Service</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#include%2fpagination.proto">include/pagination.proto</a>
             <ul>
               
@@ -4876,6 +4994,1030 @@
                 <td>RewardSources</td>
                 <td>POST</td>
                 <td>/api.VotingService.RewardSources</td>
+                <td>*</td>
+              </tr>
+              
+            
+            </tbody>
+          </table>
+          
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="api_xrc20.proto">api_xrc20.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="api.XRC20AddressesRequest">XRC20AddressesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20AddressesResponse">XRC20AddressesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc20 contract addresses exist </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc20 contract addresses </p></td>
+                </tr>
+              
+                <tr>
+                  <td>addresses</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20ByAddressRequest">XRC20ByAddressRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>address</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address or recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20ByAddressResponse">XRC20ByAddressResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc20 actions exist for the given sender address or recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc20 actions </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xrc20</td>
+                  <td><a href="#api.Xrc20Action">Xrc20Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20ByContractAddressRequest">XRC20ByContractAddressRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>address</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20ByContractAddressResponse">XRC20ByContractAddressResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc20 actions exist for the given contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc20 actions </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xrc20</td>
+                  <td><a href="#api.Xrc20Action">Xrc20Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20ByPageRequest">XRC20ByPageRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20ByPageResponse">XRC20ByPageResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc20 actions exist for the given contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc20 actions </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xrc20</td>
+                  <td><a href="#api.Xrc20Action">Xrc20Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20TokenHolderAddressesRequest">XRC20TokenHolderAddressesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>tokenAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>token contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC20TokenHolderAddressesResponse">XRC20TokenHolderAddressesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of token holder addresses </p></td>
+                </tr>
+              
+                <tr>
+                  <td>addresses</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.Xrc20Action">Xrc20Action</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>actHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>action hash </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sender</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>recipient</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount transferred </p></td>
+                </tr>
+              
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>unix timestamp </p></td>
+                </tr>
+              
+                <tr>
+                  <td>contract</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+        <h3 id="api.XRC20Service">XRC20Service</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>XRC20ByAddress</td>
+                <td><a href="#api.XRC20ByAddressRequest">XRC20ByAddressRequest</a></td>
+                <td><a href="#api.XRC20ByAddressResponse">XRC20ByAddressResponse</a></td>
+                <td><p>XRC20ByAddress returns Xrc20 actions given the sender address or recipient address</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC20ByContractAddress</td>
+                <td><a href="#api.XRC20ByContractAddressRequest">XRC20ByContractAddressRequest</a></td>
+                <td><a href="#api.XRC20ByContractAddressResponse">XRC20ByContractAddressResponse</a></td>
+                <td><p>XRC20ByContractAddress returns Xrc20 actions given the Xrc20 contract address</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC20ByPage</td>
+                <td><a href="#api.XRC20ByPageRequest">XRC20ByPageRequest</a></td>
+                <td><a href="#api.XRC20ByPageResponse">XRC20ByPageResponse</a></td>
+                <td><p>XRC20ByPage returns Xrc20 actions by pagination</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC20Addresses</td>
+                <td><a href="#api.XRC20AddressesRequest">XRC20AddressesRequest</a></td>
+                <td><a href="#api.XRC20AddressesResponse">XRC20AddressesResponse</a></td>
+                <td><p>XRC20Addresses returns Xrc20 contract addresses</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC20TokenHolderAddresses</td>
+                <td><a href="#api.XRC20TokenHolderAddressesRequest">XRC20TokenHolderAddressesRequest</a></td>
+                <td><a href="#api.XRC20TokenHolderAddressesResponse">XRC20TokenHolderAddressesResponse</a></td>
+                <td><p>XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+          
+          
+          <h4>Methods with HTTP bindings</h4>
+          <table>
+            <thead>
+              <tr>
+                <td>Method Name</td>
+                <td>Method</td>
+                <td>Pattern</td>
+                <td>Body</td>
+              </tr>
+            </thead>
+            <tbody>
+            
+              
+              
+              <tr>
+                <td>XRC20ByAddress</td>
+                <td>POST</td>
+                <td>/api.XRCc20Service.XRC20ByAddress</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC20ByContractAddress</td>
+                <td>POST</td>
+                <td>/api.XRC20Service.XRC20ByContractAddress</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC20ByPage</td>
+                <td>POST</td>
+                <td>/api.XRC20Service.XRC20ByPage</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC20Addresses</td>
+                <td>POST</td>
+                <td>/api.XRC20Service.XRC20Addresses</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC20TokenHolderAddresses</td>
+                <td>POST</td>
+                <td>/api.XRCc20Service.XRC20TokenHolderAddresses</td>
+                <td>*</td>
+              </tr>
+              
+            
+            </tbody>
+          </table>
+          
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="api_xrc721.proto">api_xrc721.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="api.XRC721AddressesRequest">XRC721AddressesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721AddressesResponse">XRC721AddressesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc721 contract addresses exist </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc721 contract addresses </p></td>
+                </tr>
+              
+                <tr>
+                  <td>addresses</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721ByAddressRequest">XRC721ByAddressRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>address</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address or recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721ByAddressResponse">XRC721ByAddressResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc721 actions exist for the given sender address or recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc721 actions </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xrc721</td>
+                  <td><a href="#api.Xrc721Action">Xrc721Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721ByContractAddressRequest">XRC721ByContractAddressRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>address</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721ByContractAddressResponse">XRC721ByContractAddressResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc721 actions exist for the given contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc721 actions </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xrc721</td>
+                  <td><a href="#api.Xrc721Action">Xrc721Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721ByPageRequest">XRC721ByPageRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721ByPageResponse">XRC721ByPageResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Xrc721 actions exist for the given contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of Xrc721 actions </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xrc721</td>
+                  <td><a href="#api.Xrc721Action">Xrc721Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721TokenHolderAddressesRequest">XRC721TokenHolderAddressesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>tokenAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>token contract address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.XRC721TokenHolderAddressesResponse">XRC721TokenHolderAddressesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of token holder addresses </p></td>
+                </tr>
+              
+                <tr>
+                  <td>addresses</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.Xrc721Action">Xrc721Action</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>actHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>action hash </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sender</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>sender address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>recipient</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>recipient address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount transferred </p></td>
+                </tr>
+              
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>unix timestamp </p></td>
+                </tr>
+              
+                <tr>
+                  <td>contract</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+        <h3 id="api.XRC721Service">XRC721Service</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>XRC721ByAddress</td>
+                <td><a href="#api.XRC721ByAddressRequest">XRC721ByAddressRequest</a></td>
+                <td><a href="#api.XRC721ByAddressResponse">XRC721ByAddressResponse</a></td>
+                <td><p>XRC721ByAddress returns Xrc721 actions given the sender address or recipient address</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC721ByContractAddress</td>
+                <td><a href="#api.XRC721ByContractAddressRequest">XRC721ByContractAddressRequest</a></td>
+                <td><a href="#api.XRC721ByContractAddressResponse">XRC721ByContractAddressResponse</a></td>
+                <td><p>XRC721ByContractAddress returns Xrc721 actions given the Xrc721 contract address</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC721ByPage</td>
+                <td><a href="#api.XRC721ByPageRequest">XRC721ByPageRequest</a></td>
+                <td><a href="#api.XRC721ByPageResponse">XRC721ByPageResponse</a></td>
+                <td><p>XRC721ByPage returns Xrc721 actions by pagination</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC721Addresses</td>
+                <td><a href="#api.XRC721AddressesRequest">XRC721AddressesRequest</a></td>
+                <td><a href="#api.XRC721AddressesResponse">XRC721AddressesResponse</a></td>
+                <td><p>XRC721Addresses returns Xrc721 contract addresses</p></td>
+              </tr>
+            
+              <tr>
+                <td>XRC721TokenHolderAddresses</td>
+                <td><a href="#api.XRC721TokenHolderAddressesRequest">XRC721TokenHolderAddressesRequest</a></td>
+                <td><a href="#api.XRC721TokenHolderAddressesResponse">XRC721TokenHolderAddressesResponse</a></td>
+                <td><p>XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+          
+          
+          <h4>Methods with HTTP bindings</h4>
+          <table>
+            <thead>
+              <tr>
+                <td>Method Name</td>
+                <td>Method</td>
+                <td>Pattern</td>
+                <td>Body</td>
+              </tr>
+            </thead>
+            <tbody>
+            
+              
+              
+              <tr>
+                <td>XRC721ByAddress</td>
+                <td>POST</td>
+                <td>/api.XRC721Service.XRC721ByAddress</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC721ByContractAddress</td>
+                <td>POST</td>
+                <td>/api.XRC721Service.XRC721ByContractAddress</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC721ByPage</td>
+                <td>POST</td>
+                <td>/api.XRC721Service.XRC721ByPage</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC721Addresses</td>
+                <td>POST</td>
+                <td>/api.XRC721Service.XRC721Addresses</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>XRC721TokenHolderAddresses</td>
+                <td>POST</td>
+                <td>/api.XRC721Service.XRC721TokenHolderAddresses</td>
                 <td>*</td>
               </tr>
               

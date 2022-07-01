@@ -28,6 +28,8 @@ func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterChainServiceServer(grpcServer, &ChainService{})
 	api.RegisterActionServiceServer(grpcServer, &ActionService{})
 	api.RegisterVotingServiceServer(grpcServer, &VotingService{})
+	api.RegisterXRC20ServiceServer(grpcServer, &XRC20Service{})
+	api.RegisterXRC721ServiceServer(grpcServer, &XRC721Service{})
 }
 
 func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
@@ -50,6 +52,12 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 		return err
 	}
 	if err := api.RegisterVotingServiceHandlerServer(ctx, mux, &VotingService{}); err != nil {
+		return err
+	}
+	if err := api.RegisterXRC20ServiceHandlerServer(ctx, mux, &XRC20Service{}); err != nil {
+		return err
+	}
+	if err := api.RegisterXRC721ServiceHandlerServer(ctx, mux, &XRC721Service{}); err != nil {
 		return err
 	}
 	return nil
@@ -80,6 +88,12 @@ func registerGraphQLAPIService(ctx context.Context, mux *graphqlruntime.ServeMux
 		return err
 	}
 	if err := api.RegisterVotingServiceGraphqlHandler(mux, conn); err != nil {
+		return err
+	}
+	if err := api.RegisterXRC20ServiceGraphqlHandler(mux, conn); err != nil {
+		return err
+	}
+	if err := api.RegisterXRC721ServiceGraphqlHandler(mux, conn); err != nil {
 		return err
 	}
 	return nil
