@@ -203,18 +203,6 @@
                 </li>
               
                 <li>
-                  <a href="#api.HermesDistribution"><span class="badge">M</span>HermesDistribution</a>
-                </li>
-              
-                <li>
-                  <a href="#api.HermesRequest"><span class="badge">M</span>HermesRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#api.HermesResponse"><span class="badge">M</span>HermesResponse</a>
-                </li>
-              
-                <li>
                   <a href="#api.IotexBalanceByHeightRequest"><span class="badge">M</span>IotexBalanceByHeightRequest</a>
                 </li>
               
@@ -228,10 +216,6 @@
               
                 <li>
                   <a href="#api.OperatorAddressResponse"><span class="badge">M</span>OperatorAddressResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#api.RewardDistribution"><span class="badge">M</span>RewardDistribution</a>
                 </li>
               
                 <li>
@@ -483,22 +467,6 @@
                 </li>
               
                 <li>
-                  <a href="#api.HermesByDelegateDistributionRatio"><span class="badge">M</span>HermesByDelegateDistributionRatio</a>
-                </li>
-              
-                <li>
-                  <a href="#api.HermesByDelegateRequest"><span class="badge">M</span>HermesByDelegateRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#api.HermesByDelegateResponse"><span class="badge">M</span>HermesByDelegateResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#api.HermesByDelegateVoterInfo"><span class="badge">M</span>HermesByDelegateVoterInfo</a>
-                </li>
-              
-                <li>
                   <a href="#api.ProbationHistoricalRateRequest"><span class="badge">M</span>ProbationHistoricalRateRequest</a>
                 </li>
               
@@ -547,6 +515,85 @@
               
                 <li>
                   <a href="#api.DelegateService"><span class="badge">S</span>DelegateService</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#api_hermes.proto">api_hermes.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#api.HermesAverageStatsRequest"><span class="badge">M</span>HermesAverageStatsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesAverageStatsResponse"><span class="badge">M</span>HermesAverageStatsResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesAverageStatsResponse.AveragePerEpoch"><span class="badge">M</span>HermesAverageStatsResponse.AveragePerEpoch</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesByDelegateDistributionRatio"><span class="badge">M</span>HermesByDelegateDistributionRatio</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesByDelegateRequest"><span class="badge">M</span>HermesByDelegateRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesByDelegateResponse"><span class="badge">M</span>HermesByDelegateResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesByDelegateVoterInfo"><span class="badge">M</span>HermesByDelegateVoterInfo</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesByVoterRequest"><span class="badge">M</span>HermesByVoterRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesByVoterResponse"><span class="badge">M</span>HermesByVoterResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesByVoterResponse.Delegate"><span class="badge">M</span>HermesByVoterResponse.Delegate</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesDistribution"><span class="badge">M</span>HermesDistribution</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesMetaRequest"><span class="badge">M</span>HermesMetaRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesMetaResponse"><span class="badge">M</span>HermesMetaResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesRequest"><span class="badge">M</span>HermesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesResponse"><span class="badge">M</span>HermesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.RewardDistribution"><span class="badge">M</span>RewardDistribution</a>
+                </li>
+              
+              
+              
+              
+                <li>
+                  <a href="#api.HermesService"><span class="badge">S</span>HermesService</a>
                 </li>
               
             </ul>
@@ -950,127 +997,6 @@
 
         
       
-        <h3 id="api.HermesDistribution">HermesDistribution</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>delegateName</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>delegate name </p></td>
-                </tr>
-              
-                <tr>
-                  <td>rewardDistribution</td>
-                  <td><a href="#api.RewardDistribution">RewardDistribution</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>stakingIotexAddress</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>delegate IoTeX staking address </p></td>
-                </tr>
-              
-                <tr>
-                  <td>voterCount</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>number of voters </p></td>
-                </tr>
-              
-                <tr>
-                  <td>waiveServiceFee</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>whether the delegate is qualified for waiving the service fee </p></td>
-                </tr>
-              
-                <tr>
-                  <td>refund</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>amount of refund </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.HermesRequest">HermesRequest</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>startEpoch</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>Start epoch number </p></td>
-                </tr>
-              
-                <tr>
-                  <td>epochCount</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>Number of epochs to query </p></td>
-                </tr>
-              
-                <tr>
-                  <td>rewardAddress</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Name of reward address </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.HermesResponse">HermesResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>hermesDistribution</td>
-                  <td><a href="#api.HermesDistribution">HermesDistribution</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="api.IotexBalanceByHeightRequest">IotexBalanceByHeightRequest</h3>
         <p></p>
 
@@ -1188,44 +1114,6 @@
 
         
       
-        <h3 id="api.RewardDistribution">RewardDistribution</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>voterEthAddress</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>voter’s ERC20 address </p></td>
-                </tr>
-              
-                <tr>
-                  <td>voterIotexAddress</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>voter’s IoTeX address </p></td>
-                </tr>
-              
-                <tr>
-                  <td>amount</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>amount of reward distribution </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="api.TotalAccountSupplyRequest">TotalAccountSupplyRequest</h3>
         <p></p>
 
@@ -1317,13 +1205,6 @@
               </tr>
             
               <tr>
-                <td>Hermes</td>
-                <td><a href="#api.HermesRequest">HermesRequest</a></td>
-                <td><a href="#api.HermesResponse">HermesResponse</a></td>
-                <td><p>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</p></td>
-              </tr>
-            
-              <tr>
                 <td>ActiveAccounts</td>
                 <td><a href="#api.ActiveAccountsRequest">ActiveAccountsRequest</a></td>
                 <td><a href="#api.ActiveAccountsResponse">ActiveAccountsResponse</a></td>
@@ -1392,16 +1273,6 @@
                 <td>Erc20TokenBalanceByHeight</td>
                 <td>POST</td>
                 <td>/api.AccountService.Erc20TokenBalanceByHeight</td>
-                <td>*</td>
-              </tr>
-              
-            
-              
-              
-              <tr>
-                <td>Hermes</td>
-                <td>POST</td>
-                <td>/api.AccountService.Hermes</td>
                 <td>*</td>
               </tr>
               
@@ -3724,207 +3595,6 @@
 
         
       
-        <h3 id="api.HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>epochNumber</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>epoch number </p></td>
-                </tr>
-              
-                <tr>
-                  <td>blockRewardRatio</td>
-                  <td><a href="#double">double</a></td>
-                  <td></td>
-                  <td><p>ratio of block reward being distributed </p></td>
-                </tr>
-              
-                <tr>
-                  <td>epochRewardRatio</td>
-                  <td><a href="#double">double</a></td>
-                  <td></td>
-                  <td><p>ratio of epoch reward being distributed </p></td>
-                </tr>
-              
-                <tr>
-                  <td>foundationBonusRatio</td>
-                  <td><a href="#double">double</a></td>
-                  <td></td>
-                  <td><p>ratio of foundation bonus being distributed </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.HermesByDelegateRequest">HermesByDelegateRequest</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>startEpoch</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>Epoch number to start from </p></td>
-                </tr>
-              
-                <tr>
-                  <td>epochCount</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>Number of epochs to query </p></td>
-                </tr>
-              
-                <tr>
-                  <td>delegateName</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Name of the delegate </p></td>
-                </tr>
-              
-                <tr>
-                  <td>pagination</td>
-                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
-                  <td></td>
-                  <td><p>Pagination info </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.HermesByDelegateResponse">HermesByDelegateResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>exist</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>whether the delegate has hermes information within the specified epoch range </p></td>
-                </tr>
-              
-                <tr>
-                  <td>count</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>total number of reward distributions </p></td>
-                </tr>
-              
-                <tr>
-                  <td>voterInfoList</td>
-                  <td><a href="#api.HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>totalRewardsDistributed</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>total reward amount distributed </p></td>
-                </tr>
-              
-                <tr>
-                  <td>distributionRatio</td>
-                  <td><a href="#api.HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>voterAddress</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>voter address </p></td>
-                </tr>
-              
-                <tr>
-                  <td>fromEpoch</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>starting epoch </p></td>
-                </tr>
-              
-                <tr>
-                  <td>toEpoch</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p>ending epoch </p></td>
-                </tr>
-              
-                <tr>
-                  <td>amount</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>distributino amount </p></td>
-                </tr>
-              
-                <tr>
-                  <td>actionHash</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>action hash </p></td>
-                </tr>
-              
-                <tr>
-                  <td>timestamp</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>timestamp </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="api.ProbationHistoricalRateRequest">ProbationHistoricalRateRequest</h3>
         <p></p>
 
@@ -4344,13 +4014,6 @@
               </tr>
             
               <tr>
-                <td>HermesByDelegate</td>
-                <td><a href="#api.HermesByDelegateRequest">HermesByDelegateRequest</a></td>
-                <td><a href="#api.HermesByDelegateResponse">HermesByDelegateResponse</a></td>
-                <td><p>HermesByDelegate returns Hermes delegates&#39; distribution history</p></td>
-              </tr>
-            
-              <tr>
                 <td>Staking</td>
                 <td><a href="#api.StakingRequest">StakingRequest</a></td>
                 <td><a href="#api.StakingResponse">StakingResponse</a></td>
@@ -4425,16 +4088,6 @@
               
               
               <tr>
-                <td>HermesByDelegate</td>
-                <td>POST</td>
-                <td>/api.DelegateService.HermesByDelegate</td>
-                <td>*</td>
-              </tr>
-              
-            
-              
-              
-              <tr>
                 <td>Staking</td>
                 <td>POST</td>
                 <td>/api.DelegateService.Staking</td>
@@ -4448,6 +4101,827 @@
                 <td>ProbationHistoricalRate</td>
                 <td>POST</td>
                 <td>/api.DelegateService.ProbationHistoricalRate</td>
+                <td>*</td>
+              </tr>
+              
+            
+            </tbody>
+          </table>
+          
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="api_hermes.proto">api_hermes.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="api.HermesAverageStatsRequest">HermesAverageStatsRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rewardAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Name of reward address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesAverageStatsResponse">HermesAverageStatsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Hermes has bookkeeping information within the specified epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>averagePerEpoch</td>
+                  <td><a href="#api.HermesAverageStatsResponse.AveragePerEpoch">HermesAverageStatsResponse.AveragePerEpoch</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesAverageStatsResponse.AveragePerEpoch">HermesAverageStatsResponse.AveragePerEpoch</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rewardDistribution</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>reward distribution amount on average </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalWeightedVotes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total weighted votes on average </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>epochNumber</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>blockRewardRatio</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>ratio of block reward being distributed </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochRewardRatio</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>ratio of epoch reward being distributed </p></td>
+                </tr>
+              
+                <tr>
+                  <td>foundationBonusRatio</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>ratio of foundation bonus being distributed </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesByDelegateRequest">HermesByDelegateRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>Epoch number to start from </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>Number of epochs to query </p></td>
+                </tr>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Name of the delegate </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination info </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesByDelegateResponse">HermesByDelegateResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the delegate has hermes information within the specified epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of reward distributions </p></td>
+                </tr>
+              
+                <tr>
+                  <td>voterInfoList</td>
+                  <td><a href="#api.HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalRewardsDistributed</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total reward amount distributed </p></td>
+                </tr>
+              
+                <tr>
+                  <td>distributionRatio</td>
+                  <td><a href="#api.HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>voterAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>voter address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>fromEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch </p></td>
+                </tr>
+              
+                <tr>
+                  <td>toEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>ending epoch </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>distributino amount </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>action hash </p></td>
+                </tr>
+              
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>unix timestamp </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesByVoterRequest">HermesByVoterRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>Start epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>Number of epochs to query </p></td>
+                </tr>
+              
+                <tr>
+                  <td>voterAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>voter address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#pagination.Pagination">pagination.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesByVoterResponse">HermesByVoterResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the voter uses Hermes within the specified epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>delegates</td>
+                  <td><a href="#api.HermesByVoterResponse.Delegate">HermesByVoterResponse.Delegate</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>count</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>total number of reward receivings </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalRewardReceived</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total reward amount received </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesByVoterResponse.Delegate">HermesByVoterResponse.Delegate</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>fromEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch of bookkeeping </p></td>
+                </tr>
+              
+                <tr>
+                  <td>toEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>ending epoch of bookkeeping </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>receiving amount </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>action hash </p></td>
+                </tr>
+              
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>unix timestamp </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesDistribution">HermesDistribution</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rewardDistribution</td>
+                  <td><a href="#api.RewardDistribution">RewardDistribution</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>stakingIotexAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate IoTeX staking address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>voterCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of voters </p></td>
+                </tr>
+              
+                <tr>
+                  <td>waiveServiceFee</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the delegate is qualified for waiving the service fee </p></td>
+                </tr>
+              
+                <tr>
+                  <td>refund</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount of refund </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesMetaRequest">HermesMetaRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesMetaResponse">HermesMetaResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether Hermes has bookkeeping information within the specified epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>numberOfDelegates</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of Hermes delegates within the epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>numberOfRecipients</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of voters who vote for Hermes delegates within the epoch range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalRewardDistributed</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total reward amount distributed within the epoch range </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesRequest">HermesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>Start epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>Number of epochs to query </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rewardAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Name of reward address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesResponse">HermesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>hermesDistribution</td>
+                  <td><a href="#api.HermesDistribution">HermesDistribution</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.RewardDistribution">RewardDistribution</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>voterEthAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>voter’s ERC20 address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>voterIotexAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>voter’s IoTeX address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount of reward distribution </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+        <h3 id="api.HermesService">HermesService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>Hermes</td>
+                <td><a href="#api.HermesRequest">HermesRequest</a></td>
+                <td><a href="#api.HermesResponse">HermesResponse</a></td>
+                <td><p>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</p></td>
+              </tr>
+            
+              <tr>
+                <td>HermesByVoter</td>
+                <td><a href="#api.HermesByVoterRequest">HermesByVoterRequest</a></td>
+                <td><a href="#api.HermesByVoterResponse">HermesByVoterResponse</a></td>
+                <td><p>HermesByVoter returns Hermes voters&#39; receiving history</p></td>
+              </tr>
+            
+              <tr>
+                <td>HermesByDelegate</td>
+                <td><a href="#api.HermesByDelegateRequest">HermesByDelegateRequest</a></td>
+                <td><a href="#api.HermesByDelegateResponse">HermesByDelegateResponse</a></td>
+                <td><p>HermesByDelegate returns Hermes delegates&#39; distribution history</p></td>
+              </tr>
+            
+              <tr>
+                <td>HermesMeta</td>
+                <td><a href="#api.HermesMetaRequest">HermesMetaRequest</a></td>
+                <td><a href="#api.HermesMetaResponse">HermesMetaResponse</a></td>
+                <td><p>HermesMeta provides Hermes platform metadata</p></td>
+              </tr>
+            
+              <tr>
+                <td>HermesAverageStats</td>
+                <td><a href="#api.HermesAverageStatsRequest">HermesAverageStatsRequest</a></td>
+                <td><a href="#api.HermesAverageStatsResponse">HermesAverageStatsResponse</a></td>
+                <td><p>HermesAverageStats returns the Hermes average statistics</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+          
+          
+          <h4>Methods with HTTP bindings</h4>
+          <table>
+            <thead>
+              <tr>
+                <td>Method Name</td>
+                <td>Method</td>
+                <td>Pattern</td>
+                <td>Body</td>
+              </tr>
+            </thead>
+            <tbody>
+            
+              
+              
+              <tr>
+                <td>Hermes</td>
+                <td>POST</td>
+                <td>/api.HermesService.Hermes</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>HermesByVoter</td>
+                <td>POST</td>
+                <td>/api.HermesService.HermesByVoter</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>HermesByDelegate</td>
+                <td>POST</td>
+                <td>/api.HermesService.HermesByDelegate</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>HermesMeta</td>
+                <td>POST</td>
+                <td>/api.HermesService.HermesMeta</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>HermesAverageStats</td>
+                <td>POST</td>
+                <td>/api.HermesService.HermesAverageStats</td>
                 <td>*</td>
               </tr>
               

@@ -253,6 +253,15 @@ type HermesVoteInfo struct {
 	Timestamp  int64
 }
 
+type HermesDelegateInfo struct {
+	DelegateName string
+	StartEpoch   uint64
+	EndEpoch     uint64
+	Amount       string
+	ActionHash   string
+	Timestamp    int64
+}
+
 func GetTotalHermesByDelegate(ctx context.Context, startEpoch uint64, endEpoch uint64, delegateName string) (int64, string, error) {
 	db := db.DB()
 	var result struct {
@@ -276,6 +285,29 @@ func GetHermesByDelegate(ctx context.Context, startEpoch uint64, endEpoch uint64
 	return results, nil
 }
 
+func GetTotalHermesByVoter(ctx context.Context, startEpoch uint64, endEpoch uint64, voterAddress string) (int64, string, error) {
+	db := db.DB()
+	var result struct {
+		Count int64
+		Sum   string
+	}
+	query := "select count(1) as count,sum(amount) as sum from (select * from block_receipt_transactions where  sender in ('io1lvemm43lz6np0hzcqlpk0kpxxww623z5hs4mwu','io16y9wk2xnwurvtgmd2mds2gcdfe2lmzad6dcw29')) as t1 inner join (select t5.*,t6.timestamp from hermes_distributes as t5 left join block t6 on t6.block_height=t5.block_height where epoch_number>=? and epoch_number<=? ) as t2 on t1.action_hash=t2.action_hash where recipient=?"
+	if err := db.Raw(query, startEpoch, endEpoch, voterAddress).Scan(&result).Error; err != nil {
+		return 0, "", err
+	}
+	return result.Count, result.Sum, nil
+}
+
+func GetHermesByVoter(ctx context.Context, startEpoch uint64, endEpoch uint64, voterAddress string, skip, first uint64) ([]*HermesDelegateInfo, error) {
+	db := db.DB()
+	var results []*HermesDelegateInfo
+	query := "select delegate_name,start_epoch,end_epoch,amount,t1.action_hash,t2.timestamp from (select * from block_receipt_transactions where  sender in ('io1lvemm43lz6np0hzcqlpk0kpxxww623z5hs4mwu','io16y9wk2xnwurvtgmd2mds2gcdfe2lmzad6dcw29')) as t1 inner join (select t5.*,t6.timestamp from hermes_distributes as t5 left join block t6 on t6.block_height=t5.block_height where epoch_number>=? and epoch_number<=? ) as t2 on t1.action_hash=t2.action_hash where recipient=? order by t1.id desc limit ? offset ?"
+	if err := db.Raw(query, startEpoch, endEpoch, voterAddress, first, skip).Scan(&results).Error; err != nil {
+		return nil, err
+	}
+	return results, nil
+}
+
 type HermesRatio struct {
 	EpochNumber               uint64
 	BlockRewardPercentage     float64
@@ -291,4 +323,28 @@ func GetHermesRatioByDelegate(ctx context.Context, startEpoch uint64, endEpoch u
 		return nil, err
 	}
 	return results, nil
+}
+
+type HermesMeta struct {
+	Count                   uint64
+	NumberOfDelegates       uint64
+	NumberOfRecipients      uint64
+	TotalRewardsDistributed string
+}
+
+func GetHermesMeta(ctx context.Context, startEpoch uint64, endEpoch uint64) (*HermesMeta, error) {
+	db := db.DB()
+	var result *HermesMeta
+	query := "SELECT count(1) as count, COUNT(DISTINCT delegate_name) as number_of_delegates, COUNT(DISTINCT recipient) as number_of_recipients, sum(amount) as total_rewards_distributed from (select * from block_receipt_transactions where  sender in ('io1lvemm43lz6np0hzcqlpk0kpxxww623z5hs4mwu','io16y9wk2xnwurvtgmd2mds2gcdfe2lmzad6dcw29')) as t1 inner join (select t5.*,t6.timestamp from hermes_distributes as t5 left join block t6 on t6.block_height=t5.block_height where epoch_number>=? and epoch_number<=? ) as t2 on t1.action_hash=t2.action_hash"
+	if err := db.WithContext(ctx).Raw(query, startEpoch, endEpoch).Scan(&result).Error; err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// DelegateHermesAverage defines the Hermes average stats for each delegate
+type DelegateHermesAverage struct {
+	DelegateName       string
+	RewardDistribution string
+	TotalWeightedVotes string
 }

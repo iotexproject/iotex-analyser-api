@@ -21,8 +21,6 @@ type AccountServiceClient interface {
 	// IotexBalanceByHeight returns the balance of the given address at the given height.
 	IotexBalanceByHeight(ctx context.Context, in *IotexBalanceByHeightRequest, opts ...grpc.CallOption) (*IotexBalanceByHeightResponse, error)
 	Erc20TokenBalanceByHeight(ctx context.Context, in *Erc20TokenBalanceByHeightRequest, opts ...grpc.CallOption) (*Erc20TokenBalanceByHeightResponse, error)
-	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
-	Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error)
 	// ActiveAccounts lists most recently active accounts
 	ActiveAccounts(ctx context.Context, in *ActiveAccountsRequest, opts ...grpc.CallOption) (*ActiveAccountsResponse, error)
 	// OperatorAddress finds the delegate's operator address given the delegate's alias name
@@ -55,15 +53,6 @@ func (c *accountServiceClient) IotexBalanceByHeight(ctx context.Context, in *Iot
 func (c *accountServiceClient) Erc20TokenBalanceByHeight(ctx context.Context, in *Erc20TokenBalanceByHeightRequest, opts ...grpc.CallOption) (*Erc20TokenBalanceByHeightResponse, error) {
 	out := new(Erc20TokenBalanceByHeightResponse)
 	err := c.cc.Invoke(ctx, "/api.AccountService/Erc20TokenBalanceByHeight", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountServiceClient) Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error) {
-	out := new(HermesResponse)
-	err := c.cc.Invoke(ctx, "/api.AccountService/Hermes", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +111,6 @@ type AccountServiceServer interface {
 	// IotexBalanceByHeight returns the balance of the given address at the given height.
 	IotexBalanceByHeight(context.Context, *IotexBalanceByHeightRequest) (*IotexBalanceByHeightResponse, error)
 	Erc20TokenBalanceByHeight(context.Context, *Erc20TokenBalanceByHeightRequest) (*Erc20TokenBalanceByHeightResponse, error)
-	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
-	Hermes(context.Context, *HermesRequest) (*HermesResponse, error)
 	// ActiveAccounts lists most recently active accounts
 	ActiveAccounts(context.Context, *ActiveAccountsRequest) (*ActiveAccountsResponse, error)
 	// OperatorAddress finds the delegate's operator address given the delegate's alias name
@@ -146,9 +133,6 @@ func (UnimplementedAccountServiceServer) IotexBalanceByHeight(context.Context, *
 }
 func (UnimplementedAccountServiceServer) Erc20TokenBalanceByHeight(context.Context, *Erc20TokenBalanceByHeightRequest) (*Erc20TokenBalanceByHeightResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Erc20TokenBalanceByHeight not implemented")
-}
-func (UnimplementedAccountServiceServer) Hermes(context.Context, *HermesRequest) (*HermesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Hermes not implemented")
 }
 func (UnimplementedAccountServiceServer) ActiveAccounts(context.Context, *ActiveAccountsRequest) (*ActiveAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActiveAccounts not implemented")
@@ -210,24 +194,6 @@ func _AccountService_Erc20TokenBalanceByHeight_Handler(srv interface{}, ctx cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).Erc20TokenBalanceByHeight(ctx, req.(*Erc20TokenBalanceByHeightRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountService_Hermes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HermesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServiceServer).Hermes(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.AccountService/Hermes",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).Hermes(ctx, req.(*HermesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -336,10 +302,6 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Erc20TokenBalanceByHeight",
 			Handler:    _AccountService_Erc20TokenBalanceByHeight_Handler,
-		},
-		{
-			MethodName: "Hermes",
-			Handler:    _AccountService_Hermes_Handler,
 		},
 		{
 			MethodName: "ActiveAccounts",

@@ -1,0 +1,169 @@
+syntax = "proto3";
+
+package api;
+import "google/api/annotations.proto";
+import "include/graphql.proto";
+import "include/pagination.proto";
+option go_package = "./api";
+
+message HermesRequest {
+  uint64 startEpoch = 1; // Start epoch number
+  uint64 epochCount = 2; // Number of epochs to query
+  string rewardAddress = 3; //Name of reward address
+}
+
+message RewardDistribution {
+  string voterEthAddress = 1; // voter’s ERC20 address
+  string voterIotexAddress = 2; // voter’s IoTeX address
+  string amount = 3; // amount of reward distribution
+}
+
+message HermesDistribution {
+  string delegateName = 1; // delegate name
+  repeated RewardDistribution rewardDistribution = 2;
+  string stakingIotexAddress = 3; // delegate IoTeX staking address
+  uint64 voterCount = 4; // number of voters
+  bool waiveServiceFee = 5; // whether the delegate is qualified for waiving the service fee
+  string refund = 6; // amount of refund
+}
+
+message HermesResponse {
+  repeated HermesDistribution hermesDistribution = 1;
+}
+
+message HermesByVoterRequest {
+  uint64 startEpoch = 1; // Start epoch number
+  uint64 epochCount = 2; // Number of epochs to query
+  string voterAddress = 3; // voter address
+  pagination.Pagination pagination = 4;  
+}
+message HermesByVoterResponse {
+  bool exist = 1; // whether the voter uses Hermes within the specified epoch range
+  message Delegate {
+    string delegateName = 1; // delegate name
+    uint64 fromEpoch = 2; // starting epoch of bookkeeping
+    uint64 toEpoch = 3; // ending epoch of bookkeeping
+    string amount = 4; // receiving amount
+    string actHash = 5; // action hash
+    uint64 timestamp = 6; // unix timestamp
+  }
+  repeated Delegate delegates = 2;
+  uint64 count = 3; // total number of reward receivings
+  string totalRewardReceived = 4; // total reward amount received
+}
+
+
+message HermesByDelegateRequest {
+  uint64 startEpoch = 1; // Epoch number to start from
+  uint64 epochCount = 2; // Number of epochs to query
+  string delegateName =3; // Name of the delegate
+  pagination.Pagination pagination = 4; //Pagination info
+}
+
+message HermesByDelegateVoterInfo {
+	string voterAddress = 1; // voter address
+	uint64 fromEpoch = 2; // starting epoch 
+	uint64 toEpoch = 3; // ending epoch
+	string amount = 4; // distributino amount
+	string actHash = 5; // action hash
+	uint64 timestamp = 6; // unix timestamp
+}
+
+message HermesByDelegateDistributionRatio {
+  uint64 epochNumber = 1; //epoch number
+  double blockRewardRatio = 2; // ratio of block reward being distributed
+  double epochRewardRatio = 3; // ratio of epoch reward being distributed
+  double foundationBonusRatio = 4; // ratio of foundation bonus being distributed
+}
+
+message HermesByDelegateResponse {
+  bool exist = 1; // whether the delegate has hermes information within the specified epoch range
+  uint64 count = 2; // total number of reward distributions
+  repeated HermesByDelegateVoterInfo voterInfoList = 3;
+  string totalRewardsDistributed = 4; // total reward amount distributed
+  repeated HermesByDelegateDistributionRatio distributionRatio = 5;
+}
+
+message HermesMetaRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+}
+message HermesMetaResponse {
+  bool exist = 1; // whether Hermes has bookkeeping information within the specified epoch range
+  uint64 numberOfDelegates = 2; // number of Hermes delegates within the epoch range
+  uint64 numberOfRecipients = 3; // number of voters who vote for Hermes delegates within the epoch range
+  string totalRewardDistributed = 4; // total reward amount distributed within the epoch range
+}
+
+message HermesAverageStatsRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+  string rewardAddress = 3; //Name of reward address
+}
+message HermesAverageStatsResponse {
+  bool exist = 1; // whether Hermes has bookkeeping information within the specified epoch range
+  message AveragePerEpoch {
+    string delegateName = 1; // delegate name
+    string rewardDistribution = 2; // reward distribution amount on average
+    string totalWeightedVotes = 3; // total weighted votes on average
+  }
+  repeated AveragePerEpoch averagePerEpoch = 2;
+}
+service HermesService {
+  // Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
+  rpc Hermes(HermesRequest) returns (HermesResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "Hermes"
+    };
+    option (google.api.http) = {
+      post: "/api.HermesService.Hermes"
+      body: "*"
+    };
+  };
+  //HermesByVoter returns Hermes voters' receiving history
+  rpc HermesByVoter(HermesByVoterRequest) returns (HermesByVoterResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "HermesByVoter"
+    };
+    option (google.api.http) = {
+      post: "/api.HermesService.HermesByVoter"
+      body: "*"
+    };
+  };
+  // HermesByDelegate returns Hermes delegates' distribution history
+  rpc HermesByDelegate(HermesByDelegateRequest) returns (HermesByDelegateResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "HermesByDelegate"
+    };
+    option (google.api.http) = {
+      post: "/api.HermesService.HermesByDelegate"
+      body: "*"
+    };
+  };
+  // HermesMeta provides Hermes platform metadata
+  rpc HermesMeta(HermesMetaRequest) returns (HermesMetaResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "HermesMeta"
+    };
+    option (google.api.http) = {
+      post: "/api.HermesService.HermesMeta"
+      body: "*"
+    };
+  };
+  // HermesAverageStats returns the Hermes average statistics
+  rpc HermesAverageStats(HermesAverageStatsRequest) returns (HermesAverageStatsResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "HermesAverageStats"
+    };
+    option (google.api.http) = {
+      post: "/api.HermesService.HermesAverageStats"
+      body: "*"
+    };
+  };
+  
+}

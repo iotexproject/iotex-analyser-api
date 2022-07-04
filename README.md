@@ -9,7 +9,7 @@ Install Google protocol buffers compiler [protoc](https://github.com/protocolbuf
 
 ***install required protoc plugins***: 
 ```
-go get github.com/ysugimoto/grpc-graphql-gateway/protoc-gen-graphql/...
+go install github.com/ysugimoto/grpc-graphql-gateway/protoc-gen-graphql/...
 go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.4

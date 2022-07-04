@@ -2,6 +2,9 @@ package actions
 
 import (
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-proto/golang/iotextypes"
+	"github.com/pkg/errors"
+	"google.golang.org/protobuf/proto"
 )
 
 func GetBucketIDsByVoter(address string) ([]uint64, error) {
@@ -32,4 +35,21 @@ func GetBucketActionInfoByBuckets(bucketIDs []uint64, skip, first uint64) ([]*Ac
 		return nil, err
 	}
 	return actionInfos, nil
+}
+
+type VoteBucketList struct {
+	EpochNumber uint64
+	BucketList  []byte
+}
+
+func GetVoteBucketList(epochNum uint64) (*iotextypes.VoteBucketList, error) {
+	voteBucketListAll := &iotextypes.VoteBucketList{}
+	var vbl VoteBucketList
+	if err := db.DB().Table("vote_bucketlist").Where("epoch_number = ?", epochNum).First(&vbl).Error; err != nil {
+		return nil, errors.Wrapf(err, "failed to get vote bucket list in epoch %d", epochNum)
+	}
+	if err := proto.Unmarshal(vbl.BucketList, voteBucketListAll); err != nil {
+		return nil, errors.Wrapf(err, "failed to unmarshal vote bucket list in epoch %d", epochNum)
+	}
+	return voteBucketListAll, nil
 }
