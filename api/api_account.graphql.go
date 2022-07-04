@@ -13,14 +13,10 @@ import (
 var (
 	gql__type_TotalNumberOfHoldersResponse       *graphql.Object      // message TotalNumberOfHoldersResponse in api_account.proto
 	gql__type_TotalAccountSupplyResponse         *graphql.Object      // message TotalAccountSupplyResponse in api_account.proto
-	gql__type_RewardDistribution                 *graphql.Object      // message RewardDistribution in api_account.proto
 	gql__type_OperatorAddressResponse            *graphql.Object      // message OperatorAddressResponse in api_account.proto
 	gql__type_OperatorAddressRequest             *graphql.Object      // message OperatorAddressRequest in api_account.proto
 	gql__type_IotexBalanceByHeightResponse       *graphql.Object      // message IotexBalanceByHeightResponse in api_account.proto
 	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
-	gql__type_HermesResponse                     *graphql.Object      // message HermesResponse in api_account.proto
-	gql__type_HermesRequest                      *graphql.Object      // message HermesRequest in api_account.proto
-	gql__type_HermesDistribution                 *graphql.Object      // message HermesDistribution in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightResponse  *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightRequest   *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
 	gql__type_AliasResponse                      *graphql.Object      // message AliasResponse in api_account.proto
@@ -29,14 +25,10 @@ var (
 	gql__type_ActiveAccountsRequest              *graphql.Object      // message ActiveAccountsRequest in api_account.proto
 	gql__input_TotalNumberOfHoldersResponse      *graphql.InputObject // message TotalNumberOfHoldersResponse in api_account.proto
 	gql__input_TotalAccountSupplyResponse        *graphql.InputObject // message TotalAccountSupplyResponse in api_account.proto
-	gql__input_RewardDistribution                *graphql.InputObject // message RewardDistribution in api_account.proto
 	gql__input_OperatorAddressResponse           *graphql.InputObject // message OperatorAddressResponse in api_account.proto
 	gql__input_OperatorAddressRequest            *graphql.InputObject // message OperatorAddressRequest in api_account.proto
 	gql__input_IotexBalanceByHeightResponse      *graphql.InputObject // message IotexBalanceByHeightResponse in api_account.proto
 	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
-	gql__input_HermesResponse                    *graphql.InputObject // message HermesResponse in api_account.proto
-	gql__input_HermesRequest                     *graphql.InputObject // message HermesRequest in api_account.proto
-	gql__input_HermesDistribution                *graphql.InputObject // message HermesDistribution in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightResponse *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightRequest  *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
 	gql__input_AliasResponse                     *graphql.InputObject // message AliasResponse in api_account.proto
@@ -71,26 +63,6 @@ func Gql__type_TotalAccountSupplyResponse() *graphql.Object {
 		})
 	}
 	return gql__type_TotalAccountSupplyResponse
-}
-
-func Gql__type_RewardDistribution() *graphql.Object {
-	if gql__type_RewardDistribution == nil {
-		gql__type_RewardDistribution = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_RewardDistribution",
-			Fields: graphql.Fields{
-				"voterEthAddress": &graphql.Field{
-					Type: graphql.String,
-				},
-				"voterIotexAddress": &graphql.Field{
-					Type: graphql.String,
-				},
-				"amount": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_RewardDistribution
 }
 
 func Gql__type_OperatorAddressResponse() *graphql.Object {
@@ -156,69 +128,6 @@ func Gql__type_IotexBalanceByHeightRequest() *graphql.Object {
 		})
 	}
 	return gql__type_IotexBalanceByHeightRequest
-}
-
-func Gql__type_HermesResponse() *graphql.Object {
-	if gql__type_HermesResponse == nil {
-		gql__type_HermesResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_HermesResponse",
-			Fields: graphql.Fields{
-				"hermesDistribution": &graphql.Field{
-					Type: graphql.NewList(Gql__type_HermesDistribution()),
-				},
-			},
-		})
-	}
-	return gql__type_HermesResponse
-}
-
-func Gql__type_HermesRequest() *graphql.Object {
-	if gql__type_HermesRequest == nil {
-		gql__type_HermesRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_HermesRequest",
-			Fields: graphql.Fields{
-				"startEpoch": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"epochCount": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"rewardAddress": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_HermesRequest
-}
-
-func Gql__type_HermesDistribution() *graphql.Object {
-	if gql__type_HermesDistribution == nil {
-		gql__type_HermesDistribution = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_HermesDistribution",
-			Fields: graphql.Fields{
-				"delegateName": &graphql.Field{
-					Type: graphql.String,
-				},
-				"rewardDistribution": &graphql.Field{
-					Type: graphql.NewList(Gql__type_RewardDistribution()),
-				},
-				"stakingIotexAddress": &graphql.Field{
-					Type: graphql.String,
-				},
-				"voterCount": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"waiveServiceFee": &graphql.Field{
-					Type: graphql.Boolean,
-				},
-				"refund": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_HermesDistribution
 }
 
 func Gql__type_Erc20TokenBalanceByHeightResponse() *graphql.Object {
@@ -348,26 +257,6 @@ func Gql__input_TotalAccountSupplyResponse() *graphql.InputObject {
 	return gql__input_TotalAccountSupplyResponse
 }
 
-func Gql__input_RewardDistribution() *graphql.InputObject {
-	if gql__input_RewardDistribution == nil {
-		gql__input_RewardDistribution = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_RewardDistribution",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"voterEthAddress": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"voterIotexAddress": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"amount": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_RewardDistribution
-}
-
 func Gql__input_OperatorAddressResponse() *graphql.InputObject {
 	if gql__input_OperatorAddressResponse == nil {
 		gql__input_OperatorAddressResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -431,69 +320,6 @@ func Gql__input_IotexBalanceByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_IotexBalanceByHeightRequest
-}
-
-func Gql__input_HermesResponse() *graphql.InputObject {
-	if gql__input_HermesResponse == nil {
-		gql__input_HermesResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_HermesResponse",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"hermesDistribution": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_HermesDistribution()),
-				},
-			},
-		})
-	}
-	return gql__input_HermesResponse
-}
-
-func Gql__input_HermesRequest() *graphql.InputObject {
-	if gql__input_HermesRequest == nil {
-		gql__input_HermesRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_HermesRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"startEpoch": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"epochCount": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"rewardAddress": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_HermesRequest
-}
-
-func Gql__input_HermesDistribution() *graphql.InputObject {
-	if gql__input_HermesDistribution == nil {
-		gql__input_HermesDistribution = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_HermesDistribution",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"delegateName": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"rewardDistribution": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_RewardDistribution()),
-				},
-				"stakingIotexAddress": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"voterCount": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"waiveServiceFee": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
-				"refund": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_HermesDistribution
 }
 
 func Gql__input_Erc20TokenBalanceByHeightResponse() *graphql.InputObject {
@@ -682,32 +508,6 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 				resp, err := client.Erc20TokenBalanceByHeight(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC Erc20TokenBalanceByHeight")
-				}
-				return resp, nil
-			},
-		},
-		"Hermes": &graphql.Field{
-			Type: Gql__type_HermesResponse(),
-			Args: graphql.FieldConfigArgument{
-				"startEpoch": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"epochCount": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"rewardAddress": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-			},
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req HermesRequest
-				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for Hermes")
-				}
-				client := NewAccountServiceClient(conn)
-				resp, err := client.Hermes(p.Context, &req)
-				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC Hermes")
 				}
 				return resp, nil
 			},

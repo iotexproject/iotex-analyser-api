@@ -27,30 +27,6 @@ message Erc20TokenBalanceByHeightRequest {
   string contract_address = 3;
 }
 
-message HermesRequest {
-  uint64 startEpoch = 1; // Start epoch number
-  uint64 epochCount = 2; // Number of epochs to query
-  string rewardAddress = 3; //Name of reward address
-}
-
-message RewardDistribution {
-  string voterEthAddress = 1; // voter’s ERC20 address
-  string voterIotexAddress = 2; // voter’s IoTeX address
-  string amount = 3; // amount of reward distribution
-}
-
-message HermesDistribution {
-  string delegateName = 1; // delegate name
-  repeated RewardDistribution rewardDistribution = 2;
-  string stakingIotexAddress = 3; // delegate IoTeX staking address
-  uint64 voterCount = 4; // number of voters
-  bool waiveServiceFee = 5; // whether the delegate is qualified for waiving the service fee
-  string refund = 6; // amount of refund
-}
-
-message HermesResponse {
-  repeated HermesDistribution hermesDistribution = 1;
-}
 
 message ActiveAccountsRequest {
   uint64 count = 1; // number of account addresses to be queried for active accounts
@@ -111,17 +87,6 @@ service AccountService {
     };
     option (google.api.http) = {
       post: "/api.AccountService.Erc20TokenBalanceByHeight"
-      body: "*"
-    };
-  };
-  // Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
-  rpc Hermes(HermesRequest) returns (HermesResponse) {
-    option (graphql.schema) = {
-      type: QUERY 
-      name: "Hermes"
-    };
-    option (google.api.http) = {
-      post: "/api.AccountService.Hermes"
       body: "*"
     };
   };

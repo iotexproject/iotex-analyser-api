@@ -745,104 +745,6 @@ query {
 | foundationBonus | [string](#string) |  | amount of foundation bonus |
 | exist | [bool](#bool) |  | whether the delegate has reward information within the specified epoch range |
 
-## HermesByDelegate
-
-HermesByDelegate returns Hermes delegates' distribution history
-
-```shell
-curl --request POST \
-  --url https://analyser-api.iotex.io/api.DelegateService.Reward \
-  --header 'Content-Type: application/json' \
-  --data '{
-	"startEpoch": 23000,
-	"epochCount": 1,
-	"delegateName": "iotexlab"
-}'
-```
-
-```graphql
-query {
-  Reward(startEpoch: 23000, epochCount: 1, delegateName: "iotexlab") {
-    reward {
-      exist
-      blockReward
-      foundationBonus
-      epochReward
-    }
-  }
-}
-
-```
-
-> Example response:
-
-```json
-{
-	"reward": {
-		"blockReward": "240000000000000000000",
-		"epochReward": "984040630606589747896",
-		"foundationBonus": "80000000000000000000",
-		"exist": true
-	}
-}
-```
-
-### HTTP Request
-
-`POST /api.DelegateService.HermesByDelegate`
-
-<a name="api-HermesByDelegateRequest"></a>
-
-### HermesByDelegateRequest
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| startEpoch | [uint64](#uint64) |  | Epoch number to start from |
-| epochCount | [uint64](#uint64) |  | Number of epochs to query |
-| delegateName | [string](#string) |  | Name of the delegate |
-| pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
-
-<a name="api-HermesByDelegateResponse"></a>
-
-### HermesByDelegateResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| exist | [bool](#bool) |  | whether the delegate has hermes information within the specified epoch range |
-| count | [uint64](#uint64) |  | total number of reward distributions |
-| voterInfoList | [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo) | repeated |  |
-| totalRewardsDistributed | [string](#string) |  | total reward amount distributed |
-| distributionRatio | [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio) | repeated |  |
-
-
-<a name="api-HermesByDelegateVoterInfo"></a>
-
-### HermesByDelegateVoterInfo
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| voterAddress | [string](#string) |  | voter address |
-| fromEpoch | [uint64](#uint64) |  | starting epoch |
-| toEpoch | [uint64](#uint64) |  | ending epoch |
-| amount | [string](#string) |  | distributino amount |
-| actionHash | [string](#string) |  | action hash |
-| timestamp | [string](#string) |  | timestamp |
-
-
-<a name="api-HermesByDelegateDistributionRatio"></a>
-
-### HermesByDelegateDistributionRatio
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| epochNumber | [uint64](#uint64) |  | epoch number |
-| blockRewardRatio | [double](#double) |  | ratio of block reward being distributed |
-| epochRewardRatio | [double](#double) |  | ratio of epoch reward being distributed |
-| foundationBonusRatio | [double](#double) |  | ratio of foundation bonus being distributed |
 
 ## Staking
 
@@ -1018,118 +920,6 @@ query {
 
 
 # Account Service API
-
-## Hermes
-
-Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
-
-```shell
-curl --request POST \
-  --url https://analyser-api.iotex.io/api.AccountService.Hermes \
-  --header 'Content-Type: application/json' \
-  --data '{
-	"startEpoch": 22420,
-	"epochCount": 1,
-	"rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
-}'
-```
-
-```graphql
-query {
-	Hermes(
-		startEpoch: 22420
-		epochCount: 1
-		rewardAddress: "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
-	) {
-		hermesDistribution {
-			delegateName
-			rewardDistribution {
-				voterEthAddress
-				voterIotexAddress
-				amount
-			}
-			stakingIotexAddress
-			voterCount
-			waiveServiceFee
-			refund
-		}
-	}
-}
-
-```
-
-> Example response:
-
-```json
-{
-	"hermesDistribution": [
-		{
-			"delegateName": "a4x",
-			"rewardDistribution": [
-				{
-					"voterEthAddress": "0x009faf509551ea0784b27f14f00c79d972393302",
-					"voterIotexAddress": "io1qz0675y4284q0p9j0u20qrrem9erjvczut23g2",
-					"amount": "810850817586367"
-				},
-                ...
-			],
-			"stakingIotexAddress": "io1c2cacn26mawwg0vpx2ptnegg600q5kpmv75np0",
-			"voterCount": "260",
-			"waiveServiceFee": false,
-			"refund": "5160457356723700049"
-		},
-        ...
-}
-```
-
-### HTTP Request
-
-`POST /api.AccountService.Hermes`
-
-<a name="api-HermesRequest"></a>
-
-### HermesRequest
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| startEpoch | [uint64](#uint64) |  | Start epoch number |
-| epochCount | [uint64](#uint64) |  | Number of epochs to query |
-| rewardAddress | [string](#string) |  | Name of reward address |
-
-<a name="api-HermesResponse"></a>
-
-### HermesResponse
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| hermesDistribution | [HermesDistribution](#api-HermesDistribution) | repeated |  |
-
-<a name="api-HermesDistribution"></a>
-
-### HermesDistribution
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| delegateName | [string](#string) |  | delegate name |
-| rewardDistribution | [RewardDistribution](#api-RewardDistribution) | repeated |  |
-| stakingIotexAddress | [string](#string) |  | delegate IoTeX staking address |
-| voterCount | [uint64](#uint64) |  | number of voters |
-| waiveServiceFee | [bool](#bool) |  | whether the delegate is qualified for waiving the service fee |
-| refund | [string](#string) |  | amount of refund |
-
-<a name="api-RewardDistribution"></a>
-
-### RewardDistribution
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
-| voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
-| amount | [string](#string) |  | amount of reward distribution |
 
 ## IotexBalanceByHeight
 
@@ -3214,3 +3004,546 @@ query {
 | ----- | ---- | ----- | ----------- |
 | count | [uint64](#uint64) |  | total number of token holder addresses |
 | addresses | [string](#string) | repeated |  |
+
+# Hermes Service API
+
+## Hermes
+
+Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.HermesService.Hermes \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 22420,
+	"epochCount": 1,
+	"rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+}'
+```
+
+```graphql
+query {
+	Hermes(
+		startEpoch: 22420
+		epochCount: 1
+		rewardAddress: "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+	) {
+		hermesDistribution {
+			delegateName
+			rewardDistribution {
+				voterEthAddress
+				voterIotexAddress
+				amount
+			}
+			stakingIotexAddress
+			voterCount
+			waiveServiceFee
+			refund
+		}
+	}
+}
+
+```
+
+> Example response:
+
+```json
+{
+	"hermesDistribution": [
+		{
+			"delegateName": "a4x",
+			"rewardDistribution": [
+				{
+					"voterEthAddress": "0x009faf509551ea0784b27f14f00c79d972393302",
+					"voterIotexAddress": "io1qz0675y4284q0p9j0u20qrrem9erjvczut23g2",
+					"amount": "810850817586367"
+				},
+                ...
+			],
+			"stakingIotexAddress": "io1c2cacn26mawwg0vpx2ptnegg600q5kpmv75np0",
+			"voterCount": "260",
+			"waiveServiceFee": false,
+			"refund": "5160457356723700049"
+		},
+        ...
+}
+```
+
+### HTTP Request
+
+`POST /api.HermesService.Hermes`
+
+<a name="api-HermesRequest"></a>
+
+### HermesRequest
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | Start epoch number |
+| epochCount | [uint64](#uint64) |  | Number of epochs to query |
+| rewardAddress | [string](#string) |  | Name of reward address |
+
+<a name="api-HermesResponse"></a>
+
+### HermesResponse
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| hermesDistribution | [HermesDistribution](#api-HermesDistribution) | repeated |  |
+
+<a name="api-HermesDistribution"></a>
+
+### HermesDistribution
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| rewardDistribution | [RewardDistribution](#api-RewardDistribution) | repeated |  |
+| stakingIotexAddress | [string](#string) |  | delegate IoTeX staking address |
+| voterCount | [uint64](#uint64) |  | number of voters |
+| waiveServiceFee | [bool](#bool) |  | whether the delegate is qualified for waiving the service fee |
+| refund | [string](#string) |  | amount of refund |
+
+<a name="api-RewardDistribution"></a>
+
+### RewardDistribution
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
+| voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
+| amount | [string](#string) |  | amount of reward distribution |
+
+## HermesByVoter
+
+HermesByVoter returns Hermes voters' receiving history
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.HermesService.HermesByVoter \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 13752,
+	"epochCount": 24,
+	"voterAddress": "io13hlj049e96gpdxfr0atkhq3d6mhgzxx7mrmg00",
+  "pagination": {
+		"skip": 0,
+		"first": 5
+	}  
+}'
+```
+
+```graphql
+query {
+  HermesByVoter(
+    startEpoch: 13752
+    epochCount: 24
+    voterAddress: "io13hlj049e96gpdxfr0atkhq3d6mhgzxx7mrmg00",
+    pagination:{skip: 0, first: 5}
+  ){
+    count
+    exist
+    delegates{
+      delegateName
+      fromEpoch
+      toEpoch
+      amount
+      actHash
+      timestamp
+    }
+    totalRewardReceived
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "HermesByVoter": {
+      "count": 5,
+      "delegates": [
+        {
+          "actHash": "4b9977a739c659967bc04729c71f5d10a0eb4368ad9c24d74f76251cbc174a0c",
+          "amount": "188268667946402699",
+          "delegateName": "iotexteam",
+          "fromEpoch": 13728,
+          "timestamp": 1605696600,
+          "toEpoch": 13751
+        },
+        ....
+      ],
+      "exist": true,
+      "totalRewardReceived": "946193665895943769"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.HermesService.HermesByVoter`
+
+<a name="api-HermesByVoterRequest"></a>
+
+### HermesByVoterRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | Start epoch number |
+| epochCount | [uint64](#uint64) |  | Number of epochs to query |
+| voterAddress | [string](#string) |  | voter address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-HermesByVoterResponse"></a>
+
+### HermesByVoterResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the voter uses Hermes within the specified epoch range |
+| delegates | [HermesByVoterResponse.Delegate](#api-HermesByVoterResponse-Delegate) | repeated |  |
+| count | [uint64](#uint64) |  | total number of reward receivings |
+| totalRewardReceived | [string](#string) |  | total reward amount received |
+
+
+
+
+
+
+<a name="api-HermesByVoterResponse-Delegate"></a>
+
+### HermesByVoterResponse.Delegate
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| fromEpoch | [uint64](#uint64) |  | starting epoch of bookkeeping |
+| toEpoch | [uint64](#uint64) |  | ending epoch of bookkeeping |
+| amount | [string](#string) |  | receiving amount |
+| actHash | [string](#string) |  | action hash |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+
+## HermesByDelegate
+
+HermesByDelegate returns Hermes delegates' distribution history
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.HermesService.HermesByDelegate \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 20000,
+	"epochCount": 1,
+	"delegateName": "a4x"
+}'
+```
+
+```graphql
+query {
+  HermesByDelegate(startEpoch: 20000, epochCount: 24, 
+    delegateName: "a4x", pagination:{skip:0, first: 5}) {
+    count
+    exist
+    distributionRatio{
+      blockRewardRatio
+      epochNumber
+      epochRewardRatio
+      foundationBonusRatio
+    }
+    totalRewardsDistributed
+    voterInfoList{
+      actionHash
+      amount
+      fromEpoch
+      toEpoch
+      timestamp
+      voterAddress
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "HermesByDelegate": {
+      "count": 13,
+      "distributionRatio": [
+        {
+          "blockRewardRatio": 70,
+          "epochNumber": 20000,
+          "epochRewardRatio": 70,
+          "foundationBonusRatio": 70
+        },
+        ...
+      ],
+      "exist": true,
+      "totalRewardsDistributed": "374486361904633758261",
+      "voterInfoList": [
+        {
+          "actHash": "911dd38de79541b3eb066ee7a03e35121004255323d62040b97f536c9906cdda",
+          "amount": "105463180053251824",
+          "fromEpoch": 19992,
+          "timestamp": 1628538750,
+          "toEpoch": 20015,
+          "voterAddress": "io13hlj049e96gpdxfr0atkhq3d6mhgzxx7mrmg00"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.HermesService.HermesByDelegate`
+
+<a name="api-HermesByDelegateRequest"></a>
+
+### HermesByDelegateRequest
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | Epoch number to start from |
+| epochCount | [uint64](#uint64) |  | Number of epochs to query |
+| delegateName | [string](#string) |  | Name of the delegate |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
+
+<a name="api-HermesByDelegateResponse"></a>
+
+### HermesByDelegateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the delegate has hermes information within the specified epoch range |
+| count | [uint64](#uint64) |  | total number of reward distributions |
+| voterInfoList | [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo) | repeated |  |
+| totalRewardsDistributed | [string](#string) |  | total reward amount distributed |
+| distributionRatio | [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio) | repeated |  |
+
+
+<a name="api-HermesByDelegateVoterInfo"></a>
+
+### HermesByDelegateVoterInfo
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| voterAddress | [string](#string) |  | voter address |
+| fromEpoch | [uint64](#uint64) |  | starting epoch |
+| toEpoch | [uint64](#uint64) |  | ending epoch |
+| amount | [string](#string) |  | distributino amount |
+| actionHash | [string](#string) |  | action hash |
+| timestamp | [string](#string) |  | timestamp |
+
+
+<a name="api-HermesByDelegateDistributionRatio"></a>
+
+### HermesByDelegateDistributionRatio
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| blockRewardRatio | [double](#double) |  | ratio of block reward being distributed |
+| epochRewardRatio | [double](#double) |  | ratio of epoch reward being distributed |
+| foundationBonusRatio | [double](#double) |  | ratio of foundation bonus being distributed |
+
+## HermesMeta
+
+HermesMeta provides Hermes platform metadata
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.HermesService.HermesMeta \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 20000,
+	"epochCount": 24
+}'
+```
+
+```graphql
+query {
+  HermesMeta(startEpoch: 20000, epochCount: 24) {
+    exist
+    numberOfDelegates
+    numberOfRecipients
+    totalRewardDistributed
+  }
+}
+
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "HermesMeta": {
+      "exist": true,
+      "numberOfDelegates": 41,
+      "numberOfRecipients": 3871,
+      "totalRewardDistributed": "342227806235546638245097"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.HermesService.HermesMeta`
+
+<a name="api-HermesMetaRequest"></a>
+
+### HermesMetaRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-HermesMetaResponse"></a>
+
+### HermesMetaResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Hermes has bookkeeping information within the specified epoch range |
+| numberOfDelegates | [uint64](#uint64) |  | number of Hermes delegates within the epoch range |
+| numberOfRecipients | [uint64](#uint64) |  | number of voters who vote for Hermes delegates within the epoch range |
+| totalRewardDistributed | [string](#string) |  | total reward amount distributed within the epoch range |
+
+## HermesAverageStats
+
+HermesAverageStats returns the Hermes average statistics
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.HermesService.HermesAverageStats \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"startEpoch": 20000,
+	"epochCount": 24,
+  "rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+}'
+```
+
+```graphql
+query {
+  HermesAverageStats(
+    startEpoch: 20000
+    epochCount: 24
+    rewardAddress: "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+  ) {
+    exist
+    averagePerEpoch {
+      delegateName
+      rewardDistribution
+      totalWeightedVotes
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "HermesAverageStats": {
+      "averagePerEpoch": [
+        {
+          "delegateName": "a4x",
+          "rewardDistribution": "10939144171268859553",
+          "totalWeightedVotes": "2897825174867095605694136"
+        },
+        ...
+      ],
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.HermesService.HermesAverageStats`
+
+<a name="api-HermesAverageStatsRequest"></a>
+
+### HermesAverageStatsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| rewardAddress | [string](#string) |  | Name of reward address |
+
+
+
+
+
+
+<a name="api-HermesAverageStatsResponse"></a>
+
+### HermesAverageStatsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Hermes has bookkeeping information within the specified epoch range |
+| averagePerEpoch | [HermesAverageStatsResponse.AveragePerEpoch](#api-HermesAverageStatsResponse-AveragePerEpoch) | repeated |  |
+
+
+
+
+
+
+<a name="api-HermesAverageStatsResponse-AveragePerEpoch"></a>
+
+### HermesAverageStatsResponse.AveragePerEpoch
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| rewardDistribution | [string](#string) |  | reward distribution amount on average |
+| totalWeightedVotes | [string](#string) |  | total weighted votes on average |

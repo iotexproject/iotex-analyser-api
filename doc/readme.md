@@ -10,14 +10,10 @@
     - [AliasResponse](#api-AliasResponse)
     - [Erc20TokenBalanceByHeightRequest](#api-Erc20TokenBalanceByHeightRequest)
     - [Erc20TokenBalanceByHeightResponse](#api-Erc20TokenBalanceByHeightResponse)
-    - [HermesDistribution](#api-HermesDistribution)
-    - [HermesRequest](#api-HermesRequest)
-    - [HermesResponse](#api-HermesResponse)
     - [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest)
     - [IotexBalanceByHeightResponse](#api-IotexBalanceByHeightResponse)
     - [OperatorAddressRequest](#api-OperatorAddressRequest)
     - [OperatorAddressResponse](#api-OperatorAddressResponse)
-    - [RewardDistribution](#api-RewardDistribution)
     - [TotalAccountSupplyRequest](#api-TotalAccountSupplyRequest)
     - [TotalAccountSupplyResponse](#api-TotalAccountSupplyResponse)
     - [TotalNumberOfHoldersRequest](#api-TotalNumberOfHoldersRequest)
@@ -82,10 +78,6 @@
     - [BucketInfoRequest](#api-BucketInfoRequest)
     - [BucketInfoResponse](#api-BucketInfoResponse)
     - [DelegateRewardDistribution](#api-DelegateRewardDistribution)
-    - [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio)
-    - [HermesByDelegateRequest](#api-HermesByDelegateRequest)
-    - [HermesByDelegateResponse](#api-HermesByDelegateResponse)
-    - [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo)
     - [ProbationHistoricalRateRequest](#api-ProbationHistoricalRateRequest)
     - [ProbationHistoricalRateResponse](#api-ProbationHistoricalRateResponse)
     - [Productivity](#api-Productivity)
@@ -99,6 +91,26 @@
     - [StakingResponse.StakingInfo](#api-StakingResponse-StakingInfo)
   
     - [DelegateService](#api-DelegateService)
+  
+- [api_hermes.proto](#api_hermes-proto)
+    - [HermesAverageStatsRequest](#api-HermesAverageStatsRequest)
+    - [HermesAverageStatsResponse](#api-HermesAverageStatsResponse)
+    - [HermesAverageStatsResponse.AveragePerEpoch](#api-HermesAverageStatsResponse-AveragePerEpoch)
+    - [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio)
+    - [HermesByDelegateRequest](#api-HermesByDelegateRequest)
+    - [HermesByDelegateResponse](#api-HermesByDelegateResponse)
+    - [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo)
+    - [HermesByVoterRequest](#api-HermesByVoterRequest)
+    - [HermesByVoterResponse](#api-HermesByVoterResponse)
+    - [HermesByVoterResponse.Delegate](#api-HermesByVoterResponse-Delegate)
+    - [HermesDistribution](#api-HermesDistribution)
+    - [HermesMetaRequest](#api-HermesMetaRequest)
+    - [HermesMetaResponse](#api-HermesMetaResponse)
+    - [HermesRequest](#api-HermesRequest)
+    - [HermesResponse](#api-HermesResponse)
+    - [RewardDistribution](#api-RewardDistribution)
+  
+    - [HermesService](#api-HermesService)
   
 - [api_staking.proto](#api_staking-proto)
     - [CandidateVoteByHeightRequest](#api-CandidateVoteByHeightRequest)
@@ -258,58 +270,6 @@
 
 
 
-<a name="api-HermesDistribution"></a>
-
-### HermesDistribution
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| delegateName | [string](#string) |  | delegate name |
-| rewardDistribution | [RewardDistribution](#api-RewardDistribution) | repeated |  |
-| stakingIotexAddress | [string](#string) |  | delegate IoTeX staking address |
-| voterCount | [uint64](#uint64) |  | number of voters |
-| waiveServiceFee | [bool](#bool) |  | whether the delegate is qualified for waiving the service fee |
-| refund | [string](#string) |  | amount of refund |
-
-
-
-
-
-
-<a name="api-HermesRequest"></a>
-
-### HermesRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| startEpoch | [uint64](#uint64) |  | Start epoch number |
-| epochCount | [uint64](#uint64) |  | Number of epochs to query |
-| rewardAddress | [string](#string) |  | Name of reward address |
-
-
-
-
-
-
-<a name="api-HermesResponse"></a>
-
-### HermesResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| hermesDistribution | [HermesDistribution](#api-HermesDistribution) | repeated |  |
-
-
-
-
-
-
 <a name="api-IotexBalanceByHeightRequest"></a>
 
 ### IotexBalanceByHeightRequest
@@ -367,23 +327,6 @@
 | ----- | ---- | ----- | ----------- |
 | exist | [bool](#bool) |  | whether the alias name exists |
 | operatorAddress | [string](#string) |  | operator address associated with the given alias name |
-
-
-
-
-
-
-<a name="api-RewardDistribution"></a>
-
-### RewardDistribution
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
-| voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
-| amount | [string](#string) |  | amount of reward distribution |
 
 
 
@@ -455,7 +398,6 @@
 | ----------- | ------------ | ------------- | ------------|
 | IotexBalanceByHeight | [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest) | [IotexBalanceByHeightResponse](#api-IotexBalanceByHeightResponse) | IotexBalanceByHeight returns the balance of the given address at the given height. |
 | Erc20TokenBalanceByHeight | [Erc20TokenBalanceByHeightRequest](#api-Erc20TokenBalanceByHeightRequest) | [Erc20TokenBalanceByHeightResponse](#api-Erc20TokenBalanceByHeightResponse) |  |
-| Hermes | [HermesRequest](#api-HermesRequest) | [HermesResponse](#api-HermesResponse) | Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs |
 | ActiveAccounts | [ActiveAccountsRequest](#api-ActiveAccountsRequest) | [ActiveAccountsResponse](#api-ActiveAccountsResponse) | ActiveAccounts lists most recently active accounts |
 | OperatorAddress | [OperatorAddressRequest](#api-OperatorAddressRequest) | [OperatorAddressResponse](#api-OperatorAddressResponse) | OperatorAddress finds the delegate&#39;s operator address given the delegate&#39;s alias name |
 | Alias | [AliasRequest](#api-AliasRequest) | [AliasResponse](#api-AliasResponse) | Alias finds the delegate&#39;s alias name given the delegate&#39;s operator address |
@@ -1321,81 +1263,6 @@
 
 
 
-<a name="api-HermesByDelegateDistributionRatio"></a>
-
-### HermesByDelegateDistributionRatio
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| epochNumber | [uint64](#uint64) |  | epoch number |
-| blockRewardRatio | [double](#double) |  | ratio of block reward being distributed |
-| epochRewardRatio | [double](#double) |  | ratio of epoch reward being distributed |
-| foundationBonusRatio | [double](#double) |  | ratio of foundation bonus being distributed |
-
-
-
-
-
-
-<a name="api-HermesByDelegateRequest"></a>
-
-### HermesByDelegateRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| startEpoch | [uint64](#uint64) |  | Epoch number to start from |
-| epochCount | [uint64](#uint64) |  | Number of epochs to query |
-| delegateName | [string](#string) |  | Name of the delegate |
-| pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
-
-
-
-
-
-
-<a name="api-HermesByDelegateResponse"></a>
-
-### HermesByDelegateResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| exist | [bool](#bool) |  | whether the delegate has hermes information within the specified epoch range |
-| count | [uint64](#uint64) |  | total number of reward distributions |
-| voterInfoList | [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo) | repeated |  |
-| totalRewardsDistributed | [string](#string) |  | total reward amount distributed |
-| distributionRatio | [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio) | repeated |  |
-
-
-
-
-
-
-<a name="api-HermesByDelegateVoterInfo"></a>
-
-### HermesByDelegateVoterInfo
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| voterAddress | [string](#string) |  | voter address |
-| fromEpoch | [uint64](#uint64) |  | starting epoch |
-| toEpoch | [uint64](#uint64) |  | ending epoch |
-| amount | [string](#string) |  | distributino amount |
-| actionHash | [string](#string) |  | action hash |
-| timestamp | [string](#string) |  | timestamp |
-
-
-
-
-
-
 <a name="api-ProbationHistoricalRateRequest"></a>
 
 ### ProbationHistoricalRateRequest
@@ -1594,9 +1461,322 @@
 | BookKeeping | [BookKeepingRequest](#api-BookKeepingRequest) | [BookKeepingResponse](#api-BookKeepingResponse) | BookKeeping gives delegates an overview of the reward distributions to their voters within a range of epochs |
 | Productivity | [ProductivityRequest](#api-ProductivityRequest) | [ProductivityResponse](#api-ProductivityResponse) | Productivity gives block productivity of producers within a range of epochs |
 | Reward | [RewardRequest](#api-RewardRequest) | [RewardResponse](#api-RewardResponse) | Rewards provides reward detail information for candidates within a range of epochs |
-| HermesByDelegate | [HermesByDelegateRequest](#api-HermesByDelegateRequest) | [HermesByDelegateResponse](#api-HermesByDelegateResponse) | HermesByDelegate returns Hermes delegates&#39; distribution history |
 | Staking | [StakingRequest](#api-StakingRequest) | [StakingResponse](#api-StakingResponse) | Staking provides staking information for candidates within a range of epochs |
 | ProbationHistoricalRate | [ProbationHistoricalRateRequest](#api-ProbationHistoricalRateRequest) | [ProbationHistoricalRateResponse](#api-ProbationHistoricalRateResponse) | ProbationHistoricalRate provides the rate of probation for a given delegate |
+
+ 
+
+
+
+<a name="api_hermes-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api_hermes.proto
+
+
+
+<a name="api-HermesAverageStatsRequest"></a>
+
+### HermesAverageStatsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+| rewardAddress | [string](#string) |  | Name of reward address |
+
+
+
+
+
+
+<a name="api-HermesAverageStatsResponse"></a>
+
+### HermesAverageStatsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Hermes has bookkeeping information within the specified epoch range |
+| averagePerEpoch | [HermesAverageStatsResponse.AveragePerEpoch](#api-HermesAverageStatsResponse-AveragePerEpoch) | repeated |  |
+
+
+
+
+
+
+<a name="api-HermesAverageStatsResponse-AveragePerEpoch"></a>
+
+### HermesAverageStatsResponse.AveragePerEpoch
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| rewardDistribution | [string](#string) |  | reward distribution amount on average |
+| totalWeightedVotes | [string](#string) |  | total weighted votes on average |
+
+
+
+
+
+
+<a name="api-HermesByDelegateDistributionRatio"></a>
+
+### HermesByDelegateDistributionRatio
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| blockRewardRatio | [double](#double) |  | ratio of block reward being distributed |
+| epochRewardRatio | [double](#double) |  | ratio of epoch reward being distributed |
+| foundationBonusRatio | [double](#double) |  | ratio of foundation bonus being distributed |
+
+
+
+
+
+
+<a name="api-HermesByDelegateRequest"></a>
+
+### HermesByDelegateRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | Epoch number to start from |
+| epochCount | [uint64](#uint64) |  | Number of epochs to query |
+| delegateName | [string](#string) |  | Name of the delegate |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
+
+
+
+
+
+
+<a name="api-HermesByDelegateResponse"></a>
+
+### HermesByDelegateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the delegate has hermes information within the specified epoch range |
+| count | [uint64](#uint64) |  | total number of reward distributions |
+| voterInfoList | [HermesByDelegateVoterInfo](#api-HermesByDelegateVoterInfo) | repeated |  |
+| totalRewardsDistributed | [string](#string) |  | total reward amount distributed |
+| distributionRatio | [HermesByDelegateDistributionRatio](#api-HermesByDelegateDistributionRatio) | repeated |  |
+
+
+
+
+
+
+<a name="api-HermesByDelegateVoterInfo"></a>
+
+### HermesByDelegateVoterInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| voterAddress | [string](#string) |  | voter address |
+| fromEpoch | [uint64](#uint64) |  | starting epoch |
+| toEpoch | [uint64](#uint64) |  | ending epoch |
+| amount | [string](#string) |  | distributino amount |
+| actHash | [string](#string) |  | action hash |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+
+
+
+
+
+
+<a name="api-HermesByVoterRequest"></a>
+
+### HermesByVoterRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | Start epoch number |
+| epochCount | [uint64](#uint64) |  | Number of epochs to query |
+| voterAddress | [string](#string) |  | voter address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-HermesByVoterResponse"></a>
+
+### HermesByVoterResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the voter uses Hermes within the specified epoch range |
+| delegates | [HermesByVoterResponse.Delegate](#api-HermesByVoterResponse-Delegate) | repeated |  |
+| count | [uint64](#uint64) |  | total number of reward receivings |
+| totalRewardReceived | [string](#string) |  | total reward amount received |
+
+
+
+
+
+
+<a name="api-HermesByVoterResponse-Delegate"></a>
+
+### HermesByVoterResponse.Delegate
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| fromEpoch | [uint64](#uint64) |  | starting epoch of bookkeeping |
+| toEpoch | [uint64](#uint64) |  | ending epoch of bookkeeping |
+| amount | [string](#string) |  | receiving amount |
+| actHash | [string](#string) |  | action hash |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+
+
+
+
+
+
+<a name="api-HermesDistribution"></a>
+
+### HermesDistribution
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| rewardDistribution | [RewardDistribution](#api-RewardDistribution) | repeated |  |
+| stakingIotexAddress | [string](#string) |  | delegate IoTeX staking address |
+| voterCount | [uint64](#uint64) |  | number of voters |
+| waiveServiceFee | [bool](#bool) |  | whether the delegate is qualified for waiving the service fee |
+| refund | [string](#string) |  | amount of refund |
+
+
+
+
+
+
+<a name="api-HermesMetaRequest"></a>
+
+### HermesMetaRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-HermesMetaResponse"></a>
+
+### HermesMetaResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether Hermes has bookkeeping information within the specified epoch range |
+| numberOfDelegates | [uint64](#uint64) |  | number of Hermes delegates within the epoch range |
+| numberOfRecipients | [uint64](#uint64) |  | number of voters who vote for Hermes delegates within the epoch range |
+| totalRewardDistributed | [string](#string) |  | total reward amount distributed within the epoch range |
+
+
+
+
+
+
+<a name="api-HermesRequest"></a>
+
+### HermesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | Start epoch number |
+| epochCount | [uint64](#uint64) |  | Number of epochs to query |
+| rewardAddress | [string](#string) |  | Name of reward address |
+
+
+
+
+
+
+<a name="api-HermesResponse"></a>
+
+### HermesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| hermesDistribution | [HermesDistribution](#api-HermesDistribution) | repeated |  |
+
+
+
+
+
+
+<a name="api-RewardDistribution"></a>
+
+### RewardDistribution
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| voterEthAddress | [string](#string) |  | voter’s ERC20 address |
+| voterIotexAddress | [string](#string) |  | voter’s IoTeX address |
+| amount | [string](#string) |  | amount of reward distribution |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-HermesService"></a>
+
+### HermesService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Hermes | [HermesRequest](#api-HermesRequest) | [HermesResponse](#api-HermesResponse) | Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs |
+| HermesByVoter | [HermesByVoterRequest](#api-HermesByVoterRequest) | [HermesByVoterResponse](#api-HermesByVoterResponse) | HermesByVoter returns Hermes voters&#39; receiving history |
+| HermesByDelegate | [HermesByDelegateRequest](#api-HermesByDelegateRequest) | [HermesByDelegateResponse](#api-HermesByDelegateResponse) | HermesByDelegate returns Hermes delegates&#39; distribution history |
+| HermesMeta | [HermesMetaRequest](#api-HermesMetaRequest) | [HermesMetaResponse](#api-HermesMetaResponse) | HermesMeta provides Hermes platform metadata |
+| HermesAverageStats | [HermesAverageStatsRequest](#api-HermesAverageStatsRequest) | [HermesAverageStatsResponse](#api-HermesAverageStatsResponse) | HermesAverageStats returns the Hermes average statistics |
 
  
 

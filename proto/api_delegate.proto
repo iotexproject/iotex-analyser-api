@@ -92,37 +92,6 @@ message RewardResponse {
   Reward reward = 1;
 }
 
-message HermesByDelegateRequest {
-  uint64 startEpoch = 1; // Epoch number to start from
-  uint64 epochCount = 2; // Number of epochs to query
-  string delegateName =3; // Name of the delegate
-  pagination.Pagination pagination = 4; //Pagination info
-}
-
-message HermesByDelegateVoterInfo {
-	string voterAddress = 1; // voter address
-	uint64 fromEpoch = 2; // starting epoch 
-	uint64 toEpoch = 3; // ending epoch
-	string amount = 4; // distributino amount
-	string actionHash = 5; // action hash
-	string timestamp = 6; // timestamp
-}
-
-message HermesByDelegateDistributionRatio {
-  uint64 epochNumber = 1; //epoch number
-  double blockRewardRatio = 2; // ratio of block reward being distributed
-  double epochRewardRatio = 3; // ratio of epoch reward being distributed
-  double foundationBonusRatio = 4; // ratio of foundation bonus being distributed
-}
-
-message HermesByDelegateResponse {
-  bool exist = 1; // whether the delegate has hermes information within the specified epoch range
-  uint64 count = 2; // total number of reward distributions
-  repeated HermesByDelegateVoterInfo voterInfoList = 3;
-  string totalRewardsDistributed = 4; // total reward amount distributed
-  repeated HermesByDelegateDistributionRatio distributionRatio = 5;
-}
-
 message StakingRequest {
   uint64 startEpoch = 1; // starting epoch number
   uint64 epochCount = 2; // epoch count
@@ -195,17 +164,7 @@ service DelegateService {
       body: "*"
     };
   };
-  // HermesByDelegate returns Hermes delegates' distribution history
-  rpc HermesByDelegate(HermesByDelegateRequest) returns (HermesByDelegateResponse) {
-    option (graphql.schema) = {
-      type: QUERY
-      name: "HermesByDelegate"
-    };
-    option (google.api.http) = {
-      post: "/api.DelegateService.HermesByDelegate"
-      body: "*"
-    };
-  };
+
   // Staking provides staking information for candidates within a range of epochs
   rpc Staking(StakingRequest) returns (StakingResponse) {
     option (graphql.schema) = {

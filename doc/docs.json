@@ -216,162 +216,6 @@
           ]
         },
         {
-          "name": "HermesDistribution",
-          "longName": "HermesDistribution",
-          "fullName": "api.HermesDistribution",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "delegateName",
-              "description": "delegate name",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "rewardDistribution",
-              "description": "",
-              "label": "repeated",
-              "type": "RewardDistribution",
-              "longType": "RewardDistribution",
-              "fullType": "api.RewardDistribution",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "stakingIotexAddress",
-              "description": "delegate IoTeX staking address",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "voterCount",
-              "description": "number of voters",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "waiveServiceFee",
-              "description": "whether the delegate is qualified for waiving the service fee",
-              "label": "",
-              "type": "bool",
-              "longType": "bool",
-              "fullType": "bool",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "refund",
-              "description": "amount of refund",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "HermesRequest",
-          "longName": "HermesRequest",
-          "fullName": "api.HermesRequest",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "startEpoch",
-              "description": "Start epoch number",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "epochCount",
-              "description": "Number of epochs to query",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "rewardAddress",
-              "description": "Name of reward address",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "HermesResponse",
-          "longName": "HermesResponse",
-          "fullName": "api.HermesResponse",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "hermesDistribution",
-              "description": "",
-              "label": "repeated",
-              "type": "HermesDistribution",
-              "longType": "HermesDistribution",
-              "fullType": "api.HermesDistribution",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
           "name": "IotexBalanceByHeightRequest",
           "longName": "IotexBalanceByHeightRequest",
           "fullName": "api.IotexBalanceByHeightRequest",
@@ -504,54 +348,6 @@
           ]
         },
         {
-          "name": "RewardDistribution",
-          "longName": "RewardDistribution",
-          "fullName": "api.RewardDistribution",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "voterEthAddress",
-              "description": "voter’s ERC20 address",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "voterIotexAddress",
-              "description": "voter’s IoTeX address",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "amount",
-              "description": "amount of reward distribution",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
           "name": "TotalAccountSupplyRequest",
           "longName": "TotalAccountSupplyRequest",
           "fullName": "api.TotalAccountSupplyRequest",
@@ -669,29 +465,6 @@
                     {
                       "method": "POST",
                       "pattern": "/api.AccountService.Erc20TokenBalanceByHeight",
-                      "body": "*"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "name": "Hermes",
-              "description": "Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs",
-              "requestType": "HermesRequest",
-              "requestLongType": "HermesRequest",
-              "requestFullType": "api.HermesRequest",
-              "requestStreaming": false,
-              "responseType": "HermesResponse",
-              "responseLongType": "HermesResponse",
-              "responseFullType": "api.HermesResponse",
-              "responseStreaming": false,
-              "options": {
-                "google.api.http": {
-                  "rules": [
-                    {
-                      "method": "POST",
-                      "pattern": "/api.AccountService.Hermes",
                       "body": "*"
                     }
                   ]
@@ -3706,282 +3479,6 @@
           ]
         },
         {
-          "name": "HermesByDelegateDistributionRatio",
-          "longName": "HermesByDelegateDistributionRatio",
-          "fullName": "api.HermesByDelegateDistributionRatio",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "epochNumber",
-              "description": "epoch number",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "blockRewardRatio",
-              "description": "ratio of block reward being distributed",
-              "label": "",
-              "type": "double",
-              "longType": "double",
-              "fullType": "double",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "epochRewardRatio",
-              "description": "ratio of epoch reward being distributed",
-              "label": "",
-              "type": "double",
-              "longType": "double",
-              "fullType": "double",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "foundationBonusRatio",
-              "description": "ratio of foundation bonus being distributed",
-              "label": "",
-              "type": "double",
-              "longType": "double",
-              "fullType": "double",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "HermesByDelegateRequest",
-          "longName": "HermesByDelegateRequest",
-          "fullName": "api.HermesByDelegateRequest",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "startEpoch",
-              "description": "Epoch number to start from",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "epochCount",
-              "description": "Number of epochs to query",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "delegateName",
-              "description": "Name of the delegate",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "pagination",
-              "description": "Pagination info",
-              "label": "",
-              "type": "Pagination",
-              "longType": "pagination.Pagination",
-              "fullType": "pagination.Pagination",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "HermesByDelegateResponse",
-          "longName": "HermesByDelegateResponse",
-          "fullName": "api.HermesByDelegateResponse",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "exist",
-              "description": "whether the delegate has hermes information within the specified epoch range",
-              "label": "",
-              "type": "bool",
-              "longType": "bool",
-              "fullType": "bool",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "count",
-              "description": "total number of reward distributions",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "voterInfoList",
-              "description": "",
-              "label": "repeated",
-              "type": "HermesByDelegateVoterInfo",
-              "longType": "HermesByDelegateVoterInfo",
-              "fullType": "api.HermesByDelegateVoterInfo",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "totalRewardsDistributed",
-              "description": "total reward amount distributed",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "distributionRatio",
-              "description": "",
-              "label": "repeated",
-              "type": "HermesByDelegateDistributionRatio",
-              "longType": "HermesByDelegateDistributionRatio",
-              "fullType": "api.HermesByDelegateDistributionRatio",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
-          "name": "HermesByDelegateVoterInfo",
-          "longName": "HermesByDelegateVoterInfo",
-          "fullName": "api.HermesByDelegateVoterInfo",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": false,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "voterAddress",
-              "description": "voter address",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "fromEpoch",
-              "description": "starting epoch",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "toEpoch",
-              "description": "ending epoch",
-              "label": "",
-              "type": "uint64",
-              "longType": "uint64",
-              "fullType": "uint64",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "amount",
-              "description": "distributino amount",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "actionHash",
-              "description": "action hash",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            },
-            {
-              "name": "timestamp",
-              "description": "timestamp",
-              "label": "",
-              "type": "string",
-              "longType": "string",
-              "fullType": "string",
-              "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
           "name": "ProbationHistoricalRateRequest",
           "longName": "ProbationHistoricalRateRequest",
           "fullName": "api.ProbationHistoricalRateRequest",
@@ -4538,29 +4035,6 @@
               }
             },
             {
-              "name": "HermesByDelegate",
-              "description": "HermesByDelegate returns Hermes delegates' distribution history",
-              "requestType": "HermesByDelegateRequest",
-              "requestLongType": "HermesByDelegateRequest",
-              "requestFullType": "api.HermesByDelegateRequest",
-              "requestStreaming": false,
-              "responseType": "HermesByDelegateResponse",
-              "responseLongType": "HermesByDelegateResponse",
-              "responseFullType": "api.HermesByDelegateResponse",
-              "responseStreaming": false,
-              "options": {
-                "google.api.http": {
-                  "rules": [
-                    {
-                      "method": "POST",
-                      "pattern": "/api.DelegateService.HermesByDelegate",
-                      "body": "*"
-                    }
-                  ]
-                }
-              }
-            },
-            {
               "name": "Staking",
               "description": "Staking provides staking information for candidates within a range of epochs",
               "requestType": "StakingRequest",
@@ -4600,6 +4074,1056 @@
                     {
                       "method": "POST",
                       "pattern": "/api.DelegateService.ProbationHistoricalRate",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api_hermes.proto",
+      "description": "",
+      "package": "api",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": true,
+      "enums": [],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "HermesAverageStatsRequest",
+          "longName": "HermesAverageStatsRequest",
+          "fullName": "api.HermesAverageStatsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "rewardAddress",
+              "description": "Name of reward address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesAverageStatsResponse",
+          "longName": "HermesAverageStatsResponse",
+          "fullName": "api.HermesAverageStatsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Hermes has bookkeeping information within the specified epoch range",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "averagePerEpoch",
+              "description": "",
+              "label": "repeated",
+              "type": "AveragePerEpoch",
+              "longType": "HermesAverageStatsResponse.AveragePerEpoch",
+              "fullType": "api.HermesAverageStatsResponse.AveragePerEpoch",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "AveragePerEpoch",
+          "longName": "HermesAverageStatsResponse.AveragePerEpoch",
+          "fullName": "api.HermesAverageStatsResponse.AveragePerEpoch",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "delegateName",
+              "description": "delegate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "rewardDistribution",
+              "description": "reward distribution amount on average",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalWeightedVotes",
+              "description": "total weighted votes on average",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesByDelegateDistributionRatio",
+          "longName": "HermesByDelegateDistributionRatio",
+          "fullName": "api.HermesByDelegateDistributionRatio",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "epochNumber",
+              "description": "epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "blockRewardRatio",
+              "description": "ratio of block reward being distributed",
+              "label": "",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochRewardRatio",
+              "description": "ratio of epoch reward being distributed",
+              "label": "",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "foundationBonusRatio",
+              "description": "ratio of foundation bonus being distributed",
+              "label": "",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesByDelegateRequest",
+          "longName": "HermesByDelegateRequest",
+          "fullName": "api.HermesByDelegateRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "Epoch number to start from",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "Number of epochs to query",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "delegateName",
+              "description": "Name of the delegate",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "Pagination info",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesByDelegateResponse",
+          "longName": "HermesByDelegateResponse",
+          "fullName": "api.HermesByDelegateResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the delegate has hermes information within the specified epoch range",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of reward distributions",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "voterInfoList",
+              "description": "",
+              "label": "repeated",
+              "type": "HermesByDelegateVoterInfo",
+              "longType": "HermesByDelegateVoterInfo",
+              "fullType": "api.HermesByDelegateVoterInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalRewardsDistributed",
+              "description": "total reward amount distributed",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "distributionRatio",
+              "description": "",
+              "label": "repeated",
+              "type": "HermesByDelegateDistributionRatio",
+              "longType": "HermesByDelegateDistributionRatio",
+              "fullType": "api.HermesByDelegateDistributionRatio",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesByDelegateVoterInfo",
+          "longName": "HermesByDelegateVoterInfo",
+          "fullName": "api.HermesByDelegateVoterInfo",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "voterAddress",
+              "description": "voter address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "fromEpoch",
+              "description": "starting epoch",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "toEpoch",
+              "description": "ending epoch",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "distributino amount",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "actHash",
+              "description": "action hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "timestamp",
+              "description": "unix timestamp",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesByVoterRequest",
+          "longName": "HermesByVoterRequest",
+          "fullName": "api.HermesByVoterRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "Start epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "Number of epochs to query",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "voterAddress",
+              "description": "voter address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesByVoterResponse",
+          "longName": "HermesByVoterResponse",
+          "fullName": "api.HermesByVoterResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the voter uses Hermes within the specified epoch range",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "delegates",
+              "description": "",
+              "label": "repeated",
+              "type": "Delegate",
+              "longType": "HermesByVoterResponse.Delegate",
+              "fullType": "api.HermesByVoterResponse.Delegate",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total number of reward receivings",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalRewardReceived",
+              "description": "total reward amount received",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Delegate",
+          "longName": "HermesByVoterResponse.Delegate",
+          "fullName": "api.HermesByVoterResponse.Delegate",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "delegateName",
+              "description": "delegate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "fromEpoch",
+              "description": "starting epoch of bookkeeping",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "toEpoch",
+              "description": "ending epoch of bookkeeping",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "receiving amount",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "actHash",
+              "description": "action hash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "timestamp",
+              "description": "unix timestamp",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesDistribution",
+          "longName": "HermesDistribution",
+          "fullName": "api.HermesDistribution",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "delegateName",
+              "description": "delegate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "rewardDistribution",
+              "description": "",
+              "label": "repeated",
+              "type": "RewardDistribution",
+              "longType": "RewardDistribution",
+              "fullType": "api.RewardDistribution",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "stakingIotexAddress",
+              "description": "delegate IoTeX staking address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "voterCount",
+              "description": "number of voters",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "waiveServiceFee",
+              "description": "whether the delegate is qualified for waiving the service fee",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "refund",
+              "description": "amount of refund",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesMetaRequest",
+          "longName": "HermesMetaRequest",
+          "fullName": "api.HermesMetaRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesMetaResponse",
+          "longName": "HermesMetaResponse",
+          "fullName": "api.HermesMetaResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether Hermes has bookkeeping information within the specified epoch range",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "numberOfDelegates",
+              "description": "number of Hermes delegates within the epoch range",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "numberOfRecipients",
+              "description": "number of voters who vote for Hermes delegates within the epoch range",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalRewardDistributed",
+              "description": "total reward amount distributed within the epoch range",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesRequest",
+          "longName": "HermesRequest",
+          "fullName": "api.HermesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "Start epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "Number of epochs to query",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "rewardAddress",
+              "description": "Name of reward address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesResponse",
+          "longName": "HermesResponse",
+          "fullName": "api.HermesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "hermesDistribution",
+              "description": "",
+              "label": "repeated",
+              "type": "HermesDistribution",
+              "longType": "HermesDistribution",
+              "fullType": "api.HermesDistribution",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "RewardDistribution",
+          "longName": "RewardDistribution",
+          "fullName": "api.RewardDistribution",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "voterEthAddress",
+              "description": "voter’s ERC20 address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "voterIotexAddress",
+              "description": "voter’s IoTeX address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "amount of reward distribution",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "HermesService",
+          "longName": "HermesService",
+          "fullName": "api.HermesService",
+          "description": "",
+          "methods": [
+            {
+              "name": "Hermes",
+              "description": "Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs",
+              "requestType": "HermesRequest",
+              "requestLongType": "HermesRequest",
+              "requestFullType": "api.HermesRequest",
+              "requestStreaming": false,
+              "responseType": "HermesResponse",
+              "responseLongType": "HermesResponse",
+              "responseFullType": "api.HermesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.HermesService.Hermes",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "HermesByVoter",
+              "description": "HermesByVoter returns Hermes voters' receiving history",
+              "requestType": "HermesByVoterRequest",
+              "requestLongType": "HermesByVoterRequest",
+              "requestFullType": "api.HermesByVoterRequest",
+              "requestStreaming": false,
+              "responseType": "HermesByVoterResponse",
+              "responseLongType": "HermesByVoterResponse",
+              "responseFullType": "api.HermesByVoterResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.HermesService.HermesByVoter",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "HermesByDelegate",
+              "description": "HermesByDelegate returns Hermes delegates' distribution history",
+              "requestType": "HermesByDelegateRequest",
+              "requestLongType": "HermesByDelegateRequest",
+              "requestFullType": "api.HermesByDelegateRequest",
+              "requestStreaming": false,
+              "responseType": "HermesByDelegateResponse",
+              "responseLongType": "HermesByDelegateResponse",
+              "responseFullType": "api.HermesByDelegateResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.HermesService.HermesByDelegate",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "HermesMeta",
+              "description": "HermesMeta provides Hermes platform metadata",
+              "requestType": "HermesMetaRequest",
+              "requestLongType": "HermesMetaRequest",
+              "requestFullType": "api.HermesMetaRequest",
+              "requestStreaming": false,
+              "responseType": "HermesMetaResponse",
+              "responseLongType": "HermesMetaResponse",
+              "responseFullType": "api.HermesMetaResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.HermesService.HermesMeta",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "HermesAverageStats",
+              "description": "HermesAverageStats returns the Hermes average statistics",
+              "requestType": "HermesAverageStatsRequest",
+              "requestLongType": "HermesAverageStatsRequest",
+              "requestFullType": "api.HermesAverageStatsRequest",
+              "requestStreaming": false,
+              "responseType": "HermesAverageStatsResponse",
+              "responseLongType": "HermesAverageStatsResponse",
+              "responseFullType": "api.HermesAverageStatsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.HermesService.HermesAverageStats",
                       "body": "*"
                     }
                   ]

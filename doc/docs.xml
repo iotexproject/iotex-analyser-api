@@ -251,160 +251,6 @@
       
     </section>
     
-    <section id="api.HermesDistribution">
-      <title>HermesDistribution</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>HermesDistribution</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>delegateName</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>delegate name</para></entry>
-            </row>
-            
-            <row>
-              <entry>rewardDistribution</entry>
-              <entry><link linkend="api.RewardDistribution">RewardDistribution</link></entry>
-              <entry>repeated</entry>
-              <entry><para></para></entry>
-            </row>
-            
-            <row>
-              <entry>stakingIotexAddress</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>delegate IoTeX staking address</para></entry>
-            </row>
-            
-            <row>
-              <entry>voterCount</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>number of voters</para></entry>
-            </row>
-            
-            <row>
-              <entry>waiveServiceFee</entry>
-              <entry><link linkend="bool">bool</link></entry>
-              <entry></entry>
-              <entry><para>whether the delegate is qualified for waiving the service fee</para></entry>
-            </row>
-            
-            <row>
-              <entry>refund</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>amount of refund</para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
-    <section id="api.HermesRequest">
-      <title>HermesRequest</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>HermesRequest</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>startEpoch</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>Start epoch number</para></entry>
-            </row>
-            
-            <row>
-              <entry>epochCount</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>Number of epochs to query</para></entry>
-            </row>
-            
-            <row>
-              <entry>rewardAddress</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>Name of reward address</para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
-    <section id="api.HermesResponse">
-      <title>HermesResponse</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>HermesResponse</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>hermesDistribution</entry>
-              <entry><link linkend="api.HermesDistribution">HermesDistribution</link></entry>
-              <entry>repeated</entry>
-              <entry><para></para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
     <section id="api.IotexBalanceByHeightRequest">
       <title>IotexBalanceByHeightRequest</title>
       <para></para>
@@ -566,55 +412,6 @@
       
     </section>
     
-    <section id="api.RewardDistribution">
-      <title>RewardDistribution</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>RewardDistribution</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>voterEthAddress</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>voter’s ERC20 address</para></entry>
-            </row>
-            
-            <row>
-              <entry>voterIotexAddress</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>voter’s IoTeX address</para></entry>
-            </row>
-            
-            <row>
-              <entry>amount</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>amount of reward distribution</para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
     <section id="api.TotalAccountSupplyRequest">
       <title>TotalAccountSupplyRequest</title>
       <para></para>
@@ -736,13 +533,6 @@
               <entry><link linkend="api.Erc20TokenBalanceByHeightRequest">Erc20TokenBalanceByHeightRequest</link></entry>
               <entry><link linkend="api.Erc20TokenBalanceByHeightResponse">Erc20TokenBalanceByHeightResponse</link></entry>
               <entry><para></para></entry>
-            </row>
-            
-            <row>
-              <entry>Hermes</entry>
-              <entry><link linkend="api.HermesRequest">HermesRequest</link></entry>
-              <entry><link linkend="api.HermesResponse">HermesResponse</link></entry>
-              <entry><para>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</para></entry>
             </row>
             
             <row>
@@ -3326,251 +3116,6 @@
       
     </section>
     
-    <section id="api.HermesByDelegateDistributionRatio">
-      <title>HermesByDelegateDistributionRatio</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>HermesByDelegateDistributionRatio</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>epochNumber</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>epoch number</para></entry>
-            </row>
-            
-            <row>
-              <entry>blockRewardRatio</entry>
-              <entry><link linkend="double">double</link></entry>
-              <entry></entry>
-              <entry><para>ratio of block reward being distributed</para></entry>
-            </row>
-            
-            <row>
-              <entry>epochRewardRatio</entry>
-              <entry><link linkend="double">double</link></entry>
-              <entry></entry>
-              <entry><para>ratio of epoch reward being distributed</para></entry>
-            </row>
-            
-            <row>
-              <entry>foundationBonusRatio</entry>
-              <entry><link linkend="double">double</link></entry>
-              <entry></entry>
-              <entry><para>ratio of foundation bonus being distributed</para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
-    <section id="api.HermesByDelegateRequest">
-      <title>HermesByDelegateRequest</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>HermesByDelegateRequest</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>startEpoch</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>Epoch number to start from</para></entry>
-            </row>
-            
-            <row>
-              <entry>epochCount</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>Number of epochs to query</para></entry>
-            </row>
-            
-            <row>
-              <entry>delegateName</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>Name of the delegate</para></entry>
-            </row>
-            
-            <row>
-              <entry>pagination</entry>
-              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
-              <entry></entry>
-              <entry><para>Pagination info</para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
-    <section id="api.HermesByDelegateResponse">
-      <title>HermesByDelegateResponse</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>HermesByDelegateResponse</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>exist</entry>
-              <entry><link linkend="bool">bool</link></entry>
-              <entry></entry>
-              <entry><para>whether the delegate has hermes information within the specified epoch range</para></entry>
-            </row>
-            
-            <row>
-              <entry>count</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>total number of reward distributions</para></entry>
-            </row>
-            
-            <row>
-              <entry>voterInfoList</entry>
-              <entry><link linkend="api.HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</link></entry>
-              <entry>repeated</entry>
-              <entry><para></para></entry>
-            </row>
-            
-            <row>
-              <entry>totalRewardsDistributed</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>total reward amount distributed</para></entry>
-            </row>
-            
-            <row>
-              <entry>distributionRatio</entry>
-              <entry><link linkend="api.HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</link></entry>
-              <entry>repeated</entry>
-              <entry><para></para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
-    <section id="api.HermesByDelegateVoterInfo">
-      <title>HermesByDelegateVoterInfo</title>
-      <para></para>
-      
-      <table frame="all">
-        <title><classname>HermesByDelegateVoterInfo</classname> Fields</title>
-        <tgroup cols="4">
-          <colspec colwidth="*"/>
-          <colspec colwidth="*"/>
-          <colspec colwidth="0.5*"/>
-          <colspec colwidth="3*"/>
-          <thead>
-            <row>
-              <entry>Field</entry>
-              <entry>Type</entry>
-              <entry>Label</entry>
-              <entry>Description</entry>
-            </row>
-          </thead>
-          <tbody>
-            
-            <row>
-              <entry>voterAddress</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>voter address</para></entry>
-            </row>
-            
-            <row>
-              <entry>fromEpoch</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>starting epoch</para></entry>
-            </row>
-            
-            <row>
-              <entry>toEpoch</entry>
-              <entry><link linkend="uint64">uint64</link></entry>
-              <entry></entry>
-              <entry><para>ending epoch</para></entry>
-            </row>
-            
-            <row>
-              <entry>amount</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>distributino amount</para></entry>
-            </row>
-            
-            <row>
-              <entry>actionHash</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>action hash</para></entry>
-            </row>
-            
-            <row>
-              <entry>timestamp</entry>
-              <entry><link linkend="string">string</link></entry>
-              <entry></entry>
-              <entry><para>timestamp</para></entry>
-            </row>
-            
-          </tbody>
-        </tgroup>
-      </table>
-      
-      
-    </section>
-    
     <section id="api.ProbationHistoricalRateRequest">
       <title>ProbationHistoricalRateRequest</title>
       <para></para>
@@ -4122,13 +3667,6 @@
             </row>
             
             <row>
-              <entry>HermesByDelegate</entry>
-              <entry><link linkend="api.HermesByDelegateRequest">HermesByDelegateRequest</link></entry>
-              <entry><link linkend="api.HermesByDelegateResponse">HermesByDelegateResponse</link></entry>
-              <entry><para>HermesByDelegate returns Hermes delegates' distribution history</para></entry>
-            </row>
-            
-            <row>
               <entry>Staking</entry>
               <entry><link linkend="api.StakingRequest">StakingRequest</link></entry>
               <entry><link linkend="api.StakingResponse">StakingResponse</link></entry>
@@ -4140,6 +3678,945 @@
               <entry><link linkend="api.ProbationHistoricalRateRequest">ProbationHistoricalRateRequest</link></entry>
               <entry><link linkend="api.ProbationHistoricalRateResponse">ProbationHistoricalRateResponse</link></entry>
               <entry><para>ProbationHistoricalRate provides the rate of probation for a given delegate</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>api_hermes.proto</title>
+    <para></para>
+    
+    <section id="api.HermesAverageStatsRequest">
+      <title>HermesAverageStatsRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesAverageStatsRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of reward address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesAverageStatsResponse">
+      <title>HermesAverageStatsResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesAverageStatsResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Hermes has bookkeeping information within the specified epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>averagePerEpoch</entry>
+              <entry><link linkend="api.HermesAverageStatsResponse.AveragePerEpoch">HermesAverageStatsResponse.AveragePerEpoch</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesAverageStatsResponse.AveragePerEpoch">
+      <title>HermesAverageStatsResponse.AveragePerEpoch</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesAverageStatsResponse.AveragePerEpoch</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate name</para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardDistribution</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>reward distribution amount on average</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalWeightedVotes</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total weighted votes on average</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesByDelegateDistributionRatio">
+      <title>HermesByDelegateDistributionRatio</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesByDelegateDistributionRatio</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>epochNumber</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>blockRewardRatio</entry>
+              <entry><link linkend="double">double</link></entry>
+              <entry></entry>
+              <entry><para>ratio of block reward being distributed</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochRewardRatio</entry>
+              <entry><link linkend="double">double</link></entry>
+              <entry></entry>
+              <entry><para>ratio of epoch reward being distributed</para></entry>
+            </row>
+            
+            <row>
+              <entry>foundationBonusRatio</entry>
+              <entry><link linkend="double">double</link></entry>
+              <entry></entry>
+              <entry><para>ratio of foundation bonus being distributed</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesByDelegateRequest">
+      <title>HermesByDelegateRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesByDelegateRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Epoch number to start from</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of the delegate</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para>Pagination info</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesByDelegateResponse">
+      <title>HermesByDelegateResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesByDelegateResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the delegate has hermes information within the specified epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of reward distributions</para></entry>
+            </row>
+            
+            <row>
+              <entry>voterInfoList</entry>
+              <entry><link linkend="api.HermesByDelegateVoterInfo">HermesByDelegateVoterInfo</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>totalRewardsDistributed</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total reward amount distributed</para></entry>
+            </row>
+            
+            <row>
+              <entry>distributionRatio</entry>
+              <entry><link linkend="api.HermesByDelegateDistributionRatio">HermesByDelegateDistributionRatio</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesByDelegateVoterInfo">
+      <title>HermesByDelegateVoterInfo</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesByDelegateVoterInfo</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>voterAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>voter address</para></entry>
+            </row>
+            
+            <row>
+              <entry>fromEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch</para></entry>
+            </row>
+            
+            <row>
+              <entry>toEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>ending epoch</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>distributino amount</para></entry>
+            </row>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>action hash</para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>unix timestamp</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesByVoterRequest">
+      <title>HermesByVoterRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesByVoterRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Start epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>voterAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>voter address</para></entry>
+            </row>
+            
+            <row>
+              <entry>pagination</entry>
+              <entry><link linkend="pagination.Pagination">pagination.Pagination</link></entry>
+              <entry></entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesByVoterResponse">
+      <title>HermesByVoterResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesByVoterResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the voter uses Hermes within the specified epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>delegates</entry>
+              <entry><link linkend="api.HermesByVoterResponse.Delegate">HermesByVoterResponse.Delegate</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>count</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>total number of reward receivings</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalRewardReceived</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total reward amount received</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesByVoterResponse.Delegate">
+      <title>HermesByVoterResponse.Delegate</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesByVoterResponse.Delegate</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate name</para></entry>
+            </row>
+            
+            <row>
+              <entry>fromEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch of bookkeeping</para></entry>
+            </row>
+            
+            <row>
+              <entry>toEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>ending epoch of bookkeeping</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>receiving amount</para></entry>
+            </row>
+            
+            <row>
+              <entry>actHash</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>action hash</para></entry>
+            </row>
+            
+            <row>
+              <entry>timestamp</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>unix timestamp</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesDistribution">
+      <title>HermesDistribution</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesDistribution</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>delegateName</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate name</para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardDistribution</entry>
+              <entry><link linkend="api.RewardDistribution">RewardDistribution</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+            <row>
+              <entry>stakingIotexAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>delegate IoTeX staking address</para></entry>
+            </row>
+            
+            <row>
+              <entry>voterCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of voters</para></entry>
+            </row>
+            
+            <row>
+              <entry>waiveServiceFee</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the delegate is qualified for waiving the service fee</para></entry>
+            </row>
+            
+            <row>
+              <entry>refund</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>amount of refund</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesMetaRequest">
+      <title>HermesMetaRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesMetaRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesMetaResponse">
+      <title>HermesMetaResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesMetaResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether Hermes has bookkeeping information within the specified epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>numberOfDelegates</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of Hermes delegates within the epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>numberOfRecipients</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of voters who vote for Hermes delegates within the epoch range</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalRewardDistributed</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total reward amount distributed within the epoch range</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesRequest">
+      <title>HermesRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Start epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>Number of epochs to query</para></entry>
+            </row>
+            
+            <row>
+              <entry>rewardAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>Name of reward address</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.HermesResponse">
+      <title>HermesResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>HermesResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>hermesDistribution</entry>
+              <entry><link linkend="api.HermesDistribution">HermesDistribution</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.RewardDistribution">
+      <title>RewardDistribution</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>RewardDistribution</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>voterEthAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>voter’s ERC20 address</para></entry>
+            </row>
+            
+            <row>
+              <entry>voterIotexAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>voter’s IoTeX address</para></entry>
+            </row>
+            
+            <row>
+              <entry>amount</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>amount of reward distribution</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    
+
+    
+
+    
+    <section id="api.HermesService">
+      <title>HermesService</title>
+      <para></para>
+      <table frame="all">
+        <title><classname>HermesService</classname> Methods</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Method Name</entry>
+              <entry>Request Type</entry>
+              <entry>Response Type</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>Hermes</entry>
+              <entry><link linkend="api.HermesRequest">HermesRequest</link></entry>
+              <entry><link linkend="api.HermesResponse">HermesResponse</link></entry>
+              <entry><para>Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs</para></entry>
+            </row>
+            
+            <row>
+              <entry>HermesByVoter</entry>
+              <entry><link linkend="api.HermesByVoterRequest">HermesByVoterRequest</link></entry>
+              <entry><link linkend="api.HermesByVoterResponse">HermesByVoterResponse</link></entry>
+              <entry><para>HermesByVoter returns Hermes voters' receiving history</para></entry>
+            </row>
+            
+            <row>
+              <entry>HermesByDelegate</entry>
+              <entry><link linkend="api.HermesByDelegateRequest">HermesByDelegateRequest</link></entry>
+              <entry><link linkend="api.HermesByDelegateResponse">HermesByDelegateResponse</link></entry>
+              <entry><para>HermesByDelegate returns Hermes delegates' distribution history</para></entry>
+            </row>
+            
+            <row>
+              <entry>HermesMeta</entry>
+              <entry><link linkend="api.HermesMetaRequest">HermesMetaRequest</link></entry>
+              <entry><link linkend="api.HermesMetaResponse">HermesMetaResponse</link></entry>
+              <entry><para>HermesMeta provides Hermes platform metadata</para></entry>
+            </row>
+            
+            <row>
+              <entry>HermesAverageStats</entry>
+              <entry><link linkend="api.HermesAverageStatsRequest">HermesAverageStatsRequest</link></entry>
+              <entry><link linkend="api.HermesAverageStatsResponse">HermesAverageStatsResponse</link></entry>
+              <entry><para>HermesAverageStats returns the Hermes average statistics</para></entry>
             </row>
             
           </tbody>

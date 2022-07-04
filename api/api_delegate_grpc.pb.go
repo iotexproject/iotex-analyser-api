@@ -26,8 +26,6 @@ type DelegateServiceClient interface {
 	Productivity(ctx context.Context, in *ProductivityRequest, opts ...grpc.CallOption) (*ProductivityResponse, error)
 	// Rewards provides reward detail information for candidates within a range of epochs
 	Reward(ctx context.Context, in *RewardRequest, opts ...grpc.CallOption) (*RewardResponse, error)
-	// HermesByDelegate returns Hermes delegates' distribution history
-	HermesByDelegate(ctx context.Context, in *HermesByDelegateRequest, opts ...grpc.CallOption) (*HermesByDelegateResponse, error)
 	// Staking provides staking information for candidates within a range of epochs
 	Staking(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error)
 	// ProbationHistoricalRate provides the rate of probation for a given delegate
@@ -78,15 +76,6 @@ func (c *delegateServiceClient) Reward(ctx context.Context, in *RewardRequest, o
 	return out, nil
 }
 
-func (c *delegateServiceClient) HermesByDelegate(ctx context.Context, in *HermesByDelegateRequest, opts ...grpc.CallOption) (*HermesByDelegateResponse, error) {
-	out := new(HermesByDelegateResponse)
-	err := c.cc.Invoke(ctx, "/api.DelegateService/HermesByDelegate", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *delegateServiceClient) Staking(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error) {
 	out := new(StakingResponse)
 	err := c.cc.Invoke(ctx, "/api.DelegateService/Staking", in, out, opts...)
@@ -117,8 +106,6 @@ type DelegateServiceServer interface {
 	Productivity(context.Context, *ProductivityRequest) (*ProductivityResponse, error)
 	// Rewards provides reward detail information for candidates within a range of epochs
 	Reward(context.Context, *RewardRequest) (*RewardResponse, error)
-	// HermesByDelegate returns Hermes delegates' distribution history
-	HermesByDelegate(context.Context, *HermesByDelegateRequest) (*HermesByDelegateResponse, error)
 	// Staking provides staking information for candidates within a range of epochs
 	Staking(context.Context, *StakingRequest) (*StakingResponse, error)
 	// ProbationHistoricalRate provides the rate of probation for a given delegate
@@ -141,9 +128,6 @@ func (UnimplementedDelegateServiceServer) Productivity(context.Context, *Product
 }
 func (UnimplementedDelegateServiceServer) Reward(context.Context, *RewardRequest) (*RewardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Reward not implemented")
-}
-func (UnimplementedDelegateServiceServer) HermesByDelegate(context.Context, *HermesByDelegateRequest) (*HermesByDelegateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HermesByDelegate not implemented")
 }
 func (UnimplementedDelegateServiceServer) Staking(context.Context, *StakingRequest) (*StakingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Staking not implemented")
@@ -236,24 +220,6 @@ func _DelegateService_Reward_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DelegateService_HermesByDelegate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HermesByDelegateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DelegateServiceServer).HermesByDelegate(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.DelegateService/HermesByDelegate",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DelegateServiceServer).HermesByDelegate(ctx, req.(*HermesByDelegateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _DelegateService_Staking_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StakingRequest)
 	if err := dec(in); err != nil {
@@ -312,10 +278,6 @@ var DelegateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Reward",
 			Handler:    _DelegateService_Reward_Handler,
-		},
-		{
-			MethodName: "HermesByDelegate",
-			Handler:    _DelegateService_HermesByDelegate_Handler,
 		},
 		{
 			MethodName: "Staking",
