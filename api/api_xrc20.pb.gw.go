@@ -467,7 +467,7 @@ func RegisterXRC20ServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 }
 
 var (
-	pattern_XRC20Service_XRC20ByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.XRCc20Service.XRC20ByAddress"}, ""))
+	pattern_XRC20Service_XRC20ByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.XRC20Service.XRC20ByAddress"}, ""))
 
 	pattern_XRC20Service_XRC20ByContractAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.XRC20Service.XRC20ByContractAddress"}, ""))
 
@@ -475,7 +475,7 @@ var (
 
 	pattern_XRC20Service_XRC20Addresses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.XRC20Service.XRC20Addresses"}, ""))
 
-	pattern_XRC20Service_XRC20TokenHolderAddresses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.XRCc20Service.XRC20TokenHolderAddresses"}, ""))
+	pattern_XRC20Service_XRC20TokenHolderAddresses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.XRC20Service.XRC20TokenHolderAddresses"}, ""))
 )
 
 var (

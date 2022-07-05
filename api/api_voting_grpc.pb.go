@@ -21,6 +21,8 @@ type VotingServiceClient interface {
 	CandidateInfo(ctx context.Context, in *CandidateInfoRequest, opts ...grpc.CallOption) (*CandidateInfoResponse, error)
 	// RewardSources provides reward sources for voters
 	RewardSources(ctx context.Context, in *RewardSourcesRequest, opts ...grpc.CallOption) (*RewardSourcesResponse, error)
+	// VotingMeta provides metadata of voting results
+	VotingMeta(ctx context.Context, in *VotingMetaRequest, opts ...grpc.CallOption) (*VotingMetaResponse, error)
 }
 
 type votingServiceClient struct {
@@ -49,6 +51,15 @@ func (c *votingServiceClient) RewardSources(ctx context.Context, in *RewardSourc
 	return out, nil
 }
 
+func (c *votingServiceClient) VotingMeta(ctx context.Context, in *VotingMetaRequest, opts ...grpc.CallOption) (*VotingMetaResponse, error) {
+	out := new(VotingMetaResponse)
+	err := c.cc.Invoke(ctx, "/api.VotingService/VotingMeta", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VotingServiceServer is the server API for VotingService service.
 // All implementations must embed UnimplementedVotingServiceServer
 // for forward compatibility
@@ -56,6 +67,8 @@ type VotingServiceServer interface {
 	CandidateInfo(context.Context, *CandidateInfoRequest) (*CandidateInfoResponse, error)
 	// RewardSources provides reward sources for voters
 	RewardSources(context.Context, *RewardSourcesRequest) (*RewardSourcesResponse, error)
+	// VotingMeta provides metadata of voting results
+	VotingMeta(context.Context, *VotingMetaRequest) (*VotingMetaResponse, error)
 	mustEmbedUnimplementedVotingServiceServer()
 }
 
@@ -68,6 +81,9 @@ func (UnimplementedVotingServiceServer) CandidateInfo(context.Context, *Candidat
 }
 func (UnimplementedVotingServiceServer) RewardSources(context.Context, *RewardSourcesRequest) (*RewardSourcesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RewardSources not implemented")
+}
+func (UnimplementedVotingServiceServer) VotingMeta(context.Context, *VotingMetaRequest) (*VotingMetaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VotingMeta not implemented")
 }
 func (UnimplementedVotingServiceServer) mustEmbedUnimplementedVotingServiceServer() {}
 
@@ -118,6 +134,24 @@ func _VotingService_RewardSources_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VotingService_VotingMeta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VotingMetaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VotingServiceServer).VotingMeta(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.VotingService/VotingMeta",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VotingServiceServer).VotingMeta(ctx, req.(*VotingMetaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VotingService_ServiceDesc is the grpc.ServiceDesc for VotingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -132,6 +166,10 @@ var VotingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RewardSources",
 			Handler:    _VotingService_RewardSources_Handler,
+		},
+		{
+			MethodName: "VotingMeta",
+			Handler:    _VotingService_VotingMeta_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

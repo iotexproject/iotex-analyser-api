@@ -5191,6 +5191,146 @@
       
     </section>
     
+    <section id="api.VotingMetaRequest">
+      <title>VotingMetaRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>VotingMetaRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>startEpoch</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>starting epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>epochCount</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch count</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.VotingMetaResponse">
+      <title>VotingMetaResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>VotingMetaResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>exist</entry>
+              <entry><link linkend="bool">bool</link></entry>
+              <entry></entry>
+              <entry><para>whether the starting epoch number is less than the most recent epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>candidateMeta</entry>
+              <entry><link linkend="api.VotingMetaResponse.CandidateMeta">VotingMetaResponse.CandidateMeta</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.VotingMetaResponse.CandidateMeta">
+      <title>VotingMetaResponse.CandidateMeta</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>VotingMetaResponse.CandidateMeta</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>epochNumber</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>epoch number</para></entry>
+            </row>
+            
+            <row>
+              <entry>consensusDelegates</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of consensus delegates in the epoch</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalCandidates</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>number of total delegates in the epoch</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalWeightedVotes</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>candidate total weighted votes in the epoch</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     
 
     
@@ -5228,6 +5368,13 @@
               <entry><link linkend="api.RewardSourcesRequest">RewardSourcesRequest</link></entry>
               <entry><link linkend="api.RewardSourcesResponse">RewardSourcesResponse</link></entry>
               <entry><para>RewardSources provides reward sources for voters</para></entry>
+            </row>
+            
+            <row>
+              <entry>VotingMeta</entry>
+              <entry><link linkend="api.VotingMetaRequest">VotingMetaRequest</link></entry>
+              <entry><link linkend="api.VotingMetaResponse">VotingMetaResponse</link></entry>
+              <entry><para>VotingMeta provides metadata of voting results</para></entry>
             </row>
             
           </tbody>

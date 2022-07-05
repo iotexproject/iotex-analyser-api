@@ -5693,6 +5693,138 @@
               "defaultValue": ""
             }
           ]
+        },
+        {
+          "name": "VotingMetaRequest",
+          "longName": "VotingMetaRequest",
+          "fullName": "api.VotingMetaRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startEpoch",
+              "description": "starting epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochCount",
+              "description": "epoch count",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "VotingMetaResponse",
+          "longName": "VotingMetaResponse",
+          "fullName": "api.VotingMetaResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the starting epoch number is less than the most recent epoch number",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "candidateMeta",
+              "description": "",
+              "label": "repeated",
+              "type": "CandidateMeta",
+              "longType": "VotingMetaResponse.CandidateMeta",
+              "fullType": "api.VotingMetaResponse.CandidateMeta",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CandidateMeta",
+          "longName": "VotingMetaResponse.CandidateMeta",
+          "fullName": "api.VotingMetaResponse.CandidateMeta",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "epochNumber",
+              "description": "epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "consensusDelegates",
+              "description": "number of consensus delegates in the epoch",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalCandidates",
+              "description": "number of total delegates in the epoch",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalWeightedVotes",
+              "description": "candidate total weighted votes in the epoch",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
         }
       ],
       "services": [
@@ -5742,6 +5874,29 @@
                     {
                       "method": "POST",
                       "pattern": "/api.VotingService.RewardSources",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "VotingMeta",
+              "description": "VotingMeta provides metadata of voting results",
+              "requestType": "VotingMetaRequest",
+              "requestLongType": "VotingMetaRequest",
+              "requestFullType": "api.VotingMetaRequest",
+              "requestStreaming": false,
+              "responseType": "VotingMetaResponse",
+              "responseLongType": "VotingMetaResponse",
+              "responseFullType": "api.VotingMetaResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.VotingService.VotingMeta",
                       "body": "*"
                     }
                   ]
@@ -6255,7 +6410,7 @@
                   "rules": [
                     {
                       "method": "POST",
-                      "pattern": "/api.XRCc20Service.XRC20ByAddress",
+                      "pattern": "/api.XRC20Service.XRC20ByAddress",
                       "body": "*"
                     }
                   ]
@@ -6347,7 +6502,7 @@
                   "rules": [
                     {
                       "method": "POST",
-                      "pattern": "/api.XRCc20Service.XRC20TokenHolderAddresses",
+                      "pattern": "/api.XRC20Service.XRC20TokenHolderAddresses",
                       "body": "*"
                     }
                   ]

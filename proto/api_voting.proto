@@ -41,6 +41,23 @@ message RewardSourcesResponse {
   }
   repeated DelegateDistributions delegateDistributions = 2;
 }
+
+message VotingMetaRequest {
+  uint64 startEpoch = 1; // starting epoch number
+  uint64 epochCount = 2; // epoch count
+}
+
+message VotingMetaResponse {
+  bool exist = 1; // whether the starting epoch number is less than the most recent epoch number
+  message CandidateMeta {
+    uint64 epochNumber = 1; //  epoch number
+    uint64 consensusDelegates = 2; // number of consensus delegates in the epoch
+    uint64 totalCandidates = 3; // number of total delegates in the epoch
+    string totalWeightedVotes = 4; // candidate total weighted votes in the epoch
+    //string votedTokens = 5; // total voted tokens in the epoch
+  }
+  repeated CandidateMeta candidateMeta = 2;
+}
 service VotingService {
   rpc CandidateInfo(CandidateInfoRequest) returns (CandidateInfoResponse) {
     option (graphql.schema) = {
@@ -63,5 +80,15 @@ service VotingService {
       body: "*"
     };
   };
-  
+  // VotingMeta provides metadata of voting results
+  rpc VotingMeta(VotingMetaRequest) returns (VotingMetaResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "VotingMeta"
+    };
+    option (google.api.http) = {
+      post: "/api.VotingService.VotingMeta"
+      body: "*"
+    };
+  };  
 }

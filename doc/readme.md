@@ -128,6 +128,9 @@
     - [RewardSourcesRequest](#api-RewardSourcesRequest)
     - [RewardSourcesResponse](#api-RewardSourcesResponse)
     - [RewardSourcesResponse.DelegateDistributions](#api-RewardSourcesResponse-DelegateDistributions)
+    - [VotingMetaRequest](#api-VotingMetaRequest)
+    - [VotingMetaResponse](#api-VotingMetaResponse)
+    - [VotingMetaResponse.CandidateMeta](#api-VotingMetaResponse-CandidateMeta)
   
     - [VotingService](#api-VotingService)
   
@@ -1998,6 +2001,56 @@
 
 
 
+
+<a name="api-VotingMetaRequest"></a>
+
+### VotingMetaRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-VotingMetaResponse"></a>
+
+### VotingMetaResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the starting epoch number is less than the most recent epoch number |
+| candidateMeta | [VotingMetaResponse.CandidateMeta](#api-VotingMetaResponse-CandidateMeta) | repeated |  |
+
+
+
+
+
+
+<a name="api-VotingMetaResponse-CandidateMeta"></a>
+
+### VotingMetaResponse.CandidateMeta
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| consensusDelegates | [uint64](#uint64) |  | number of consensus delegates in the epoch |
+| totalCandidates | [uint64](#uint64) |  | number of total delegates in the epoch |
+| totalWeightedVotes | [string](#string) |  | candidate total weighted votes in the epoch |
+
+
+
+
+
  
 
  
@@ -2014,6 +2067,7 @@
 | ----------- | ------------ | ------------- | ------------|
 | CandidateInfo | [CandidateInfoRequest](#api-CandidateInfoRequest) | [CandidateInfoResponse](#api-CandidateInfoResponse) |  |
 | RewardSources | [RewardSourcesRequest](#api-RewardSourcesRequest) | [RewardSourcesResponse](#api-RewardSourcesResponse) | RewardSources provides reward sources for voters |
+| VotingMeta | [VotingMetaRequest](#api-VotingMetaRequest) | [VotingMetaResponse](#api-VotingMetaResponse) | VotingMeta provides metadata of voting results |
 
  
 

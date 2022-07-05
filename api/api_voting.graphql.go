@@ -11,6 +11,9 @@ import (
 )
 
 var (
+	gql__type_VotingMetaResponse_CandidateMeta             *graphql.Object      // message VotingMetaResponse.CandidateMeta in api_voting.proto
+	gql__type_VotingMetaResponse                           *graphql.Object      // message VotingMetaResponse in api_voting.proto
+	gql__type_VotingMetaRequest                            *graphql.Object      // message VotingMetaRequest in api_voting.proto
 	gql__type_RewardSourcesResponse_DelegateDistributions  *graphql.Object      // message RewardSourcesResponse.DelegateDistributions in api_voting.proto
 	gql__type_RewardSourcesResponse                        *graphql.Object      // message RewardSourcesResponse in api_voting.proto
 	gql__type_RewardSourcesRequest                         *graphql.Object      // message RewardSourcesRequest in api_voting.proto
@@ -18,6 +21,9 @@ var (
 	gql__type_CandidateInfoResponse_CandidateInfo          *graphql.Object      // message CandidateInfoResponse.CandidateInfo in api_voting.proto
 	gql__type_CandidateInfoResponse                        *graphql.Object      // message CandidateInfoResponse in api_voting.proto
 	gql__type_CandidateInfoRequest                         *graphql.Object      // message CandidateInfoRequest in api_voting.proto
+	gql__input_VotingMetaResponse_CandidateMeta            *graphql.InputObject // message VotingMetaResponse.CandidateMeta in api_voting.proto
+	gql__input_VotingMetaResponse                          *graphql.InputObject // message VotingMetaResponse in api_voting.proto
+	gql__input_VotingMetaRequest                           *graphql.InputObject // message VotingMetaRequest in api_voting.proto
 	gql__input_RewardSourcesResponse_DelegateDistributions *graphql.InputObject // message RewardSourcesResponse.DelegateDistributions in api_voting.proto
 	gql__input_RewardSourcesResponse                       *graphql.InputObject // message RewardSourcesResponse in api_voting.proto
 	gql__input_RewardSourcesRequest                        *graphql.InputObject // message RewardSourcesRequest in api_voting.proto
@@ -26,6 +32,63 @@ var (
 	gql__input_CandidateInfoResponse                       *graphql.InputObject // message CandidateInfoResponse in api_voting.proto
 	gql__input_CandidateInfoRequest                        *graphql.InputObject // message CandidateInfoRequest in api_voting.proto
 )
+
+func Gql__type_VotingMetaResponse_CandidateMeta() *graphql.Object {
+	if gql__type_VotingMetaResponse_CandidateMeta == nil {
+		gql__type_VotingMetaResponse_CandidateMeta = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_VotingMetaResponse_CandidateMeta",
+			Fields: graphql.Fields{
+				"epochNumber": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"consensusDelegates": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"totalCandidates": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"totalWeightedVotes": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_VotingMetaResponse_CandidateMeta
+}
+
+func Gql__type_VotingMetaResponse() *graphql.Object {
+	if gql__type_VotingMetaResponse == nil {
+		gql__type_VotingMetaResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_VotingMetaResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"candidateMeta": &graphql.Field{
+					Type: graphql.NewList(Gql__type_VotingMetaResponse_CandidateMeta()),
+				},
+			},
+		})
+	}
+	return gql__type_VotingMetaResponse
+}
+
+func Gql__type_VotingMetaRequest() *graphql.Object {
+	if gql__type_VotingMetaRequest == nil {
+		gql__type_VotingMetaRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_VotingMetaRequest",
+			Fields: graphql.Fields{
+				"startEpoch": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_VotingMetaRequest
+}
 
 func Gql__type_RewardSourcesResponse_DelegateDistributions() *graphql.Object {
 	if gql__type_RewardSourcesResponse_DelegateDistributions == nil {
@@ -156,6 +219,63 @@ func Gql__type_CandidateInfoRequest() *graphql.Object {
 		})
 	}
 	return gql__type_CandidateInfoRequest
+}
+
+func Gql__input_VotingMetaResponse_CandidateMeta() *graphql.InputObject {
+	if gql__input_VotingMetaResponse_CandidateMeta == nil {
+		gql__input_VotingMetaResponse_CandidateMeta = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_VotingMetaResponse_CandidateMeta",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"epochNumber": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"consensusDelegates": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"totalCandidates": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"totalWeightedVotes": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_VotingMetaResponse_CandidateMeta
+}
+
+func Gql__input_VotingMetaResponse() *graphql.InputObject {
+	if gql__input_VotingMetaResponse == nil {
+		gql__input_VotingMetaResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_VotingMetaResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"candidateMeta": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_VotingMetaResponse_CandidateMeta()),
+				},
+			},
+		})
+	}
+	return gql__input_VotingMetaResponse
+}
+
+func Gql__input_VotingMetaRequest() *graphql.InputObject {
+	if gql__input_VotingMetaRequest == nil {
+		gql__input_VotingMetaRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_VotingMetaRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"startEpoch": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_VotingMetaRequest
 }
 
 func Gql__input_RewardSourcesResponse_DelegateDistributions() *graphql.InputObject {
@@ -376,6 +496,29 @@ func (x *graphql__resolver_VotingService) GetQueries(conn *grpc.ClientConn) grap
 				resp, err := client.RewardSources(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC RewardSources")
+				}
+				return resp, nil
+			},
+		},
+		"VotingMeta": &graphql.Field{
+			Type: Gql__type_VotingMetaResponse(),
+			Args: graphql.FieldConfigArgument{
+				"startEpoch": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"epochCount": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req VotingMetaRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for VotingMeta")
+				}
+				client := NewVotingServiceClient(conn)
+				resp, err := client.VotingMeta(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC VotingMeta")
 				}
 				return resp, nil
 			},

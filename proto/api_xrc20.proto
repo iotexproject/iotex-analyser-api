@@ -75,7 +75,7 @@ service XRC20Service {
       name: "XRC20ByAddress"
     };
     option (google.api.http) = {
-      post: "/api.XRCc20Service.XRC20ByAddress"
+      post: "/api.XRC20Service.XRC20ByAddress"
       body: "*"
     };
   };
@@ -119,7 +119,7 @@ service XRC20Service {
       name: "XRC20TokenHolderAddresses"
     };
     option (google.api.http) = {
-      post: "/api.XRCc20Service.XRC20TokenHolderAddresses"
+      post: "/api.XRC20Service.XRC20TokenHolderAddresses"
       body: "*"
     };
   };
