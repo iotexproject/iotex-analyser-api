@@ -1547,6 +1547,111 @@ query {
 | delegateName | [string](#string) |  | delegate name |
 | amount | [string](#string) |  | amount of reward distribution |
 
+## VotingMeta
+
+VotingMeta provides metadata of voting results
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.VotingService.VotingMeta \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "epochStart": 20000,
+    "epochCount": 2
+}'
+```
+
+```graphql
+query {
+  VotingMeta(startEpoch: 20000, epochCount: 2) {
+    exist
+    candidateMeta {
+      epochNumber
+      totalCandidates
+      consensusDelegates
+      totalWeightedVotes
+    }
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "VotingMeta": {
+      "candidateMeta": [
+        {
+          "consensusDelegates": 36,
+          "epochNumber": 20000,
+          "totalCandidates": 58,
+          "totalWeightedVotes": "3497033939381331462899534869"
+        },
+        {
+          "consensusDelegates": 36,
+          "epochNumber": 20001,
+          "totalCandidates": 58,
+          "totalWeightedVotes": "3497019706023954289836152135"
+        }
+      ],
+      "exist": false
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.VotingService.VotingMeta`
+
+<a name="api-VotingMetaRequest"></a>
+
+### VotingMetaRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startEpoch | [uint64](#uint64) |  | starting epoch number |
+| epochCount | [uint64](#uint64) |  | epoch count |
+
+
+
+
+
+
+<a name="api-VotingMetaResponse"></a>
+
+### VotingMetaResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the starting epoch number is less than the most recent epoch number |
+| candidateMeta | [VotingMetaResponse.CandidateMeta](#api-VotingMetaResponse-CandidateMeta) | repeated |  |
+
+
+
+
+
+
+<a name="api-VotingMetaResponse-CandidateMeta"></a>
+
+### VotingMetaResponse.CandidateMeta
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | epoch number |
+| consensusDelegates | [uint64](#uint64) |  | number of consensus delegates in the epoch |
+| totalCandidates | [uint64](#uint64) |  | number of total delegates in the epoch |
+| totalWeightedVotes | [string](#string) |  | candidate total weighted votes in the epoch |
+
+
 # Action Service API
 
 ## ActionByDates

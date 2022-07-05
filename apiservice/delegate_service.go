@@ -236,9 +236,9 @@ func (s *DelegateService) ProbationHistoricalRate(ctx context.Context, req *api.
 	startEpoch := req.GetStartEpoch()
 	epochCount := req.GetEpochCount()
 	delegateName := req.GetDelegateName()
-	endEpoch := startEpoch + epochCount - 1
+	endEpoch := startEpoch + epochCount
 	db := db.DB()
-	query := "SELECT count(epoch_number) FROM hermes_voting_results WHERE epoch_number >= ? AND epoch_number <= ? AND delegate_name = ?"
+	query := "SELECT count(epoch_number) FROM hermes_voting_results WHERE epoch_number >= ? AND epoch_number < ? AND delegate_name = ?"
 	var count int
 	if err := db.WithContext(ctx).Raw(query, startEpoch, endEpoch, delegateName).Scan(&count).Error; err != nil {
 		return nil, err

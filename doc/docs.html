@@ -663,6 +663,18 @@
                   <a href="#api.RewardSourcesResponse.DelegateDistributions"><span class="badge">M</span>RewardSourcesResponse.DelegateDistributions</a>
                 </li>
               
+                <li>
+                  <a href="#api.VotingMetaRequest"><span class="badge">M</span>VotingMetaRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.VotingMetaResponse"><span class="badge">M</span>VotingMetaResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.VotingMetaResponse.CandidateMeta"><span class="badge">M</span>VotingMetaResponse.CandidateMeta</a>
+                </li>
+              
               
               
               
@@ -5406,6 +5418,113 @@
 
         
       
+        <h3 id="api.VotingMetaRequest">VotingMetaRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startEpoch</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>starting epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochCount</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch count </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.VotingMetaResponse">VotingMetaResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the starting epoch number is less than the most recent epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>candidateMeta</td>
+                  <td><a href="#api.VotingMetaResponse.CandidateMeta">VotingMetaResponse.CandidateMeta</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.VotingMetaResponse.CandidateMeta">VotingMetaResponse.CandidateMeta</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>epochNumber</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>consensusDelegates</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of consensus delegates in the epoch </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalCandidates</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>number of total delegates in the epoch </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalWeightedVotes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>candidate total weighted votes in the epoch </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -5432,6 +5551,13 @@
                 <td><a href="#api.RewardSourcesRequest">RewardSourcesRequest</a></td>
                 <td><a href="#api.RewardSourcesResponse">RewardSourcesResponse</a></td>
                 <td><p>RewardSources provides reward sources for voters</p></td>
+              </tr>
+            
+              <tr>
+                <td>VotingMeta</td>
+                <td><a href="#api.VotingMetaRequest">VotingMetaRequest</a></td>
+                <td><a href="#api.VotingMetaResponse">VotingMetaResponse</a></td>
+                <td><p>VotingMeta provides metadata of voting results</p></td>
               </tr>
             
           </tbody>
@@ -5468,6 +5594,16 @@
                 <td>RewardSources</td>
                 <td>POST</td>
                 <td>/api.VotingService.RewardSources</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>VotingMeta</td>
+                <td>POST</td>
+                <td>/api.VotingService.VotingMeta</td>
                 <td>*</td>
               </tr>
               
@@ -5939,7 +6075,7 @@
               <tr>
                 <td>XRC20ByAddress</td>
                 <td>POST</td>
-                <td>/api.XRCc20Service.XRC20ByAddress</td>
+                <td>/api.XRC20Service.XRC20ByAddress</td>
                 <td>*</td>
               </tr>
               
@@ -5979,7 +6115,7 @@
               <tr>
                 <td>XRC20TokenHolderAddresses</td>
                 <td>POST</td>
-                <td>/api.XRCc20Service.XRC20TokenHolderAddresses</td>
+                <td>/api.XRC20Service.XRC20TokenHolderAddresses</td>
                 <td>*</td>
               </tr>
               

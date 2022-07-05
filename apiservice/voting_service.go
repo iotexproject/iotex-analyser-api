@@ -10,6 +10,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
+	"github.com/iotexproject/iotex-core/blockchain/genesis"
 	"github.com/pkg/errors"
 )
 
@@ -142,6 +143,39 @@ func (s *VotingService) RewardSources(ctx context.Context, req *api.RewardSource
 		})
 	}
 	resp.Exist = len(resp.DelegateDistributions) > 0
+	return resp, nil
+}
+
+// VotingMeta provides metadata of voting results
+func (s *VotingService) VotingMeta(ctx context.Context, req *api.VotingMetaRequest) (*api.VotingMetaResponse, error) {
+	resp := &api.VotingMetaResponse{
+		CandidateMeta: make([]*api.VotingMetaResponse_CandidateMeta, 0),
+	}
+	startEpoch := req.GetStartEpoch()
+	epochCount := req.GetEpochCount()
+	endEpoch := startEpoch + epochCount - 1
+	var results []struct {
+		EpochNumber uint64
+		Count       uint64
+		Sum         string
+	}
+	db := db.DB()
+	query := "select epoch_number,count(*), sum(total_weighted_votes) from hermes_voting_results where epoch_number>=? and epoch_number<=? group by epoch_number"
+	if err := db.Raw(query, startEpoch, endEpoch).Scan(&results).Error; err != nil {
+		return nil, err
+	}
+	for _, result := range results {
+		resp.CandidateMeta = append(resp.CandidateMeta, &api.VotingMetaResponse_CandidateMeta{
+			EpochNumber:        result.EpochNumber,
+			TotalCandidates:    result.Count,
+			TotalWeightedVotes: result.Sum,
+			ConsensusDelegates: genesis.Default.NumCandidateDelegates,
+		})
+	}
+	sort.Slice(resp.CandidateMeta, func(i, j int) bool {
+		return resp.CandidateMeta[i].EpochNumber < resp.CandidateMeta[j].EpochNumber
+	})
+	resp.Exist = len(resp.CandidateMeta) > 0
 	return resp, nil
 }
 
