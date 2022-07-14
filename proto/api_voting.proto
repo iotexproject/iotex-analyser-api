@@ -54,7 +54,7 @@ message VotingMetaResponse {
     uint64 consensusDelegates = 2; // number of consensus delegates in the epoch
     uint64 totalCandidates = 3; // number of total delegates in the epoch
     string totalWeightedVotes = 4; // candidate total weighted votes in the epoch
-    //string votedTokens = 5; // total voted tokens in the epoch
+    string votedTokens = 5; // total voted tokens in the epoch
   }
   repeated CandidateMeta candidateMeta = 2;
 }

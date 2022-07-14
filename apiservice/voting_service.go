@@ -155,21 +155,23 @@ func (s *VotingService) VotingMeta(ctx context.Context, req *api.VotingMetaReque
 	epochCount := req.GetEpochCount()
 	endEpoch := startEpoch + epochCount - 1
 	var results []struct {
-		EpochNumber uint64
-		Count       uint64
-		Sum         string
+		EpochNumber        uint64
+		VotedToken         string
+		DelegateCount      uint64
+		TotalWeightedVotes string
 	}
 	db := db.DB()
-	query := "select epoch_number,count(*), sum(total_weighted_votes) from hermes_voting_results where epoch_number>=? and epoch_number<=? group by epoch_number"
+	query := "select epoch_number,voted_token, delegate_count,total_weighted_votes from hermes_voting_meta where epoch_number>=? and epoch_number<=?"
 	if err := db.Raw(query, startEpoch, endEpoch).Scan(&results).Error; err != nil {
 		return nil, err
 	}
 	for _, result := range results {
 		resp.CandidateMeta = append(resp.CandidateMeta, &api.VotingMetaResponse_CandidateMeta{
 			EpochNumber:        result.EpochNumber,
-			TotalCandidates:    result.Count,
-			TotalWeightedVotes: result.Sum,
+			TotalCandidates:    result.DelegateCount,
+			TotalWeightedVotes: result.TotalWeightedVotes,
 			ConsensusDelegates: genesis.Default.NumCandidateDelegates,
+			VotedTokens:        result.VotedToken,
 		})
 	}
 	sort.Slice(resp.CandidateMeta, func(i, j int) bool {

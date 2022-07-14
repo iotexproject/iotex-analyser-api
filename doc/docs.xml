@@ -5324,6 +5324,13 @@
               <entry><para>candidate total weighted votes in the epoch</para></entry>
             </row>
             
+            <row>
+              <entry>votedTokens</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total voted tokens in the epoch</para></entry>
+            </row>
+            
           </tbody>
         </tgroup>
       </table>

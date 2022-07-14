@@ -50,6 +50,9 @@ func Gql__type_VotingMetaResponse_CandidateMeta() *graphql.Object {
 				"totalWeightedVotes": &graphql.Field{
 					Type: graphql.String,
 				},
+				"votedTokens": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -236,6 +239,9 @@ func Gql__input_VotingMetaResponse_CandidateMeta() *graphql.InputObject {
 					Type: graphql.Int,
 				},
 				"totalWeightedVotes": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"votedTokens": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 			},

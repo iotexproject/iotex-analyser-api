@@ -1,7 +1,11 @@
 [![Build Status](https://github.com/iotexproject/iotex-analyser-api.svg?branch=main)](https://travis-ci.org/iotexproject/iotex-analyser-api)
 
 # Overview
-API for iotex-analyser
+Analytics is an application built upon IoTeX core API which extracts data from IoTeX blockchain and reindexes them for applications to use via a GraphQL web interface.
+
+API Documents : https://analyser-api.iotex.io/docs
+
+GraphQL Playground: https://analyser-api.iotex.io/graphql
 
 ## Build from Code
 

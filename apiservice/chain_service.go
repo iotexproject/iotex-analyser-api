@@ -9,15 +9,16 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/common/votings"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
-	"github.com/iotexproject/iotex-antenna-go/v2/iotex"
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 	"github.com/pkg/errors"
 )
 
+// ChainService is the service to handle chain related requests
 type ChainService struct {
 	api.UnimplementedChainServiceServer
 }
 
+// Chain returns the chain info
 func (s *ChainService) Chain(ctx context.Context, req *api.ChainRequest) (*api.ChainResponse, error) {
 	resp := &api.ChainResponse{}
 
@@ -40,7 +41,7 @@ func (s *ChainService) Chain(ctx context.Context, req *api.ChainRequest) (*api.C
 	}
 	resp.TotalCirculatingSupply = totalCirculatingSupply
 
-	conn, err := iotex.NewDefaultGRPCConn(config.Default.RPC)
+	conn, err := common.NewDefaultGRPCConn(config.Default.RPC)
 	if err != nil {
 		return nil, err
 	}
@@ -71,6 +72,7 @@ func (s *ChainService) Chain(ctx context.Context, req *api.ChainRequest) (*api.C
 	return resp, nil
 }
 
+// MostRecentTPS gives the most recent TPS
 func (s *ChainService) MostRecentTPS(ctx context.Context, req *api.MostRecentTPSRequest) (*api.MostRecentTPSResponse, error) {
 	resp := &api.MostRecentTPSResponse{}
 
@@ -102,6 +104,7 @@ func (s *ChainService) MostRecentTPS(ctx context.Context, req *api.MostRecentTPS
 	return resp, nil
 }
 
+// NumberOfActions gives the number of actions within a epoch frame
 func (s *ChainService) NumberOfActions(ctx context.Context, req *api.NumberOfActionsRequest) (*api.NumberOfActionsResponse, error) {
 	resp := &api.NumberOfActionsResponse{}
 
