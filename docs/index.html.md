@@ -72,21 +72,40 @@ curl --request POST \
 ```
 
 ```graphql
-query {
-	Chain {
-		mostRecentEpoch
-		mostRecentBlockHeight
-	}
+query{
+  Chain{
+    mostRecentEpoch
+    mostRecentBlockHeight
+    totalSupply
+    totalCirculatingSupply
+    totalCirculatingSupplyNoRewardPool
+    votingResultMeta{
+      totalCandidates
+      totalWeightedVotes
+      votedTokens
+    }
+  }
 }
-
 ```
 
 > Example response:
 
 ```json
 {
-	"mostRecentEpoch": "25935",
-	"mostRecentBlockHeight": "16856649"
+  "data": {
+    "Chain": {
+      "mostRecentBlockHeight": 18424033,
+      "mostRecentEpoch": 28112,
+      "totalCirculatingSupply": "9461316822133866787170249906",
+      "totalCirculatingSupplyNoRewardPool": "8999602087975871032978564528",
+      "totalSupply": "9461316826969999922855499899",
+      "votingResultMeta": {
+        "totalCandidates": 75,
+        "totalWeightedVotes": "2993801150067811399510905503",
+        "votedTokens": "3646011141014875064441188214"
+      }
+    }
+  }
 }
 ```
 
@@ -1570,6 +1589,7 @@ query {
       totalCandidates
       consensusDelegates
       totalWeightedVotes
+      votedTokens
     }
   }
 }
@@ -1587,16 +1607,18 @@ query {
           "consensusDelegates": 36,
           "epochNumber": 20000,
           "totalCandidates": 58,
-          "totalWeightedVotes": "3497033939381331462899534869"
+          "totalWeightedVotes": "3497033939381331462899534869",
+          "votedTokens": "2828696111178324496444652661"
         },
         {
           "consensusDelegates": 36,
           "epochNumber": 20001,
           "totalCandidates": 58,
-          "totalWeightedVotes": "3497019706023954289836152135"
+          "totalWeightedVotes": "3497019706023954289836152135",
+          "votedTokens": "2828703742673077328930935452"
         }
       ],
-      "exist": false
+      "exist": true
     }
   }
 }
@@ -1650,6 +1672,7 @@ query {
 | consensusDelegates | [uint64](#uint64) |  | number of consensus delegates in the epoch |
 | totalCandidates | [uint64](#uint64) |  | number of total delegates in the epoch |
 | totalWeightedVotes | [string](#string) |  | candidate total weighted votes in the epoch |
+| votedTokens | [string](#string) |  | total voted tokens in the epoch |
 
 
 # Action Service API

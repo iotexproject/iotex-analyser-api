@@ -2046,6 +2046,7 @@
 | consensusDelegates | [uint64](#uint64) |  | number of consensus delegates in the epoch |
 | totalCandidates | [uint64](#uint64) |  | number of total delegates in the epoch |
 | totalWeightedVotes | [string](#string) |  | candidate total weighted votes in the epoch |
+| votedTokens | [string](#string) |  | total voted tokens in the epoch |
 
 
 
