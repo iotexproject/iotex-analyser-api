@@ -1,0 +1,731 @@
+url: 'https://analyser-api.iotex.io/graphql'
+headers:
+  Content-Type: application/json
+# "Debug" mode enables request and response logging for Autocannon and K6
+# This lets you see what is happening and confirm proper behavior.
+# This should be disabled for genuine benchmarks, and only used for debugging/visibility.
+debug: false
+queries:
+    # Name: Unique name for the query
+  - name: Chain
+    # Tools: List of benchmarking tools to run: ['autocannon', 'k6', 'wrk2']
+    tools: [k6]
+    # Execution Strategy: the type of the benchmark to run. Options are: 
+    # REQUESTS_PER_SECOND: Fixed duration, fixed rps. Example parameters:
+    #   duration: 10s
+    #   rps: 500
+    # FIXED_REQUEST_NUMBER: Complete requests as fast as possible, no duration. Example parameters:
+    #   requests: 10000
+    # MAX_REQUESTS_IN_DURATION: Make as many requests as possible in duration. Example parameters:
+    #   duration: 10s
+    # MULTI_STAGE: (K6 only currently) Several stages of REQUESTS_PER_SECOND benchmark. Example parameters:
+    #   initial_rps: 0
+    #   stages:
+    #     - duration: 5s
+    #       target: 100
+    #     - duration: 10s
+    #       target: 1000
+    # CUSTOM: Pass completely custom options to each tool (see full API spec for all supported options, very large)
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        Chain{
+          mostRecentEpoch
+          mostRecentBlockHeight
+        }
+      }
+
+  - name: BookKeeping
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        BookKeeping(
+          startEpoch: 23328
+          epochCount: 5
+          delegateName: "metanyx"
+          percentage: 90
+          includeFoundationBonus: false
+          includeBlockReward: false
+          pagination: { skip: 0, first: 2 }
+        ) {
+          exist
+          count
+          rewardDistribution {
+            voterIotexAddress
+            voterEthAddress
+            amount
+          }
+        }
+      }
+  - name: Productivity
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        Productivity(startEpoch: 25020, epochCount: 10, delegateName: "iotexlab") {
+          productivity {
+            exist
+            production
+            expectedProduction
+          }
+        }
+      }
+  - name: Reward
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        Reward(startEpoch: 20000, epochCount: 2, delegateName: "metanyx") {
+          reward {
+            exist
+            blockReward
+            epochReward
+            foundationBonus
+          }
+        }
+      }
+  - name: BucketInfo
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        BucketInfo(
+          startEpoch: 20000
+          epochCount: 1
+          delegateName: "metanyx"
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          bucketInfoList {
+            count
+            epochNumber
+            bucketInfo {
+              votes
+              voterEthAddress
+              voterIotexAddress
+              isNative
+              weightedVotes
+              remainingDuration
+              startTime
+              decay
+            }
+          }
+        }
+      }
+  - name: Staking
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        Staking(startEpoch: 20000, epochCount: 2, delegateName: "metanyx") {
+          exist
+          stakingInfo {
+            epochNumber
+            totalStaking
+            selfStaking
+          }
+        }
+      }
+  - name: ProbationHistoricalRate
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        ProbationHistoricalRate(
+          startEpoch: 27650
+          epochCount: 5
+          delegateName: "chainshield"
+        ) {
+          probationHistoricalRate
+        }
+      }
+  - name: NumberOfActions
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        NumberOfActions(startEpoch: 20000, epochCount: 5) {
+          exist
+          count
+        }
+      }
+  - name: TotalTransferredTokens
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        TotalTransferredTokens(startEpoch: 20000, epochCount: 2) {
+          totalTransferredTokens
+        }
+      }
+  - name: VotingMeta
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        VotingMeta(startEpoch: 20000, epochCount: 1) {
+          exist
+          candidateMeta {
+            epochNumber
+            totalCandidates
+            consensusDelegates
+            totalWeightedVotes
+          }
+        }
+      }
+  - name: CandidateInfo
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        CandidateInfo(startEpoch: 20000, epochCount: 1) {
+          candidateInfo {
+            epochNumber
+            candidates {
+              name
+              address
+              totalWeightedVotes
+              selfStakingTokens
+              operatorAddress
+              rewardAddress
+            }
+          }
+        }
+      }
+  - name: RewardSources
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query {
+        RewardSources(
+          startEpoch: 20000
+          epochCount: 1
+          voterIotxAddress: "io1rl62pepun2g7sed2tpv4tx7ujynye34fqjv40t"
+        ) {
+          exist
+          delegateDistributions {
+            delegateName
+            amount
+          }
+        }
+      }      
+  - name: ActiveAccounts
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        ActiveAccounts(count:5){
+          activeAccounts
+        }
+      }  
+  - name: OperatorAddress
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        OperatorAddress(aliasName:"metanyx") {
+          exist
+          operatorAddress
+        }
+      }
+  - name: Alias
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        Alias(operatorAddress:"io10reczcaelglh5xmkay65h9vw3e5dp82e8vw0rz") {
+          exist
+          aliasName
+        }
+      }
+  - name: TotalNumberOfHolders
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        TotalNumberOfHolders{
+          totalNumberOfHolders
+        }
+      }
+  - name: TotalAccountSupply
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        TotalAccountSupply{
+          totalAccountSupply
+        }
+      }
+  - name: ActionByDates
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        ActionByDates(
+          startDate: 1624503172
+          endDate: 1624503182
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          actions {
+            actHash
+            blkHash
+            timestamp
+            actType
+            sender
+            recipient
+            amount
+            gasFee
+            blkHeight
+          }
+        }
+      }
+  - name: ActionByHash
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        ActionByHash(
+          actHash: "160a75d845c5ef35e6b2e697dc752066ee7a0dacf750c8c1a6a187090dd3df9f"
+        ) {
+          actionInfo {
+            actHash
+            blkHash
+            timestamp
+            actType
+            sender
+            recipient
+            amount
+            gasFee
+            blkHeight
+          }
+          evmTransfers {
+            sender
+            recipient
+            amount
+          }
+        }
+      }
+  - name: ActionByAddress
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        ActionByAddress(
+          address: "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+          pagination:{skip:0, first:1}
+        ) {
+          count
+          actions {
+            actHash
+            blkHash
+            timestamp
+            actType
+            sender
+            recipient
+            amount
+            gasFee
+            blkHeight
+          }
+        }
+      }
+  - name: EvmTransfersByAddress
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        EvmTransfersByAddress(
+          address: "io14yqd25kr6k4zss59u7sq9hme4r862yfpezf9dx"
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          evmTransfers {
+            sender
+            recipient
+            actHash
+            blkHash
+            blkHeight
+            amount
+            timestamp
+          }
+        }
+      }
+  - name: ActionByType
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        ActionByType(
+          type: "transfer"
+          pagination:{skip:0, first:1}
+        ) {
+          count
+          actions {
+            actHash
+            blkHash
+            timestamp
+            actType
+            sender
+            recipient
+            amount
+            gasFee
+            blkHeight
+          }
+        }
+      }
+  - name: XRC20ByContractAddress
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC20ByContractAddress(
+          address: "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26"
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          xrc20 {
+            actHash
+            contract
+            sender
+            amount
+            recipient
+            timestamp
+          }
+        }
+      }
+  - name: XRC20ByAddress
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC20ByAddress(
+          address: "io1mhvlzj7y2t9y2dtzauyvyzzrvle6l7sekcf245"
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          xrc20 {
+            actHash
+            contract
+            sender
+            amount
+            recipient
+            timestamp
+          }
+        }
+      }
+  - name: XRC20ByPage
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC20ByPage(
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          xrc20 {
+            actHash
+            contract
+            sender
+            amount
+            recipient
+            timestamp
+          }
+        }
+      }
+  - name: XRC20Addresses
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC20Addresses(
+          pagination: { skip: 0, first: 2 }
+        ) {
+          exist
+          count
+          addresses
+        }
+      }
+  - name: XRC20TokenHolderAddresses
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC20TokenHolderAddresses(
+          tokenAddress: "io1gafy2msqmmmqyhrhk4dg3ghc59cplyhekyyu26"
+          pagination: { skip: 0, first: 5 }
+        ) {
+          count
+          addresses
+        }
+      }
+  - name: XRC721ByContractAddress
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC721ByContractAddress(
+          address: "io1052s604n44atw5klykwff29tnrtsplqqkdajxf"
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          xrc721 {
+            actHash
+            contract
+            sender
+            amount
+            recipient
+            timestamp
+          }
+        }
+      }
+  - name: XRC721ByAddress
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC721ByAddress(
+          address: "io1lutyka7aw7u872kzsujuz8pwn9qsrcjvs6e7jw"
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          xrc721 {
+            actHash
+            contract
+            sender
+            amount
+            recipient
+            timestamp
+          }
+        }
+      }
+  - name: XRC721ByPage
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC721ByPage(
+          pagination: { skip: 0, first: 1 }
+        ) {
+          exist
+          count
+          xrc721 {
+            actHash
+            contract
+            sender
+            amount
+            recipient
+            timestamp
+          }
+        }
+      }
+  - name: XRC721Addresses
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC721Addresses(
+          pagination: { skip: 0, first: 2 }
+        ) {
+          exist
+          count
+          addresses
+        }
+      }
+  - name: XRC721TokenHolderAddresses
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        XRC721TokenHolderAddresses(
+          tokenAddress: "io1asxdtswkr9p6r9du57ecrhrql865tf2qxue6hw"
+          pagination: { skip: 0, first: 5 }
+        ) {
+          count
+          addresses
+        }
+      }
+  - name: Hermes
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        Hermes(startEpoch: 20000, epochCount: 1, 
+          rewardAddress: "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85") {
+          hermesDistribution {
+            delegateName,
+            rewardDistribution{
+              voterEthAddress,
+              voterIotexAddress,
+              amount
+            },
+            stakingIotexAddress,
+            voterCount,
+            waiveServiceFee,
+            refund
+          }
+        }
+      }
+  - name: HermesAverageStats
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        HermesAverageStats(
+          startEpoch: 20000
+          epochCount: 1
+          rewardAddress: "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"
+        ) {
+          exist
+          averagePerEpoch {
+            delegateName
+            rewardDistribution
+            totalWeightedVotes
+          }
+        }
+      }
+  - name: HermesByDelegate
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        HermesByDelegate(startEpoch: 20000, epochCount: 1, 
+          delegateName: "a4x", pagination:{skip:0, first: 1}) {
+          count
+          exist
+          distributionRatio{
+            blockRewardRatio
+            epochNumber
+            epochRewardRatio
+            foundationBonusRatio
+          }
+          totalRewardsDistributed
+          voterInfoList{
+            actHash
+            amount
+            fromEpoch
+            toEpoch
+            timestamp
+            voterAddress
+          }
+        }
+      }
+  - name: HermesByVoter
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        HermesByVoter(
+          startEpoch: 13752
+          epochCount: 10
+          voterAddress: "io13hlj049e96gpdxfr0atkhq3d6mhgzxx7mrmg00",
+          pagination:{skip: 0, first: 1}
+        ){
+          count
+          exist
+          delegates{
+            delegateName
+            fromEpoch
+            toEpoch
+            amount
+            actHash
+            timestamp
+          }
+          totalRewardReceived
+        }
+      }
+  - name: HermesMeta
+    tools: [k6]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 100
+    connections: 5
+    query: |
+      query{
+        HermesMeta(startEpoch: 20000, epochCount: 20) {
+          exist
+          numberOfDelegates
+          numberOfRecipients
+          totalRewardDistributed
+        }
+      }
+    
