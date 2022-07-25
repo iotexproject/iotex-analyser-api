@@ -39,7 +39,7 @@ func GetXrc20InfoByAddress(address string, skip, first uint64) ([]*XrcInfo, erro
 func GetXrc20CountByContractAddress(address string) (int64, error) {
 	var count int64
 	db := db.DB()
-	query := "select count(id) from erc20_transfers where  contract_address=?"
+	query := "select count(*) from erc20_transfers where contract_address=?"
 	if err := db.Raw(query, address, address).Count(&count).Error; err != nil {
 		return 0, err
 	}
@@ -80,7 +80,7 @@ func GetXrc20InfoByPage(skip, first uint64) ([]*XrcInfo, error) {
 func GetXrc20ContractAddressCount() (int64, error) {
 	var count int64
 	db := db.DB()
-	query := "SELECT COUNT(DISTINCT contract_address) FROM erc20_holders"
+	query := "SELECT COUNT(*) FROM (SELECT DISTINCT contract_address FROM erc20_holders) AS temp"
 	if err := db.Raw(query).Count(&count).Error; err != nil {
 		return 0, err
 	}
