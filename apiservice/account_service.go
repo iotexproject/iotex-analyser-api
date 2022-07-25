@@ -162,7 +162,7 @@ func (s *AccountService) TotalNumberOfHolders(ctx context.Context, req *api.Tota
 	db := db.DB()
 	resp := &api.TotalNumberOfHoldersResponse{}
 
-	query := "SELECT count(DISTINCT(address)) FROM account_income_count"
+	query := "SELECT COUNT(*) FROM (SELECT DISTINCT address FROM account_income_count) AS temp"
 
 	var result uint64
 	if err := db.WithContext(ctx).Raw(query).Scan(&result).Error; err != nil {
