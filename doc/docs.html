@@ -333,14 +333,6 @@
             <ul>
               
                 <li>
-                  <a href="#api.ActionsByAddressResponse"><span class="badge">M</span>ActionsByAddressResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#api.ActionsByAddressResult"><span class="badge">M</span>ActionsByAddressResult</a>
-                </li>
-              
-                <li>
                   <a href="#api.ActionsRequest"><span class="badge">M</span>ActionsRequest</a>
                 </li>
               
@@ -358,14 +350,6 @@
               
                 <li>
                   <a href="#api.EvmTransferDetailResult"><span class="badge">M</span>EvmTransferDetailResult</a>
-                </li>
-              
-                <li>
-                  <a href="#api.Xrc20ByAddressResponse"><span class="badge">M</span>Xrc20ByAddressResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#api.Xrc20ByAddressResult"><span class="badge">M</span>Xrc20ByAddressResult</a>
                 </li>
               
               
@@ -2228,7 +2212,7 @@
               <tr>
                 <td>ActionByAddress</td>
                 <td>POST</td>
-                <td>/api.ActionsService.ActionByAddress</td>
+                <td>/api.ActionService.ActionByAddress</td>
                 <td>*</td>
               </tr>
               
@@ -2238,7 +2222,7 @@
               <tr>
                 <td>ActionByType</td>
                 <td>POST</td>
-                <td>/api.ActionsService.ActionByType</td>
+                <td>/api.ActionService.ActionByType</td>
                 <td>*</td>
               </tr>
               
@@ -2264,110 +2248,6 @@
       </div>
       <p></p>
 
-      
-        <h3 id="api.ActionsByAddressResponse">ActionsByAddressResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>count</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>results</td>
-                  <td><a href="#api.ActionsByAddressResult">ActionsByAddressResult</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.ActionsByAddressResult">ActionsByAddressResult</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>actHash</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>blkHash</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>timeStamp</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>actType</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sender</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>recipient</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>amount</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>gasFee</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
       
         <h3 id="api.ActionsRequest">ActionsRequest</h3>
         <p></p>
@@ -2622,103 +2502,6 @@
 
         
       
-        <h3 id="api.Xrc20ByAddressResponse">Xrc20ByAddressResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>count</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>results</td>
-                  <td><a href="#api.Xrc20ByAddressResult">Xrc20ByAddressResult</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.Xrc20ByAddressResult">Xrc20ByAddressResult</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>actHash</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>blkHeight</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>from</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>to</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>contractAddress</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>amount</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>timeStamp</td>
-                  <td><a href="#uint64">uint64</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
 
       
         <h3 id="api.AllActionsByAddressResult.RecordType">AllActionsByAddressResult.RecordType</h3>
@@ -2769,27 +2552,6 @@
           <tbody>
             
               <tr>
-                <td>GetActionsByAddress</td>
-                <td><a href="#api.ActionsRequest">ActionsRequest</a></td>
-                <td><a href="#api.ActionsByAddressResponse">ActionsByAddressResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>GetXrc20ByAddress</td>
-                <td><a href="#api.ActionsRequest">ActionsRequest</a></td>
-                <td><a href="#api.Xrc20ByAddressResponse">Xrc20ByAddressResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>GetXrc721ByAddress</td>
-                <td><a href="#api.ActionsRequest">ActionsRequest</a></td>
-                <td><a href="#api.Xrc20ByAddressResponse">Xrc20ByAddressResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
                 <td>GetEvmTransferDetailListByAddress</td>
                 <td><a href="#api.ActionsRequest">ActionsRequest</a></td>
                 <td><a href="#api.EvmTransferDetailListByAddressResponse">EvmTransferDetailListByAddressResponse</a></td>
@@ -2820,36 +2582,6 @@
               </tr>
             </thead>
             <tbody>
-            
-              
-              
-              <tr>
-                <td>GetActionsByAddress</td>
-                <td>POST</td>
-                <td>/api.ActionsService.GetActionsByAddress</td>
-                <td>*</td>
-              </tr>
-              
-            
-              
-              
-              <tr>
-                <td>GetXrc20ByAddress</td>
-                <td>POST</td>
-                <td>/api.ActionsService.GetXrc20ByAddress</td>
-                <td>*</td>
-              </tr>
-              
-            
-              
-              
-              <tr>
-                <td>GetXrc721ByAddress</td>
-                <td>POST</td>
-                <td>/api.ActionsService.GetXrc721ByAddress</td>
-                <td>*</td>
-              </tr>
-              
             
               
               
