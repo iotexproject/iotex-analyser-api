@@ -166,7 +166,7 @@ service ActionService {
       name: "ActionByAddress"
     };
     option (google.api.http) = {
-      post: "/api.ActionsService.ActionByAddress"
+      post: "/api.ActionService.ActionByAddress"
       body: "*"
     };
   };
@@ -177,7 +177,7 @@ service ActionService {
       name: "ActionByType"
     };
     option (google.api.http) = {
-      post: "/api.ActionsService.ActionByType"
+      post: "/api.ActionService.ActionByType"
       body: "*"
     };
   };

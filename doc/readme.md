@@ -43,15 +43,11 @@
     - [ActionService](#api-ActionService)
   
 - [api_actions.proto](#api_actions-proto)
-    - [ActionsByAddressResponse](#api-ActionsByAddressResponse)
-    - [ActionsByAddressResult](#api-ActionsByAddressResult)
     - [ActionsRequest](#api-ActionsRequest)
     - [AllActionsByAddressResponse](#api-AllActionsByAddressResponse)
     - [AllActionsByAddressResult](#api-AllActionsByAddressResult)
     - [EvmTransferDetailListByAddressResponse](#api-EvmTransferDetailListByAddressResponse)
     - [EvmTransferDetailResult](#api-EvmTransferDetailResult)
-    - [Xrc20ByAddressResponse](#api-Xrc20ByAddressResponse)
-    - [Xrc20ByAddressResult](#api-Xrc20ByAddressResult)
   
     - [AllActionsByAddressResult.RecordType](#api-AllActionsByAddressResult-RecordType)
   
@@ -754,44 +750,6 @@
 
 
 
-<a name="api-ActionsByAddressResponse"></a>
-
-### ActionsByAddressResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| count | [uint64](#uint64) |  |  |
-| results | [ActionsByAddressResult](#api-ActionsByAddressResult) | repeated |  |
-
-
-
-
-
-
-<a name="api-ActionsByAddressResult"></a>
-
-### ActionsByAddressResult
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| actHash | [string](#string) |  |  |
-| blkHash | [string](#string) |  |  |
-| timeStamp | [uint64](#uint64) |  |  |
-| actType | [string](#string) |  |  |
-| sender | [string](#string) |  |  |
-| recipient | [string](#string) |  |  |
-| amount | [string](#string) |  |  |
-| gasFee | [string](#string) |  |  |
-
-
-
-
-
-
 <a name="api-ActionsRequest"></a>
 
 ### ActionsRequest
@@ -885,43 +843,6 @@
 
 
 
-
-<a name="api-Xrc20ByAddressResponse"></a>
-
-### Xrc20ByAddressResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| count | [uint64](#uint64) |  |  |
-| results | [Xrc20ByAddressResult](#api-Xrc20ByAddressResult) | repeated |  |
-
-
-
-
-
-
-<a name="api-Xrc20ByAddressResult"></a>
-
-### Xrc20ByAddressResult
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| actHash | [string](#string) |  |  |
-| blkHeight | [uint64](#uint64) |  |  |
-| from | [string](#string) |  |  |
-| to | [string](#string) |  |  |
-| contractAddress | [string](#string) |  |  |
-| amount | [string](#string) |  |  |
-| timeStamp | [uint64](#uint64) |  |  |
-
-
-
-
-
  
 
 
@@ -950,9 +871,6 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetActionsByAddress | [ActionsRequest](#api-ActionsRequest) | [ActionsByAddressResponse](#api-ActionsByAddressResponse) |  |
-| GetXrc20ByAddress | [ActionsRequest](#api-ActionsRequest) | [Xrc20ByAddressResponse](#api-Xrc20ByAddressResponse) |  |
-| GetXrc721ByAddress | [ActionsRequest](#api-ActionsRequest) | [Xrc20ByAddressResponse](#api-Xrc20ByAddressResponse) |  |
 | GetEvmTransferDetailListByAddress | [ActionsRequest](#api-ActionsRequest) | [EvmTransferDetailListByAddressResponse](#api-EvmTransferDetailListByAddressResponse) |  |
 | GetAllActionsByAddress | [ActionsRequest](#api-ActionsRequest) | [AllActionsByAddressResponse](#api-AllActionsByAddressResponse) |  |
 
