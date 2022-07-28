@@ -18,7 +18,15 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+// DocsHTML embed the docs HTML
 var DocsHTML embed.FS
+
+const (
+	// MaxRecvMsgSize is the max recv size
+	MaxRecvMsgSize = 1024 * 1024 * 40 // 40 MB
+	// MaxSendMsgSize is the max send size
+	MaxSendMsgSize = 1024 * 1024 * 40 // 40 MB
+)
 
 func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterAccountServiceServer(grpcServer, &AccountService{})
@@ -69,7 +77,7 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 
 func registerGraphQLAPIService(ctx context.Context, mux *graphqlruntime.ServeMux) error {
 	addr := fmt.Sprintf("127.0.0.1:%d", config.Default.Server.GrpcAPIPort)
-	conn, err := grpc.DialContext(ctx, addr, grpc.WithInsecure())
+	conn, err := grpc.DialContext(ctx, addr, grpc.WithInsecure(), grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(MaxRecvMsgSize)))
 	if err != nil {
 		return err
 	}
@@ -112,7 +120,13 @@ func StartGRPCService(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	grpcServer := grpc.NewServer()
+
+	var options = []grpc.ServerOption{
+		grpc.MaxRecvMsgSize(MaxRecvMsgSize),
+		grpc.MaxSendMsgSize(MaxSendMsgSize),
+	}
+
+	grpcServer := grpc.NewServer(options...)
 	registerAPIService(ctx, grpcServer)
 	reflection.Register(grpcServer)
 	return grpcServer.Serve(lis)
