@@ -13,6 +13,8 @@ const (
 	DefaultPageSize = 200
 	// MaximumPageSize is the maximum size of page
 	MaximumPageSize = 50000
+	// MaximumPage is the maximum page number
+	MaximumPage = 100000
 )
 
 var (
@@ -28,6 +30,7 @@ var (
 	ErrActionTypeNotSupported = errors.New("action type is not supported")
 )
 
+// PageSize returns the size of page
 func PageSize(req *pagination.Pagination) uint64 {
 	if req == nil {
 		return DefaultPageSize
@@ -38,13 +41,18 @@ func PageSize(req *pagination.Pagination) uint64 {
 	return req.GetFirst()
 }
 
+// PageOffset returns the offset of page
 func PageOffset(req *pagination.Pagination) uint64 {
 	if req == nil {
 		return 0
 	}
+	if req.GetSkip() > MaximumPage {
+		return MaximumPage
+	}
 	return req.GetSkip()
 }
 
+// PageSortBy returns the sort by of page
 func PageSortBy(req *pagination.Pagination) string {
 	if req == nil {
 		return "desc"
@@ -52,6 +60,7 @@ func PageSortBy(req *pagination.Pagination) string {
 	return req.GetOrder()
 }
 
+// Address returns the io address from the given string
 func Address(addr string) (*string, error) {
 	if addr == "" {
 		return nil, address.ErrInvalidAddr
