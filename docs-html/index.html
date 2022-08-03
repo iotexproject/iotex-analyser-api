@@ -707,6 +707,7 @@
     </span><span class="n">mostRecentBlockHeight</span><span class="w">
     </span><span class="n">totalSupply</span><span class="w">
     </span><span class="n">totalCirculatingSupply</span><span class="w">
+    </span><span class="n">exactCirculatingSupply</span><span class="w">
     </span><span class="n">totalCirculatingSupplyNoRewardPool</span><span class="w">
     </span><span class="n">votingResultMeta</span><span class="p">{</span><span class="w">
       </span><span class="n">totalCandidates</span><span class="w">
@@ -722,6 +723,7 @@
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"Chain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"exactCirculatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9254223076969999922855499899"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"mostRecentBlockHeight"</span><span class="p">:</span><span class="w"> </span><span class="mi">18424033</span><span class="p">,</span><span class="w">
       </span><span class="nl">"mostRecentEpoch"</span><span class="p">:</span><span class="w"> </span><span class="mi">28112</span><span class="p">,</span><span class="w">
       </span><span class="nl">"totalCirculatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9461316822133866787170249906"</span><span class="p">,</span><span class="w">
@@ -785,6 +787,12 @@
 <td><a href="#api-VotingResultMeta">VotingResultMeta</a></td>
 <td></td>
 <td>voting result meta</td>
+</tr>
+<tr>
+<td>exactCirculatingSupply</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>exact circulating supply</td>
 </tr>
 </tbody></table>
 
@@ -966,7 +974,7 @@
   <span class="nt">--url</span> https://analyser-api.iotex.io/api.ChainService.TotalTransferredTokens <span class="se">\</span>
   <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s1">'{
-    "epochStart": 20000,
+    "startEpoch": 20000,
   "epochCount": 2
 }'</span>
 </code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -2261,7 +2269,7 @@
   <span class="nt">--url</span> https://analyser-api.iotex.io/api.VotingService.CandidateInfo <span class="se">\</span>
   <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s1">'{
-    "epochStart": 20000,
+    "startEpoch": 20000,
     "epochCount": 2
 }'</span>
 </code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -2441,7 +2449,7 @@
   <span class="nt">--url</span> https://analyser-api.iotex.io/api.VotingService.RewardSources <span class="se">\</span>
   <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s1">'{
-    "epochStart": 20000,
+    "startEpoch": 20000,
     "epochCount": 2,
     "voterIotxAddress": "io1rl62pepun2g7sed2tpv4tx7ujynye34fqjv40t"
 }'</span>
@@ -2561,7 +2569,7 @@
   <span class="nt">--url</span> https://analyser-api.iotex.io/api.VotingService.VotingMeta <span class="se">\</span>
   <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s1">'{
-    "epochStart": 20000,
+    "startEpoch": 20000,
     "epochCount": 2
 }'</span>
 </code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">

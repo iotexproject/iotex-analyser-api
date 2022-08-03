@@ -41,6 +41,12 @@ func (s *ChainService) Chain(ctx context.Context, req *api.ChainRequest) (*api.C
 	}
 	resp.TotalCirculatingSupply = totalCirculatingSupply
 
+	exactCirculatingSupply, err := common.GetExactCirculatingSupply(height, totalSupply)
+	if err != nil {
+		return nil, err
+	}
+	resp.ExactCirculatingSupply = exactCirculatingSupply
+
 	conn, err := common.NewDefaultGRPCConn(config.Default.RPC)
 	if err != nil {
 		return nil, err

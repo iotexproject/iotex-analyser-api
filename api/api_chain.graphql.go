@@ -165,6 +165,9 @@ func Gql__type_ChainResponse() *graphql.Object {
 				"votingResultMeta": &graphql.Field{
 					Type: Gql__type_VotingResultMeta(),
 				},
+				"exactCirculatingSupply": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -306,6 +309,9 @@ func Gql__input_ChainResponse() *graphql.InputObject {
 				},
 				"votingResultMeta": &graphql.InputObjectFieldConfig{
 					Type: Gql__input_VotingResultMeta(),
+				},
+				"exactCirculatingSupply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
 				},
 			},
 		})

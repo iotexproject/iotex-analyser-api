@@ -12,24 +12,16 @@ import (
 
 var (
 	gql__enum_AllActionsByAddressResult_RecordType    *graphql.Enum        // enum AllActionsByAddressResult_RecordType in api_actions.proto
-	gql__type_Xrc20ByAddressResult                    *graphql.Object      // message Xrc20ByAddressResult in api_actions.proto
-	gql__type_Xrc20ByAddressResponse                  *graphql.Object      // message Xrc20ByAddressResponse in api_actions.proto
 	gql__type_EvmTransferDetailResult                 *graphql.Object      // message EvmTransferDetailResult in api_actions.proto
 	gql__type_EvmTransferDetailListByAddressResponse  *graphql.Object      // message EvmTransferDetailListByAddressResponse in api_actions.proto
 	gql__type_AllActionsByAddressResult               *graphql.Object      // message AllActionsByAddressResult in api_actions.proto
 	gql__type_AllActionsByAddressResponse             *graphql.Object      // message AllActionsByAddressResponse in api_actions.proto
 	gql__type_ActionsRequest                          *graphql.Object      // message ActionsRequest in api_actions.proto
-	gql__type_ActionsByAddressResult                  *graphql.Object      // message ActionsByAddressResult in api_actions.proto
-	gql__type_ActionsByAddressResponse                *graphql.Object      // message ActionsByAddressResponse in api_actions.proto
-	gql__input_Xrc20ByAddressResult                   *graphql.InputObject // message Xrc20ByAddressResult in api_actions.proto
-	gql__input_Xrc20ByAddressResponse                 *graphql.InputObject // message Xrc20ByAddressResponse in api_actions.proto
 	gql__input_EvmTransferDetailResult                *graphql.InputObject // message EvmTransferDetailResult in api_actions.proto
 	gql__input_EvmTransferDetailListByAddressResponse *graphql.InputObject // message EvmTransferDetailListByAddressResponse in api_actions.proto
 	gql__input_AllActionsByAddressResult              *graphql.InputObject // message AllActionsByAddressResult in api_actions.proto
 	gql__input_AllActionsByAddressResponse            *graphql.InputObject // message AllActionsByAddressResponse in api_actions.proto
 	gql__input_ActionsRequest                         *graphql.InputObject // message ActionsRequest in api_actions.proto
-	gql__input_ActionsByAddressResult                 *graphql.InputObject // message ActionsByAddressResult in api_actions.proto
-	gql__input_ActionsByAddressResponse               *graphql.InputObject // message ActionsByAddressResponse in api_actions.proto
 )
 
 func Gql__enum_AllActionsByAddressResult_RecordType() *graphql.Enum {
@@ -53,55 +45,6 @@ func Gql__enum_AllActionsByAddressResult_RecordType() *graphql.Enum {
 		})
 	}
 	return gql__enum_AllActionsByAddressResult_RecordType
-}
-
-func Gql__type_Xrc20ByAddressResult() *graphql.Object {
-	if gql__type_Xrc20ByAddressResult == nil {
-		gql__type_Xrc20ByAddressResult = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_Xrc20ByAddressResult",
-			Fields: graphql.Fields{
-				"actHash": &graphql.Field{
-					Type: graphql.String,
-				},
-				"blkHeight": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"from": &graphql.Field{
-					Type: graphql.String,
-				},
-				"to": &graphql.Field{
-					Type: graphql.String,
-				},
-				"contractAddress": &graphql.Field{
-					Type: graphql.String,
-				},
-				"amount": &graphql.Field{
-					Type: graphql.String,
-				},
-				"timeStamp": &graphql.Field{
-					Type: graphql.Int,
-				},
-			},
-		})
-	}
-	return gql__type_Xrc20ByAddressResult
-}
-
-func Gql__type_Xrc20ByAddressResponse() *graphql.Object {
-	if gql__type_Xrc20ByAddressResponse == nil {
-		gql__type_Xrc20ByAddressResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_Xrc20ByAddressResponse",
-			Fields: graphql.Fields{
-				"count": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"results": &graphql.Field{
-					Type: graphql.NewList(Gql__type_Xrc20ByAddressResult()),
-				},
-			},
-		})
-	}
-	return gql__type_Xrc20ByAddressResponse
 }
 
 func Gql__type_EvmTransferDetailResult() *graphql.Object {
@@ -231,107 +174,6 @@ func Gql__type_ActionsRequest() *graphql.Object {
 	return gql__type_ActionsRequest
 }
 
-func Gql__type_ActionsByAddressResult() *graphql.Object {
-	if gql__type_ActionsByAddressResult == nil {
-		gql__type_ActionsByAddressResult = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_ActionsByAddressResult",
-			Fields: graphql.Fields{
-				"actHash": &graphql.Field{
-					Type: graphql.String,
-				},
-				"blkHash": &graphql.Field{
-					Type: graphql.String,
-				},
-				"timeStamp": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"actType": &graphql.Field{
-					Type: graphql.String,
-				},
-				"sender": &graphql.Field{
-					Type: graphql.String,
-				},
-				"recipient": &graphql.Field{
-					Type: graphql.String,
-				},
-				"amount": &graphql.Field{
-					Type: graphql.String,
-				},
-				"gasFee": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_ActionsByAddressResult
-}
-
-func Gql__type_ActionsByAddressResponse() *graphql.Object {
-	if gql__type_ActionsByAddressResponse == nil {
-		gql__type_ActionsByAddressResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_ActionsByAddressResponse",
-			Fields: graphql.Fields{
-				"count": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"results": &graphql.Field{
-					Type: graphql.NewList(Gql__type_ActionsByAddressResult()),
-				},
-			},
-		})
-	}
-	return gql__type_ActionsByAddressResponse
-}
-
-func Gql__input_Xrc20ByAddressResult() *graphql.InputObject {
-	if gql__input_Xrc20ByAddressResult == nil {
-		gql__input_Xrc20ByAddressResult = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_Xrc20ByAddressResult",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"actHash": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"blkHeight": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"from": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"to": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"contractAddress": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"amount": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"timeStamp": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-			},
-		})
-	}
-	return gql__input_Xrc20ByAddressResult
-}
-
-func Gql__input_Xrc20ByAddressResponse() *graphql.InputObject {
-	if gql__input_Xrc20ByAddressResponse == nil {
-		gql__input_Xrc20ByAddressResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_Xrc20ByAddressResponse",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"count": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"results": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_Xrc20ByAddressResult()),
-				},
-			},
-		})
-	}
-	return gql__input_Xrc20ByAddressResponse
-}
-
 func Gql__input_EvmTransferDetailResult() *graphql.InputObject {
 	if gql__input_EvmTransferDetailResult == nil {
 		gql__input_EvmTransferDetailResult = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -459,58 +301,6 @@ func Gql__input_ActionsRequest() *graphql.InputObject {
 	return gql__input_ActionsRequest
 }
 
-func Gql__input_ActionsByAddressResult() *graphql.InputObject {
-	if gql__input_ActionsByAddressResult == nil {
-		gql__input_ActionsByAddressResult = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_ActionsByAddressResult",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"actHash": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"blkHash": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"timeStamp": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"actType": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"sender": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"recipient": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"amount": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"gasFee": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_ActionsByAddressResult
-}
-
-func Gql__input_ActionsByAddressResponse() *graphql.InputObject {
-	if gql__input_ActionsByAddressResponse == nil {
-		gql__input_ActionsByAddressResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_ActionsByAddressResponse",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"count": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"results": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_ActionsByAddressResult()),
-				},
-			},
-		})
-	}
-	return gql__input_ActionsByAddressResponse
-}
-
 // graphql__resolver_ActionsService is a struct for making query, mutation and resolve fields.
 // This struct must be implemented runtime.SchemaBuilder interface.
 type graphql__resolver_ActionsService struct {
@@ -553,102 +343,6 @@ func (x *graphql__resolver_ActionsService) CreateConnection(ctx context.Context)
 // GetQueries returns acceptable graphql.Fields for Query.
 func (x *graphql__resolver_ActionsService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
-		"GetActionsByAddress": &graphql.Field{
-			Type: Gql__type_ActionsByAddressResponse(),
-			Args: graphql.FieldConfigArgument{
-				"address": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-				"height": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"offset": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"size": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"sort": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-			},
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req ActionsRequest
-				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for GetActionsByAddress")
-				}
-				client := NewActionsServiceClient(conn)
-				resp, err := client.GetActionsByAddress(p.Context, &req)
-				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetActionsByAddress")
-				}
-				return resp, nil
-			},
-		},
-		"GetXrc20ByAddress": &graphql.Field{
-			Type: Gql__type_Xrc20ByAddressResponse(),
-			Args: graphql.FieldConfigArgument{
-				"address": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-				"height": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"offset": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"size": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"sort": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-			},
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req ActionsRequest
-				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for GetXrc20ByAddress")
-				}
-				client := NewActionsServiceClient(conn)
-				resp, err := client.GetXrc20ByAddress(p.Context, &req)
-				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetXrc20ByAddress")
-				}
-				return resp, nil
-			},
-		},
-		"GetXrc721ByAddress": &graphql.Field{
-			Type: Gql__type_Xrc20ByAddressResponse(),
-			Args: graphql.FieldConfigArgument{
-				"address": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-				"height": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"offset": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"size": &graphql.ArgumentConfig{
-					Type: graphql.Int,
-				},
-				"sort": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-			},
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req ActionsRequest
-				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for GetXrc721ByAddress")
-				}
-				client := NewActionsServiceClient(conn)
-				resp, err := client.GetXrc721ByAddress(p.Context, &req)
-				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetXrc721ByAddress")
-				}
-				return resp, nil
-			},
-		},
 		"GetEvmTransferDetailListByAddress": &graphql.Field{
 			Type: Gql__type_EvmTransferDetailListByAddressResponse(),
 			Args: graphql.FieldConfigArgument{

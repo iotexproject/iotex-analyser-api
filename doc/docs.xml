@@ -2079,6 +2079,13 @@
               <entry><para>voting result meta</para></entry>
             </row>
             
+            <row>
+              <entry>exactCirculatingSupply</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>exact circulating supply</para></entry>
+            </row>
+            
           </tbody>
         </tgroup>
       </table>
