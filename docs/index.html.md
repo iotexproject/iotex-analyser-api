@@ -78,6 +78,7 @@ query{
     mostRecentBlockHeight
     totalSupply
     totalCirculatingSupply
+    exactCirculatingSupply
     totalCirculatingSupplyNoRewardPool
     votingResultMeta{
       totalCandidates
@@ -94,6 +95,7 @@ query{
 {
   "data": {
     "Chain": {
+      "exactCirculatingSupply": "9254223076969999922855499899",
       "mostRecentBlockHeight": 18424033,
       "mostRecentEpoch": 28112,
       "totalCirculatingSupply": "9461316822133866787170249906",
@@ -137,6 +139,7 @@ query{
 | totalCirculatingSupply | [string](#string) |  | total circulating supply |
 | totalCirculatingSupplyNoRewardPool | [string](#string) |  | total circulating supply no reward pool |
 | votingResultMeta | [VotingResultMeta](#api-VotingResultMeta) |  | voting result meta |
+| exactCirculatingSupply | [string](#string) |  | exact circulating supply |
 
 <a name="api-VotingResultMeta"></a>
 
@@ -292,7 +295,7 @@ curl --request POST \
   --url https://analyser-api.iotex.io/api.ChainService.TotalTransferredTokens \
   --header 'Content-Type: application/json' \
   --data '{
-	"epochStart": 20000,
+	"startEpoch": 20000,
   "epochCount": 2
 }'
 ```
@@ -1339,7 +1342,7 @@ curl --request POST \
   --url https://analyser-api.iotex.io/api.VotingService.CandidateInfo \
   --header 'Content-Type: application/json' \
   --data '{
-    "epochStart": 20000,
+    "startEpoch": 20000,
     "epochCount": 2
 }'
 ```
@@ -1478,7 +1481,7 @@ curl --request POST \
   --url https://analyser-api.iotex.io/api.VotingService.RewardSources \
   --header 'Content-Type: application/json' \
   --data '{
-    "epochStart": 20000,
+    "startEpoch": 20000,
     "epochCount": 2,
     "voterIotxAddress": "io1rl62pepun2g7sed2tpv4tx7ujynye34fqjv40t"
 }'
@@ -1575,7 +1578,7 @@ curl --request POST \
   --url https://analyser-api.iotex.io/api.VotingService.VotingMeta \
   --header 'Content-Type: application/json' \
   --data '{
-    "epochStart": 20000,
+    "startEpoch": 20000,
     "epochCount": 2
 }'
 ```

@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	"math/big"
 	"strings"
+	"time"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-core/ioctl/util"
 	"github.com/pkg/errors"
 )
 
@@ -91,4 +93,47 @@ func GetTotalCirculatingSupplyNoRewardPool(availableRewards, totalCirculatingSup
 	}
 
 	return new(big.Int).Sub(totalCirculatingSupplyBig, availableRewardsBig).String(), nil
+}
+
+func GetExactCirculatingSupply(height uint64, totalCirculatingSupply string) (string, error) {
+	totalCirculatingSupplyBig, ok := new(big.Int).SetString(totalCirculatingSupply, 10)
+	if !ok {
+		return "", errors.New("failed to format to big int:" + totalCirculatingSupply)
+	}
+	scheduledSupply := []struct {
+		Date   string
+		Supply string
+	}{
+		{"2023-03-31", "10000000000"},
+		{"2023-02-28", "9490000000"},
+		{"2023-01-31", "9475000000"},
+		{"2022-12-31", "9460000000"},
+		{"2022-11-30", "9445000000"},
+		{"2022-10-31", "9430000000"},
+		{"2022-09-30", "9415000000"},
+		{"2022-08-31", "9400000000"},
+		{"2022-07-31", "9285000000"},
+	}
+	exactSupply := new(big.Int)
+	totalAmount, err := util.StringToRau("9490000000", util.IotxDecimalNum)
+	if err != nil {
+		return "", err
+	}
+	for _, v := range scheduledSupply {
+		t, err := time.Parse("2006-01-02", v.Date)
+		if err != nil {
+			return "", err
+		}
+		if time.Now().UTC().After(t.UTC()) {
+			amount, err := util.StringToRau(v.Supply, util.IotxDecimalNum)
+			if err != nil {
+				return "", err
+			}
+			burned := new(big.Int).Sub(totalAmount, totalCirculatingSupplyBig)
+			exactSupply = new(big.Int).Sub(amount, burned)
+			break
+		}
+	}
+
+	return exactSupply.String(), nil
 }

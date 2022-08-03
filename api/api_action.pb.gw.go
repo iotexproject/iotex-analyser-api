@@ -629,9 +629,9 @@ var (
 
 	pattern_ActionService_ActionByHash_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.ActionByHash"}, ""))
 
-	pattern_ActionService_ActionByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionsService.ActionByAddress"}, ""))
+	pattern_ActionService_ActionByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.ActionByAddress"}, ""))
 
-	pattern_ActionService_ActionByType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionsService.ActionByType"}, ""))
+	pattern_ActionService_ActionByType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.ActionByType"}, ""))
 
 	pattern_ActionService_EvmTransfersByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ActionService.EvmTransfersByAddress"}, ""))
 )

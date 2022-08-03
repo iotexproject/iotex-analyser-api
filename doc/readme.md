@@ -909,6 +909,7 @@
 | totalCirculatingSupply | [string](#string) |  | total circulating supply |
 | totalCirculatingSupplyNoRewardPool | [string](#string) |  | total circulating supply no reward pool |
 | votingResultMeta | [VotingResultMeta](#api-VotingResultMeta) |  | voting result meta |
+| exactCirculatingSupply | [string](#string) |  | exact circulating supply |
 
 
 

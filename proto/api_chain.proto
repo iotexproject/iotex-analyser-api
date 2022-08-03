@@ -23,6 +23,7 @@ message ChainResponse {
     string totalCirculatingSupply = 4; // total circulating supply
     string totalCirculatingSupplyNoRewardPool = 5; // total circulating supply no reward pool
     VotingResultMeta votingResultMeta = 6; // voting result meta
+    string exactCirculatingSupply = 7; // exact circulating supply
 }
 
 message MostRecentTPSRequest {
