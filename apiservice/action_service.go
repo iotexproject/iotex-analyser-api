@@ -48,7 +48,7 @@ func (s *ActionService) ActionByVoter(ctx context.Context, req *api.ActionReques
 		resp.ActionList = append(resp.ActionList, &api.ActionInfo{
 			ActHash:   actionInfo.ActHash,
 			BlkHash:   actionInfo.BlkHash,
-			Timestamp: actionInfo.Timestamp,
+			Timestamp: uint64(actionInfo.Timestamp.Unix()),
 			ActType:   actionInfo.ActType,
 			Sender:    actionInfo.Sender,
 			Recipient: actionInfo.Recipient,
@@ -124,7 +124,7 @@ func (s *ActionService) ActionByDates(ctx context.Context, req *api.ActionByDate
 		resp.Actions = append(resp.Actions, &api.ActionInfo{
 			ActHash:   actionInfo.ActHash,
 			BlkHash:   actionInfo.BlkHash,
-			Timestamp: actionInfo.Timestamp,
+			Timestamp: uint64(actionInfo.Timestamp.Unix()),
 			ActType:   actionInfo.ActType,
 			Sender:    actionInfo.Sender,
 			Recipient: actionInfo.Recipient,
@@ -148,7 +148,7 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 	resp.ActionInfo = &api.ActionInfo{
 		ActHash:   actionInfo.ActHash,
 		BlkHash:   actionInfo.BlkHash,
-		Timestamp: actionInfo.Timestamp,
+		Timestamp: uint64(actionInfo.Timestamp.Unix()),
 		ActType:   actionInfo.ActType,
 		Sender:    actionInfo.Sender,
 		Recipient: actionInfo.Recipient,
@@ -197,7 +197,7 @@ func (s *ActionService) ActionByAddress(ctx context.Context, req *api.ActionByAd
 		resp.Actions = append(resp.Actions, &api.ActionInfo{
 			ActHash:   actionInfo.ActHash,
 			BlkHash:   actionInfo.BlkHash,
-			Timestamp: actionInfo.Timestamp,
+			Timestamp: uint64(actionInfo.Timestamp.Unix()),
 			ActType:   actionInfo.ActType,
 			Sender:    actionInfo.Sender,
 			Recipient: actionInfo.Recipient,
@@ -233,7 +233,7 @@ func (s *ActionService) ActionByType(ctx context.Context, req *api.ActionByTypeR
 		resp.Actions = append(resp.Actions, &api.ActionInfo{
 			ActHash:   actionInfo.ActHash,
 			BlkHash:   actionInfo.BlkHash,
-			Timestamp: actionInfo.Timestamp,
+			Timestamp: uint64(actionInfo.Timestamp.Unix()),
 			ActType:   actionInfo.ActType,
 			Sender:    actionInfo.Sender,
 			Recipient: actionInfo.Recipient,
@@ -275,7 +275,7 @@ func (s *ActionService) EvmTransfersByAddress(ctx context.Context, req *api.EvmT
 		resp.EvmTransfers = append(resp.EvmTransfers, &api.EvmTransfersByAddressResponse_EvmTransfer{
 			ActHash:   info.ActHash,
 			BlkHash:   info.BlkHash,
-			Timestamp: info.Timestamp,
+			Timestamp: uint64(info.Timestamp.Unix()),
 			Sender:    info.Sender,
 			Recipient: info.Recipient,
 			Amount:    info.Amount,
