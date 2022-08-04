@@ -1,5 +1,7 @@
 package actions
 
+import "time"
+
 type ActionInfo struct {
 	BlkHeight uint64
 	ActHash   string
@@ -9,7 +11,7 @@ type ActionInfo struct {
 	Recipient string
 	Amount    string
 	GasFee    string
-	Timestamp uint64
+	Timestamp time.Time
 }
 
 type BlockReceiptTransaction struct {
