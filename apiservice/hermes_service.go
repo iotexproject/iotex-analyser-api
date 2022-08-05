@@ -159,7 +159,7 @@ func (s *HermesService) HermesByVoter(ctx context.Context, req *api.HermesByVote
 				ToEpoch:      v.EndEpoch,
 				Amount:       v.Amount,
 				ActHash:      v.ActionHash,
-				Timestamp:    uint64(v.Timestamp),
+				Timestamp:    uint64(v.Timestamp.Unix()),
 			})
 		}
 	}
@@ -195,7 +195,7 @@ func (s *HermesService) HermesByDelegate(ctx context.Context, req *api.HermesByD
 				ToEpoch:      v.EndEpoch,
 				Amount:       v.Amount,
 				ActHash:      v.ActionHash,
-				Timestamp:    uint64(v.Timestamp),
+				Timestamp:    uint64(v.Timestamp.Unix()),
 			})
 		}
 	}

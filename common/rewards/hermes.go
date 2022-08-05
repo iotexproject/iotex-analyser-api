@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/big"
 	"sync"
+	"time"
 
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
@@ -250,7 +251,7 @@ type HermesVoteInfo struct {
 	EndEpoch   uint64
 	Amount     string
 	ActionHash string
-	Timestamp  int64
+	Timestamp  time.Time
 }
 
 type HermesDelegateInfo struct {
@@ -259,7 +260,7 @@ type HermesDelegateInfo struct {
 	EndEpoch     uint64
 	Amount       string
 	ActionHash   string
-	Timestamp    int64
+	Timestamp    time.Time
 }
 
 func GetTotalHermesByDelegate(ctx context.Context, startEpoch uint64, endEpoch uint64, delegateName string) (int64, string, error) {
