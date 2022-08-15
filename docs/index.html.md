@@ -85,6 +85,11 @@ query{
       totalWeightedVotes
       votedTokens
     }
+    rewards{
+      totalBalance
+      totalAvailable
+      totalUnclaimed
+    }
   }
 }
 ```
@@ -95,16 +100,21 @@ query{
 {
   "data": {
     "Chain": {
-      "exactCirculatingSupply": "9254223076969999922855499899",
-      "mostRecentBlockHeight": 18424033,
-      "mostRecentEpoch": 28112,
-      "totalCirculatingSupply": "9461316822133866787170249906",
-      "totalCirculatingSupplyNoRewardPool": "8999602087975871032978564528",
-      "totalSupply": "9461316826969999922855499899",
+      "exactCirculatingSupply": "9252829326969999922855499899",
+      "mostRecentBlockHeight": 18980166,
+      "mostRecentEpoch": 28884,
+      "rewards": {
+        "totalAvailable": "440833151247362249902675121",
+        "totalBalance": "498742289434892391257888603",
+        "totalUnclaimed": "57909138187530141355213482"
+      },
+      "totalCirculatingSupply": "9457829322133866787170249906",
+      "totalCirculatingSupplyNoRewardPool": "9016996170886504537267574785",
+      "totalSupply": "9457829326969999922855499899",
       "votingResultMeta": {
         "totalCandidates": 75,
-        "totalWeightedVotes": "2993801150067811399510905503",
-        "votedTokens": "3646011141014875064441188214"
+        "totalWeightedVotes": "3079386720450377171762829252",
+        "votedTokens": "3743652944403254009755212860"
       }
     }
   }
@@ -140,6 +150,24 @@ query{
 | totalCirculatingSupplyNoRewardPool | [string](#string) |  | total circulating supply no reward pool |
 | votingResultMeta | [VotingResultMeta](#api-VotingResultMeta) |  | voting result meta |
 | exactCirculatingSupply | [string](#string) |  | exact circulating supply |
+| rewards | [ChainResponse.Rewards](#api-ChainResponse-Rewards) |  | rewards |
+
+
+
+
+
+
+<a name="api-ChainResponse-Rewards"></a>
+
+### ChainResponse.Rewards
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalBalance | [string](#string) |  | total balance |
+| totalUnclaimed | [string](#string) |  | total unclaimed |
+| totalAvailable | [string](#string) |  | total available |
 
 <a name="api-VotingResultMeta"></a>
 

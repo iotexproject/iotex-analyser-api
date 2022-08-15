@@ -56,6 +56,7 @@
 - [api_chain.proto](#api_chain-proto)
     - [ChainRequest](#api-ChainRequest)
     - [ChainResponse](#api-ChainResponse)
+    - [ChainResponse.Rewards](#api-ChainResponse-Rewards)
     - [MostRecentTPSRequest](#api-MostRecentTPSRequest)
     - [MostRecentTPSResponse](#api-MostRecentTPSResponse)
     - [NumberOfActionsRequest](#api-NumberOfActionsRequest)
@@ -910,6 +911,24 @@
 | totalCirculatingSupplyNoRewardPool | [string](#string) |  | total circulating supply no reward pool |
 | votingResultMeta | [VotingResultMeta](#api-VotingResultMeta) |  | voting result meta |
 | exactCirculatingSupply | [string](#string) |  | exact circulating supply |
+| rewards | [ChainResponse.Rewards](#api-ChainResponse-Rewards) |  | rewards |
+
+
+
+
+
+
+<a name="api-ChainResponse-Rewards"></a>
+
+### ChainResponse.Rewards
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| totalBalance | [string](#string) |  | total balance |
+| totalUnclaimed | [string](#string) |  | total unclaimed |
+| totalAvailable | [string](#string) |  | total available |
 
 
 

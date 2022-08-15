@@ -24,6 +24,12 @@ message ChainResponse {
     string totalCirculatingSupplyNoRewardPool = 5; // total circulating supply no reward pool
     VotingResultMeta votingResultMeta = 6; // voting result meta
     string exactCirculatingSupply = 7; // exact circulating supply
+    message Rewards{
+      string totalBalance = 1; // total balance
+      string totalUnclaimed = 2; // total unclaimed
+      string totalAvailable = 3; // total available
+    }
+    Rewards rewards = 8; // rewards
 }
 
 message MostRecentTPSRequest {

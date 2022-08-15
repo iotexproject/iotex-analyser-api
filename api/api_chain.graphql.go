@@ -18,6 +18,7 @@ var (
 	gql__type_NumberOfActionsRequest          *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
 	gql__type_MostRecentTPSResponse           *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
 	gql__type_MostRecentTPSRequest            *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
+	gql__type_ChainResponse_Rewards           *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
 	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
 	gql__input_VotingResultMeta               *graphql.InputObject // message VotingResultMeta in api_chain.proto
 	gql__input_TotalTransferredTokensResponse *graphql.InputObject // message TotalTransferredTokensResponse in api_chain.proto
@@ -26,6 +27,7 @@ var (
 	gql__input_NumberOfActionsRequest         *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
 	gql__input_MostRecentTPSResponse          *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
 	gql__input_MostRecentTPSRequest           *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
+	gql__input_ChainResponse_Rewards          *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
 	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
 )
 
@@ -142,6 +144,26 @@ func Gql__type_MostRecentTPSRequest() *graphql.Object {
 	return gql__type_MostRecentTPSRequest
 }
 
+func Gql__type_ChainResponse_Rewards() *graphql.Object {
+	if gql__type_ChainResponse_Rewards == nil {
+		gql__type_ChainResponse_Rewards = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ChainResponse_Rewards",
+			Fields: graphql.Fields{
+				"totalBalance": &graphql.Field{
+					Type: graphql.String,
+				},
+				"totalUnclaimed": &graphql.Field{
+					Type: graphql.String,
+				},
+				"totalAvailable": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ChainResponse_Rewards
+}
+
 func Gql__type_ChainResponse() *graphql.Object {
 	if gql__type_ChainResponse == nil {
 		gql__type_ChainResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -167,6 +189,9 @@ func Gql__type_ChainResponse() *graphql.Object {
 				},
 				"exactCirculatingSupply": &graphql.Field{
 					Type: graphql.String,
+				},
+				"rewards": &graphql.Field{
+					Type: Gql__type_ChainResponse_Rewards(),
 				},
 			},
 		})
@@ -287,6 +312,26 @@ func Gql__input_MostRecentTPSRequest() *graphql.InputObject {
 	return gql__input_MostRecentTPSRequest
 }
 
+func Gql__input_ChainResponse_Rewards() *graphql.InputObject {
+	if gql__input_ChainResponse_Rewards == nil {
+		gql__input_ChainResponse_Rewards = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ChainResponse_Rewards",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"totalBalance": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"totalUnclaimed": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"totalAvailable": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ChainResponse_Rewards
+}
+
 func Gql__input_ChainResponse() *graphql.InputObject {
 	if gql__input_ChainResponse == nil {
 		gql__input_ChainResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -312,6 +357,9 @@ func Gql__input_ChainResponse() *graphql.InputObject {
 				},
 				"exactCirculatingSupply": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
+				},
+				"rewards": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_ChainResponse_Rewards(),
 				},
 			},
 		})
