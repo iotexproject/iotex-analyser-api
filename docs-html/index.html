@@ -714,6 +714,11 @@
       </span><span class="n">totalWeightedVotes</span><span class="w">
       </span><span class="n">votedTokens</span><span class="w">
     </span><span class="p">}</span><span class="w">
+    </span><span class="n">rewards</span><span class="p">{</span><span class="w">
+      </span><span class="n">totalBalance</span><span class="w">
+      </span><span class="n">totalAvailable</span><span class="w">
+      </span><span class="n">totalUnclaimed</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -723,16 +728,21 @@
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"Chain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"exactCirculatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9254223076969999922855499899"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"mostRecentBlockHeight"</span><span class="p">:</span><span class="w"> </span><span class="mi">18424033</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"mostRecentEpoch"</span><span class="p">:</span><span class="w"> </span><span class="mi">28112</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"totalCirculatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9461316822133866787170249906"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"totalCirculatingSupplyNoRewardPool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8999602087975871032978564528"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"totalSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9461316826969999922855499899"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exactCirculatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9252829326969999922855499899"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mostRecentBlockHeight"</span><span class="p">:</span><span class="w"> </span><span class="mi">18980166</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mostRecentEpoch"</span><span class="p">:</span><span class="w"> </span><span class="mi">28884</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"rewards"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"totalAvailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"440833151247362249902675121"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"totalBalance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"498742289434892391257888603"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"totalUnclaimed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"57909138187530141355213482"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"totalCirculatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9457829322133866787170249906"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"totalCirculatingSupplyNoRewardPool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9016996170886504537267574785"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"totalSupply"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9457829326969999922855499899"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"votingResultMeta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"totalCandidates"</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"totalWeightedVotes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2993801150067811399510905503"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"votedTokens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3646011141014875064441188214"</span><span class="w">
+        </span><span class="nl">"totalWeightedVotes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3079386720450377171762829252"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"votedTokens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3743652944403254009755212860"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -793,6 +803,42 @@
 <td><a href="#string">string</a></td>
 <td></td>
 <td>exact circulating supply</td>
+</tr>
+<tr>
+<td>rewards</td>
+<td><a href="#api-ChainResponse-Rewards">ChainResponse.Rewards</a></td>
+<td></td>
+<td>rewards</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-ChainResponse-Rewards"></a></p>
+<h3 id='chainresponse-rewards'>ChainResponse.Rewards</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>totalBalance</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total balance</td>
+</tr>
+<tr>
+<td>totalUnclaimed</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total unclaimed</td>
+</tr>
+<tr>
+<td>totalAvailable</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total available</td>
 </tr>
 </tbody></table>
 

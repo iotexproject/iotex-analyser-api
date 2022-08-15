@@ -2,6 +2,7 @@ package apiservice
 
 import (
 	"context"
+	"math/big"
 
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
@@ -57,6 +58,15 @@ func (s *ChainService) Chain(ctx context.Context, req *api.ChainRequest) (*api.C
 	availableRewards, err := rewards.GetAvailableRewards(ctx, client)
 	if err != nil {
 		return nil, err
+	}
+	totalRewards, err := rewards.GetTotalRewards(ctx, client)
+	if err != nil {
+		return nil, err
+	}
+	resp.Rewards = &api.ChainResponse_Rewards{
+		TotalAvailable: availableRewards.String(),
+		TotalBalance:   totalRewards.String(),
+		TotalUnclaimed: new(big.Int).Sub(totalRewards, availableRewards).String(),
 	}
 	totalCirculatingSupplyNoRewardPool, err := common.GetTotalCirculatingSupplyNoRewardPool(availableRewards.String(), totalCirculatingSupply)
 	if err != nil {

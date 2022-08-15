@@ -2086,6 +2086,62 @@
               <entry><para>exact circulating supply</para></entry>
             </row>
             
+            <row>
+              <entry>rewards</entry>
+              <entry><link linkend="api.ChainResponse.Rewards">ChainResponse.Rewards</link></entry>
+              <entry></entry>
+              <entry><para>rewards</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ChainResponse.Rewards">
+      <title>ChainResponse.Rewards</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ChainResponse.Rewards</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>totalBalance</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total balance</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalUnclaimed</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total unclaimed</para></entry>
+            </row>
+            
+            <row>
+              <entry>totalAvailable</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>total available</para></entry>
+            </row>
+            
           </tbody>
         </tgroup>
       </table>
