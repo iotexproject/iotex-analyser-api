@@ -10,11 +10,15 @@ import (
 	"net/http"
 	"text/template"
 
+	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/config"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	graphqlruntime "github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -124,10 +128,15 @@ func StartGRPCService(ctx context.Context) error {
 	var options = []grpc.ServerOption{
 		grpc.MaxRecvMsgSize(MaxRecvMsgSize),
 		grpc.MaxSendMsgSize(MaxSendMsgSize),
+		grpc.StreamInterceptor(grpc_prometheus.StreamServerInterceptor),
+		grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
 	}
 
 	grpcServer := grpc.NewServer(options...)
+	//serviceName: grpc.health.v1.Health
+	grpc_health_v1.RegisterHealthServer(grpcServer, health.NewServer())
 	registerAPIService(ctx, grpcServer)
+	grpc_prometheus.Register(grpcServer)
 	reflection.Register(grpcServer)
 	return grpcServer.Serve(lis)
 }
@@ -164,6 +173,7 @@ func StartGRPCProxyService(templates embed.FS) error {
 	}
 	http.Handle("/docs/", http.StripPrefix("/docs/", http.FileServer(http.FS(fsys))))
 	http.Handle("/", gwmux)
+	http.Handle("/metrics", promhttp.Handler())
 
 	port := fmt.Sprintf(":%d", config.Default.Server.HTTPAPIPort)
 	return http.ListenAndServe(port, nil)
