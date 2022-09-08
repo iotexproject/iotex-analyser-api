@@ -59,6 +59,20 @@ message TotalTransferredTokensResponse {
   string totalTransferredTokens = 1; // total tranferred tokens
 }
 
+message ChartSyncRequest {
+  bool archive = 1; // archive mode
+}
+
+message ChartSyncResponse {
+  message State{
+    string time = 1; // time
+    string size = 2; // size
+    string serverVersion = 3; // version
+    uint64 blockNumber = 4; // block number
+  }
+  repeated State states = 1; // states
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -102,6 +116,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.TotalTransferredTokens"
+      body: "*"
+    };
+  };
+
+  // ChartSync gives the chart sync status
+  rpc ChartSync(ChartSyncRequest) returns (ChartSyncResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "ChartSync"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.ChartSync"
       body: "*"
     };
   };

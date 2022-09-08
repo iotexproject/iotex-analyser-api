@@ -169,3 +169,56 @@ func (s *ChainService) TotalTransferredTokens(ctx context.Context, req *api.Tota
 	resp.TotalTransferredTokens = result
 	return resp, nil
 }
+
+func (s *ChainService) ChartSync(ctx context.Context, req *api.ChartSyncRequest) (*api.ChartSyncResponse, error) {
+	resp := &api.ChartSyncResponse{}
+	db := db.DB()
+	query := "select max(block_height),date(timestamp) from block GROUP BY date(timestamp)"
+	rows, err := db.WithContext(ctx).Raw(query).Rows()
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var blkNo uint64
+	var date string
+	for rows.Next() {
+		if err := rows.Scan(&blkNo, &date); err != nil {
+			return nil, err
+		}
+		resp.States = append(resp.States, &api.ChartSyncResponse_State{
+			BlockNumber:   blkNo,
+			Time:          date,
+			ServerVersion: getHardForkVersion(blkNo),
+		})
+	}
+	return resp, nil
+}
+
+//https://iotexscan.io/hard-fork-history
+func getHardForkVersion(blk uint64) string {
+	vers := []struct {
+		h uint64
+		v string
+	}{
+		{432001, "0.6.2"},
+		{864001, "0.7.2"},
+		{1512001, "0.8.3"},
+		{1641601, "0.9.0"},
+		{1816201, "0.10.0"},
+		{5165641, "1.0.0"},
+		{6544441, "1.1.0"},
+		{11267641, "1.2.0"},
+		{12289321, "1.3.0"},
+		{13685401, "1.4.0"},
+		{13816441, "1.5.0"},
+		{13979161, "1.6.0"},
+		{16509241, "1.7.0"},
+		{17662681, "1.8.0"},
+	}
+	for i := len(vers) - 1; i >= 0; i-- {
+		if blk >= vers[i].h {
+			return vers[i].v
+		}
+	}
+	return "0.6.0"
+}

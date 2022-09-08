@@ -25,6 +25,8 @@ type ChainServiceClient interface {
 	NumberOfActions(ctx context.Context, in *NumberOfActionsRequest, opts ...grpc.CallOption) (*NumberOfActionsResponse, error)
 	// TotalTransferredTokens gives the amount of tokens transferred within a time frame
 	TotalTransferredTokens(ctx context.Context, in *TotalTransferredTokensRequest, opts ...grpc.CallOption) (*TotalTransferredTokensResponse, error)
+	// ChartSync gives the chart sync status
+	ChartSync(ctx context.Context, in *ChartSyncRequest, opts ...grpc.CallOption) (*ChartSyncResponse, error)
 }
 
 type chainServiceClient struct {
@@ -71,6 +73,15 @@ func (c *chainServiceClient) TotalTransferredTokens(ctx context.Context, in *Tot
 	return out, nil
 }
 
+func (c *chainServiceClient) ChartSync(ctx context.Context, in *ChartSyncRequest, opts ...grpc.CallOption) (*ChartSyncResponse, error) {
+	out := new(ChartSyncResponse)
+	err := c.cc.Invoke(ctx, "/api.ChainService/ChartSync", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility
@@ -82,6 +93,8 @@ type ChainServiceServer interface {
 	NumberOfActions(context.Context, *NumberOfActionsRequest) (*NumberOfActionsResponse, error)
 	// TotalTransferredTokens gives the amount of tokens transferred within a time frame
 	TotalTransferredTokens(context.Context, *TotalTransferredTokensRequest) (*TotalTransferredTokensResponse, error)
+	// ChartSync gives the chart sync status
+	ChartSync(context.Context, *ChartSyncRequest) (*ChartSyncResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -100,6 +113,9 @@ func (UnimplementedChainServiceServer) NumberOfActions(context.Context, *NumberO
 }
 func (UnimplementedChainServiceServer) TotalTransferredTokens(context.Context, *TotalTransferredTokensRequest) (*TotalTransferredTokensResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TotalTransferredTokens not implemented")
+}
+func (UnimplementedChainServiceServer) ChartSync(context.Context, *ChartSyncRequest) (*ChartSyncResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChartSync not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 
@@ -186,6 +202,24 @@ func _ChainService_TotalTransferredTokens_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_ChartSync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChartSyncRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).ChartSync(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.ChainService/ChartSync",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).ChartSync(ctx, req.(*ChartSyncRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -208,6 +242,10 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TotalTransferredTokens",
 			Handler:    _ChainService_TotalTransferredTokens_Handler,
+		},
+		{
+			MethodName: "ChartSync",
+			Handler:    _ChainService_ChartSync_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
