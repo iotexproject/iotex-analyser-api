@@ -1,7 +1,6 @@
 package common
 
 import (
-	"database/sql"
 	"math/big"
 	"strings"
 	"time"
@@ -22,28 +21,43 @@ const (
 func AccountBalanceByHeight(height uint64, addresses []string) ([]*big.Int, error) {
 	result := make([]*big.Int, 0)
 	db := db.DB()
+	addres := make([]string, 0)
 	for _, addr := range addresses {
 		if addr[:2] == "0x" || addr[:2] == "0X" {
 			add, err := address.FromHex(addr)
 			if err != nil {
 				return nil, err
 			}
-
 			addr = add.String()
-		}
 
-		var amount sql.NullString
-		query := "SELECT sum(in_flow)-sum(out_flow) from account_income WHERE block_height<=? and address=?"
-		err := db.Raw(query, height, addr).Scan(&amount).Error
-		if err != nil {
-			return nil, err
 		}
-		balance, ok := big.NewInt(0).SetString(amount.String, 10)
+		addres = append(addres, addr)
+	}
+	var res []struct {
+		Address string
+		Balance string
+	}
+	err := db.Select("address,sum(in_flow)-sum(out_flow) balance").Where("block_height<=? and address in ?", height, addres).Table("account_income").Group("address").Scan(&res).Error
+	if err != nil {
+		return nil, err
+	}
+	results := make(map[string]*big.Int)
+	for _, v := range res {
+		balance, ok := new(big.Int).SetString(v.Balance, 10)
 		if !ok {
 			balance = big.NewInt(0)
 		}
-		result = append(result, balance)
+		results[v.Address] = balance
 	}
+
+	for _, addr := range addresses {
+		if results[addr] == nil {
+			result = append(result, big.NewInt(0))
+		} else {
+			result = append(result, results[addr])
+		}
+	}
+
 	return result, nil
 }
 
