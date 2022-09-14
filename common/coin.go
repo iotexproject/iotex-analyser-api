@@ -51,6 +51,15 @@ func AccountBalanceByHeight(height uint64, addresses []string) ([]*big.Int, erro
 	}
 
 	for _, addr := range addresses {
+		if addr[:2] == "0x" || addr[:2] == "0X" {
+			add, err := address.FromHex(addr)
+			if err != nil {
+				return nil, err
+			}
+			addr = add.String()
+
+		}
+		addr = strings.ToLower(addr)
 		if results[addr] == nil {
 			result = append(result, big.NewInt(0))
 		} else {
