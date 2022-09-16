@@ -170,27 +170,16 @@ func (s *ChainService) TotalTransferredTokens(ctx context.Context, req *api.Tota
 	return resp, nil
 }
 
-func (s *ChainService) ChartSync(ctx context.Context, req *api.ChartSyncRequest) (*api.ChartSyncResponse, error) {
-	resp := &api.ChartSyncResponse{}
+func (s *ChainService) BlockSizeByHeight(ctx context.Context, req *api.BlockSizeByHeightRequest) (*api.BlockSizeByHeightResponse, error) {
+	resp := &api.BlockSizeByHeightResponse{}
 	db := db.DB()
-	query := "select max(block_height),date(timestamp) from block GROUP BY date(timestamp)"
-	rows, err := db.WithContext(ctx).Raw(query).Rows()
-	if err != nil {
+	query := "select block_size from block_meta where block_height=?"
+	var size uint64
+	if err := db.WithContext(ctx).Raw(query, req.GetHeight()).Scan(&size).Error; err != nil {
 		return nil, err
 	}
-	defer rows.Close()
-	var blkNo uint64
-	var date string
-	for rows.Next() {
-		if err := rows.Scan(&blkNo, &date); err != nil {
-			return nil, err
-		}
-		resp.States = append(resp.States, &api.ChartSyncResponse_State{
-			BlockNumber:   blkNo,
-			Time:          date,
-			ServerVersion: getHardForkVersion(blkNo),
-		})
-	}
+	resp.BlockSize = float64(size) * 0.499
+	resp.ServerVersion = getHardForkVersion(req.GetHeight())
 	return resp, nil
 }
 

@@ -25,8 +25,8 @@ type ChainServiceClient interface {
 	NumberOfActions(ctx context.Context, in *NumberOfActionsRequest, opts ...grpc.CallOption) (*NumberOfActionsResponse, error)
 	// TotalTransferredTokens gives the amount of tokens transferred within a time frame
 	TotalTransferredTokens(ctx context.Context, in *TotalTransferredTokensRequest, opts ...grpc.CallOption) (*TotalTransferredTokensResponse, error)
-	// ChartSync gives the chart sync status
-	ChartSync(ctx context.Context, in *ChartSyncRequest, opts ...grpc.CallOption) (*ChartSyncResponse, error)
+	// BlockSizeByHeight gives the block size by height
+	BlockSizeByHeight(ctx context.Context, in *BlockSizeByHeightRequest, opts ...grpc.CallOption) (*BlockSizeByHeightResponse, error)
 }
 
 type chainServiceClient struct {
@@ -73,9 +73,9 @@ func (c *chainServiceClient) TotalTransferredTokens(ctx context.Context, in *Tot
 	return out, nil
 }
 
-func (c *chainServiceClient) ChartSync(ctx context.Context, in *ChartSyncRequest, opts ...grpc.CallOption) (*ChartSyncResponse, error) {
-	out := new(ChartSyncResponse)
-	err := c.cc.Invoke(ctx, "/api.ChainService/ChartSync", in, out, opts...)
+func (c *chainServiceClient) BlockSizeByHeight(ctx context.Context, in *BlockSizeByHeightRequest, opts ...grpc.CallOption) (*BlockSizeByHeightResponse, error) {
+	out := new(BlockSizeByHeightResponse)
+	err := c.cc.Invoke(ctx, "/api.ChainService/BlockSizeByHeight", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -93,8 +93,8 @@ type ChainServiceServer interface {
 	NumberOfActions(context.Context, *NumberOfActionsRequest) (*NumberOfActionsResponse, error)
 	// TotalTransferredTokens gives the amount of tokens transferred within a time frame
 	TotalTransferredTokens(context.Context, *TotalTransferredTokensRequest) (*TotalTransferredTokensResponse, error)
-	// ChartSync gives the chart sync status
-	ChartSync(context.Context, *ChartSyncRequest) (*ChartSyncResponse, error)
+	// BlockSizeByHeight gives the block size by height
+	BlockSizeByHeight(context.Context, *BlockSizeByHeightRequest) (*BlockSizeByHeightResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -114,8 +114,8 @@ func (UnimplementedChainServiceServer) NumberOfActions(context.Context, *NumberO
 func (UnimplementedChainServiceServer) TotalTransferredTokens(context.Context, *TotalTransferredTokensRequest) (*TotalTransferredTokensResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TotalTransferredTokens not implemented")
 }
-func (UnimplementedChainServiceServer) ChartSync(context.Context, *ChartSyncRequest) (*ChartSyncResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChartSync not implemented")
+func (UnimplementedChainServiceServer) BlockSizeByHeight(context.Context, *BlockSizeByHeightRequest) (*BlockSizeByHeightResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlockSizeByHeight not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 
@@ -202,20 +202,20 @@ func _ChainService_TotalTransferredTokens_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChainService_ChartSync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChartSyncRequest)
+func _ChainService_BlockSizeByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BlockSizeByHeightRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChainServiceServer).ChartSync(ctx, in)
+		return srv.(ChainServiceServer).BlockSizeByHeight(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.ChainService/ChartSync",
+		FullMethod: "/api.ChainService/BlockSizeByHeight",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChainServiceServer).ChartSync(ctx, req.(*ChartSyncRequest))
+		return srv.(ChainServiceServer).BlockSizeByHeight(ctx, req.(*BlockSizeByHeightRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -244,8 +244,8 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ChainService_TotalTransferredTokens_Handler,
 		},
 		{
-			MethodName: "ChartSync",
-			Handler:    _ChainService_ChartSync_Handler,
+			MethodName: "BlockSizeByHeight",
+			Handler:    _ChainService_BlockSizeByHeight_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

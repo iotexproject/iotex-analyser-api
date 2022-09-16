@@ -23,6 +23,8 @@ var (
 	gql__type_ChartSyncRequest                *graphql.Object      // message ChartSyncRequest in api_chain.proto
 	gql__type_ChainResponse_Rewards           *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
 	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
+	gql__type_BlockSizeByHeightResponse       *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
+	gql__type_BlockSizeByHeightRequest        *graphql.Object      // message BlockSizeByHeightRequest in api_chain.proto
 	gql__input_VotingResultMeta               *graphql.InputObject // message VotingResultMeta in api_chain.proto
 	gql__input_TotalTransferredTokensResponse *graphql.InputObject // message TotalTransferredTokensResponse in api_chain.proto
 	gql__input_TotalTransferredTokensRequest  *graphql.InputObject // message TotalTransferredTokensRequest in api_chain.proto
@@ -35,6 +37,8 @@ var (
 	gql__input_ChartSyncRequest               *graphql.InputObject // message ChartSyncRequest in api_chain.proto
 	gql__input_ChainResponse_Rewards          *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
 	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
+	gql__input_BlockSizeByHeightResponse      *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
+	gql__input_BlockSizeByHeightRequest       *graphql.InputObject // message BlockSizeByHeightRequest in api_chain.proto
 )
 
 func Gql__type_VotingResultMeta() *graphql.Object {
@@ -155,16 +159,19 @@ func Gql__type_ChartSyncResponse_State() *graphql.Object {
 		gql__type_ChartSyncResponse_State = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Api_Type_ChartSyncResponse_State",
 			Fields: graphql.Fields{
-				"time": &graphql.Field{
+				"date": &graphql.Field{
 					Type: graphql.String,
 				},
-				"size": &graphql.Field{
-					Type: graphql.String,
+				"blockSize": &graphql.Field{
+					Type: graphql.Float,
 				},
 				"serverVersion": &graphql.Field{
 					Type: graphql.String,
 				},
-				"blockNumber": &graphql.Field{
+				"minHeight": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"maxHeight": &graphql.Field{
 					Type: graphql.Int,
 				},
 			},
@@ -254,6 +261,37 @@ func Gql__type_ChainResponse() *graphql.Object {
 		})
 	}
 	return gql__type_ChainResponse
+}
+
+func Gql__type_BlockSizeByHeightResponse() *graphql.Object {
+	if gql__type_BlockSizeByHeightResponse == nil {
+		gql__type_BlockSizeByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BlockSizeByHeightResponse",
+			Fields: graphql.Fields{
+				"blockSize": &graphql.Field{
+					Type: graphql.Float,
+				},
+				"serverVersion": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_BlockSizeByHeightResponse
+}
+
+func Gql__type_BlockSizeByHeightRequest() *graphql.Object {
+	if gql__type_BlockSizeByHeightRequest == nil {
+		gql__type_BlockSizeByHeightRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BlockSizeByHeightRequest",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_BlockSizeByHeightRequest
 }
 
 func Gql__input_VotingResultMeta() *graphql.InputObject {
@@ -374,16 +412,19 @@ func Gql__input_ChartSyncResponse_State() *graphql.InputObject {
 		gql__input_ChartSyncResponse_State = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Api_Input_ChartSyncResponse_State",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"time": &graphql.InputObjectFieldConfig{
+				"date": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
-				"size": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+				"blockSize": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
 				},
 				"serverVersion": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
-				"blockNumber": &graphql.InputObjectFieldConfig{
+				"minHeight": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"maxHeight": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
 			},
@@ -473,6 +514,37 @@ func Gql__input_ChainResponse() *graphql.InputObject {
 		})
 	}
 	return gql__input_ChainResponse
+}
+
+func Gql__input_BlockSizeByHeightResponse() *graphql.InputObject {
+	if gql__input_BlockSizeByHeightResponse == nil {
+		gql__input_BlockSizeByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BlockSizeByHeightResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"blockSize": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+				"serverVersion": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_BlockSizeByHeightResponse
+}
+
+func Gql__input_BlockSizeByHeightRequest() *graphql.InputObject {
+	if gql__input_BlockSizeByHeightRequest == nil {
+		gql__input_BlockSizeByHeightRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BlockSizeByHeightRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_BlockSizeByHeightRequest
 }
 
 // graphql__resolver_ChainService is a struct for making query, mutation and resolve fields.
@@ -599,22 +671,22 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 				return resp, nil
 			},
 		},
-		"ChartSync": &graphql.Field{
-			Type: Gql__type_ChartSyncResponse(),
+		"BlockSizeByHeight": &graphql.Field{
+			Type: Gql__type_BlockSizeByHeightResponse(),
 			Args: graphql.FieldConfigArgument{
-				"archive": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
+				"height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req ChartSyncRequest
+				var req BlockSizeByHeightRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for ChartSync")
+					return nil, errors.Wrap(err, "Failed to marshal request for BlockSizeByHeight")
 				}
 				client := NewChainServiceClient(conn)
-				resp, err := client.ChartSync(p.Context, &req)
+				resp, err := client.BlockSizeByHeight(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC ChartSync")
+					return nil, errors.Wrap(err, "Failed to call RPC BlockSizeByHeight")
 				}
 				return resp, nil
 			},

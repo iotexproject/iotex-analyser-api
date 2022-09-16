@@ -7,10 +7,14 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/iotexproject/iotex-analyser-api/apiservice"
+	"github.com/iotexproject/iotex-analyser-api/common/tasks"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-core/pkg/routine"
+	"go.uber.org/zap"
 )
 
 //go:embed templates
@@ -61,6 +65,16 @@ func main() {
 	go func() {
 		if err := apiservice.StartGRPCProxyService(templates); err != nil {
 			log.Fatalf("failed to start HTTP API service, %v", err)
+		}
+	}()
+
+	task := routine.NewRecurringTask(tasks.ChainSyncWorker, time.Hour*6)
+	if err := task.Start(ctx); err != nil {
+		log.Fatal("Failed to start chainsync routine.", zap.Error(err))
+	}
+	defer func() {
+		if err := task.Stop(ctx); err != nil {
+			log.Fatal("Failed to stop chainsync routine.", zap.Error(err))
 		}
 	}()
 	stop := make(chan os.Signal, 1)
