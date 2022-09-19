@@ -2009,6 +2009,83 @@
     <title>api_chain.proto</title>
     <para></para>
     
+    <section id="api.BlockSizeByHeightRequest">
+      <title>BlockSizeByHeightRequest</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BlockSizeByHeightRequest</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>height</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
+              <entry></entry>
+              <entry><para>block height</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.BlockSizeByHeightResponse">
+      <title>BlockSizeByHeightResponse</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>BlockSizeByHeightResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>blockSize</entry>
+              <entry><link linkend="double">double</link></entry>
+              <entry></entry>
+              <entry><para>size</para></entry>
+            </row>
+            
+            <row>
+              <entry>serverVersion</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>version</para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
     <section id="api.ChainRequest">
       <title>ChainRequest</title>
       <para></para>
@@ -2480,6 +2557,13 @@
               <entry><link linkend="api.TotalTransferredTokensRequest">TotalTransferredTokensRequest</link></entry>
               <entry><link linkend="api.TotalTransferredTokensResponse">TotalTransferredTokensResponse</link></entry>
               <entry><para>TotalTransferredTokens gives the amount of tokens transferred within a time frame</para></entry>
+            </row>
+            
+            <row>
+              <entry>BlockSizeByHeight</entry>
+              <entry><link linkend="api.BlockSizeByHeightRequest">BlockSizeByHeightRequest</link></entry>
+              <entry><link linkend="api.BlockSizeByHeightResponse">BlockSizeByHeightResponse</link></entry>
+              <entry><para>BlockSizeByHeight gives the block size by height</para></entry>
             </row>
             
           </tbody>

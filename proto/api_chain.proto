@@ -60,27 +60,12 @@ message TotalTransferredTokensResponse {
 }
 
 message BlockSizeByHeightRequest {
-  uint64 height = 1;
+  uint64 height = 1; // block height
 }
 
 message BlockSizeByHeightResponse {
   double blockSize = 2; // size
   string serverVersion = 3; // version
-}
-
-message ChartSyncRequest {
-  bool archive = 1; // archive mode
-}
-
-message ChartSyncResponse {
-  message State{
-    string date = 1; // date
-    double blockSize = 2; // size
-    string serverVersion = 3; // version
-    uint64 minHeight = 4; // min height
-    uint64 maxHeight = 5; // max height
-  }
-  repeated State states = 1; // states
 }
 
 service ChainService {
