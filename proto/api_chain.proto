@@ -59,6 +59,15 @@ message TotalTransferredTokensResponse {
   string totalTransferredTokens = 1; // total tranferred tokens
 }
 
+message BlockSizeByHeightRequest {
+  uint64 height = 1; // block height
+}
+
+message BlockSizeByHeightResponse {
+  double blockSize = 2; // size
+  string serverVersion = 3; // version
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -102,6 +111,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.TotalTransferredTokens"
+      body: "*"
+    };
+  };
+
+  // BlockSizeByHeight gives the block size by height
+  rpc BlockSizeByHeight(BlockSizeByHeightRequest) returns (BlockSizeByHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "BlockSizeByHeight"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.BlockSizeByHeight"
       body: "*"
     };
   };

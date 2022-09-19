@@ -63,6 +63,7 @@ func main() {
 			log.Fatalf("failed to start HTTP API service, %v", err)
 		}
 	}()
+
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
 

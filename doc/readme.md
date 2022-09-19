@@ -54,6 +54,8 @@
     - [ActionsService](#api-ActionsService)
   
 - [api_chain.proto](#api_chain-proto)
+    - [BlockSizeByHeightRequest](#api-BlockSizeByHeightRequest)
+    - [BlockSizeByHeightResponse](#api-BlockSizeByHeightResponse)
     - [ChainRequest](#api-ChainRequest)
     - [ChainResponse](#api-ChainResponse)
     - [ChainResponse.Rewards](#api-ChainResponse-Rewards)
@@ -886,6 +888,37 @@
 
 
 
+<a name="api-BlockSizeByHeightRequest"></a>
+
+### BlockSizeByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+
+
+
+
+
+
+<a name="api-BlockSizeByHeightResponse"></a>
+
+### BlockSizeByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| blockSize | [double](#double) |  | size |
+| serverVersion | [string](#string) |  | version |
+
+
+
+
+
+
 <a name="api-ChainRequest"></a>
 
 ### ChainRequest
@@ -1062,6 +1095,7 @@
 | MostRecentTPS | [MostRecentTPSRequest](#api-MostRecentTPSRequest) | [MostRecentTPSResponse](#api-MostRecentTPSResponse) | MostRecentTPS gives the latest transactions per second |
 | NumberOfActions | [NumberOfActionsRequest](#api-NumberOfActionsRequest) | [NumberOfActionsResponse](#api-NumberOfActionsResponse) | NumberOfActions gives the number of actions |
 | TotalTransferredTokens | [TotalTransferredTokensRequest](#api-TotalTransferredTokensRequest) | [TotalTransferredTokensResponse](#api-TotalTransferredTokensResponse) | TotalTransferredTokens gives the amount of tokens transferred within a time frame |
+| BlockSizeByHeight | [BlockSizeByHeightRequest](#api-BlockSizeByHeightRequest) | [BlockSizeByHeightResponse](#api-BlockSizeByHeightResponse) | BlockSizeByHeight gives the block size by height |
 
  
 

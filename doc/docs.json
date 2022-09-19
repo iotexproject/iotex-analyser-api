@@ -2228,6 +2228,66 @@
       "extensions": [],
       "messages": [
         {
+          "name": "BlockSizeByHeightRequest",
+          "longName": "BlockSizeByHeightRequest",
+          "fullName": "api.BlockSizeByHeightRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "height",
+              "description": "block height",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "BlockSizeByHeightResponse",
+          "longName": "BlockSizeByHeightResponse",
+          "fullName": "api.BlockSizeByHeightResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "blockSize",
+              "description": "size",
+              "label": "",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "serverVersion",
+              "description": "version",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "ChainRequest",
           "longName": "ChainRequest",
           "fullName": "api.ChainRequest",
@@ -2716,6 +2776,29 @@
                     {
                       "method": "POST",
                       "pattern": "/api.ChainService.TotalTransferredTokens",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "BlockSizeByHeight",
+              "description": "BlockSizeByHeight gives the block size by height",
+              "requestType": "BlockSizeByHeightRequest",
+              "requestLongType": "BlockSizeByHeightRequest",
+              "requestFullType": "api.BlockSizeByHeightRequest",
+              "requestStreaming": false,
+              "responseType": "BlockSizeByHeightResponse",
+              "responseLongType": "BlockSizeByHeightResponse",
+              "responseFullType": "api.BlockSizeByHeightResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.BlockSizeByHeight",
                       "body": "*"
                     }
                   ]

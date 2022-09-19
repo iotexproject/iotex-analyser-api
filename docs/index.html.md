@@ -380,6 +380,72 @@ query {
 | totalTransferredTokens | [string](#string) |  | total tranferred tokens |
 
 
+## BlockSizeByHeightRequest
+
+BlockSizeByHeightRequest gives the block size and server version by block height
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.BlockSizeByHeight \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"height": 3233333
+}'
+```
+
+```graphql
+query{
+  BlockSizeByHeight(height:3233333){
+    serverVersion
+    blockSize
+  }
+}
+
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "BlockSizeByHeight": {
+      "blockSize": 1707.578,
+      "serverVersion": "0.10.0"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.BlockSizeByHeight`
+
+<a name="api-BlockSizeByHeightRequest"></a>
+
+### BlockSizeByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+
+
+
+
+
+
+<a name="api-BlockSizeByHeightResponse"></a>
+
+### BlockSizeByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| blockSize | [double](#double) |  | size |
+| serverVersion | [string](#string) |  | version |
+
 # Delegate Service API
 
 ## BucketInfo

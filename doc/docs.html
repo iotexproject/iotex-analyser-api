@@ -372,6 +372,14 @@
             <ul>
               
                 <li>
+                  <a href="#api.BlockSizeByHeightRequest"><span class="badge">M</span>BlockSizeByHeightRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.BlockSizeByHeightResponse"><span class="badge">M</span>BlockSizeByHeightResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.ChainRequest"><span class="badge">M</span>ChainRequest</a>
                 </li>
               
@@ -2619,6 +2627,61 @@
       <p></p>
 
       
+        <h3 id="api.BlockSizeByHeightRequest">BlockSizeByHeightRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>height</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>block height </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.BlockSizeByHeightResponse">BlockSizeByHeightResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>blockSize</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>size </p></td>
+                </tr>
+              
+                <tr>
+                  <td>serverVersion</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>version </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.ChainRequest">ChainRequest</h3>
         <p></p>
 
@@ -2982,6 +3045,13 @@
                 <td><p>TotalTransferredTokens gives the amount of tokens transferred within a time frame</p></td>
               </tr>
             
+              <tr>
+                <td>BlockSizeByHeight</td>
+                <td><a href="#api.BlockSizeByHeightRequest">BlockSizeByHeightRequest</a></td>
+                <td><a href="#api.BlockSizeByHeightResponse">BlockSizeByHeightResponse</a></td>
+                <td><p>BlockSizeByHeight gives the block size by height</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -3036,6 +3106,16 @@
                 <td>TotalTransferredTokens</td>
                 <td>POST</td>
                 <td>/api.ChainService.TotalTransferredTokens</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>BlockSizeByHeight</td>
+                <td>POST</td>
+                <td>/api.ChainService.BlockSizeByHeight</td>
                 <td>*</td>
               </tr>
               
