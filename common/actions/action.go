@@ -8,6 +8,36 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/db"
 )
 
+// GetBlockTimes returns the block times
+func GetBlockTimes() (time.Time, time.Time, error) {
+	db := db.DB()
+	var result struct {
+		MinTime time.Time
+		MaxTime time.Time
+	}
+	query := "select (select timestamp min_time from block order by block_height asc limit 1), (select timestamp max_time from block order by block_height desc limit 1)"
+	if err := db.Raw(query).Scan(&result).Error; err != nil {
+		return time.Time{}, time.Time{}, err
+	}
+	return result.MinTime, result.MaxTime, nil
+}
+
+func GetBlockStatsByDate(unixtime int64) (minBlkHeight uint64, maxBlkHeight uint64, totalSize uint64, err error) {
+	db := db.DB()
+	date := time.Unix(unixtime, 0).Format("2006-01-02")
+	var result struct {
+		MinBlkHeight uint64
+		MaxBlkHeight uint64
+		TotalSize    uint64
+	}
+	//use timestamp index to get the block height
+	query := fmt.Sprintf("select min(b.block_height) min_blk_height,max(b.block_height) max_blk_height,sum(bm.block_size) total_size from block b inner join block_meta bm using(block_height) where timestamp::date='%s'::date", date)
+	if err := db.Raw(query).Scan(&result).Error; err != nil {
+		return 0, 0, 0, err
+	}
+	return result.MinBlkHeight, result.MaxBlkHeight, result.TotalSize, nil
+}
+
 func getHeightByDate(unixtime uint64) (minBlkHeight uint64, maxBlkHeight uint64, err error) {
 	db := db.DB()
 	date := time.Unix(int64(unixtime), 0).Format("2006-01-02")

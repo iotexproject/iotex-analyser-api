@@ -169,3 +169,45 @@ func (s *ChainService) TotalTransferredTokens(ctx context.Context, req *api.Tota
 	resp.TotalTransferredTokens = result
 	return resp, nil
 }
+
+func (s *ChainService) BlockSizeByHeight(ctx context.Context, req *api.BlockSizeByHeightRequest) (*api.BlockSizeByHeightResponse, error) {
+	resp := &api.BlockSizeByHeightResponse{}
+	db := db.DB()
+	query := "select block_size from block_meta where block_height=?"
+	var size uint64
+	if err := db.WithContext(ctx).Raw(query, req.GetHeight()).Scan(&size).Error; err != nil {
+		return nil, err
+	}
+	resp.BlockSize = float64(size) * 0.499
+	resp.ServerVersion = getHardForkVersion(req.GetHeight())
+	return resp, nil
+}
+
+//https://iotexscan.io/hard-fork-history
+func getHardForkVersion(blk uint64) string {
+	vers := []struct {
+		h uint64
+		v string
+	}{
+		{432001, "0.6.2"},
+		{864001, "0.7.2"},
+		{1512001, "0.8.3"},
+		{1641601, "0.9.0"},
+		{1816201, "0.10.0"},
+		{5165641, "1.0.0"},
+		{6544441, "1.1.0"},
+		{11267641, "1.2.0"},
+		{12289321, "1.3.0"},
+		{13685401, "1.4.0"},
+		{13816441, "1.5.0"},
+		{13979161, "1.6.0"},
+		{16509241, "1.7.0"},
+		{17662681, "1.8.0"},
+	}
+	for i := len(vers) - 1; i >= 0; i-- {
+		if blk >= vers[i].h {
+			return vers[i].v
+		}
+	}
+	return "0.6.0"
+}
