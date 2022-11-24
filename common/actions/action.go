@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/db"
 )
 
@@ -117,6 +118,9 @@ func GetActionInfoByHash(actHash string) (*ActionInfo, error) {
 	if err := db.Raw(query, actHash).Scan(&actionInfo).Error; err != nil {
 		return nil, err
 	}
+	if actionInfo == nil {
+		return nil, common.ErrActionNotExist
+	}
 	return actionInfo, nil
 }
 
@@ -127,6 +131,9 @@ func GetBlockReceiptTransactionByHash(actHash string) ([]*BlockReceiptTransactio
 	query := "SELECT * FROM block_receipt_transactions WHERE action_hash=?"
 	if err := db.Raw(query, actHash).Scan(&blkReceiptTransactions).Error; err != nil {
 		return nil, err
+	}
+	if len(blkReceiptTransactions) == 0 {
+		return nil, common.ErrActionNotExist
 	}
 	return blkReceiptTransactions, nil
 }
