@@ -132,9 +132,6 @@ func GetBlockReceiptTransactionByHash(actHash string) ([]*BlockReceiptTransactio
 	if err := db.Raw(query, actHash).Scan(&blkReceiptTransactions).Error; err != nil {
 		return nil, err
 	}
-	if len(blkReceiptTransactions) == 0 {
-		return nil, common.ErrActionNotExist
-	}
 	return blkReceiptTransactions, nil
 }
 
