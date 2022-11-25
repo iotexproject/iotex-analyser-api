@@ -62,7 +62,7 @@ func PageSortBy(req *pagination.Pagination) string {
 
 // Address returns the io address from the given string
 func Address(addr string) (*string, error) {
-	if addr == "" {
+	if len(addr) < 2 {
 		return nil, address.ErrInvalidAddr
 	}
 	if addr[:2] == "0x" || addr[:2] == "0X" {

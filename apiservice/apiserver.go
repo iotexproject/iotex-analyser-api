@@ -8,8 +8,11 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"runtime/debug"
 	"text/template"
 
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -17,13 +20,18 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	graphqlruntime "github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 )
 
 // DocsHTML embed the docs HTML
 var DocsHTML embed.FS
+var (
+	customFunc grpc_recovery.RecoveryHandlerFunc
+)
 
 const (
 	// MaxRecvMsgSize is the max recv size
@@ -124,12 +132,18 @@ func StartGRPCService(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-
+	customFunc = func(p interface{}) (err error) {
+		log.Println("panic :", p, string(debug.Stack()))
+		return status.Errorf(codes.InvalidArgument, "Panic triggered")
+	}
 	var options = []grpc.ServerOption{
 		grpc.MaxRecvMsgSize(MaxRecvMsgSize),
 		grpc.MaxSendMsgSize(MaxSendMsgSize),
 		grpc.StreamInterceptor(grpc_prometheus.StreamServerInterceptor),
-		grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
+		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+			grpc_prometheus.UnaryServerInterceptor,
+			grpc_recovery.UnaryServerInterceptor(grpc_recovery.WithRecoveryHandler(customFunc)),
+		)),
 	}
 
 	grpcServer := grpc.NewServer(options...)

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"embed"
+	"io"
 	"log"
 	"os"
 	"os/signal"
@@ -24,7 +25,6 @@ const (
 )
 
 func main() {
-
 	configPath := os.Getenv(ConfigPath)
 	//first load config from env
 	if configPath == "" {
@@ -42,6 +42,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to parse config: %v", err)
 	}
+
+	if config.Default.LogPath != "" {
+		f, err := os.OpenFile(config.Default.LogPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+		if err != nil {
+			log.Fatalf("Failed to open log file: %v", err)
+		}
+		log.SetOutput(io.MultiWriter(f, os.Stdout))
+	}
+
 	log.Printf("loaded config: %+v", config.Default)
 	_, err = db.Connect()
 	if err != nil {
