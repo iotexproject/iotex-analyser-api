@@ -62,6 +62,7 @@ type (
 		Server   Server   `yaml:"server"`
 		Database Database `yaml:"database"`
 		RPC      string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
+		LogPath  string   `yaml:"logPath" env:"LOG_PATH"`
 		Genesis  Genesis  `yaml:"genesis"`
 	}
 )
