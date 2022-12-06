@@ -10,6 +10,7 @@ import (
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
+	"github.com/iotexproject/iotex-analyser-api/common/actions"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
@@ -36,26 +37,9 @@ func (s *StakingService) VoteByHeight(ctx context.Context, req *api.VoteByHeight
 
 			addr = add.String()
 		}
-		bucketIDs, err := getBucketIDsByAddressWithHeight(addr, height)
+		stakeAmounts, voteWeights, err := actions.GetStakedBucketByVoterAndHeight(addr, height)
 		if err != nil {
 			return nil, err
-		}
-		stakeAmounts := big.NewInt(0)
-		voteWeights := big.NewInt(0)
-		for _, bucketID := range bucketIDs {
-			stakeAmount, err := getSumStake(addr, height, bucketID)
-			if err != nil {
-				return nil, err
-			}
-			stakeAmounts = stakeAmounts.Add(stakeAmounts, stakeAmount)
-			duration, autoStake, selfAutoStake := getVoteBucketParams(addr, height, bucketID)
-			voteBucket := &VoteBucket{
-				StakedAmount:   stakeAmount,
-				AutoStake:      autoStake,
-				StakedDuration: duration,
-			}
-			voteWeight := calculateVoteWeight(config.Default.Genesis.VoteWeightCalConsts, voteBucket, selfAutoStake)
-			voteWeights = voteWeights.Add(voteWeights, voteWeight)
 		}
 		resp.StakeAmount = append(resp.StakeAmount, util.RauToString(stakeAmounts, util.IotxDecimalNum))
 		resp.VoteWeight = append(resp.VoteWeight, util.RauToString(voteWeights, util.IotxDecimalNum))
