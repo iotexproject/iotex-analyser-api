@@ -1806,8 +1806,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| address | [string](#string) | repeated |  |
-| height | [uint64](#uint64) |  |  |
+| address | [string](#string) | repeated | voter address list |
+| height | [uint64](#uint64) |  | block height |
 
 
 
@@ -1822,9 +1822,9 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| height | [uint64](#uint64) |  |  |
-| stakeAmount | [string](#string) | repeated |  |
-| voteWeight | [string](#string) | repeated |  |
+| height | [uint64](#uint64) |  | block height |
+| stakeAmount | [string](#string) | repeated | stake amount list |
+| voteWeight | [string](#string) | repeated | vote weight list |
 
 
 
@@ -1844,7 +1844,7 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| VoteByHeight | [VoteByHeightRequest](#api-VoteByHeightRequest) | [VoteByHeightResponse](#api-VoteByHeightResponse) |  |
+| VoteByHeight | [VoteByHeightRequest](#api-VoteByHeightRequest) | [VoteByHeightResponse](#api-VoteByHeightResponse) | Get the stake amount and voting weight of the voter&#39;s specified height |
 | CandidateVoteByHeight | [CandidateVoteByHeightRequest](#api-CandidateVoteByHeightRequest) | [CandidateVoteByHeightResponse](#api-CandidateVoteByHeightResponse) |  |
 
  

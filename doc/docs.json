@@ -5063,7 +5063,7 @@
           "fields": [
             {
               "name": "address",
-              "description": "",
+              "description": "voter address list",
               "label": "repeated",
               "type": "string",
               "longType": "string",
@@ -5075,7 +5075,7 @@
             },
             {
               "name": "height",
-              "description": "",
+              "description": "block height",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -5099,7 +5099,7 @@
           "fields": [
             {
               "name": "height",
-              "description": "",
+              "description": "block height",
               "label": "",
               "type": "uint64",
               "longType": "uint64",
@@ -5111,7 +5111,7 @@
             },
             {
               "name": "stakeAmount",
-              "description": "",
+              "description": "stake amount list",
               "label": "repeated",
               "type": "string",
               "longType": "string",
@@ -5123,7 +5123,7 @@
             },
             {
               "name": "voteWeight",
-              "description": "",
+              "description": "vote weight list",
               "label": "repeated",
               "type": "string",
               "longType": "string",
@@ -5145,7 +5145,7 @@
           "methods": [
             {
               "name": "VoteByHeight",
-              "description": "",
+              "description": "Get the stake amount and voting weight of the voter's specified height",
               "requestType": "VoteByHeightRequest",
               "requestLongType": "VoteByHeightRequest",
               "requestFullType": "api.VoteByHeightRequest",

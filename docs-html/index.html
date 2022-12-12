@@ -428,7 +428,7 @@
             <a href="#staking-service-api" class="toc-h1 toc-link" data-title="Staking Service API">Staking Service API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#actionbyaddress-2" class="toc-h2 toc-link" data-title="ActionByAddress">ActionByAddress</a>
+                    <a href="#votebyheight" class="toc-h2 toc-link" data-title="VoteByHeight">VoteByHeight</a>
                   </li>
               </ul>
           </li>
@@ -3553,8 +3553,8 @@
 <td>unix timestamp</td>
 </tr>
 </tbody></table>
-<h1 id='staking-service-api'>Staking Service API</h1><h2 id='actionbyaddress-2'>ActionByAddress</h2>
-<p>ActionByAddress finds actions by address</p>
+<h1 id='staking-service-api'>Staking Service API</h1><h2 id='votebyheight'>VoteByHeight</h2>
+<p>Get the stake amount and voting weight of the voter&#39;s specified height</p>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
   <span class="nt">--url</span> https://analyser-api.iotex.io/api.StakingService.VoteByHeight <span class="se">\</span>
   <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
