@@ -27,8 +27,8 @@ type VoteByHeightRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Address []string `protobuf:"bytes,1,rep,name=address,proto3" json:"address,omitempty"`
-	Height  uint64   `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`
+	Address []string `protobuf:"bytes,1,rep,name=address,proto3" json:"address,omitempty"` // voter address list
+	Height  uint64   `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`  // block height
 }
 
 func (x *VoteByHeightRequest) Reset() {
@@ -82,9 +82,9 @@ type VoteByHeightResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Height      uint64   `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
-	StakeAmount []string `protobuf:"bytes,2,rep,name=stakeAmount,proto3" json:"stakeAmount,omitempty"`
-	VoteWeight  []string `protobuf:"bytes,3,rep,name=voteWeight,proto3" json:"voteWeight,omitempty"`
+	Height      uint64   `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`          // block height
+	StakeAmount []string `protobuf:"bytes,2,rep,name=stakeAmount,proto3" json:"stakeAmount,omitempty"` // stake amount list
+	VoteWeight  []string `protobuf:"bytes,3,rep,name=voteWeight,proto3" json:"voteWeight,omitempty"`   // vote weight list
 }
 
 func (x *VoteByHeightResponse) Reset() {

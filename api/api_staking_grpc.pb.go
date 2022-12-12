@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StakingServiceClient interface {
+	// Get the stake amount and voting weight of the voter's specified height
 	VoteByHeight(ctx context.Context, in *VoteByHeightRequest, opts ...grpc.CallOption) (*VoteByHeightResponse, error)
 	CandidateVoteByHeight(ctx context.Context, in *CandidateVoteByHeightRequest, opts ...grpc.CallOption) (*CandidateVoteByHeightResponse, error)
 }
@@ -52,6 +53,7 @@ func (c *stakingServiceClient) CandidateVoteByHeight(ctx context.Context, in *Ca
 // All implementations must embed UnimplementedStakingServiceServer
 // for forward compatibility
 type StakingServiceServer interface {
+	// Get the stake amount and voting weight of the voter's specified height
 	VoteByHeight(context.Context, *VoteByHeightRequest) (*VoteByHeightResponse, error)
 	CandidateVoteByHeight(context.Context, *CandidateVoteByHeightRequest) (*CandidateVoteByHeightResponse, error)
 	mustEmbedUnimplementedStakingServiceServer()

@@ -18,9 +18,6 @@ var (
 	gql__type_NumberOfActionsRequest          *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
 	gql__type_MostRecentTPSResponse           *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
 	gql__type_MostRecentTPSRequest            *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
-	gql__type_ChartSyncResponse_State         *graphql.Object      // message ChartSyncResponse.State in api_chain.proto
-	gql__type_ChartSyncResponse               *graphql.Object      // message ChartSyncResponse in api_chain.proto
-	gql__type_ChartSyncRequest                *graphql.Object      // message ChartSyncRequest in api_chain.proto
 	gql__type_ChainResponse_Rewards           *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
 	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
 	gql__type_BlockSizeByHeightResponse       *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
@@ -32,9 +29,6 @@ var (
 	gql__input_NumberOfActionsRequest         *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
 	gql__input_MostRecentTPSResponse          *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
 	gql__input_MostRecentTPSRequest           *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
-	gql__input_ChartSyncResponse_State        *graphql.InputObject // message ChartSyncResponse.State in api_chain.proto
-	gql__input_ChartSyncResponse              *graphql.InputObject // message ChartSyncResponse in api_chain.proto
-	gql__input_ChartSyncRequest               *graphql.InputObject // message ChartSyncRequest in api_chain.proto
 	gql__input_ChainResponse_Rewards          *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
 	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
 	gql__input_BlockSizeByHeightResponse      *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
@@ -152,60 +146,6 @@ func Gql__type_MostRecentTPSRequest() *graphql.Object {
 		})
 	}
 	return gql__type_MostRecentTPSRequest
-}
-
-func Gql__type_ChartSyncResponse_State() *graphql.Object {
-	if gql__type_ChartSyncResponse_State == nil {
-		gql__type_ChartSyncResponse_State = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_ChartSyncResponse_State",
-			Fields: graphql.Fields{
-				"date": &graphql.Field{
-					Type: graphql.String,
-				},
-				"blockSize": &graphql.Field{
-					Type: graphql.Float,
-				},
-				"serverVersion": &graphql.Field{
-					Type: graphql.String,
-				},
-				"minHeight": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"maxHeight": &graphql.Field{
-					Type: graphql.Int,
-				},
-			},
-		})
-	}
-	return gql__type_ChartSyncResponse_State
-}
-
-func Gql__type_ChartSyncResponse() *graphql.Object {
-	if gql__type_ChartSyncResponse == nil {
-		gql__type_ChartSyncResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_ChartSyncResponse",
-			Fields: graphql.Fields{
-				"states": &graphql.Field{
-					Type: graphql.NewList(Gql__type_ChartSyncResponse_State()),
-				},
-			},
-		})
-	}
-	return gql__type_ChartSyncResponse
-}
-
-func Gql__type_ChartSyncRequest() *graphql.Object {
-	if gql__type_ChartSyncRequest == nil {
-		gql__type_ChartSyncRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_ChartSyncRequest",
-			Fields: graphql.Fields{
-				"archive": &graphql.Field{
-					Type: graphql.Boolean,
-				},
-			},
-		})
-	}
-	return gql__type_ChartSyncRequest
 }
 
 func Gql__type_ChainResponse_Rewards() *graphql.Object {
@@ -405,60 +345,6 @@ func Gql__input_MostRecentTPSRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_MostRecentTPSRequest
-}
-
-func Gql__input_ChartSyncResponse_State() *graphql.InputObject {
-	if gql__input_ChartSyncResponse_State == nil {
-		gql__input_ChartSyncResponse_State = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_ChartSyncResponse_State",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"date": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"blockSize": &graphql.InputObjectFieldConfig{
-					Type: graphql.Float,
-				},
-				"serverVersion": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"minHeight": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"maxHeight": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-			},
-		})
-	}
-	return gql__input_ChartSyncResponse_State
-}
-
-func Gql__input_ChartSyncResponse() *graphql.InputObject {
-	if gql__input_ChartSyncResponse == nil {
-		gql__input_ChartSyncResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_ChartSyncResponse",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"states": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_ChartSyncResponse_State()),
-				},
-			},
-		})
-	}
-	return gql__input_ChartSyncResponse
-}
-
-func Gql__input_ChartSyncRequest() *graphql.InputObject {
-	if gql__input_ChartSyncRequest == nil {
-		gql__input_ChartSyncRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_ChartSyncRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"archive": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
-			},
-		})
-	}
-	return gql__input_ChartSyncRequest
 }
 
 func Gql__input_ChainResponse_Rewards() *graphql.InputObject {

@@ -2331,6 +2331,85 @@ query {
 | blkHeight | [uint64](#uint64) |  | block height |
 | timestamp | [uint64](#uint64) |  | unix timestamp |
 
+# Staking Service API
+
+## VoteByHeight
+
+Get the stake amount and voting weight of the voter's specified height
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.StakingService.VoteByHeight \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "address": ["io1k0w5vtlglnm742jacv2xjczg5l3s44gyy6h536","io1p8dwgkkgzcpwz6snwzh5v2nhf658gw8aen47pw"],
+    "height": 20924943
+}'
+```
+
+```graphql
+query {
+  VoteByHeight(
+    address: [
+      "io1k0w5vtlglnm742jacv2xjczg5l3s44gyy6h536"
+      "io1p8dwgkkgzcpwz6snwzh5v2nhf658gw8aen47pw"
+    ]
+    height: 20924943
+  ) {
+    stakeAmount
+    height
+    voteWeight
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "VoteByHeight": {
+      "height": 20924943,
+      "stakeAmount": [
+        "495.994311518986506235",
+        "51127.627429245086002541"
+      ],
+      "voteWeight": [
+        "631.859744093707405579",
+        "60543.734008399268885716"
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.StakingService.VoteByHeight`
+
+<a name="api-VoteByHeightRequest"></a>
+
+### VoteByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) | repeated |  |
+| height | [uint64](#uint64) |  |  |
+
+<a name="api-VoteByHeightResponse"></a>
+
+### VoteByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  |  |
+| stakeAmount | [string](#string) | repeated |  |
+| voteWeight | [string](#string) | repeated |  |
+
 # XRC20 Service API
 
 ## XRC20ByAddress
