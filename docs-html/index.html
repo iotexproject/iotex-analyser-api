@@ -425,6 +425,14 @@
               </ul>
           </li>
           <li>
+            <a href="#staking-service-api" class="toc-h1 toc-link" data-title="Staking Service API">Staking Service API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#actionbyaddress-2" class="toc-h2 toc-link" data-title="ActionByAddress">ActionByAddress</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#xrc20-service-api" class="toc-h1 toc-link" data-title="XRC20 Service API">XRC20 Service API</a>
               <ul class="toc-list-h2">
                   <li>
@@ -3545,6 +3553,103 @@
 <td>unix timestamp</td>
 </tr>
 </tbody></table>
+<h1 id='staking-service-api'>Staking Service API</h1><h2 id='actionbyaddress-2'>ActionByAddress</h2>
+<p>ActionByAddress finds actions by address</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.StakingService.VoteByHeight <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "address": ["io1k0w5vtlglnm742jacv2xjczg5l3s44gyy6h536","io1p8dwgkkgzcpwz6snwzh5v2nhf658gw8aen47pw"],
+    "height": 20924943
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">VoteByHeight</span><span class="p">(</span><span class="w">
+    </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"io1k0w5vtlglnm742jacv2xjczg5l3s44gyy6h536"</span><span class="w">
+      </span><span class="s2">"io1p8dwgkkgzcpwz6snwzh5v2nhf658gw8aen47pw"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+    </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="mi">20924943</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stakeAmount</span><span class="w">
+    </span><span class="n">height</span><span class="w">
+    </span><span class="n">voteWeight</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"VoteByHeight"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"height"</span><span class="p">:</span><span class="w"> </span><span class="mi">20924943</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"stakeAmount"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"495.994311518986506235"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"51127.627429245086002541"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nl">"voteWeight"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"631.859744093707405579"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"60543.734008399268885716"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-26'>HTTP Request</h3>
+<p><code>POST /api.StakingService.VoteByHeight</code></p>
+
+<p><a name="api-VoteByHeightRequest"></a></p>
+<h3 id='votebyheightrequest'>VoteByHeightRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+<tr>
+<td>height</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-VoteByHeightResponse"></a></p>
+<h3 id='votebyheightresponse'>VoteByHeightResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>height</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>stakeAmount</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+<tr>
+<td>voteWeight</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
 <h1 id='xrc20-service-api'>XRC20 Service API</h1><h2 id='xrc20byaddress'>XRC20ByAddress</h2>
 <p>XRC20ByAddress returns Xrc20 actions given the sender address or recipient address</p>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
@@ -3597,7 +3702,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-26'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-27'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByAddress</code></p>
 
 <p><a name="api-XRC20ByAddressRequest"></a></p>
@@ -3753,7 +3858,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-27'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-28'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByContractAddress</code></p>
 
 <p><a name="api-XRC20ByContractAddressRequest"></a></p>
@@ -3858,7 +3963,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-28'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-29'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByPage</code></p>
 
 <p><a name="api-XRC20ByPageRequest"></a></p>
@@ -3945,7 +4050,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-29'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-30'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20Addresses</code></p>
 
 <p><a name="api-XRC20AddressesRequest"></a></p>
@@ -4034,7 +4139,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-30'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-31'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20TokenHolderAddresses</code></p>
 
 <p><a name="api-XRC20TokenHolderAddressesRequest"></a></p>
@@ -4135,7 +4240,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-31'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-32'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByAddress</code></p>
 
 <p><a name="api-XRC721ByAddressRequest"></a></p>
@@ -4290,7 +4395,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-32'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-33'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByContractAddress</code></p>
 
 <p><a name="api-XRC721ByContractAddressRequest"></a></p>
@@ -4395,7 +4500,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-33'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-34'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByPage</code></p>
 
 <p><a name="api-XRC721ByPageRequest"></a></p>
@@ -4481,7 +4586,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-34'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-35'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721Addresses</code></p>
 
 <p><a name="api-XRC721AddressesRequest"></a></p>
@@ -4570,7 +4675,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-35'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-36'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721TokenHolderAddresses</code></p>
 
 <p><a name="api-XRC721TokenHolderAddressesRequest"></a></p>
@@ -4674,7 +4779,7 @@
         </span><span class="p">},</span><span class="w">
         </span><span class="err">...</span><span class="w">
 </span><span class="err">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-36'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-37'>HTTP Request</h3>
 <p><code>POST /api.HermesService.Hermes</code></p>
 
 <p><a name="api-HermesRequest"></a></p>
@@ -4861,7 +4966,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-37'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-38'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesByVoter</code></p>
 
 <p><a name="api-HermesByVoterRequest"></a></p>
@@ -5047,7 +5152,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-38'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-39'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesByDelegate</code></p>
 
 <p><a name="api-HermesByDelegateRequest"></a></p>
@@ -5244,7 +5349,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-39'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-40'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesMeta</code></p>
 
 <p><a name="api-HermesMetaRequest"></a></p>
@@ -5349,7 +5454,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-40'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-41'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesAverageStats</code></p>
 
 <p><a name="api-HermesAverageStatsRequest"></a></p>
