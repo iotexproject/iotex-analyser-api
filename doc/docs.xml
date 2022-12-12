@@ -4634,14 +4634,14 @@
               <entry>address</entry>
               <entry><link linkend="string">string</link></entry>
               <entry>repeated</entry>
-              <entry><para></para></entry>
+              <entry><para>voter address list</para></entry>
             </row>
             
             <row>
               <entry>height</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>block height</para></entry>
             </row>
             
           </tbody>
@@ -4676,21 +4676,21 @@
               <entry>height</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para></para></entry>
+              <entry><para>block height</para></entry>
             </row>
             
             <row>
               <entry>stakeAmount</entry>
               <entry><link linkend="string">string</link></entry>
               <entry>repeated</entry>
-              <entry><para></para></entry>
+              <entry><para>stake amount list</para></entry>
             </row>
             
             <row>
               <entry>voteWeight</entry>
               <entry><link linkend="string">string</link></entry>
               <entry>repeated</entry>
-              <entry><para></para></entry>
+              <entry><para>vote weight list</para></entry>
             </row>
             
           </tbody>
@@ -4729,7 +4729,7 @@
               <entry>VoteByHeight</entry>
               <entry><link linkend="api.VoteByHeightRequest">VoteByHeightRequest</link></entry>
               <entry><link linkend="api.VoteByHeightResponse">VoteByHeightResponse</link></entry>
-              <entry><para></para></entry>
+              <entry><para>Get the stake amount and voting weight of the voter's specified height</para></entry>
             </row>
             
             <row>
