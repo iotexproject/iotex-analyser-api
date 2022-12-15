@@ -2,12 +2,12 @@ package apiservice
 
 import (
 	"context"
-	"database/sql"
 	"math/big"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
+	"github.com/iotexproject/iotex-analyser-api/common/accounts"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/ioctl/util"
 	"github.com/pkg/errors"
@@ -44,54 +44,38 @@ func (s *AccountService) Erc20TokenBalanceByHeight(ctx context.Context, req *api
 		Height:          req.GetHeight(),
 		ContractAddress: req.GetContractAddress(),
 	}
-	db := db.DB()
-	height := req.GetHeight()
 	contractAddress := req.GetContractAddress()
+	if len(contractAddress) > 2 && (contractAddress[:2] == "0x" || contractAddress[:2] == "0X") {
+		add, err := address.FromHex(contractAddress)
+		if err != nil {
+			return nil, err
+		}
+
+		contractAddress = add.String()
+	}
+	addres := make([]string, 0)
 	for _, addr := range req.GetAddress() {
-		if len(addr) > 2 && (addr[:2] == "0x" || addr[:2] == "0X") {
+		if len(addr) > 2 && addr[:2] == "0x" || addr[:2] == "0X" {
 			add, err := address.FromHex(addr)
 			if err != nil {
 				return nil, err
 			}
-
 			addr = add.String()
-		}
 
-		if len(contractAddress) > 2 && (contractAddress[:2] == "0x" || contractAddress[:2] == "0X") {
-			add, err := address.FromHex(contractAddress)
-			if err != nil {
-				return nil, err
-			}
-
-			contractAddress = add.String()
 		}
-		//get receive amount
-		var toAmount sql.NullString
-		query := "SELECT SUM(amount) FROM token_erc20 t WHERE block_height<=? AND t.recipient=? AND t.contract_address=?"
-		err := db.Raw(query, height, addr, contractAddress).Scan(&toAmount).Error
-		if err != nil {
-			return nil, err
-		}
-
-		//get cost amount
-		var fromAmount sql.NullString
-		query = "SELECT SUM(amount) FROM token_erc20 t WHERE block_height<=? AND t.sender=? AND contract_address=?"
-		err = db.Raw(query, height, addr, contractAddress).Scan(&fromAmount).Error
-		if err != nil {
-			return nil, err
-		}
-
-		to, ok := big.NewInt(0).SetString(toAmount.String, 10)
-		if !ok {
-			to = big.NewInt(0)
-		}
-		from, ok := big.NewInt(0).SetString(fromAmount.String, 10)
-		if !ok {
-			from = big.NewInt(0)
-		}
-		balance := new(big.Int).Sub(to, from)
-		resp.Balance = append(resp.Balance, util.RauToString(balance, 6))
+		addres = append(addres, addr)
 	}
+
+	balance, err := accounts.Erc20TokenBalanceByHeight(req.GetHeight(), addres, contractAddress)
+	if err != nil {
+		return nil, err
+	}
+	balances := make([]string, len(balance))
+	for i := 0; i < len(balance); i++ {
+		balances[i] = util.RauToString(balance[i], 6)
+	}
+
+	resp.Balance = balances
 
 	return resp, nil
 }
