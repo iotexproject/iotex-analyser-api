@@ -65,3 +65,4 @@ jobs:
     - name: Deploy
       run: |-
         kubectl rollout restart statefulset iotex-analyser-api
+        kubectl rollout restart statefulset iotex-analyser-api-testnet
