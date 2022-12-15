@@ -1,0 +1,52 @@
+package accounts
+
+import (
+	"math/big"
+	"strings"
+
+	"github.com/iotexproject/iotex-address/address"
+	"github.com/iotexproject/iotex-analyser-api/db"
+)
+
+func Erc20TokenBalanceByHeight(height uint64, addresses []string, contractAddress string) ([]*big.Int, error) {
+	result := make([]*big.Int, 0)
+	db := db.DB()
+
+	var res []struct {
+		Address string
+		Balance string
+	}
+	//select address, ramount-COALESCE(samount, 0) balance from (SELECT t.recipient address,COALESCE(SUM(amount),0) ramount FROM erc20_transfers t WHERE block_height<=8947000 AND t.recipient='io1slh2qa2q0zd0skmyj3aw5gdr7qzqpdvh32zzpc' AND t.contract_address='io1qppu9nz834xqrenzllr4h57hzfpqefd0xnsu3d' group by address) t1 left join (SELECT t.sender address,COALESCE(SUM(amount),0) samount FROM erc20_transfers t WHERE block_height<=8947000 AND t.sender='io1slh2qa2q0zd0skmyj3aw5gdr7qzqpdvh32zzpd' AND t.contract_address='io1qppu9nz834xqrenzllr4h57hzfpqefd0xnsu3d' group by address) t2 using(address)
+
+	err := db.Raw("select address, ramount-COALESCE(samount, 0) balance from (SELECT t.recipient address,COALESCE(SUM(amount),0) ramount FROM erc20_transfers t WHERE block_height<=? AND t.recipient in ? AND t.contract_address=? group by address) t1 left join (SELECT t.sender address,COALESCE(SUM(amount),0) samount FROM erc20_transfers t WHERE block_height<=? AND t.sender in ? AND t.contract_address=? group by address) t2 using(address)", height, addresses, contractAddress, height, addresses, contractAddress).Scan(&res).Error
+	if err != nil {
+		return nil, err
+	}
+	results := make(map[string]*big.Int)
+	for _, v := range res {
+		balance, ok := new(big.Int).SetString(v.Balance, 10)
+		if !ok {
+			balance = big.NewInt(0)
+		}
+		results[v.Address] = balance
+	}
+
+	for _, addr := range addresses {
+		if addr[:2] == "0x" || addr[:2] == "0X" {
+			add, err := address.FromHex(addr)
+			if err != nil {
+				return nil, err
+			}
+			addr = add.String()
+
+		}
+		addr = strings.ToLower(addr)
+		if results[addr] == nil {
+			result = append(result, big.NewInt(0))
+		} else {
+			result = append(result, results[addr])
+		}
+	}
+
+	return result, nil
+}
