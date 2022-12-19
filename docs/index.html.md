@@ -597,9 +597,9 @@ curl --request POST \
 		"skip": 0,
 		"first": 2
 	},
-	"percentage": 90,
-	"includeBlockReward":true,
-	"includeFoundationBonus":false
+	"epochRewardPerc": 90,
+	"blockRewardPerc": 100,
+	"foundationBonusPerc": 0
 }'
 ```
 
@@ -609,9 +609,9 @@ query {
     startEpoch: 23328
     epochCount: 10
     delegateName: "iotexlab"
-    percentage: 90
-    includeFoundationBonus: false
-    includeBlockReward: false
+    epochRewardPerc: 90
+    foundationBonusPerc: 0
+    blockRewardPerc: 100
     pagination: { skip: 0, first: 2 }
   ) {
     count
@@ -657,9 +657,9 @@ query {
 | epochCount | [uint64](#uint64) |  | number of epochs to query |
 | delegateName | [string](#string) |  | name of the delegate |
 | pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
-| percentage | [uint64](#uint64) |  | percentage of the reward to be paid to the delegate |
-| includeBlockReward | [bool](#bool) |  | whether to include block reward |
-| includeFoundationBonus | [bool](#bool) |  | whether to include foundation bonus |
+| epochRewardPerc | [uint64](#uint64) |  | percentage of the epoch reward to be paid to the delegate |
+| blockRewardPerc | [uint64](#uint64) |  | percentage of the block reward to be paid to the delegate |
+| foundationBonusPerc | [uint64](#uint64) |  | percentage of the foundation bonus to be paid to the delegate |
 
 
 

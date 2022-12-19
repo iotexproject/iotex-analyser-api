@@ -43,9 +43,9 @@ message BookKeepingRequest {
   uint64 epochCount = 2; // number of epochs to query
   string delegateName =3; // name of the delegate
   pagination.Pagination pagination = 4; //Pagination info
-  uint64 percentage = 5; // percentage of the reward to be paid to the delegate
-  bool includeBlockReward = 6; // whether to include block reward
-  bool includeFoundationBonus = 7; // whether to include foundation bonus
+  uint64 epochRewardPerc = 5; // percentage of the epoch reward to be paid to the delegate
+  uint64 blockRewardPerc = 6; // percentage of the block reward to be paid to the delegate
+  uint64 foundationBonusPerc = 7; // percentage of the foundation bonus to be paid to the delegate
 }
 
 message BookKeepingResponse {

@@ -39,7 +39,7 @@ type EpochFoundationReward struct {
 }
 
 // rewardToSplit gets the reward to split from the given delegate from start epoch to end epoch
-func rewardsToSplit(startEpoch uint64, endEpoch uint64, delegateName string, percentage int, includeBlockReward, includeFoundationBonus bool) (map[uint64]*big.Int, error) {
+func rewardsToSplit(startEpoch uint64, endEpoch uint64, delegateName string, epochRewardPerc, blockRewardPerc, foundationBonusPerc uint64) (map[uint64]*big.Int, error) {
 	var rewards []*EpochFoundationReward
 	db := db.DB()
 	if err := db.Table("hermes_account_rewards").Where("epoch_number >= ?  AND epoch_number <= ? AND candidate_name= ?", startEpoch, endEpoch, delegateName).Scan(&rewards).Error; err != nil {
@@ -49,15 +49,13 @@ func rewardsToSplit(startEpoch uint64, endEpoch uint64, delegateName string, per
 
 	for _, reward := range rewards {
 		rewardToSplit, _ := new(big.Int).SetString(reward.EpochReward, 10)
-		if includeBlockReward {
-			num, _ := new(big.Int).SetString(reward.BlockReward, 10)
-			rewardToSplit.Add(rewardToSplit, num)
-		}
-		if includeFoundationBonus {
-			num, _ := new(big.Int).SetString(reward.FoundationBonus, 10)
-			rewardToSplit.Add(rewardToSplit, num)
-		}
-		distrRewardMap[reward.EpochNumber] = rewardToSplit.Mul(rewardToSplit, big.NewInt(int64(percentage))).Div(rewardToSplit, big.NewInt(100))
+		blockReward, _ := new(big.Int).SetString(reward.BlockReward, 10)
+		rewardToSplit.Add(rewardToSplit, blockReward.Mul(blockReward, big.NewInt(int64(blockRewardPerc))).Div(blockReward, big.NewInt(100)))
+
+		boundationBonus, _ := new(big.Int).SetString(reward.FoundationBonus, 10)
+		rewardToSplit.Add(rewardToSplit, boundationBonus.Mul(boundationBonus, big.NewInt(int64(foundationBonusPerc))).Div(boundationBonus, big.NewInt(100)))
+
+		distrRewardMap[reward.EpochNumber] = rewardToSplit.Mul(rewardToSplit, big.NewInt(int64(epochRewardPerc))).Div(rewardToSplit, big.NewInt(100))
 	}
 
 	return distrRewardMap, nil
@@ -129,10 +127,10 @@ func voterVotes(ctx context.Context, startEpoch uint64, endEpoch uint64, delegat
 	return epochToVoters, nil
 }
 
-func GetBookkeeping(ctx context.Context, startEpoch uint64, epochCount uint64, delegateName string, percentage int, includeBlockReward, includeFoundationBonus bool) (map[string]*big.Int, error) {
+func GetBookkeeping(ctx context.Context, startEpoch uint64, epochCount uint64, delegateName string, epochRewardPerc, blockRewardPerc, foundationBonusPerc uint64) (map[string]*big.Int, error) {
 	endEpoch := startEpoch + epochCount - 1
 
-	distrRewardMap, err := rewardsToSplit(startEpoch, endEpoch, delegateName, percentage, includeBlockReward, includeFoundationBonus)
+	distrRewardMap, err := rewardsToSplit(startEpoch, endEpoch, delegateName, epochRewardPerc, blockRewardPerc, foundationBonusPerc)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get reward distribution map")
 	}
