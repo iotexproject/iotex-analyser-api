@@ -1120,9 +1120,9 @@
 | epochCount | [uint64](#uint64) |  | number of epochs to query |
 | delegateName | [string](#string) |  | name of the delegate |
 | pagination | [pagination.Pagination](#pagination-Pagination) |  | Pagination info |
-| percentage | [uint64](#uint64) |  | percentage of the reward to be paid to the delegate |
-| includeBlockReward | [bool](#bool) |  | whether to include block reward |
-| includeFoundationBonus | [bool](#bool) |  | whether to include foundation bonus |
+| epochRewardPerc | [uint64](#uint64) |  | percentage of the epoch reward to be paid to the delegate |
+| blockRewardPerc | [uint64](#uint64) |  | percentage of the block reward to be paid to the delegate |
+| foundationBonusPerc | [uint64](#uint64) |  | percentage of the foundation bonus to be paid to the delegate |
 
 
 

@@ -410,14 +410,14 @@ func Gql__type_BookKeepingRequest() *graphql.Object {
 				"pagination": &graphql.Field{
 					Type: pagination.Gql__type_Pagination(),
 				},
-				"percentage": &graphql.Field{
+				"epochRewardPerc": &graphql.Field{
 					Type: graphql.Int,
 				},
-				"includeBlockReward": &graphql.Field{
-					Type: graphql.Boolean,
+				"blockRewardPerc": &graphql.Field{
+					Type: graphql.Int,
 				},
-				"includeFoundationBonus": &graphql.Field{
-					Type: graphql.Boolean,
+				"foundationBonusPerc": &graphql.Field{
+					Type: graphql.Int,
 				},
 			},
 		})
@@ -785,14 +785,14 @@ func Gql__input_BookKeepingRequest() *graphql.InputObject {
 				"pagination": &graphql.InputObjectFieldConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
-				"percentage": &graphql.InputObjectFieldConfig{
+				"epochRewardPerc": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
-				"includeBlockReward": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
+				"blockRewardPerc": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
 				},
-				"includeFoundationBonus": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
+				"foundationBonusPerc": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
 				},
 			},
 		})
@@ -886,14 +886,14 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				"pagination": &graphql.ArgumentConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
-				"percentage": &graphql.ArgumentConfig{
+				"epochRewardPerc": &graphql.ArgumentConfig{
 					Type: graphql.Int,
 				},
-				"includeBlockReward": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
+				"blockRewardPerc": &graphql.ArgumentConfig{
+					Type: graphql.Int,
 				},
-				"includeFoundationBonus": &graphql.ArgumentConfig{
-					Type: graphql.Boolean,
+				"foundationBonusPerc": &graphql.ArgumentConfig{
+					Type: graphql.Int,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

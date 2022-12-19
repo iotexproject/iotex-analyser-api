@@ -2627,24 +2627,24 @@
             </row>
             
             <row>
-              <entry>percentage</entry>
+              <entry>epochRewardPerc</entry>
               <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>percentage of the reward to be paid to the delegate</para></entry>
+              <entry><para>percentage of the epoch reward to be paid to the delegate</para></entry>
             </row>
             
             <row>
-              <entry>includeBlockReward</entry>
-              <entry><link linkend="bool">bool</link></entry>
+              <entry>blockRewardPerc</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>whether to include block reward</para></entry>
+              <entry><para>percentage of the block reward to be paid to the delegate</para></entry>
             </row>
             
             <row>
-              <entry>includeFoundationBonus</entry>
-              <entry><link linkend="bool">bool</link></entry>
+              <entry>foundationBonusPerc</entry>
+              <entry><link linkend="uint64">uint64</link></entry>
               <entry></entry>
-              <entry><para>whether to include foundation bonus</para></entry>
+              <entry><para>percentage of the foundation bonus to be paid to the delegate</para></entry>
             </row>
             
           </tbody>

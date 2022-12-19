@@ -99,14 +99,14 @@ func (s *DelegateService) BookKeeping(ctx context.Context, req *api.BookKeepingR
 	startEpoch := req.GetStartEpoch()
 	epochCount := req.GetEpochCount()
 	delegateName := req.GetDelegateName()
-	includeBlockReward := req.GetIncludeBlockReward()
-	includeFoundationBonus := req.GetIncludeFoundationBonus()
-	percentAge := req.GetPercentage()
+	blockRewardPerc := req.GetBlockRewardPerc()
+	foundationBonusPerc := req.GetFoundationBonusPerc()
+	epochRewardPerc := req.GetEpochRewardPerc()
 
-	if percentAge > 100 {
+	if epochRewardPerc > 100 || blockRewardPerc > 100 || foundationBonusPerc > 100 {
 		return nil, errors.New("percentage should be 0-100")
 	}
-	rewards, err := rewards.GetBookkeeping(ctx, startEpoch, epochCount, delegateName, int(percentAge), includeBlockReward, includeFoundationBonus)
+	rewards, err := rewards.GetBookkeeping(ctx, startEpoch, epochCount, delegateName, epochRewardPerc, blockRewardPerc, foundationBonusPerc)
 	if err != nil {
 		return nil, err
 	}
