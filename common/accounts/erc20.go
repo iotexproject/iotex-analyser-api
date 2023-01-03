@@ -1,11 +1,20 @@
 package accounts
 
 import (
+	"context"
+	"encoding/hex"
 	"math/big"
+	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/iotexproject/iotex-address/address"
+	"github.com/iotexproject/iotex-analyser-api/common"
+	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-core/action"
+	"github.com/iotexproject/iotex-core/test/identityset"
+	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 )
 
 func Erc20TokenBalanceByHeight(height uint64, addresses []string, contractAddress string) ([]*big.Int, error) {
@@ -49,4 +58,58 @@ func Erc20TokenBalanceByHeight(height uint64, addresses []string, contractAddres
 	}
 
 	return result, nil
+}
+
+var (
+	_ERC20ContractDecimals = sync.Map{}
+)
+
+func ReadERC20DecimalsWithCache(contractAddress string) (int, error) {
+	val, ok := _ERC20ContractDecimals.Load(contractAddress)
+	if ok {
+		return val.(int), nil
+	}
+	conn, err := common.NewDefaultGRPCConn(config.Default.RPC)
+	if err != nil {
+		return 6, nil
+	}
+	defer conn.Close()
+	client := iotexapi.NewAPIServiceClient(conn)
+	decimals, err := ReadERC20Decimals(client, contractAddress)
+	if err != nil {
+		return 6, nil
+	}
+	_ERC20ContractDecimals.Store(contractAddress, decimals)
+	return decimals, nil
+
+}
+
+// ReadERC20Decimals read ERC20 decimals
+func ReadERC20Decimals(client iotexapi.APIServiceClient, contractAddr string) (int, error) {
+	decimals := 6 //default decimal
+
+	nonce := uint64(1)
+	transferAmount := big.NewInt(0)
+	gasLimit := uint64(100000)
+	gasPrice := big.NewInt(10000000)
+	callerAddress := identityset.Address(30).String()
+	callData, _ := hex.DecodeString("313ce567")
+	execution, err := action.NewExecution(contractAddr, nonce, transferAmount, gasLimit, gasPrice, callData)
+	if err != nil {
+		return decimals, nil
+	}
+	request := &iotexapi.ReadContractRequest{
+		Execution:     execution.Proto(),
+		CallerAddress: callerAddress,
+	}
+
+	res, err := client.ReadContract(context.Background(), request)
+	if err != nil {
+		return decimals, nil
+	}
+	if res.Data != "" {
+		tmp, _ := strconv.ParseInt(res.Data, 16, 64)
+		decimals = int(tmp)
+	}
+	return decimals, nil
 }

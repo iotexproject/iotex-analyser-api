@@ -11,7 +11,6 @@ require (
 	github.com/iotexproject/iotex-address v0.2.8
 	github.com/iotexproject/iotex-core v1.8.3-rc1
 	github.com/iotexproject/iotex-proto v0.5.10-0.20220415042310-0d4bcef3febf
-	github.com/millken/gocache v1.0.5
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
@@ -19,7 +18,6 @@ require (
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
 	github.com/stretchr/testify v1.7.0
 	github.com/ysugimoto/grpc-graphql-gateway v0.22.0
-	go.uber.org/zap v1.16.0
 	google.golang.org/genproto v0.0.0-20211223182754-3ac035c7e7cb
 	google.golang.org/grpc v1.43.0
 	google.golang.org/protobuf v1.27.1
@@ -38,7 +36,6 @@ require (
 	github.com/deckarep/golang-set v1.7.1 // indirect
 	github.com/dustinxie/gmsm v1.4.0 // indirect
 	github.com/ethereum/go-ethereum v1.10.4 // indirect
-	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -71,9 +68,9 @@ require (
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/config v1.3.1 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
+	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/net v0.0.0-20211216030914-fe4d6282115f // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20220111092808-5a964db01320 // indirect
 	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
 	golang.org/x/text v0.3.7 // indirect
