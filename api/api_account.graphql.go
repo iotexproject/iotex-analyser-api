@@ -144,6 +144,9 @@ func Gql__type_Erc20TokenBalanceByHeightResponse() *graphql.Object {
 				"balance": &graphql.Field{
 					Type: graphql.NewList(graphql.String),
 				},
+				"decimals": &graphql.Field{
+					Type: graphql.Int,
+				},
 			},
 		})
 	}
@@ -335,6 +338,9 @@ func Gql__input_Erc20TokenBalanceByHeightResponse() *graphql.InputObject {
 				},
 				"balance": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(graphql.String),
+				},
+				"decimals": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
 				},
 			},
 		})

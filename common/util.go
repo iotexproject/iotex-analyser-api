@@ -46,23 +46,3 @@ func NewDefaultGRPCConn(endpoint string) (*grpc.ClientConn, error) {
 		grpc.WithUnaryInterceptor(grpc_retry.UnaryClientInterceptor(opts...)),
 		grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{})))
 }
-
-// func GetLatestNativeMintTime(height uint64) (time.Time, error) {
-// 	db := db.DB()
-// 	currentEpoch := GetEpochNum(height)
-// 	lastEpochStartHeight := GetEpochHeight(currentEpoch - 1)
-// 	getQuery := fmt.Sprintf(selectBlockHistory,
-// 		blocks.BlockHistoryTableName, actions.ActionHistoryTableName)
-// 	stmt, err := db.Prepare(getQuery)
-// 	if err != nil {
-// 		return time.Time{}, err
-// 	}
-// 	defer stmt.Close()
-// 	var unixTimeStamp int64
-// 	if err := stmt.QueryRow("putPollResult", height, lastEpochStartHeight).Scan(&unixTimeStamp); err != nil {
-// 		return time.Time{}, err
-// 	}
-// 	log.S().Debugf("putpollresult block timestamp before height %d is %d\n", height, unixTimeStamp)
-// 	//change unixTimeStamp to be a time.Time
-// 	return time.Unix(unixTimeStamp, 0), nil
-// }

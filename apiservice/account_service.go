@@ -65,6 +65,13 @@ func (s *AccountService) Erc20TokenBalanceByHeight(ctx context.Context, req *api
 		}
 		addres = append(addres, addr)
 	}
+	//fetch decimals
+
+	decimals, err := accounts.ReadERC20DecimalsWithCache(contractAddress)
+	if err != nil {
+		return nil, err
+	}
+	resp.Decimals = uint64(decimals)
 
 	balance, err := accounts.Erc20TokenBalanceByHeight(req.GetHeight(), addres, contractAddress)
 	if err != nil {
@@ -72,7 +79,7 @@ func (s *AccountService) Erc20TokenBalanceByHeight(ctx context.Context, req *api
 	}
 	balances := make([]string, len(balance))
 	for i := 0; i < len(balance); i++ {
-		balances[i] = util.RauToString(balance[i], 6)
+		balances[i] = util.RauToString(balance[i], decimals)
 	}
 
 	resp.Balance = balances
