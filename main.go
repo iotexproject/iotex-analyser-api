@@ -12,6 +12,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/apiservice"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-analyser-api/model"
 )
 
 //go:embed templates
@@ -52,12 +53,14 @@ func main() {
 	}
 
 	log.Printf("loaded config: %+v", config.Default)
-	_, err = db.Connect()
+	db2, err := db.Connect()
 	if err != nil {
 		log.Fatalf("failed to connect DB, %v", err)
 	}
 	log.Printf("connected to DB")
-
+	if err := db2.AutoMigrate(&model.HermesDropRecords{}); err != nil {
+		log.Fatalf("failed to migrate DB, %v", err)
+	}
 	apiservice.DocsHTML = docsHtml
 
 	ctx := context.Background()

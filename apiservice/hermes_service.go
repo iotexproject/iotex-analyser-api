@@ -8,12 +8,43 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/common/rewards"
+	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/iotexproject/iotex-analyser-api/model"
 	"github.com/pkg/errors"
+	"github.com/shopspring/decimal"
 )
 
 // HermesService provides hermes service
 type HermesService struct {
 	api.UnimplementedHermesServiceServer
+}
+
+func (s *HermesService) HermesDropRecords(ctx context.Context, req *api.HermesDropRecordsRequest) (*api.HermesDropRecordsResponse, error) {
+	resp := &api.HermesDropRecordsResponse{Success: true}
+	db := db.DB()
+	amount, err := decimal.NewFromString(req.GetAmount())
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to convert amount to decimal")
+	}
+	var count int64
+	if err := db.Model(model.HermesDropRecords{}).Where("epoch_number = ? AND delegate_name = ? AND voter_address = ?", req.GetEpochNumber(), req.GetDelegateName(), req.GetVoterAddress()).Count(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to query hermes drop records")
+	}
+	if count > 0 {
+		resp.Success = false
+		return resp, nil
+	}
+	if err := db.Create(&model.HermesDropRecords{
+		EpochNumber:  req.GetEpochNumber(),
+		DelegateName: req.GetDelegateName(),
+		VoterAddress: req.GetVoterAddress(),
+		ActHash:      req.GetActHash(),
+		BucketID:     req.GetBucketID(),
+		Amount:       amount,
+	}).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to create hermes drop record")
+	}
+	return resp, nil
 }
 
 //grpcurl -plaintext -d '{"startEpoch": 22416, "epochCount": 1, "rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"}' 127.0.0.1:8888 api.AccountService.Hermes
