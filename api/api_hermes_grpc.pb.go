@@ -28,6 +28,8 @@ type HermesServiceClient interface {
 	HermesMeta(ctx context.Context, in *HermesMetaRequest, opts ...grpc.CallOption) (*HermesMetaResponse, error)
 	// HermesAverageStats returns the Hermes average statistics
 	HermesAverageStats(ctx context.Context, in *HermesAverageStatsRequest, opts ...grpc.CallOption) (*HermesAverageStatsResponse, error)
+	// HermesDropRecords inserts the Hermes drop records
+	HermesDropRecords(ctx context.Context, in *HermesDropRecordsRequest, opts ...grpc.CallOption) (*HermesDropRecordsResponse, error)
 }
 
 type hermesServiceClient struct {
@@ -83,6 +85,15 @@ func (c *hermesServiceClient) HermesAverageStats(ctx context.Context, in *Hermes
 	return out, nil
 }
 
+func (c *hermesServiceClient) HermesDropRecords(ctx context.Context, in *HermesDropRecordsRequest, opts ...grpc.CallOption) (*HermesDropRecordsResponse, error) {
+	out := new(HermesDropRecordsResponse)
+	err := c.cc.Invoke(ctx, "/api.HermesService/HermesDropRecords", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HermesServiceServer is the server API for HermesService service.
 // All implementations must embed UnimplementedHermesServiceServer
 // for forward compatibility
@@ -97,6 +108,8 @@ type HermesServiceServer interface {
 	HermesMeta(context.Context, *HermesMetaRequest) (*HermesMetaResponse, error)
 	// HermesAverageStats returns the Hermes average statistics
 	HermesAverageStats(context.Context, *HermesAverageStatsRequest) (*HermesAverageStatsResponse, error)
+	// HermesDropRecords inserts the Hermes drop records
+	HermesDropRecords(context.Context, *HermesDropRecordsRequest) (*HermesDropRecordsResponse, error)
 	mustEmbedUnimplementedHermesServiceServer()
 }
 
@@ -118,6 +131,9 @@ func (UnimplementedHermesServiceServer) HermesMeta(context.Context, *HermesMetaR
 }
 func (UnimplementedHermesServiceServer) HermesAverageStats(context.Context, *HermesAverageStatsRequest) (*HermesAverageStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HermesAverageStats not implemented")
+}
+func (UnimplementedHermesServiceServer) HermesDropRecords(context.Context, *HermesDropRecordsRequest) (*HermesDropRecordsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HermesDropRecords not implemented")
 }
 func (UnimplementedHermesServiceServer) mustEmbedUnimplementedHermesServiceServer() {}
 
@@ -222,6 +238,24 @@ func _HermesService_HermesAverageStats_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HermesService_HermesDropRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HermesDropRecordsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HermesServiceServer).HermesDropRecords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.HermesService/HermesDropRecords",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HermesServiceServer).HermesDropRecords(ctx, req.(*HermesDropRecordsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HermesService_ServiceDesc is the grpc.ServiceDesc for HermesService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +282,10 @@ var HermesService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "HermesAverageStats",
 			Handler:    _HermesService_HermesAverageStats_Handler,
+		},
+		{
+			MethodName: "HermesDropRecords",
+			Handler:    _HermesService_HermesDropRecords_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

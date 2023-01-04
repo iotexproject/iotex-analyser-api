@@ -15,6 +15,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
 	github.com/sethvargo/go-envconfig v0.4.0
+	github.com/shopspring/decimal v1.2.0
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
 	github.com/stretchr/testify v1.7.0
 	github.com/ysugimoto/grpc-graphql-gateway v0.22.0

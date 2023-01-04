@@ -109,6 +109,17 @@ message HermesAverageStatsResponse {
   }
   repeated AveragePerEpoch averagePerEpoch = 2;
 }
+message HermesDropRecordsRequest {
+  uint64 epochNumber = 1; // end epoch number
+  string delegateName = 2; // delegate name
+  string voterAddress = 3; //Name of voter address
+  string actHash = 4; //Name of actHash
+  uint64 bucketID = 5; //bucket ID
+  string amount = 6; //Name of amount
+}
+message HermesDropRecordsResponse {
+  bool success = 1; // whether the drop records are successfully generated
+}
 service HermesService {
   // Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
   rpc Hermes(HermesRequest) returns (HermesResponse) {
@@ -165,5 +176,11 @@ service HermesService {
       body: "*"
     };
   };
-  
+  // HermesDropRecords inserts the Hermes drop records
+  rpc HermesDropRecords(HermesDropRecordsRequest) returns (HermesDropRecordsResponse) {
+    option (google.api.http) = {
+      post: "/api.HermesService.HermesDropRecords"
+      body: "*"
+    };
+  };  
 }

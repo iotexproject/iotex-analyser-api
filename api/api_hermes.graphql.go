@@ -17,6 +17,8 @@ var (
 	gql__type_HermesRequest                               *graphql.Object      // message HermesRequest in api_hermes.proto
 	gql__type_HermesMetaResponse                          *graphql.Object      // message HermesMetaResponse in api_hermes.proto
 	gql__type_HermesMetaRequest                           *graphql.Object      // message HermesMetaRequest in api_hermes.proto
+	gql__type_HermesDropRecordsResponse                   *graphql.Object      // message HermesDropRecordsResponse in api_hermes.proto
+	gql__type_HermesDropRecordsRequest                    *graphql.Object      // message HermesDropRecordsRequest in api_hermes.proto
 	gql__type_HermesDistribution                          *graphql.Object      // message HermesDistribution in api_hermes.proto
 	gql__type_HermesByVoterResponse_Delegate              *graphql.Object      // message HermesByVoterResponse.Delegate in api_hermes.proto
 	gql__type_HermesByVoterResponse                       *graphql.Object      // message HermesByVoterResponse in api_hermes.proto
@@ -33,6 +35,8 @@ var (
 	gql__input_HermesRequest                              *graphql.InputObject // message HermesRequest in api_hermes.proto
 	gql__input_HermesMetaResponse                         *graphql.InputObject // message HermesMetaResponse in api_hermes.proto
 	gql__input_HermesMetaRequest                          *graphql.InputObject // message HermesMetaRequest in api_hermes.proto
+	gql__input_HermesDropRecordsResponse                  *graphql.InputObject // message HermesDropRecordsResponse in api_hermes.proto
+	gql__input_HermesDropRecordsRequest                   *graphql.InputObject // message HermesDropRecordsRequest in api_hermes.proto
 	gql__input_HermesDistribution                         *graphql.InputObject // message HermesDistribution in api_hermes.proto
 	gql__input_HermesByVoterResponse_Delegate             *graphql.InputObject // message HermesByVoterResponse.Delegate in api_hermes.proto
 	gql__input_HermesByVoterResponse                      *graphql.InputObject // message HermesByVoterResponse in api_hermes.proto
@@ -138,6 +142,49 @@ func Gql__type_HermesMetaRequest() *graphql.Object {
 		})
 	}
 	return gql__type_HermesMetaRequest
+}
+
+func Gql__type_HermesDropRecordsResponse() *graphql.Object {
+	if gql__type_HermesDropRecordsResponse == nil {
+		gql__type_HermesDropRecordsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_HermesDropRecordsResponse",
+			Fields: graphql.Fields{
+				"success": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__type_HermesDropRecordsResponse
+}
+
+func Gql__type_HermesDropRecordsRequest() *graphql.Object {
+	if gql__type_HermesDropRecordsRequest == nil {
+		gql__type_HermesDropRecordsRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_HermesDropRecordsRequest",
+			Fields: graphql.Fields{
+				"epochNumber": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+				"voterAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+				"actHash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"bucketID": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_HermesDropRecordsRequest
 }
 
 func Gql__type_HermesDistribution() *graphql.Object {
@@ -494,6 +541,49 @@ func Gql__input_HermesMetaRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_HermesMetaRequest
+}
+
+func Gql__input_HermesDropRecordsResponse() *graphql.InputObject {
+	if gql__input_HermesDropRecordsResponse == nil {
+		gql__input_HermesDropRecordsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_HermesDropRecordsResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"success": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__input_HermesDropRecordsResponse
+}
+
+func Gql__input_HermesDropRecordsRequest() *graphql.InputObject {
+	if gql__input_HermesDropRecordsRequest == nil {
+		gql__input_HermesDropRecordsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_HermesDropRecordsRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"epochNumber": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"voterAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"actHash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"bucketID": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_HermesDropRecordsRequest
 }
 
 func Gql__input_HermesDistribution() *graphql.InputObject {
