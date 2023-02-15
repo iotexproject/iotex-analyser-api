@@ -13,7 +13,7 @@ require (
 	github.com/iotexproject/iotex-proto v0.5.10-0.20220415042310-0d4bcef3febf
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pkg/errors v0.9.1
-	github.com/prometheus/client_golang v1.11.0
+	github.com/prometheus/client_golang v1.11.1
 	github.com/sethvargo/go-envconfig v0.4.0
 	github.com/shopspring/decimal v1.2.0
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
