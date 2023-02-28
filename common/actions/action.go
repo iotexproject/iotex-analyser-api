@@ -39,6 +39,10 @@ func GetBlockStatsByDate(unixtime int64) (minBlkHeight uint64, maxBlkHeight uint
 	return result.MinBlkHeight, result.MaxBlkHeight, result.TotalSize, nil
 }
 
+func fromUnixTime(unixtime uint64) string {
+	return time.Unix(int64(unixtime), 0).UTC().Format("2006-01-02 15:04:05")
+}
+
 func getHeightByDate(unixtime uint64) (minBlkHeight uint64, maxBlkHeight uint64, err error) {
 	db := db.DB()
 	date := time.Unix(int64(unixtime), 0).Format("2006-01-02")
@@ -67,7 +71,7 @@ func GetActionCountByAddress(ctx context.Context, addr string) (int64, error) {
 func GetActionInfoByAddress(ctx context.Context, addr string, skip, first uint64) ([]*ActionInfo, error) {
 	var actionInfos []*ActionInfo
 	db := db.DB()
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM (SELECT a.action_hash,a.action_type,a.sender,a.recipient,a.amount,a.block_height,a.gas_price FROM block_action a where a.sender=? or a.recipient=? order by id desc limit ? offset ?) a left join block b on b.block_height=a.block_height left join block_receipt r on r.action_hash=a.action_hash"
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM (SELECT a.action_hash,a.action_type,a.sender,a.recipient,a.amount,a.block_height,a.gas_price FROM block_action a where a.sender=? or a.recipient=? order by id desc limit ? offset ?) a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash"
 	if err := db.WithContext(ctx).Raw(query, addr, addr, first, skip).Scan(&actionInfos).Error; err != nil {
 		return nil, err
 	}
@@ -86,7 +90,7 @@ func GetActionCountByDates(startDate, endDate uint64) (int64, error) {
 		return 0, err
 	}
 	query := "SELECT count(*) FROM block_action a left join block b on b.block_height=a.block_height where b.block_height>=? and b.block_height<=? and b.timestamp>=? and b.timestamp<=?"
-	if err := db.Raw(query, startHeight, endHeight, startDate, endDate).Count(&count).Error; err != nil {
+	if err := db.Raw(query, startHeight, endHeight, fromUnixTime(startDate), fromUnixTime(endDate)).Count(&count).Error; err != nil {
 		return 0, err
 	}
 	return count, nil
@@ -103,8 +107,8 @@ func GetActionInfoByDates(startDate, endDate uint64, skip, first uint64) ([]*Act
 	if err != nil {
 		return nil, err
 	}
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipt r on r.action_hash=a.action_hash where b.block_height>=? and b.block_height<=? and b.timestamp>=? and b.timestamp<=? order by a.id asc limit ? offset ?"
-	if err := db.Raw(query, startHeight, endHeight, startDate, endDate, first, skip).Scan(&actionInfos).Error; err != nil {
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash where b.block_height>=? and b.block_height<=? and b.timestamp>=? and b.timestamp<=? order by a.id asc limit ? offset ?"
+	if err := db.Raw(query, startHeight, endHeight, fromUnixTime(startDate), fromUnixTime(endDate), first, skip).Scan(&actionInfos).Error; err != nil {
 		return nil, err
 	}
 	return actionInfos, nil
@@ -114,7 +118,7 @@ func GetActionInfoByHash(actHash string) (*ActionInfo, error) {
 	var actionInfo *ActionInfo
 	db := db.DB()
 
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipt r on r.action_hash=a.action_hash where a.action_hash=?"
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash where a.action_hash=?"
 	if err := db.Raw(query, actHash).Scan(&actionInfo).Error; err != nil {
 		return nil, err
 	}
@@ -148,7 +152,7 @@ func GetActionCountByType(ctx context.Context, typ string) (int64, error) {
 func GetActionInfoByType(ctx context.Context, typ string, skip, first uint64) ([]*ActionInfo, error) {
 	var actionInfos []*ActionInfo
 	db := db.DB()
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM (SELECT a.action_hash,a.action_type,a.sender,a.recipient,a.amount,a.block_height,a.gas_price FROM block_action a where a.action_type=? order by id desc limit ? offset ?) a left join block b on b.block_height=a.block_height left join block_receipt r on r.action_hash=a.action_hash"
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM (SELECT a.action_hash,a.action_type,a.sender,a.recipient,a.amount,a.block_height,a.gas_price FROM block_action a where a.action_type=? order by id desc limit ? offset ?) a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash"
 	if err := db.WithContext(ctx).Raw(query, typ, first, skip).Scan(&actionInfos).Error; err != nil {
 		return nil, err
 	}
