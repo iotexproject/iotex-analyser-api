@@ -45,6 +45,7 @@ proto:
 	rm -f api/api_xrc721.graphql.go && mv api/api.graphql.go api/api_xrc721.graphql.go
 	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_hermes.proto
 	rm -f api/api_hermes.graphql.go && mv api/api.graphql.go api/api_hermes.graphql.go
+	protoc -I ./proto --go_out ./  --go-grpc_out ./  proto/api_stream.proto
 clean:
 	rm -f iotex-analyser-api
 	

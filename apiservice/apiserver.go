@@ -51,6 +51,7 @@ func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterXRC20ServiceServer(grpcServer, &XRC20Service{})
 	api.RegisterXRC721ServiceServer(grpcServer, &XRC721Service{})
 	api.RegisterHermesServiceServer(grpcServer, &HermesService{})
+	api.RegisterStreamServiceServer(grpcServer, &StreamService{})
 }
 
 func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {

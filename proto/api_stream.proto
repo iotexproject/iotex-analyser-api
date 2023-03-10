@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package api;
+option go_package = "./api";
+
+message SupplyRequest {
+    bool includeCirculating = 1; // include circulating supply
+    bool includeExactCirculating = 2; // include exact circulating supply
+    uint64 startHeight = 3; // start block height
+    uint64 endHeight = 4; // end block height
+}
+message SupplyResponse {
+    uint64 height = 1; // block height
+    string totalSupply = 2; // total supply
+    string circulatingSupply = 3; // circulating supply
+    string exactCirculatingSupply = 4; // exact circulating supply
+}
+
+service StreamService {
+    rpc Supply (SupplyRequest) returns (stream SupplyResponse){}
+}
