@@ -19,8 +19,6 @@ type StreamService struct {
 func (s *StreamService) Supply(req *api.SupplyRequest, res api.StreamService_SupplyServer) error {
 	height := req.GetStartHeight()
 
-	var totalCirculatingSupply string
-
 	zeroAddressFlow, err := common.GetAddressFlow(address.ZeroAddress)
 	if err != nil {
 		return err
@@ -98,22 +96,7 @@ func (s *StreamService) Supply(req *api.SupplyRequest, res api.StreamService_Sup
 		return totalSupply, circulatingSupply
 	}
 	for height <= req.GetEndHeight() {
-		totalSupply, err := common.GetTotalSupply(height)
-		if err != nil {
-			return err
-		}
 		totalSupplyBig, totalCirculatingSupplyBig := getTotalSupply(height)
-		totalCirculatingSupply, err = common.GetTotalCirculatingSupply(height, totalSupply)
-		if err != nil {
-			return err
-		}
-		if err := res.Send(&api.SupplyResponse{
-			Height:            height,
-			TotalSupply:       totalSupply,
-			CirculatingSupply: totalCirculatingSupply,
-		}); err != nil {
-			return err
-		}
 		if err := res.Send(&api.SupplyResponse{
 			Height:            height,
 			TotalSupply:       totalSupplyBig.String(),
