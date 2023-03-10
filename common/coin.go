@@ -18,6 +18,12 @@ const (
 	bnfxBalance   = "3414253030000000000000000"
 )
 
+var (
+	TotalBalanceInt, _ = new(big.Int).SetString(totalBalance, 10)
+	Nsv1BalanceInt, _  = new(big.Int).SetString(nsv1Balance, 10)
+	BnfxBalanceInt, _  = new(big.Int).SetString(bnfxBalance, 10)
+)
+
 func AccountBalanceByHeight(height uint64, addresses []string) ([]*big.Int, error) {
 	result := make([]*big.Int, 0)
 	db := db.DB()
@@ -77,13 +83,8 @@ func GetTotalSupply(height uint64) (string, error) {
 		return "", err
 	}
 
-	// Convert string format to big.Int format
-	totalBalanceInt, _ := new(big.Int).SetString(totalBalance, 10)
-	nsv1BalanceInt, _ := new(big.Int).SetString(nsv1Balance, 10)
-	bnfxBalanceInt, _ := new(big.Int).SetString(bnfxBalance, 10)
-
 	// Compute 10B + 2.7B (due to Postmortem 1) - Balance(all zero address) - Balance(nsv1) - Balance(bnfx)
-	return new(big.Int).Sub(new(big.Int).Sub(new(big.Int).Sub(totalBalanceInt, zeroAddressBalance[0]), nsv1BalanceInt), bnfxBalanceInt).String(), nil
+	return new(big.Int).Sub(new(big.Int).Sub(new(big.Int).Sub(TotalBalanceInt, zeroAddressBalance[0]), Nsv1BalanceInt), BnfxBalanceInt).String(), nil
 }
 
 func GetTotalCirculatingSupply(height uint64, totalSupply string) (string, error) {
