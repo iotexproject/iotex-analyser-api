@@ -71,7 +71,7 @@ func GetActionCountByAddress(ctx context.Context, addr string) (int64, error) {
 func GetActionInfoByAddress(ctx context.Context, addr string, skip, first uint64) ([]*ActionInfo, error) {
 	var actionInfos []*ActionInfo
 	db := db.DB()
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM (SELECT a.action_hash,a.action_type,a.sender,a.recipient,a.amount,a.block_height,a.gas_price FROM block_action a where a.sender=? or a.recipient=? order by id desc limit ? offset ?) a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash"
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM (select * from (SELECT a.id,a.action_hash,a.action_type,a.sender,a.recipient,a.amount,a.block_height,a.gas_price FROM block_action a where a.sender=? union all SELECT a.id,a.action_hash,a.action_type,a.sender,a.recipient,a.amount,a.block_height,a.gas_price FROM block_action a where a.recipient=?)tmp order by id desc limit ? offset ?) a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash"
 	if err := db.WithContext(ctx).Raw(query, addr, addr, first, skip).Scan(&actionInfos).Error; err != nil {
 		return nil, err
 	}

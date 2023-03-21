@@ -1,6 +1,7 @@
 package apiservice
 
 import (
+	"fmt"
 	"math/big"
 	"sort"
 
@@ -78,12 +79,14 @@ func (s *StreamService) Supply(req *api.SupplyRequest, res api.StreamService_Sup
 		lockAddressBalanceTotal.Add(lockAddressBalanceTotal, lockAddressBalance)
 		totalSupply := new(big.Int).Sub(new(big.Int).Sub(new(big.Int).Sub(common.TotalBalanceInt, zeroAddressBalanceTotal), common.Nsv1BalanceInt), common.BnfxBalanceInt)
 		totalCirculatingSupply := new(big.Int).Sub(totalSupply, lockAddressBalanceTotal)
+		fmt.Printf("height: %d, totalSupply: %s, totalCirculatingSupply: %s zeroAddressBalanceTotal:%s lockAddressBalanceTotal: %s\n", v.Height, totalSupply.String(), totalCirculatingSupply.String(), zeroAddressBalanceTotal.String(), lockAddressBalanceTotal.String())
 		supplyBalances = append(supplyBalances, supplyTy{
 			Height:                 v.Height,
 			TotalSupply:            totalSupply,
 			TotalCirculatingSupply: totalCirculatingSupply,
 		})
 	}
+
 	getTotalSupply := func(height uint64) (*big.Int, *big.Int) {
 		var totalSupply, circulatingSupply *big.Int
 		for _, v := range supplyBalances {
