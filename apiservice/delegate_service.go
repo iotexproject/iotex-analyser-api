@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/big"
 	"sort"
+	"time"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -265,5 +267,60 @@ func (s *DelegateService) ProbationHistoricalRate(ctx context.Context, req *api.
 	rate := float64(probationCount) / float64(count)
 	log.Printf("probationCount: %d, count: %d, rate: %f", probationCount, count, rate)
 	resp.ProbationHistoricalRate = fmt.Sprintf("%.2f", rate)
+	return resp, nil
+}
+
+func (s *DelegateService) PaidToDelegates(ctx context.Context, req *api.PaidToDelegatesRequest) (*api.PaidToDelegatesResponse, error) {
+	resp := &api.PaidToDelegatesResponse{}
+	//schedule := req.GetSchedule()
+	date := req.GetDate() // 2019-01-01
+	dateTime, err := time.Parse("2006-01-02", date)
+	if err != nil {
+		return nil, err
+	}
+	minH, maxH, err := common.GetBlockHeightRangeByMonth(dateTime)
+	if err != nil {
+		return nil, err
+	}
+	db := db.DB()
+	minEpochNum := common.GetEpochNum(minH)
+	maxEpochNum := common.GetEpochNum(maxH)
+	query := "SELECT candidate_name, SUM(block_reward) block_reward, SUM(epoch_reward) epoch_reward, SUM(foundation_bonus) foundation_bonus FROM hermes_account_rewards WHERE epoch_number >= ?  AND epoch_number <= ? GROUP BY candidate_name"
+	var result []struct {
+		CandidateName   string
+		BlockReward     string
+		EpochReward     string
+		FoundationBonus string
+	}
+
+	if err := db.Raw(query, minEpochNum, maxEpochNum).Scan(&result).Error; err != nil {
+		return nil, err
+	}
+	resp.DelegateInfo = make([]*api.PaidToDelegatesResponse_DelegateInfo, 0)
+	for _, v := range result {
+		amount := new(big.Int)
+		res, err := stringToBigInt(v.BlockReward)
+		if err != nil {
+			return nil, err
+		}
+		amount.Add(amount, res)
+		res, err = stringToBigInt(v.EpochReward)
+		if err != nil {
+			return nil, err
+		}
+		amount.Add(amount, res)
+		res, err = stringToBigInt(v.FoundationBonus)
+		if err != nil {
+			return nil, err
+		}
+
+		resp.DelegateInfo = append(resp.DelegateInfo, &api.PaidToDelegatesResponse_DelegateInfo{
+			DelegateName:    v.CandidateName,
+			BlockReward:     v.BlockReward,
+			EpochReward:     v.EpochReward,
+			FoundationBonus: v.FoundationBonus,
+			Amount:          amount.String(),
+		})
+	}
 	return resp, nil
 }

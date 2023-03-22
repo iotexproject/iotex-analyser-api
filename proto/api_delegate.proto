@@ -118,6 +118,25 @@ message ProbationHistoricalRateResponse {
   string probationHistoricalRate = 1; // probation historical rate
 }
 
+message PaidToDelegatesRequest {
+  enum Schedule {
+      MONTHLY = 0;
+      DAILY = 1;
+    }
+    Schedule schedule = 1;
+    string date = 2;
+}
+message PaidToDelegatesResponse {
+  message DelegateInfo {
+    string delegateName = 2; // delegate name
+    string amount = 3; // amount of reward distribution
+    string blockReward = 4; // amount of block rewards
+    string epochReward = 5; // amount of epoch rewards
+    string foundationBonus = 6; // amount of foundation bonus
+  }
+  repeated DelegateInfo delegateInfo = 1;
+}
+
 
 service DelegateService {
   // BucketInfo provides voting bucket detail information for candidates within a range of epochs
@@ -184,6 +203,17 @@ service DelegateService {
     };
     option (google.api.http) = {
       post: "/api.DelegateService.ProbationHistoricalRate"
+      body: "*"
+    };
+  };
+  // PaidToDelegates provides the amount of rewards paid to delegates
+  rpc PaidToDelegates(PaidToDelegatesRequest) returns (PaidToDelegatesResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "PaidToDelegates"
+    };
+    option (google.api.http) = {
+      post: "/api.DelegateService.PaidToDelegates"
       body: "*"
     };
   };

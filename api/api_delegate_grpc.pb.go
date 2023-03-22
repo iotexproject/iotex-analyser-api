@@ -30,6 +30,8 @@ type DelegateServiceClient interface {
 	Staking(ctx context.Context, in *StakingRequest, opts ...grpc.CallOption) (*StakingResponse, error)
 	// ProbationHistoricalRate provides the rate of probation for a given delegate
 	ProbationHistoricalRate(ctx context.Context, in *ProbationHistoricalRateRequest, opts ...grpc.CallOption) (*ProbationHistoricalRateResponse, error)
+	// PaidToDelegates provides the amount of rewards paid to delegates
+	PaidToDelegates(ctx context.Context, in *PaidToDelegatesRequest, opts ...grpc.CallOption) (*PaidToDelegatesResponse, error)
 }
 
 type delegateServiceClient struct {
@@ -94,6 +96,15 @@ func (c *delegateServiceClient) ProbationHistoricalRate(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *delegateServiceClient) PaidToDelegates(ctx context.Context, in *PaidToDelegatesRequest, opts ...grpc.CallOption) (*PaidToDelegatesResponse, error) {
+	out := new(PaidToDelegatesResponse)
+	err := c.cc.Invoke(ctx, "/api.DelegateService/PaidToDelegates", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DelegateServiceServer is the server API for DelegateService service.
 // All implementations must embed UnimplementedDelegateServiceServer
 // for forward compatibility
@@ -110,6 +121,8 @@ type DelegateServiceServer interface {
 	Staking(context.Context, *StakingRequest) (*StakingResponse, error)
 	// ProbationHistoricalRate provides the rate of probation for a given delegate
 	ProbationHistoricalRate(context.Context, *ProbationHistoricalRateRequest) (*ProbationHistoricalRateResponse, error)
+	// PaidToDelegates provides the amount of rewards paid to delegates
+	PaidToDelegates(context.Context, *PaidToDelegatesRequest) (*PaidToDelegatesResponse, error)
 	mustEmbedUnimplementedDelegateServiceServer()
 }
 
@@ -134,6 +147,9 @@ func (UnimplementedDelegateServiceServer) Staking(context.Context, *StakingReque
 }
 func (UnimplementedDelegateServiceServer) ProbationHistoricalRate(context.Context, *ProbationHistoricalRateRequest) (*ProbationHistoricalRateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProbationHistoricalRate not implemented")
+}
+func (UnimplementedDelegateServiceServer) PaidToDelegates(context.Context, *PaidToDelegatesRequest) (*PaidToDelegatesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PaidToDelegates not implemented")
 }
 func (UnimplementedDelegateServiceServer) mustEmbedUnimplementedDelegateServiceServer() {}
 
@@ -256,6 +272,24 @@ func _DelegateService_ProbationHistoricalRate_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DelegateService_PaidToDelegates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PaidToDelegatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).PaidToDelegates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.DelegateService/PaidToDelegates",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).PaidToDelegates(ctx, req.(*PaidToDelegatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DelegateService_ServiceDesc is the grpc.ServiceDesc for DelegateService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -286,6 +320,10 @@ var DelegateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ProbationHistoricalRate",
 			Handler:    _DelegateService_ProbationHistoricalRate_Handler,
+		},
+		{
+			MethodName: "PaidToDelegates",
+			Handler:    _DelegateService_PaidToDelegates_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
