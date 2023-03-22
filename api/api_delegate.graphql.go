@@ -12,43 +12,67 @@ import (
 )
 
 var (
-	gql__type_StakingResponse_StakingInfo      *graphql.Object      // message StakingResponse.StakingInfo in api_delegate.proto
-	gql__type_StakingResponse                  *graphql.Object      // message StakingResponse in api_delegate.proto
-	gql__type_StakingRequest                   *graphql.Object      // message StakingRequest in api_delegate.proto
-	gql__type_RewardResponse                   *graphql.Object      // message RewardResponse in api_delegate.proto
-	gql__type_RewardRequest                    *graphql.Object      // message RewardRequest in api_delegate.proto
-	gql__type_Reward                           *graphql.Object      // message Reward in api_delegate.proto
-	gql__type_ProductivityResponse             *graphql.Object      // message ProductivityResponse in api_delegate.proto
-	gql__type_ProductivityRequest              *graphql.Object      // message ProductivityRequest in api_delegate.proto
-	gql__type_Productivity                     *graphql.Object      // message Productivity in api_delegate.proto
-	gql__type_ProbationHistoricalRateResponse  *graphql.Object      // message ProbationHistoricalRateResponse in api_delegate.proto
-	gql__type_ProbationHistoricalRateRequest   *graphql.Object      // message ProbationHistoricalRateRequest in api_delegate.proto
-	gql__type_DelegateRewardDistribution       *graphql.Object      // message DelegateRewardDistribution in api_delegate.proto
-	gql__type_BucketInfoResponse               *graphql.Object      // message BucketInfoResponse in api_delegate.proto
-	gql__type_BucketInfoRequest                *graphql.Object      // message BucketInfoRequest in api_delegate.proto
-	gql__type_BucketInfoList                   *graphql.Object      // message BucketInfoList in api_delegate.proto
-	gql__type_BucketInfo                       *graphql.Object      // message BucketInfo in api_delegate.proto
-	gql__type_BookKeepingResponse              *graphql.Object      // message BookKeepingResponse in api_delegate.proto
-	gql__type_BookKeepingRequest               *graphql.Object      // message BookKeepingRequest in api_delegate.proto
-	gql__input_StakingResponse_StakingInfo     *graphql.InputObject // message StakingResponse.StakingInfo in api_delegate.proto
-	gql__input_StakingResponse                 *graphql.InputObject // message StakingResponse in api_delegate.proto
-	gql__input_StakingRequest                  *graphql.InputObject // message StakingRequest in api_delegate.proto
-	gql__input_RewardResponse                  *graphql.InputObject // message RewardResponse in api_delegate.proto
-	gql__input_RewardRequest                   *graphql.InputObject // message RewardRequest in api_delegate.proto
-	gql__input_Reward                          *graphql.InputObject // message Reward in api_delegate.proto
-	gql__input_ProductivityResponse            *graphql.InputObject // message ProductivityResponse in api_delegate.proto
-	gql__input_ProductivityRequest             *graphql.InputObject // message ProductivityRequest in api_delegate.proto
-	gql__input_Productivity                    *graphql.InputObject // message Productivity in api_delegate.proto
-	gql__input_ProbationHistoricalRateResponse *graphql.InputObject // message ProbationHistoricalRateResponse in api_delegate.proto
-	gql__input_ProbationHistoricalRateRequest  *graphql.InputObject // message ProbationHistoricalRateRequest in api_delegate.proto
-	gql__input_DelegateRewardDistribution      *graphql.InputObject // message DelegateRewardDistribution in api_delegate.proto
-	gql__input_BucketInfoResponse              *graphql.InputObject // message BucketInfoResponse in api_delegate.proto
-	gql__input_BucketInfoRequest               *graphql.InputObject // message BucketInfoRequest in api_delegate.proto
-	gql__input_BucketInfoList                  *graphql.InputObject // message BucketInfoList in api_delegate.proto
-	gql__input_BucketInfo                      *graphql.InputObject // message BucketInfo in api_delegate.proto
-	gql__input_BookKeepingResponse             *graphql.InputObject // message BookKeepingResponse in api_delegate.proto
-	gql__input_BookKeepingRequest              *graphql.InputObject // message BookKeepingRequest in api_delegate.proto
+	gql__enum_PaidToDelegatesRequest_Schedule       *graphql.Enum        // enum PaidToDelegatesRequest_Schedule in api_delegate.proto
+	gql__type_StakingResponse_StakingInfo           *graphql.Object      // message StakingResponse.StakingInfo in api_delegate.proto
+	gql__type_StakingResponse                       *graphql.Object      // message StakingResponse in api_delegate.proto
+	gql__type_StakingRequest                        *graphql.Object      // message StakingRequest in api_delegate.proto
+	gql__type_RewardResponse                        *graphql.Object      // message RewardResponse in api_delegate.proto
+	gql__type_RewardRequest                         *graphql.Object      // message RewardRequest in api_delegate.proto
+	gql__type_Reward                                *graphql.Object      // message Reward in api_delegate.proto
+	gql__type_ProductivityResponse                  *graphql.Object      // message ProductivityResponse in api_delegate.proto
+	gql__type_ProductivityRequest                   *graphql.Object      // message ProductivityRequest in api_delegate.proto
+	gql__type_Productivity                          *graphql.Object      // message Productivity in api_delegate.proto
+	gql__type_ProbationHistoricalRateResponse       *graphql.Object      // message ProbationHistoricalRateResponse in api_delegate.proto
+	gql__type_ProbationHistoricalRateRequest        *graphql.Object      // message ProbationHistoricalRateRequest in api_delegate.proto
+	gql__type_PaidToDelegatesResponse_DelegateInfo  *graphql.Object      // message PaidToDelegatesResponse.DelegateInfo in api_delegate.proto
+	gql__type_PaidToDelegatesResponse               *graphql.Object      // message PaidToDelegatesResponse in api_delegate.proto
+	gql__type_PaidToDelegatesRequest                *graphql.Object      // message PaidToDelegatesRequest in api_delegate.proto
+	gql__type_DelegateRewardDistribution            *graphql.Object      // message DelegateRewardDistribution in api_delegate.proto
+	gql__type_BucketInfoResponse                    *graphql.Object      // message BucketInfoResponse in api_delegate.proto
+	gql__type_BucketInfoRequest                     *graphql.Object      // message BucketInfoRequest in api_delegate.proto
+	gql__type_BucketInfoList                        *graphql.Object      // message BucketInfoList in api_delegate.proto
+	gql__type_BucketInfo                            *graphql.Object      // message BucketInfo in api_delegate.proto
+	gql__type_BookKeepingResponse                   *graphql.Object      // message BookKeepingResponse in api_delegate.proto
+	gql__type_BookKeepingRequest                    *graphql.Object      // message BookKeepingRequest in api_delegate.proto
+	gql__input_StakingResponse_StakingInfo          *graphql.InputObject // message StakingResponse.StakingInfo in api_delegate.proto
+	gql__input_StakingResponse                      *graphql.InputObject // message StakingResponse in api_delegate.proto
+	gql__input_StakingRequest                       *graphql.InputObject // message StakingRequest in api_delegate.proto
+	gql__input_RewardResponse                       *graphql.InputObject // message RewardResponse in api_delegate.proto
+	gql__input_RewardRequest                        *graphql.InputObject // message RewardRequest in api_delegate.proto
+	gql__input_Reward                               *graphql.InputObject // message Reward in api_delegate.proto
+	gql__input_ProductivityResponse                 *graphql.InputObject // message ProductivityResponse in api_delegate.proto
+	gql__input_ProductivityRequest                  *graphql.InputObject // message ProductivityRequest in api_delegate.proto
+	gql__input_Productivity                         *graphql.InputObject // message Productivity in api_delegate.proto
+	gql__input_ProbationHistoricalRateResponse      *graphql.InputObject // message ProbationHistoricalRateResponse in api_delegate.proto
+	gql__input_ProbationHistoricalRateRequest       *graphql.InputObject // message ProbationHistoricalRateRequest in api_delegate.proto
+	gql__input_PaidToDelegatesResponse_DelegateInfo *graphql.InputObject // message PaidToDelegatesResponse.DelegateInfo in api_delegate.proto
+	gql__input_PaidToDelegatesResponse              *graphql.InputObject // message PaidToDelegatesResponse in api_delegate.proto
+	gql__input_PaidToDelegatesRequest               *graphql.InputObject // message PaidToDelegatesRequest in api_delegate.proto
+	gql__input_DelegateRewardDistribution           *graphql.InputObject // message DelegateRewardDistribution in api_delegate.proto
+	gql__input_BucketInfoResponse                   *graphql.InputObject // message BucketInfoResponse in api_delegate.proto
+	gql__input_BucketInfoRequest                    *graphql.InputObject // message BucketInfoRequest in api_delegate.proto
+	gql__input_BucketInfoList                       *graphql.InputObject // message BucketInfoList in api_delegate.proto
+	gql__input_BucketInfo                           *graphql.InputObject // message BucketInfo in api_delegate.proto
+	gql__input_BookKeepingResponse                  *graphql.InputObject // message BookKeepingResponse in api_delegate.proto
+	gql__input_BookKeepingRequest                   *graphql.InputObject // message BookKeepingRequest in api_delegate.proto
 )
+
+func Gql__enum_PaidToDelegatesRequest_Schedule() *graphql.Enum {
+	if gql__enum_PaidToDelegatesRequest_Schedule == nil {
+		gql__enum_PaidToDelegatesRequest_Schedule = graphql.NewEnum(graphql.EnumConfig{
+			Name: "Api_Enum_PaidToDelegatesRequest_Schedule",
+			Values: graphql.EnumValueConfigMap{
+				"MONTHLY": &graphql.EnumValueConfig{
+					Value: PaidToDelegatesRequest_Schedule(0),
+				},
+				"DAILY": &graphql.EnumValueConfig{
+					Value: PaidToDelegatesRequest_Schedule(1),
+				},
+			},
+		})
+	}
+	return gql__enum_PaidToDelegatesRequest_Schedule
+}
 
 func Gql__type_StakingResponse_StakingInfo() *graphql.Object {
 	if gql__type_StakingResponse_StakingInfo == nil {
@@ -250,6 +274,63 @@ func Gql__type_ProbationHistoricalRateRequest() *graphql.Object {
 		})
 	}
 	return gql__type_ProbationHistoricalRateRequest
+}
+
+func Gql__type_PaidToDelegatesResponse_DelegateInfo() *graphql.Object {
+	if gql__type_PaidToDelegatesResponse_DelegateInfo == nil {
+		gql__type_PaidToDelegatesResponse_DelegateInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_PaidToDelegatesResponse_DelegateInfo",
+			Fields: graphql.Fields{
+				"delegateName": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"blockReward": &graphql.Field{
+					Type: graphql.String,
+				},
+				"epochReward": &graphql.Field{
+					Type: graphql.String,
+				},
+				"foundationBonus": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_PaidToDelegatesResponse_DelegateInfo
+}
+
+func Gql__type_PaidToDelegatesResponse() *graphql.Object {
+	if gql__type_PaidToDelegatesResponse == nil {
+		gql__type_PaidToDelegatesResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_PaidToDelegatesResponse",
+			Fields: graphql.Fields{
+				"delegateInfo": &graphql.Field{
+					Type: graphql.NewList(Gql__type_PaidToDelegatesResponse_DelegateInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_PaidToDelegatesResponse
+}
+
+func Gql__type_PaidToDelegatesRequest() *graphql.Object {
+	if gql__type_PaidToDelegatesRequest == nil {
+		gql__type_PaidToDelegatesRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_PaidToDelegatesRequest",
+			Fields: graphql.Fields{
+				"schedule": &graphql.Field{
+					Type: Gql__enum_PaidToDelegatesRequest_Schedule(),
+				},
+				"date": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_PaidToDelegatesRequest
 }
 
 func Gql__type_DelegateRewardDistribution() *graphql.Object {
@@ -625,6 +706,63 @@ func Gql__input_ProbationHistoricalRateRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_ProbationHistoricalRateRequest
+}
+
+func Gql__input_PaidToDelegatesResponse_DelegateInfo() *graphql.InputObject {
+	if gql__input_PaidToDelegatesResponse_DelegateInfo == nil {
+		gql__input_PaidToDelegatesResponse_DelegateInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_PaidToDelegatesResponse_DelegateInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"delegateName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"blockReward": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"epochReward": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"foundationBonus": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_PaidToDelegatesResponse_DelegateInfo
+}
+
+func Gql__input_PaidToDelegatesResponse() *graphql.InputObject {
+	if gql__input_PaidToDelegatesResponse == nil {
+		gql__input_PaidToDelegatesResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_PaidToDelegatesResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"delegateInfo": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_PaidToDelegatesResponse_DelegateInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_PaidToDelegatesResponse
+}
+
+func Gql__input_PaidToDelegatesRequest() *graphql.InputObject {
+	if gql__input_PaidToDelegatesRequest == nil {
+		gql__input_PaidToDelegatesRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_PaidToDelegatesRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"schedule": &graphql.InputObjectFieldConfig{
+					Type: Gql__enum_PaidToDelegatesRequest_Schedule(),
+				},
+				"date": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_PaidToDelegatesRequest
 }
 
 func Gql__input_DelegateRewardDistribution() *graphql.InputObject {
@@ -1009,6 +1147,29 @@ func (x *graphql__resolver_DelegateService) GetQueries(conn *grpc.ClientConn) gr
 				resp, err := client.ProbationHistoricalRate(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC ProbationHistoricalRate")
+				}
+				return resp, nil
+			},
+		},
+		"PaidToDelegates": &graphql.Field{
+			Type: Gql__type_PaidToDelegatesResponse(),
+			Args: graphql.FieldConfigArgument{
+				"schedule": &graphql.ArgumentConfig{
+					Type: Gql__enum_PaidToDelegatesRequest_Schedule(),
+				},
+				"date": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req PaidToDelegatesRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for PaidToDelegates")
+				}
+				client := NewDelegateServiceClient(conn)
+				resp, err := client.PaidToDelegates(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC PaidToDelegates")
 				}
 				return resp, nil
 			},
