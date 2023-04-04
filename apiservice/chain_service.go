@@ -42,7 +42,7 @@ func (s *ChainService) Chain(ctx context.Context, req *api.ChainRequest) (*api.C
 	}
 	resp.TotalCirculatingSupply = totalCirculatingSupply
 
-	exactCirculatingSupply, err := common.GetExactCirculatingSupply(height, totalSupply)
+	exactCirculatingSupply, err := common.GetExactCirculatingSupply(height, totalCirculatingSupply)
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +183,7 @@ func (s *ChainService) BlockSizeByHeight(ctx context.Context, req *api.BlockSize
 	return resp, nil
 }
 
-//https://iotexscan.io/hard-fork-history
+// https://iotexscan.io/hard-fork-history
 func getHardForkVersion(blk uint64) string {
 	vers := []struct {
 		h uint64
