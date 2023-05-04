@@ -8,6 +8,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/common/accounts"
+	"github.com/iotexproject/iotex-analyser-api/common/actions"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/ioctl/util"
 	"github.com/pkg/errors"
@@ -18,7 +19,7 @@ type AccountService struct {
 }
 
 // IotexBalanceByHeight returns the balance of the given address at the given height.
-//curl -d '{"address": ["io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "io1j4mn2ga590z6es2fs07fy2wjn3yf09f4rkfljc"], "height":8927781 }' http://127.0.0.1:7778/api.AccountService.IotexBalanceByHeight
+// curl -d '{"address": ["io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "io1j4mn2ga590z6es2fs07fy2wjn3yf09f4rkfljc"], "height":8927781 }' http://127.0.0.1:7778/api.AccountService.IotexBalanceByHeight
 func (s *AccountService) IotexBalanceByHeight(ctx context.Context, req *api.IotexBalanceByHeightRequest) (*api.IotexBalanceByHeightResponse, error) {
 	resp := &api.IotexBalanceByHeightResponse{
 		Height: req.GetHeight(),
@@ -37,8 +38,8 @@ func (s *AccountService) IotexBalanceByHeight(ctx context.Context, req *api.Iote
 	return resp, nil
 }
 
-//grpcurl -plaintext -d '{"address": "io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "height":8927781 }' 127.0.0.1:7777 api.AccountService.GetErc20TokenBalanceByHeight
-//curl -d '{"address": ["io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "io1j4mn2ga590z6es2fs07fy2wjn3yf09f4rkfljc"], "contract_address": "io1w97pslyg7qdayp8mfnffxkjkpapaf83wmmll2l", "height":8927781 }}' http://127.0.0.1:7778/api.AccountService.GetErc20TokenBalanceByHeight
+// grpcurl -plaintext -d '{"address": "io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "height":8927781 }' 127.0.0.1:7777 api.AccountService.GetErc20TokenBalanceByHeight
+// curl -d '{"address": ["io1ryztljunahyml9s7atfwtsx7s8wvr5maufa6zp", "io1j4mn2ga590z6es2fs07fy2wjn3yf09f4rkfljc"], "contract_address": "io1w97pslyg7qdayp8mfnffxkjkpapaf83wmmll2l", "height":8927781 }}' http://127.0.0.1:7778/api.AccountService.GetErc20TokenBalanceByHeight
 func (s *AccountService) Erc20TokenBalanceByHeight(ctx context.Context, req *api.Erc20TokenBalanceByHeightRequest) (*api.Erc20TokenBalanceByHeightResponse, error) {
 	resp := &api.Erc20TokenBalanceByHeightResponse{
 		Height:          req.GetHeight(),
@@ -182,5 +183,32 @@ func (s *AccountService) TotalAccountSupply(ctx context.Context, req *api.TotalA
 		result = ret.Abs(ret).String()
 	}
 	resp.TotalAccountSupply = result
+	return resp, nil
+}
+
+// ContractInfo return contract info
+func (s *AccountService) ContractInfo(ctx context.Context, req *api.ContractInfoRequest) (*api.ContractInfoResponse, error) {
+	resp := &api.ContractInfoResponse{}
+
+	contractAddress := req.GetContractAddress()
+	contractExist, blockHeight, err := accounts.ContractIsExist(contractAddress)
+	if err != nil {
+		return nil, err
+	}
+	resp.Exist = contractExist
+	if contractExist {
+		actionInfo, err := actions.GetActionInfoByBlockHeightAndContractAddress(blockHeight, contractAddress)
+		if err != nil {
+			return nil, err
+		}
+		resp.Deployer = actionInfo.Sender
+		resp.CreateTime = actionInfo.Timestamp.String()
+		callTimes, gas, err := accounts.GetContractCallTimesAndAccumulatedGas(contractAddress)
+		if err != nil {
+			return nil, err
+		}
+		resp.CallTimes = callTimes
+		resp.AccumulatedGas = gas
+	}
 	return resp, nil
 }

@@ -69,6 +69,16 @@ message TotalAccountSupplyResponse {
   string totalAccountSupply = 1; // total amount of tokens held by IoTeX accounts
 }
 
+message ContractInfoRequest {
+  string contractAddress = 1; // contract address
+}
+message ContractInfoResponse {
+  bool exist = 1; // whether the contract address exists
+  string deployer = 2; // contract creator 
+  string createTime = 3; // contract create time
+  uint64 callTimes = 4; // contract call times
+  string accumulatedGas = 5; // accumulated transaction fee
+}
 service AccountService {
   // IotexBalanceByHeight returns the balance of the given address at the given height.
   rpc IotexBalanceByHeight(IotexBalanceByHeightRequest) returns (IotexBalanceByHeightResponse) {
@@ -146,4 +156,15 @@ service AccountService {
       body: "*"
     };
   };  
+  // ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee
+  rpc ContractInfo(ContractInfoRequest) returns (ContractInfoResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "ContractInfo"
+    };
+    option (google.api.http) = {
+      post: "/api.AccountService.ContractInfo"
+      body: "*"
+    };
+  };
 }

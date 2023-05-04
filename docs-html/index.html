@@ -388,6 +388,9 @@
                   <li>
                     <a href="#totalaccountsupply" class="toc-h2 toc-link" data-title="TotalAccountSupply">TotalAccountSupply</a>
                   </li>
+                  <li>
+                    <a href="#contractinfo" class="toc-h2 toc-link" data-title="ContractInfo">ContractInfo</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -2391,6 +2394,100 @@
 <td>total amount of tokens held by IoTeX accounts</td>
 </tr>
 </tbody></table>
+<h2 id='contractinfo'>ContractInfo</h2>
+<p>ContractInfo returns contract info</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.ContractInfo <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "contractAddress": "io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="p">{</span><span class="w">
+  </span><span class="n">ContractInfo</span><span class="p">(</span><span class="n">contractAddress</span><span class="p">:</span><span class="s2">"io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"</span><span class="p">){</span><span class="w">
+    </span><span class="n">deployer</span><span class="w">
+    </span><span class="n">createTime</span><span class="w">
+    </span><span class="n">exist</span><span class="w">
+    </span><span class="n">callTimes</span><span class="w">
+    </span><span class="n">accumulatedGas</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"ContractInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"accumulatedGas"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.174381"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"callTimes"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"createTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-04-25 01:45:20 +0000 UTC"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"deployer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io10e0525sfrf53yh2aljmm3sn9jq5njk7l6jfauj"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-18'>HTTP Request</h3>
+<p><code>POST /api.AccountService.ContractInfo</code></p>
+
+<p><a name="api-ContractInfoRequest"></a></p>
+<h3 id='contractinforequest'>ContractInfoRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contractAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract address</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-ContractInfoResponse"></a></p>
+<h3 id='contractinforesponse'>ContractInfoResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exist</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether the contract address exists</td>
+</tr>
+<tr>
+<td>deployer</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract creator</td>
+</tr>
+<tr>
+<td>createTime</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract create time</td>
+</tr>
+<tr>
+<td>callTimes</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>contract call times</td>
+</tr>
+<tr>
+<td>accumulatedGas</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>accumulated transaction fee</td>
+</tr>
+</tbody></table>
 <h1 id='voting-service-api'>Voting Service API</h1><h2 id='candidateinfo'>CandidateInfo</h2>
 <p>CandidateInfo provides candidate information</p>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
@@ -2455,7 +2552,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-18'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-19'>HTTP Request</h3>
 <p><code>POST /api.VotingService.CandidateInfo</code></p>
 
 <p><a name="api-CandidateInfoRequest"></a></p>
@@ -2611,7 +2708,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-19'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-20'>HTTP Request</h3>
 <p><code>POST /api.VotingService.RewardSources</code></p>
 
 <p><a name="api-RewardSourcesRequest"></a></p>
@@ -2740,7 +2837,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-20'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-21'>HTTP Request</h3>
 <p><code>POST /api.VotingService.VotingMeta</code></p>
 
 <p><a name="api-VotingMetaRequest"></a></p>
@@ -2892,7 +2989,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-21'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-22'>HTTP Request</h3>
 <p><code>POST /api.ActionService.ActionByDates</code></p>
 
 <p><a name="api-ActionByDatesRequest"></a></p>
@@ -3084,7 +3181,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-22'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-23'>HTTP Request</h3>
 <p><code>POST /api.ActionService.ActionByHash</code></p>
 
 <p><a name="api-ActionByHashRequest"></a></p>
@@ -3220,7 +3317,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-23'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-24'>HTTP Request</h3>
 <p><code>POST /api.ActionService.ActionByAddress</code></p>
 
 <p><a name="api-ActionByAddressRequest"></a></p>
@@ -3332,7 +3429,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-24'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-25'>HTTP Request</h3>
 <p><code>POST /api.ActionService.ActionByType</code></p>
 
 <p><a name="api-ActionByTypeRequest"></a></p>
@@ -3443,7 +3540,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-25'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-26'>HTTP Request</h3>
 <p><code>POST /api.ActionService.EvmTransfersByAddress</code></p>
 
 <p><a name="api-EvmTransfersByAddressRequest"></a></p>
@@ -3594,7 +3691,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-26'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-27'>HTTP Request</h3>
 <p><code>POST /api.StakingService.VoteByHeight</code></p>
 
 <p><a name="api-VoteByHeightRequest"></a></p>
@@ -3702,7 +3799,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-27'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-28'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByAddress</code></p>
 
 <p><a name="api-XRC20ByAddressRequest"></a></p>
@@ -3858,7 +3955,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-28'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-29'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByContractAddress</code></p>
 
 <p><a name="api-XRC20ByContractAddressRequest"></a></p>
@@ -3963,7 +4060,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-29'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-30'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByPage</code></p>
 
 <p><a name="api-XRC20ByPageRequest"></a></p>
@@ -4050,7 +4147,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-30'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-31'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20Addresses</code></p>
 
 <p><a name="api-XRC20AddressesRequest"></a></p>
@@ -4139,7 +4236,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-31'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-32'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20TokenHolderAddresses</code></p>
 
 <p><a name="api-XRC20TokenHolderAddressesRequest"></a></p>
@@ -4240,7 +4337,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-32'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-33'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByAddress</code></p>
 
 <p><a name="api-XRC721ByAddressRequest"></a></p>
@@ -4395,7 +4492,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-33'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-34'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByContractAddress</code></p>
 
 <p><a name="api-XRC721ByContractAddressRequest"></a></p>
@@ -4500,7 +4597,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-34'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-35'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByPage</code></p>
 
 <p><a name="api-XRC721ByPageRequest"></a></p>
@@ -4586,7 +4683,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-35'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-36'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721Addresses</code></p>
 
 <p><a name="api-XRC721AddressesRequest"></a></p>
@@ -4675,7 +4772,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-36'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-37'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721TokenHolderAddresses</code></p>
 
 <p><a name="api-XRC721TokenHolderAddressesRequest"></a></p>
@@ -4779,7 +4876,7 @@
         </span><span class="p">},</span><span class="w">
         </span><span class="err">...</span><span class="w">
 </span><span class="err">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-37'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-38'>HTTP Request</h3>
 <p><code>POST /api.HermesService.Hermes</code></p>
 
 <p><a name="api-HermesRequest"></a></p>
@@ -4966,7 +5063,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-38'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-39'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesByVoter</code></p>
 
 <p><a name="api-HermesByVoterRequest"></a></p>
@@ -5152,7 +5249,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-39'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-40'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesByDelegate</code></p>
 
 <p><a name="api-HermesByDelegateRequest"></a></p>
@@ -5349,7 +5446,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-40'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-41'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesMeta</code></p>
 
 <p><a name="api-HermesMetaRequest"></a></p>
@@ -5454,7 +5551,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-41'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-42'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesAverageStats</code></p>
 
 <p><a name="api-HermesAverageStatsRequest"></a></p>

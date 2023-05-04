@@ -120,6 +120,102 @@
           ]
         },
         {
+          "name": "ContractInfoRequest",
+          "longName": "ContractInfoRequest",
+          "fullName": "api.ContractInfoRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "contractAddress",
+              "description": "contract address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ContractInfoResponse",
+          "longName": "ContractInfoResponse",
+          "fullName": "api.ContractInfoResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exist",
+              "description": "whether the contract address exists",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "deployer",
+              "description": "contract creator",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "createTime",
+              "description": "contract create time",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "callTimes",
+              "description": "contract call times",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "accumulatedGas",
+              "description": "accumulated transaction fee",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "Erc20TokenBalanceByHeightRequest",
           "longName": "Erc20TokenBalanceByHeightRequest",
           "fullName": "api.Erc20TokenBalanceByHeightRequest",
@@ -208,6 +304,18 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "decimals",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -580,6 +688,29 @@
                     {
                       "method": "POST",
                       "pattern": "/api.AccountService.TotalAccountSupply",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ContractInfo",
+              "description": "ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee",
+              "requestType": "ContractInfoRequest",
+              "requestLongType": "ContractInfoRequest",
+              "requestFullType": "api.ContractInfoRequest",
+              "requestStreaming": false,
+              "responseType": "ContractInfoResponse",
+              "responseLongType": "ContractInfoResponse",
+              "responseFullType": "api.ContractInfoResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.AccountService.ContractInfo",
                       "body": "*"
                     }
                   ]
@@ -2817,7 +2948,26 @@
       "hasExtensions": false,
       "hasMessages": true,
       "hasServices": true,
-      "enums": [],
+      "enums": [
+        {
+          "name": "Schedule",
+          "longName": "PaidToDelegatesRequest.Schedule",
+          "fullName": "api.PaidToDelegatesRequest.Schedule",
+          "description": "",
+          "values": [
+            {
+              "name": "MONTHLY",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "DAILY",
+              "number": "1",
+              "description": ""
+            }
+          ]
+        }
+      ],
       "extensions": [],
       "messages": [
         {
@@ -3277,6 +3427,138 @@
             {
               "name": "amount",
               "description": "amount of reward distribution",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "PaidToDelegatesRequest",
+          "longName": "PaidToDelegatesRequest",
+          "fullName": "api.PaidToDelegatesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "schedule",
+              "description": "",
+              "label": "",
+              "type": "Schedule",
+              "longType": "PaidToDelegatesRequest.Schedule",
+              "fullType": "api.PaidToDelegatesRequest.Schedule",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "date",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "PaidToDelegatesResponse",
+          "longName": "PaidToDelegatesResponse",
+          "fullName": "api.PaidToDelegatesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "delegateInfo",
+              "description": "",
+              "label": "repeated",
+              "type": "DelegateInfo",
+              "longType": "PaidToDelegatesResponse.DelegateInfo",
+              "fullType": "api.PaidToDelegatesResponse.DelegateInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DelegateInfo",
+          "longName": "PaidToDelegatesResponse.DelegateInfo",
+          "fullName": "api.PaidToDelegatesResponse.DelegateInfo",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "delegateName",
+              "description": "delegate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "amount of reward distribution",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "blockReward",
+              "description": "amount of block rewards",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "epochReward",
+              "description": "amount of epoch rewards",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "foundationBonus",
+              "description": "amount of foundation bonus",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -3884,6 +4166,29 @@
                     {
                       "method": "POST",
                       "pattern": "/api.DelegateService.ProbationHistoricalRate",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "PaidToDelegates",
+              "description": "PaidToDelegates provides the amount of rewards paid to delegates",
+              "requestType": "PaidToDelegatesRequest",
+              "requestLongType": "PaidToDelegatesRequest",
+              "requestFullType": "api.PaidToDelegatesRequest",
+              "requestStreaming": false,
+              "responseType": "PaidToDelegatesResponse",
+              "responseLongType": "PaidToDelegatesResponse",
+              "responseFullType": "api.PaidToDelegatesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.DelegateService.PaidToDelegates",
                       "body": "*"
                     }
                   ]
@@ -4602,6 +4907,114 @@
           ]
         },
         {
+          "name": "HermesDropRecordsRequest",
+          "longName": "HermesDropRecordsRequest",
+          "fullName": "api.HermesDropRecordsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "epochNumber",
+              "description": "end epoch number",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "delegateName",
+              "description": "delegate name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "voterAddress",
+              "description": "Name of voter address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "actHash",
+              "description": "Name of actHash",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "bucketID",
+              "description": "bucket ID",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amount",
+              "description": "Name of amount",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "HermesDropRecordsResponse",
+          "longName": "HermesDropRecordsResponse",
+          "fullName": "api.HermesDropRecordsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "success",
+              "description": "whether the drop records are successfully generated",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "HermesMetaRequest",
           "longName": "HermesMetaRequest",
           "fullName": "api.HermesMetaRequest",
@@ -4939,6 +5352,29 @@
                   ]
                 }
               }
+            },
+            {
+              "name": "HermesDropRecords",
+              "description": "HermesDropRecords inserts the Hermes drop records",
+              "requestType": "HermesDropRecordsRequest",
+              "requestLongType": "HermesDropRecordsRequest",
+              "requestFullType": "api.HermesDropRecordsRequest",
+              "requestStreaming": false,
+              "responseType": "HermesDropRecordsResponse",
+              "responseLongType": "HermesDropRecordsResponse",
+              "responseFullType": "api.HermesDropRecordsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.HermesService.HermesDropRecords",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
             }
           ]
         }
@@ -5188,6 +5624,125 @@
                   ]
                 }
               }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api_stream.proto",
+      "description": "",
+      "package": "api",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": true,
+      "enums": [],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "SupplyRequest",
+          "longName": "SupplyRequest",
+          "fullName": "api.SupplyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "startHeight",
+              "description": "start block height",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "endHeight",
+              "description": "end block height",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SupplyResponse",
+          "longName": "SupplyResponse",
+          "fullName": "api.SupplyResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "height",
+              "description": "block height",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "totalSupply",
+              "description": "total supply",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "circulatingSupply",
+              "description": "circulating supply",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "StreamService",
+          "longName": "StreamService",
+          "fullName": "api.StreamService",
+          "description": "",
+          "methods": [
+            {
+              "name": "Supply",
+              "description": "",
+              "requestType": "SupplyRequest",
+              "requestLongType": "SupplyRequest",
+              "requestFullType": "api.SupplyRequest",
+              "requestStreaming": false,
+              "responseType": "SupplyResponse",
+              "responseLongType": "SupplyResponse",
+              "responseFullType": "api.SupplyResponse",
+              "responseStreaming": true
             }
           ]
         }
