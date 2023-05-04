@@ -31,6 +31,8 @@ type AccountServiceClient interface {
 	TotalNumberOfHolders(ctx context.Context, in *TotalNumberOfHoldersRequest, opts ...grpc.CallOption) (*TotalNumberOfHoldersResponse, error)
 	// TotalAccountSupply returns total amount of tokens held by IoTeX accounts
 	TotalAccountSupply(ctx context.Context, in *TotalAccountSupplyRequest, opts ...grpc.CallOption) (*TotalAccountSupplyResponse, error)
+	// ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee
+	ContractInfo(ctx context.Context, in *ContractInfoRequest, opts ...grpc.CallOption) (*ContractInfoResponse, error)
 }
 
 type accountServiceClient struct {
@@ -104,6 +106,15 @@ func (c *accountServiceClient) TotalAccountSupply(ctx context.Context, in *Total
 	return out, nil
 }
 
+func (c *accountServiceClient) ContractInfo(ctx context.Context, in *ContractInfoRequest, opts ...grpc.CallOption) (*ContractInfoResponse, error) {
+	out := new(ContractInfoResponse)
+	err := c.cc.Invoke(ctx, "/api.AccountService/ContractInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -121,6 +132,8 @@ type AccountServiceServer interface {
 	TotalNumberOfHolders(context.Context, *TotalNumberOfHoldersRequest) (*TotalNumberOfHoldersResponse, error)
 	// TotalAccountSupply returns total amount of tokens held by IoTeX accounts
 	TotalAccountSupply(context.Context, *TotalAccountSupplyRequest) (*TotalAccountSupplyResponse, error)
+	// ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee
+	ContractInfo(context.Context, *ContractInfoRequest) (*ContractInfoResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -148,6 +161,9 @@ func (UnimplementedAccountServiceServer) TotalNumberOfHolders(context.Context, *
 }
 func (UnimplementedAccountServiceServer) TotalAccountSupply(context.Context, *TotalAccountSupplyRequest) (*TotalAccountSupplyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TotalAccountSupply not implemented")
+}
+func (UnimplementedAccountServiceServer) ContractInfo(context.Context, *ContractInfoRequest) (*ContractInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractInfo not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -288,6 +304,24 @@ func _AccountService_TotalAccountSupply_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_ContractInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).ContractInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.AccountService/ContractInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).ContractInfo(ctx, req.(*ContractInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -322,6 +356,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TotalAccountSupply",
 			Handler:    _AccountService_TotalAccountSupply_Handler,
+		},
+		{
+			MethodName: "ContractInfo",
+			Handler:    _AccountService_ContractInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

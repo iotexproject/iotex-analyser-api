@@ -1425,6 +1425,81 @@ query {
 | ----- | ---- | ----- | ----------- |
 | totalAccountSupply | [string](#string) |  | total amount of tokens held by IoTeX accounts |
 
+## ContractInfo
+
+ContractInfo returns contract info
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.ContractInfo \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "contractAddress": "io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"
+}'
+```
+
+```graphql
+query{
+  ContractInfo(contractAddress:"io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"){
+    deployer
+    createTime
+    exist
+    callTimes
+    accumulatedGas
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ContractInfo": {
+      "accumulatedGas": "0.174381",
+      "callTimes": 3,
+      "createTime": "2019-04-25 01:45:20 +0000 UTC",
+      "deployer": "io10e0525sfrf53yh2aljmm3sn9jq5njk7l6jfauj",
+      "exist": true
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.ContractInfo`
+
+<a name="api-ContractInfoRequest"></a>
+
+### ContractInfoRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contractAddress | [string](#string) |  | contract address |
+
+
+
+
+
+
+<a name="api-ContractInfoResponse"></a>
+
+### ContractInfoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the contract address exists |
+| deployer | [string](#string) |  | contract creator |
+| createTime | [string](#string) |  | contract create time |
+| callTimes | [uint64](#uint64) |  | contract call times |
+| accumulatedGas | [string](#string) |  | accumulated transaction fee |
+
+
 # Voting Service API
 
 ## CandidateInfo

@@ -19,6 +19,8 @@ var (
 	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightResponse  *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightRequest   *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__type_ContractInfoResponse               *graphql.Object      // message ContractInfoResponse in api_account.proto
+	gql__type_ContractInfoRequest                *graphql.Object      // message ContractInfoRequest in api_account.proto
 	gql__type_AliasResponse                      *graphql.Object      // message AliasResponse in api_account.proto
 	gql__type_AliasRequest                       *graphql.Object      // message AliasRequest in api_account.proto
 	gql__type_ActiveAccountsResponse             *graphql.Object      // message ActiveAccountsResponse in api_account.proto
@@ -31,6 +33,8 @@ var (
 	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightResponse *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightRequest  *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__input_ContractInfoResponse              *graphql.InputObject // message ContractInfoResponse in api_account.proto
+	gql__input_ContractInfoRequest               *graphql.InputObject // message ContractInfoRequest in api_account.proto
 	gql__input_AliasResponse                     *graphql.InputObject // message AliasResponse in api_account.proto
 	gql__input_AliasRequest                      *graphql.InputObject // message AliasRequest in api_account.proto
 	gql__input_ActiveAccountsResponse            *graphql.InputObject // message ActiveAccountsResponse in api_account.proto
@@ -171,6 +175,46 @@ func Gql__type_Erc20TokenBalanceByHeightRequest() *graphql.Object {
 		})
 	}
 	return gql__type_Erc20TokenBalanceByHeightRequest
+}
+
+func Gql__type_ContractInfoResponse() *graphql.Object {
+	if gql__type_ContractInfoResponse == nil {
+		gql__type_ContractInfoResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ContractInfoResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"deployer": &graphql.Field{
+					Type: graphql.String,
+				},
+				"createTime": &graphql.Field{
+					Type: graphql.String,
+				},
+				"callTimes": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"accumulatedGas": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ContractInfoResponse
+}
+
+func Gql__type_ContractInfoRequest() *graphql.Object {
+	if gql__type_ContractInfoRequest == nil {
+		gql__type_ContractInfoRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ContractInfoRequest",
+			Fields: graphql.Fields{
+				"contractAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ContractInfoRequest
 }
 
 func Gql__type_AliasResponse() *graphql.Object {
@@ -366,6 +410,46 @@ func Gql__input_Erc20TokenBalanceByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_Erc20TokenBalanceByHeightRequest
+}
+
+func Gql__input_ContractInfoResponse() *graphql.InputObject {
+	if gql__input_ContractInfoResponse == nil {
+		gql__input_ContractInfoResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ContractInfoResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"deployer": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"createTime": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"callTimes": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"accumulatedGas": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ContractInfoResponse
+}
+
+func Gql__input_ContractInfoRequest() *graphql.InputObject {
+	if gql__input_ContractInfoRequest == nil {
+		gql__input_ContractInfoRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ContractInfoRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"contractAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ContractInfoRequest
 }
 
 func Gql__input_AliasResponse() *graphql.InputObject {
@@ -606,6 +690,26 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 				resp, err := client.TotalAccountSupply(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC TotalAccountSupply")
+				}
+				return resp, nil
+			},
+		},
+		"ContractInfo": &graphql.Field{
+			Type: Gql__type_ContractInfoResponse(),
+			Args: graphql.FieldConfigArgument{
+				"contractAddress": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ContractInfoRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for ContractInfo")
+				}
+				client := NewAccountServiceClient(conn)
+				resp, err := client.ContractInfo(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ContractInfo")
 				}
 				return resp, nil
 			},

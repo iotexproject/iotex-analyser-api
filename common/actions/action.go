@@ -128,6 +128,20 @@ func GetActionInfoByHash(actHash string) (*ActionInfo, error) {
 	return actionInfo, nil
 }
 
+func GetActionInfoByBlockHeightAndContractAddress(blockHeight uint64, contractAddress string) (*ActionInfo, error) {
+	var actionInfo *ActionInfo
+	db := db.DB()
+
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash where a.block_height=? and a.contract_address=?"
+	if err := db.Raw(query, blockHeight, contractAddress).Scan(&actionInfo).Error; err != nil {
+		return nil, err
+	}
+	if actionInfo == nil {
+		return nil, common.ErrActionNotExist
+	}
+	return actionInfo, nil
+}
+
 func GetBlockReceiptTransactionByHash(actHash string) ([]*BlockReceiptTransaction, error) {
 	var blkReceiptTransactions []*BlockReceiptTransaction
 	db := db.DB()

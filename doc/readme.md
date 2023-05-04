@@ -8,6 +8,8 @@
     - [ActiveAccountsResponse](#api-ActiveAccountsResponse)
     - [AliasRequest](#api-AliasRequest)
     - [AliasResponse](#api-AliasResponse)
+    - [ContractInfoRequest](#api-ContractInfoRequest)
+    - [ContractInfoResponse](#api-ContractInfoResponse)
     - [Erc20TokenBalanceByHeightRequest](#api-Erc20TokenBalanceByHeightRequest)
     - [Erc20TokenBalanceByHeightResponse](#api-Erc20TokenBalanceByHeightResponse)
     - [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest)
@@ -77,6 +79,9 @@
     - [BucketInfoRequest](#api-BucketInfoRequest)
     - [BucketInfoResponse](#api-BucketInfoResponse)
     - [DelegateRewardDistribution](#api-DelegateRewardDistribution)
+    - [PaidToDelegatesRequest](#api-PaidToDelegatesRequest)
+    - [PaidToDelegatesResponse](#api-PaidToDelegatesResponse)
+    - [PaidToDelegatesResponse.DelegateInfo](#api-PaidToDelegatesResponse-DelegateInfo)
     - [ProbationHistoricalRateRequest](#api-ProbationHistoricalRateRequest)
     - [ProbationHistoricalRateResponse](#api-ProbationHistoricalRateResponse)
     - [Productivity](#api-Productivity)
@@ -88,6 +93,8 @@
     - [StakingRequest](#api-StakingRequest)
     - [StakingResponse](#api-StakingResponse)
     - [StakingResponse.StakingInfo](#api-StakingResponse-StakingInfo)
+  
+    - [PaidToDelegatesRequest.Schedule](#api-PaidToDelegatesRequest-Schedule)
   
     - [DelegateService](#api-DelegateService)
   
@@ -103,6 +110,8 @@
     - [HermesByVoterResponse](#api-HermesByVoterResponse)
     - [HermesByVoterResponse.Delegate](#api-HermesByVoterResponse-Delegate)
     - [HermesDistribution](#api-HermesDistribution)
+    - [HermesDropRecordsRequest](#api-HermesDropRecordsRequest)
+    - [HermesDropRecordsResponse](#api-HermesDropRecordsResponse)
     - [HermesMetaRequest](#api-HermesMetaRequest)
     - [HermesMetaResponse](#api-HermesMetaResponse)
     - [HermesRequest](#api-HermesRequest)
@@ -118,6 +127,12 @@
     - [VoteByHeightResponse](#api-VoteByHeightResponse)
   
     - [StakingService](#api-StakingService)
+  
+- [api_stream.proto](#api_stream-proto)
+    - [SupplyRequest](#api-SupplyRequest)
+    - [SupplyResponse](#api-SupplyResponse)
+  
+    - [StreamService](#api-StreamService)
   
 - [api_voting.proto](#api_voting-proto)
     - [CandidateInfoRequest](#api-CandidateInfoRequest)
@@ -238,6 +253,40 @@
 
 
 
+<a name="api-ContractInfoRequest"></a>
+
+### ContractInfoRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contractAddress | [string](#string) |  | contract address |
+
+
+
+
+
+
+<a name="api-ContractInfoResponse"></a>
+
+### ContractInfoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the contract address exists |
+| deployer | [string](#string) |  | contract creator |
+| createTime | [string](#string) |  | contract create time |
+| callTimes | [uint64](#uint64) |  | contract call times |
+| accumulatedGas | [string](#string) |  | accumulated transaction fee |
+
+
+
+
+
+
 <a name="api-Erc20TokenBalanceByHeightRequest"></a>
 
 ### Erc20TokenBalanceByHeightRequest
@@ -266,6 +315,7 @@
 | height | [uint64](#uint64) |  |  |
 | contract_address | [string](#string) |  |  |
 | balance | [string](#string) | repeated |  |
+| decimals | [uint64](#uint64) |  |  |
 
 
 
@@ -405,6 +455,7 @@
 | Alias | [AliasRequest](#api-AliasRequest) | [AliasResponse](#api-AliasResponse) | Alias finds the delegate&#39;s alias name given the delegate&#39;s operator address |
 | TotalNumberOfHolders | [TotalNumberOfHoldersRequest](#api-TotalNumberOfHoldersRequest) | [TotalNumberOfHoldersResponse](#api-TotalNumberOfHoldersResponse) | TotalNumberOfHolders returns total number of IOTX holders so far |
 | TotalAccountSupply | [TotalAccountSupplyRequest](#api-TotalAccountSupplyRequest) | [TotalAccountSupplyResponse](#api-TotalAccountSupplyResponse) | TotalAccountSupply returns total amount of tokens held by IoTeX accounts |
+| ContractInfo | [ContractInfoRequest](#api-ContractInfoRequest) | [ContractInfoResponse](#api-ContractInfoResponse) | ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee |
 
  
 
@@ -1238,6 +1289,56 @@
 
 
 
+<a name="api-PaidToDelegatesRequest"></a>
+
+### PaidToDelegatesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| schedule | [PaidToDelegatesRequest.Schedule](#api-PaidToDelegatesRequest-Schedule) |  |  |
+| date | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="api-PaidToDelegatesResponse"></a>
+
+### PaidToDelegatesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateInfo | [PaidToDelegatesResponse.DelegateInfo](#api-PaidToDelegatesResponse-DelegateInfo) | repeated |  |
+
+
+
+
+
+
+<a name="api-PaidToDelegatesResponse-DelegateInfo"></a>
+
+### PaidToDelegatesResponse.DelegateInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| amount | [string](#string) |  | amount of reward distribution |
+| blockReward | [string](#string) |  | amount of block rewards |
+| epochReward | [string](#string) |  | amount of epoch rewards |
+| foundationBonus | [string](#string) |  | amount of foundation bonus |
+
+
+
+
+
+
 <a name="api-ProbationHistoricalRateRequest"></a>
 
 ### ProbationHistoricalRateRequest
@@ -1420,6 +1521,18 @@
 
  
 
+
+<a name="api-PaidToDelegatesRequest-Schedule"></a>
+
+### PaidToDelegatesRequest.Schedule
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| MONTHLY | 0 |  |
+| DAILY | 1 |  |
+
+
  
 
  
@@ -1438,6 +1551,7 @@
 | Reward | [RewardRequest](#api-RewardRequest) | [RewardResponse](#api-RewardResponse) | Rewards provides reward detail information for candidates within a range of epochs |
 | Staking | [StakingRequest](#api-StakingRequest) | [StakingResponse](#api-StakingResponse) | Staking provides staking information for candidates within a range of epochs |
 | ProbationHistoricalRate | [ProbationHistoricalRateRequest](#api-ProbationHistoricalRateRequest) | [ProbationHistoricalRateResponse](#api-ProbationHistoricalRateResponse) | ProbationHistoricalRate provides the rate of probation for a given delegate |
+| PaidToDelegates | [PaidToDelegatesRequest](#api-PaidToDelegatesRequest) | [PaidToDelegatesResponse](#api-PaidToDelegatesResponse) | PaidToDelegates provides the amount of rewards paid to delegates |
 
  
 
@@ -1651,6 +1765,41 @@
 
 
 
+<a name="api-HermesDropRecordsRequest"></a>
+
+### HermesDropRecordsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | end epoch number |
+| delegateName | [string](#string) |  | delegate name |
+| voterAddress | [string](#string) |  | Name of voter address |
+| actHash | [string](#string) |  | Name of actHash |
+| bucketID | [uint64](#uint64) |  | bucket ID |
+| amount | [string](#string) |  | Name of amount |
+
+
+
+
+
+
+<a name="api-HermesDropRecordsResponse"></a>
+
+### HermesDropRecordsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| success | [bool](#bool) |  | whether the drop records are successfully generated |
+
+
+
+
+
+
 <a name="api-HermesMetaRequest"></a>
 
 ### HermesMetaRequest
@@ -1752,6 +1901,7 @@
 | HermesByDelegate | [HermesByDelegateRequest](#api-HermesByDelegateRequest) | [HermesByDelegateResponse](#api-HermesByDelegateResponse) | HermesByDelegate returns Hermes delegates&#39; distribution history |
 | HermesMeta | [HermesMetaRequest](#api-HermesMetaRequest) | [HermesMetaResponse](#api-HermesMetaResponse) | HermesMeta provides Hermes platform metadata |
 | HermesAverageStats | [HermesAverageStatsRequest](#api-HermesAverageStatsRequest) | [HermesAverageStatsResponse](#api-HermesAverageStatsResponse) | HermesAverageStats returns the Hermes average statistics |
+| HermesDropRecords | [HermesDropRecordsRequest](#api-HermesDropRecordsRequest) | [HermesDropRecordsResponse](#api-HermesDropRecordsResponse) | HermesDropRecords inserts the Hermes drop records |
 
  
 
@@ -1846,6 +1996,65 @@
 | ----------- | ------------ | ------------- | ------------|
 | VoteByHeight | [VoteByHeightRequest](#api-VoteByHeightRequest) | [VoteByHeightResponse](#api-VoteByHeightResponse) | Get the stake amount and voting weight of the voter&#39;s specified height |
 | CandidateVoteByHeight | [CandidateVoteByHeightRequest](#api-CandidateVoteByHeightRequest) | [CandidateVoteByHeightResponse](#api-CandidateVoteByHeightResponse) |  |
+
+ 
+
+
+
+<a name="api_stream-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api_stream.proto
+
+
+
+<a name="api-SupplyRequest"></a>
+
+### SupplyRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| startHeight | [uint64](#uint64) |  | start block height |
+| endHeight | [uint64](#uint64) |  | end block height |
+
+
+
+
+
+
+<a name="api-SupplyResponse"></a>
+
+### SupplyResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+| totalSupply | [string](#string) |  | total supply |
+| circulatingSupply | [string](#string) |  | circulating supply |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-StreamService"></a>
+
+### StreamService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Supply | [SupplyRequest](#api-SupplyRequest) | [SupplyResponse](#api-SupplyResponse) stream |  |
 
  
 

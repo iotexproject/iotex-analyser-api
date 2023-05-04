@@ -195,6 +195,14 @@
                 </li>
               
                 <li>
+                  <a href="#api.ContractInfoRequest"><span class="badge">M</span>ContractInfoRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.ContractInfoResponse"><span class="badge">M</span>ContractInfoResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.Erc20TokenBalanceByHeightRequest"><span class="badge">M</span>Erc20TokenBalanceByHeightRequest</a>
                 </li>
               
@@ -463,6 +471,18 @@
                 </li>
               
                 <li>
+                  <a href="#api.PaidToDelegatesRequest"><span class="badge">M</span>PaidToDelegatesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.PaidToDelegatesResponse"><span class="badge">M</span>PaidToDelegatesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.PaidToDelegatesResponse.DelegateInfo"><span class="badge">M</span>PaidToDelegatesResponse.DelegateInfo</a>
+                </li>
+              
+                <li>
                   <a href="#api.ProbationHistoricalRateRequest"><span class="badge">M</span>ProbationHistoricalRateRequest</a>
                 </li>
               
@@ -506,6 +526,10 @@
                   <a href="#api.StakingResponse.StakingInfo"><span class="badge">M</span>StakingResponse.StakingInfo</a>
                 </li>
               
+              
+                <li>
+                  <a href="#api.PaidToDelegatesRequest.Schedule"><span class="badge">E</span>PaidToDelegatesRequest.Schedule</a>
+                </li>
               
               
               
@@ -566,6 +590,14 @@
                 </li>
               
                 <li>
+                  <a href="#api.HermesDropRecordsRequest"><span class="badge">M</span>HermesDropRecordsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.HermesDropRecordsResponse"><span class="badge">M</span>HermesDropRecordsResponse</a>
+                </li>
+              
+                <li>
                   <a href="#api.HermesMetaRequest"><span class="badge">M</span>HermesMetaRequest</a>
                 </li>
               
@@ -621,6 +653,29 @@
               
                 <li>
                   <a href="#api.StakingService"><span class="badge">S</span>StakingService</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#api_stream.proto">api_stream.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#api.SupplyRequest"><span class="badge">M</span>SupplyRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.SupplyResponse"><span class="badge">M</span>SupplyResponse</a>
+                </li>
+              
+              
+              
+              
+                <li>
+                  <a href="#api.StreamService"><span class="badge">S</span>StreamService</a>
                 </li>
               
             </ul>
@@ -929,6 +984,82 @@
 
         
       
+        <h3 id="api.ContractInfoRequest">ContractInfoRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>contractAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract address </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ContractInfoResponse">ContractInfoResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>exist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the contract address exists </p></td>
+                </tr>
+              
+                <tr>
+                  <td>deployer</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract creator </p></td>
+                </tr>
+              
+                <tr>
+                  <td>createTime</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract create time </p></td>
+                </tr>
+              
+                <tr>
+                  <td>callTimes</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>contract call times </p></td>
+                </tr>
+              
+                <tr>
+                  <td>accumulatedGas</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>accumulated transaction fee </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.Erc20TokenBalanceByHeightRequest">Erc20TokenBalanceByHeightRequest</h3>
         <p></p>
 
@@ -995,6 +1126,13 @@
                   <td>balance</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>decimals</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
                   <td><p> </p></td>
                 </tr>
               
@@ -1247,6 +1385,13 @@
                 <td><p>TotalAccountSupply returns total amount of tokens held by IoTeX accounts</p></td>
               </tr>
             
+              <tr>
+                <td>ContractInfo</td>
+                <td><a href="#api.ContractInfoRequest">ContractInfoRequest</a></td>
+                <td><a href="#api.ContractInfoResponse">ContractInfoResponse</a></td>
+                <td><p>ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -1331,6 +1476,16 @@
                 <td>TotalAccountSupply</td>
                 <td>POST</td>
                 <td>/api.AccountService.TotalAccountSupply</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>ContractInfo</td>
+                <td>POST</td>
+                <td>/api.AccountService.ContractInfo</td>
                 <td>*</td>
               </tr>
               
@@ -3475,6 +3630,113 @@
 
         
       
+        <h3 id="api.PaidToDelegatesRequest">PaidToDelegatesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>schedule</td>
+                  <td><a href="#api.PaidToDelegatesRequest.Schedule">PaidToDelegatesRequest.Schedule</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>date</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.PaidToDelegatesResponse">PaidToDelegatesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delegateInfo</td>
+                  <td><a href="#api.PaidToDelegatesResponse.DelegateInfo">PaidToDelegatesResponse.DelegateInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.PaidToDelegatesResponse.DelegateInfo">PaidToDelegatesResponse.DelegateInfo</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount of reward distribution </p></td>
+                </tr>
+              
+                <tr>
+                  <td>blockReward</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount of block rewards </p></td>
+                </tr>
+              
+                <tr>
+                  <td>epochReward</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount of epoch rewards </p></td>
+                </tr>
+              
+                <tr>
+                  <td>foundationBonus</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>amount of foundation bonus </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.ProbationHistoricalRateRequest">ProbationHistoricalRateRequest</h3>
         <p></p>
 
@@ -3853,6 +4115,29 @@
       
 
       
+        <h3 id="api.PaidToDelegatesRequest.Schedule">PaidToDelegatesRequest.Schedule</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>MONTHLY</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>DAILY</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
 
       
 
@@ -3905,6 +4190,13 @@
                 <td><a href="#api.ProbationHistoricalRateRequest">ProbationHistoricalRateRequest</a></td>
                 <td><a href="#api.ProbationHistoricalRateResponse">ProbationHistoricalRateResponse</a></td>
                 <td><p>ProbationHistoricalRate provides the rate of probation for a given delegate</p></td>
+              </tr>
+            
+              <tr>
+                <td>PaidToDelegates</td>
+                <td><a href="#api.PaidToDelegatesRequest">PaidToDelegatesRequest</a></td>
+                <td><a href="#api.PaidToDelegatesResponse">PaidToDelegatesResponse</a></td>
+                <td><p>PaidToDelegates provides the amount of rewards paid to delegates</p></td>
               </tr>
             
           </tbody>
@@ -3981,6 +4273,16 @@
                 <td>ProbationHistoricalRate</td>
                 <td>POST</td>
                 <td>/api.DelegateService.ProbationHistoricalRate</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>PaidToDelegates</td>
+                <td>POST</td>
+                <td>/api.DelegateService.PaidToDelegates</td>
                 <td>*</td>
               </tr>
               
@@ -4513,6 +4815,89 @@
 
         
       
+        <h3 id="api.HermesDropRecordsRequest">HermesDropRecordsRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>epochNumber</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>end epoch number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>delegateName</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>delegate name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>voterAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Name of voter address </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actHash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Name of actHash </p></td>
+                </tr>
+              
+                <tr>
+                  <td>bucketID</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>bucket ID </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Name of amount </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.HermesDropRecordsResponse">HermesDropRecordsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>whether the drop records are successfully generated </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="api.HermesMetaRequest">HermesMetaRequest</h3>
         <p></p>
 
@@ -4738,6 +5123,13 @@
                 <td><p>HermesAverageStats returns the Hermes average statistics</p></td>
               </tr>
             
+              <tr>
+                <td>HermesDropRecords</td>
+                <td><a href="#api.HermesDropRecordsRequest">HermesDropRecordsRequest</a></td>
+                <td><a href="#api.HermesDropRecordsResponse">HermesDropRecordsResponse</a></td>
+                <td><p>HermesDropRecords inserts the Hermes drop records</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -4802,6 +5194,16 @@
                 <td>HermesAverageStats</td>
                 <td>POST</td>
                 <td>/api.HermesService.HermesAverageStats</td>
+                <td>*</td>
+              </tr>
+              
+            
+              
+              
+              <tr>
+                <td>HermesDropRecords</td>
+                <td>POST</td>
+                <td>/api.HermesService.HermesDropRecords</td>
                 <td>*</td>
               </tr>
               
@@ -5032,6 +5434,108 @@
             </tbody>
           </table>
           
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="api_stream.proto">api_stream.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="api.SupplyRequest">SupplyRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>startHeight</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>start block height </p></td>
+                </tr>
+              
+                <tr>
+                  <td>endHeight</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>end block height </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.SupplyResponse">SupplyResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>height</td>
+                  <td><a href="#uint64">uint64</a></td>
+                  <td></td>
+                  <td><p>block height </p></td>
+                </tr>
+              
+                <tr>
+                  <td>totalSupply</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>total supply </p></td>
+                </tr>
+              
+                <tr>
+                  <td>circulatingSupply</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>circulating supply </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+        <h3 id="api.StreamService">StreamService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>Supply</td>
+                <td><a href="#api.SupplyRequest">SupplyRequest</a></td>
+                <td><a href="#api.SupplyResponse">SupplyResponse</a> stream</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
         
     
       
