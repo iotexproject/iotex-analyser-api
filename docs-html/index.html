@@ -317,6 +317,9 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#api-token" class="toc-h2 toc-link" data-title="API Token">API Token</a>
+                  </li>
+                  <li>
                     <a href="#common-attributes" class="toc-h2 toc-link" data-title="Common Attributes">Common Attributes</a>
                   </li>
                   <li>
@@ -505,6 +508,18 @@
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
 <p>Analytics is an application built upon IoTeX core API which extracts data from IoTeX blockchain and reindexes them for applications to use via a GraphQL web interface. You can use the <a href="https://analyser-api.iotex.io/graphql">playground here</a>.</p>
+<h2 id='api-token'>API Token</h2>
+<p>API token is required to access the API. You can get your API token from <code>ioctl</code> tools. Please refer to <a href="https://docs.iotex.io/reference/ioctl-cli-reference/jwt-tokens#use-ioctl-to-issue-jwt">ioctl documentation</a> for more details.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>ioctl jwt sign <span class="nt">--with-arguments</span> <span class="s1">'{"exp":"1767024000","sub":"AnalyserAPI","scope":"Read"}'</span> <span class="nt">-s</span> user
+</code></pre></div>
+<p>use generated token to access the API</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.ChainService.Chain <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{}'</span> <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Authorization: Bearer &lt;TOKEN&gt;'</span>
+</code></pre></div>
+<p><a name="pagination-Pagination"></a></p>
 <h2 id='common-attributes'>Common Attributes</h2>
 <p><a name="pagination-Pagination"></a></p>
 <h3 id='pagination'>Pagination</h3>
