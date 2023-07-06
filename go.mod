@@ -9,6 +9,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0
 	github.com/imdario/mergo v0.3.12
 	github.com/iotexproject/iotex-address v0.2.8
+	github.com/iotexproject/iotex-antenna-go/v2 v2.5.1
 	github.com/iotexproject/iotex-core v1.8.3-rc1
 	github.com/iotexproject/iotex-proto v0.5.10-0.20220415042310-0d4bcef3febf
 	github.com/mitchellh/go-homedir v1.1.0
@@ -37,8 +38,10 @@ require (
 	github.com/deckarep/golang-set v1.7.1 // indirect
 	github.com/dustinxie/gmsm v1.4.0 // indirect
 	github.com/ethereum/go-ethereum v1.10.4 // indirect
+	github.com/go-chi/httprate v0.7.4 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.1.5 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
