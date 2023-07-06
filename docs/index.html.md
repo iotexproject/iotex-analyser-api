@@ -24,6 +24,25 @@ meta:
 
 Analytics is an application built upon IoTeX core API which extracts data from IoTeX blockchain and reindexes them for applications to use via a GraphQL web interface. You can use the [playground here](https://analyser-api.iotex.io/graphql).
 
+## API Token
+API token is required to access the API. You can get your API token from `ioctl` tools. Please refer to [ioctl documentation](https://docs.iotex.io/reference/ioctl-cli-reference/jwt-tokens#use-ioctl-to-issue-jwt) for more details.
+
+```shell
+ioctl jwt sign --with-arguments '{"exp":"1767024000","sub":"AnalyserAPI","scope":"Read"}' -s user
+```
+
+use generated token to access the API
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.Chain \
+  --header 'Content-Type: application/json' \
+  --data '{}' \
+  --header 'Authorization: Bearer <TOKEN>'
+```
+
+<a name="pagination-Pagination"></a>
+
 ## Common Attributes
 
 <a name="pagination-Pagination"></a>
