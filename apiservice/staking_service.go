@@ -2,7 +2,6 @@ package apiservice
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"math"
 	"math/big"
@@ -22,7 +21,7 @@ type StakingService struct {
 	api.UnimplementedStakingServiceServer
 }
 
-//curl -d '{"address": ["io10avlgwgxv2k22dup4q0ah998vklg4rcrgl04m8", "io1fuhhg9jgdxwpms9dsdfwjdc90nt7v67hx40cd8"], "height":11900487 }' http://127.0.0.1:8889/api.StakingService.VoteByHeight
+// curl -d '{"address": ["io10avlgwgxv2k22dup4q0ah998vklg4rcrgl04m8", "io1fuhhg9jgdxwpms9dsdfwjdc90nt7v67hx40cd8"], "height":11900487 }' http://127.0.0.1:8889/api.StakingService.VoteByHeight
 func (s *StakingService) VoteByHeight(ctx context.Context, req *api.VoteByHeightRequest) (*api.VoteByHeightResponse, error) {
 	resp := &api.VoteByHeightResponse{
 		Height: req.GetHeight(),
@@ -107,34 +106,6 @@ func (s *StakingService) CandidateVoteByHeight(ctx context.Context, req *api.Can
 	return resp, nil
 }
 
-func getBucketIDsByAddressWithHeight(addr string, height uint64) ([]uint64, error) {
-	db := db.DB()
-	var ids []struct {
-		BucketID uint64
-	}
-	if err := db.Table("staking_actions").Distinct("bucket_id").Where("block_height<=? and owner_address=?", height, addr).Find(&ids).Error; err != nil {
-		return nil, err
-	}
-	bucketID := []uint64{}
-	for _, id := range ids {
-		bucketOwner, _ := getBucketOwnerWithHeight(id.BucketID, height)
-		if addr != bucketOwner {
-			continue
-		}
-		bucketID = append(bucketID, id.BucketID)
-	}
-	return bucketID, nil
-}
-
-func getBucketOwnerWithHeight(bucketID, height uint64) (string, error) {
-	var addr sql.NullString
-	db := db.DB()
-	if err := db.Table("staking_actions").Select("owner_address").Where("block_height<=? and bucket_id=?", height, bucketID).Order("id desc").Limit(1).Scan(&addr).Error; err != nil {
-		return "", err
-	}
-	return addr.String, nil
-}
-
 type VoteBucket struct {
 	Index            uint64
 	Candidate        string
@@ -177,30 +148,6 @@ type Staking struct {
 	ActType      string
 	AutoStake    bool
 	Duration     uint32
-}
-
-func getSumStake(addr string, height, bucketID uint64) (*big.Int, error) {
-	db := db.DB()
-	var amount sql.NullString
-	if err := db.Table("staking_actions").Select("sum(amount)").Where("block_height<=? and bucket_id=? and owner_address=?", height, bucketID, addr).Scan(&amount).Error; err != nil {
-		return nil, err
-	}
-	stakeAmount, _ := big.NewInt(0).SetString(amount.String, 0)
-	return stakeAmount, nil
-}
-
-func getVoteBucketParams(addr string, height, bucketID uint64) (uint32, bool, bool) {
-	var av Staking
-	db := db.DB()
-	if err := db.Table("staking_actions").Where("block_height<=? and bucket_id=? and owner_address=?", height, bucketID, addr).Order("id desc").Scan(&av).Error; err != nil {
-		return 0, false, false
-	}
-
-	selfAutoStake := false
-	if addr == av.Candidate {
-		selfAutoStake = true
-	}
-	return av.Duration, av.AutoStake, selfAutoStake
 }
 
 func getCandidateStaking(height uint64, addr string) ([]*Staking, error) {

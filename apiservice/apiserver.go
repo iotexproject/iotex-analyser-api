@@ -16,6 +16,7 @@ import (
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/iotexproject/iotex-analyser-api/api"
+	"github.com/iotexproject/iotex-analyser-api/auth"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	graphqlruntime "github.com/ysugimoto/grpc-graphql-gateway/runtime"
@@ -176,7 +177,7 @@ func StartGRPCProxyService(templates embed.FS) error {
 		}
 		return ctx, nil
 	}
-	graphqlMux := graphqlruntime.NewServeMux(playgroundMiddleware)
+	graphqlMux := graphqlruntime.NewServeMux(playgroundMiddleware, auth.JWTTokenValid())
 	if err := registerGraphQLAPIService(ctx, graphqlMux); err != nil {
 		return err
 	}
@@ -187,7 +188,7 @@ func StartGRPCProxyService(templates embed.FS) error {
 		log.Fatal(err)
 	}
 	http.Handle("/docs/", http.StripPrefix("/docs/", http.FileServer(http.FS(fsys))))
-	http.Handle("/", gwmux)
+	http.Handle("/", auth.JWTTokenMiddleware(auth.CheckWhiteListMiddleware(gwmux)))
 	http.Handle("/metrics", promhttp.Handler())
 
 	port := fmt.Sprintf(":%d", config.Default.Server.HTTPAPIPort)
