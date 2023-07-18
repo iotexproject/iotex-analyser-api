@@ -9,8 +9,22 @@ import (
 	graphqlruntime "github.com/ysugimoto/grpc-graphql-gateway/runtime"
 )
 
+var (
+	whitelistAPI = []string{
+		"api.StakingService.VoteByHeight",
+	}
+)
+
 var JWTTokenMiddleware = func(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		api := r.URL.Path[strings.LastIndex(r.URL.Path, "/")+1:]
+		for _, a := range whitelistAPI {
+			if strings.EqualFold(a, api) {
+				ctx := context.WithValue(r.Context(), WhitelistCtxKey, true)
+				h.ServeHTTP(w, r.WithContext(ctx))
+				return
+			}
+		}
 		// Get token from authorization header.
 		jwtString := ""
 		bearer := r.Header.Get("Authorization")

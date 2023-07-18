@@ -21,8 +21,9 @@ const (
 
 // Context keys
 var (
-	TokenCtxKey = &contextKey{"Token"}
-	ErrorCtxKey = &contextKey{"Error"}
+	TokenCtxKey     = &contextKey{"Token"}
+	WhitelistCtxKey = &contextKey{"Whitelist"}
+	ErrorCtxKey     = &contextKey{"Error"}
 )
 
 var (

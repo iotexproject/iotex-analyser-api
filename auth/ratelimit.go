@@ -17,6 +17,11 @@ var (
 
 var CheckWhiteListMiddleware = func(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		allowed, ok := r.Context().Value(WhitelistCtxKey).(bool)
+		if ok && allowed {
+			h.ServeHTTP(w, r)
+			return
+		}
 		claims, ok := r.Context().Value(TokenCtxKey).(*Claims)
 		if !ok {
 			http.Error(w, "failed to get claims in context", http.StatusUnauthorized)
