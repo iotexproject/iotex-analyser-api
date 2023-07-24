@@ -10,6 +10,7 @@
     - [AliasResponse](#api-AliasResponse)
     - [ContractInfoRequest](#api-ContractInfoRequest)
     - [ContractInfoResponse](#api-ContractInfoResponse)
+    - [ContractInfoResponse.Contract](#api-ContractInfoResponse-Contract)
     - [Erc20TokenBalanceByHeightRequest](#api-Erc20TokenBalanceByHeightRequest)
     - [Erc20TokenBalanceByHeightResponse](#api-Erc20TokenBalanceByHeightResponse)
     - [IotexBalanceByHeightRequest](#api-IotexBalanceByHeightRequest)
@@ -261,7 +262,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| contractAddress | [string](#string) |  | contract address |
+| contractAddress | [string](#string) | repeated | contract address |
 
 
 
@@ -276,11 +277,27 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| contracts | [ContractInfoResponse.Contract](#api-ContractInfoResponse-Contract) | repeated |  |
+
+
+
+
+
+
+<a name="api-ContractInfoResponse-Contract"></a>
+
+### ContractInfoResponse.Contract
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
 | exist | [bool](#bool) |  | whether the contract address exists |
 | deployer | [string](#string) |  | contract creator |
 | createTime | [string](#string) |  | contract create time |
 | callTimes | [uint64](#uint64) |  | contract call times |
 | accumulatedGas | [string](#string) |  | accumulated transaction fee |
+| contractAddress | [string](#string) |  | contract address |
 
 
 

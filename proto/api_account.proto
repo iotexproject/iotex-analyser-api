@@ -70,14 +70,19 @@ message TotalAccountSupplyResponse {
 }
 
 message ContractInfoRequest {
-  string contractAddress = 1; // contract address
+  repeated string contractAddress = 1; // contract address
 }
 message ContractInfoResponse {
-  bool exist = 1; // whether the contract address exists
-  string deployer = 2; // contract creator 
-  string createTime = 3; // contract create time
-  uint64 callTimes = 4; // contract call times
-  string accumulatedGas = 5; // accumulated transaction fee
+  message Contract {
+    bool exist = 1; // whether the contract address exists
+    string deployer = 2; // contract creator 
+    string createTime = 3; // contract create time
+    uint64 callTimes = 4; // contract call times
+    string accumulatedGas = 5; // accumulated transaction fee
+    string contractAddress = 6; // contract address
+  }
+  repeated Contract contracts = 1;
+
 }
 service AccountService {
   // IotexBalanceByHeight returns the balance of the given address at the given height.

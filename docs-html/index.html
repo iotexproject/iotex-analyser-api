@@ -2415,17 +2415,26 @@
   <span class="nt">--url</span> https://analyser-api.iotex.io/api.AccountService.ContractInfo <span class="se">\</span>
   <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s1">'{
-    "contractAddress": "io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"
+    "contractAddress": ["io1yf0rvr34yxwjcx70t0x5rzz0skzurccy8wgpwe","io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"]
 }'</span>
-</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="p">{</span><span class="w">
-  </span><span class="n">ContractInfo</span><span class="p">(</span><span class="n">contractAddress</span><span class="p">:</span><span class="s2">"io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"</span><span class="p">){</span><span class="w">
-    </span><span class="n">deployer</span><span class="w">
-    </span><span class="n">createTime</span><span class="w">
-    </span><span class="n">exist</span><span class="w">
-    </span><span class="n">callTimes</span><span class="w">
-    </span><span class="n">accumulatedGas</span><span class="w">
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">ContractInfo</span><span class="p">(</span><span class="w">
+    </span><span class="n">contractAddress</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"io1yf0rvr34yxwjcx70t0x5rzz0skzurccy8wgpwe"</span><span class="w">
+      </span><span class="s2">"io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">contracts</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="n">contractAddress</span><span class="w">
+      </span><span class="n">deployer</span><span class="w">
+      </span><span class="n">createTime</span><span class="w">
+      </span><span class="n">exist</span><span class="w">
+      </span><span class="n">callTimes</span><span class="w">
+      </span><span class="n">accumulatedGas</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
+
 </span></code></pre></div>
 <blockquote>
 <p>Example response:</p>
@@ -2433,11 +2442,24 @@
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"ContractInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"accumulatedGas"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.174381"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"callTimes"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"createTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-04-25 01:45:20 +0000 UTC"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"deployer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io10e0525sfrf53yh2aljmm3sn9jq5njk7l6jfauj"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+      </span><span class="nl">"contracts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"accumulatedGas"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"callTimes"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contractAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1yf0rvr34yxwjcx70t0x5rzz0skzurccy8wgpwe"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"createTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"deployer"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"accumulatedGas"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.174381"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"callTimes"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"contractAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"createTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-04-25 01:45:20 +0000 UTC"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"deployer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io10e0525sfrf53yh2aljmm3sn9jq5njk7l6jfauj"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"exist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -2457,13 +2479,31 @@
 <tr>
 <td>contractAddress</td>
 <td><a href="#string">string</a></td>
-<td></td>
+<td>repeated</td>
 <td>contract address</td>
 </tr>
 </tbody></table>
 
 <p><a name="api-ContractInfoResponse"></a></p>
 <h3 id='contractinforesponse'>ContractInfoResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contracts</td>
+<td><a href="#api-ContractInfoResponse-Contract">ContractInfoResponse.Contract</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><a name="api-ContractInfoResponse-Contract"></a></p>
+<h3 id='contractinforesponse-contract'>ContractInfoResponse.Contract</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2501,6 +2541,12 @@
 <td><a href="#string">string</a></td>
 <td></td>
 <td>accumulated transaction fee</td>
+</tr>
+<tr>
+<td>contractAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>contract address</td>
 </tr>
 </tbody></table>
 <h1 id='voting-service-api'>Voting Service API</h1><h2 id='candidateinfo'>CandidateInfo</h2>

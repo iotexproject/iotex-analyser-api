@@ -177,7 +177,7 @@
             <row>
               <entry>contractAddress</entry>
               <entry><link linkend="string">string</link></entry>
-              <entry></entry>
+              <entry>repeated</entry>
               <entry><para>contract address</para></entry>
             </row>
             
@@ -194,6 +194,41 @@
       
       <table frame="all">
         <title><classname>ContractInfoResponse</classname> Fields</title>
+        <tgroup cols="4">
+          <colspec colwidth="*"/>
+          <colspec colwidth="*"/>
+          <colspec colwidth="0.5*"/>
+          <colspec colwidth="3*"/>
+          <thead>
+            <row>
+              <entry>Field</entry>
+              <entry>Type</entry>
+              <entry>Label</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            
+            <row>
+              <entry>contracts</entry>
+              <entry><link linkend="api.ContractInfoResponse.Contract">ContractInfoResponse.Contract</link></entry>
+              <entry>repeated</entry>
+              <entry><para></para></entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+      
+    </section>
+    
+    <section id="api.ContractInfoResponse.Contract">
+      <title>ContractInfoResponse.Contract</title>
+      <para></para>
+      
+      <table frame="all">
+        <title><classname>ContractInfoResponse.Contract</classname> Fields</title>
         <tgroup cols="4">
           <colspec colwidth="*"/>
           <colspec colwidth="*"/>
@@ -242,6 +277,13 @@
               <entry><link linkend="string">string</link></entry>
               <entry></entry>
               <entry><para>accumulated transaction fee</para></entry>
+            </row>
+            
+            <row>
+              <entry>contractAddress</entry>
+              <entry><link linkend="string">string</link></entry>
+              <entry></entry>
+              <entry><para>contract address</para></entry>
             </row>
             
           </tbody>

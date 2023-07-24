@@ -190,25 +190,31 @@ func (s *AccountService) TotalAccountSupply(ctx context.Context, req *api.TotalA
 func (s *AccountService) ContractInfo(ctx context.Context, req *api.ContractInfoRequest) (*api.ContractInfoResponse, error) {
 	resp := &api.ContractInfoResponse{}
 
-	contractAddress := req.GetContractAddress()
-	contractExist, blockHeight, err := accounts.ContractIsExist(contractAddress)
-	if err != nil {
-		return nil, err
-	}
-	resp.Exist = contractExist
-	if contractExist {
-		actionInfo, err := actions.GetActionInfoByBlockHeightAndContractAddress(blockHeight, contractAddress)
+	contractAddresses := req.GetContractAddress()
+	for _, contractAddress := range contractAddresses {
+		contractsRes := &api.ContractInfoResponse_Contract{
+			ContractAddress: contractAddress,
+		}
+		contractExist, blockHeight, err := accounts.ContractIsExist(contractAddress)
 		if err != nil {
 			return nil, err
 		}
-		resp.Deployer = actionInfo.Sender
-		resp.CreateTime = actionInfo.Timestamp.String()
-		callTimes, gas, err := accounts.GetContractCallTimesAndAccumulatedGas(contractAddress)
-		if err != nil {
-			return nil, err
+		contractsRes.Exist = contractExist
+		if contractExist {
+			actionInfo, err := actions.GetActionInfoByBlockHeightAndContractAddress(blockHeight, contractAddress)
+			if err != nil {
+				return nil, err
+			}
+			contractsRes.Deployer = actionInfo.Sender
+			contractsRes.CreateTime = actionInfo.Timestamp.String()
+			callTimes, gas, err := accounts.GetContractCallTimesAndAccumulatedGas(contractAddress)
+			if err != nil {
+				return nil, err
+			}
+			contractsRes.CallTimes = callTimes
+			contractsRes.AccumulatedGas = gas
 		}
-		resp.CallTimes = callTimes
-		resp.AccumulatedGas = gas
+		resp.Contracts = append(resp.Contracts, contractsRes)
 	}
 	return resp, nil
 }

@@ -1453,20 +1453,29 @@ curl --request POST \
   --url https://analyser-api.iotex.io/api.AccountService.ContractInfo \
   --header 'Content-Type: application/json' \
   --data '{
-    "contractAddress": "io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"
+    "contractAddress": ["io1yf0rvr34yxwjcx70t0x5rzz0skzurccy8wgpwe","io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"]
 }'
 ```
 
 ```graphql
-query{
-  ContractInfo(contractAddress:"io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"){
-    deployer
-    createTime
-    exist
-    callTimes
-    accumulatedGas
+query {
+  ContractInfo(
+    contractAddress: [
+      "io1yf0rvr34yxwjcx70t0x5rzz0skzurccy8wgpwe"
+      "io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6"
+    ]
+  ) {
+    contracts {
+			contractAddress
+      deployer
+      createTime
+      exist
+      callTimes
+      accumulatedGas
+    }
   }
 }
+
 ```
 
 > Example response:
@@ -1475,11 +1484,24 @@ query{
 {
   "data": {
     "ContractInfo": {
-      "accumulatedGas": "0.174381",
-      "callTimes": 3,
-      "createTime": "2019-04-25 01:45:20 +0000 UTC",
-      "deployer": "io10e0525sfrf53yh2aljmm3sn9jq5njk7l6jfauj",
-      "exist": true
+      "contracts": [
+        {
+          "accumulatedGas": "",
+          "callTimes": 0,
+          "contractAddress": "io1yf0rvr34yxwjcx70t0x5rzz0skzurccy8wgpwe",
+          "createTime": "",
+          "deployer": "",
+          "exist": false
+        },
+        {
+          "accumulatedGas": "0.174381",
+          "callTimes": 3,
+          "contractAddress": "io1mcy7wn2g3z7yue04385vzw7wnacamax8aaahn6",
+          "createTime": "2019-04-25 01:45:20 +0000 UTC",
+          "deployer": "io10e0525sfrf53yh2aljmm3sn9jq5njk7l6jfauj",
+          "exist": true
+        }
+      ]
     }
   }
 }
@@ -1497,7 +1519,7 @@ query{
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| contractAddress | [string](#string) |  | contract address |
+| contractAddress | [string](#string) | repeated | contract address |
 
 
 
@@ -1512,11 +1534,28 @@ query{
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| contracts | [ContractInfoResponse.Contract](#api-ContractInfoResponse-Contract) | repeated |  |
+
+
+
+
+
+
+<a name="api-ContractInfoResponse-Contract"></a>
+
+### ContractInfoResponse.Contract
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
 | exist | [bool](#bool) |  | whether the contract address exists |
 | deployer | [string](#string) |  | contract creator |
 | createTime | [string](#string) |  | contract create time |
 | callTimes | [uint64](#uint64) |  | contract call times |
 | accumulatedGas | [string](#string) |  | accumulated transaction fee |
+| contractAddress | [string](#string) |  | contract address |
+
 
 
 # Voting Service API

@@ -203,6 +203,10 @@
                 </li>
               
                 <li>
+                  <a href="#api.ContractInfoResponse.Contract"><span class="badge">M</span>ContractInfoResponse.Contract</a>
+                </li>
+              
+                <li>
                   <a href="#api.Erc20TokenBalanceByHeightRequest"><span class="badge">M</span>Erc20TokenBalanceByHeightRequest</a>
                 </li>
               
@@ -997,7 +1001,7 @@
                 <tr>
                   <td>contractAddress</td>
                   <td><a href="#string">string</a></td>
-                  <td></td>
+                  <td>repeated</td>
                   <td><p>contract address </p></td>
                 </tr>
               
@@ -1009,6 +1013,30 @@
         
       
         <h3 id="api.ContractInfoResponse">ContractInfoResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>contracts</td>
+                  <td><a href="#api.ContractInfoResponse.Contract">ContractInfoResponse.Contract</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.ContractInfoResponse.Contract">ContractInfoResponse.Contract</h3>
         <p></p>
 
         
@@ -1051,6 +1079,13 @@
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>accumulated transaction fee </p></td>
+                </tr>
+              
+                <tr>
+                  <td>contractAddress</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>contract address </p></td>
                 </tr>
               
             </tbody>
