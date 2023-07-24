@@ -132,7 +132,7 @@
             {
               "name": "contractAddress",
               "description": "contract address",
-              "label": "",
+              "label": "repeated",
               "type": "string",
               "longType": "string",
               "fullType": "string",
@@ -147,6 +147,30 @@
           "name": "ContractInfoResponse",
           "longName": "ContractInfoResponse",
           "fullName": "api.ContractInfoResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "contracts",
+              "description": "",
+              "label": "repeated",
+              "type": "Contract",
+              "longType": "ContractInfoResponse.Contract",
+              "fullType": "api.ContractInfoResponse.Contract",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Contract",
+          "longName": "ContractInfoResponse.Contract",
+          "fullName": "api.ContractInfoResponse.Contract",
           "description": "",
           "hasExtensions": false,
           "hasFields": true,
@@ -204,6 +228,18 @@
             {
               "name": "accumulatedGas",
               "description": "accumulated transaction fee",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "contractAddress",
+              "description": "contract address",
               "label": "",
               "type": "string",
               "longType": "string",

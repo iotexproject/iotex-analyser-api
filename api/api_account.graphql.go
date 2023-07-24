@@ -19,6 +19,7 @@ var (
 	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightResponse  *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightRequest   *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__type_ContractInfoResponse_Contract      *graphql.Object      // message ContractInfoResponse.Contract in api_account.proto
 	gql__type_ContractInfoResponse               *graphql.Object      // message ContractInfoResponse in api_account.proto
 	gql__type_ContractInfoRequest                *graphql.Object      // message ContractInfoRequest in api_account.proto
 	gql__type_AliasResponse                      *graphql.Object      // message AliasResponse in api_account.proto
@@ -33,6 +34,7 @@ var (
 	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightResponse *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightRequest  *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__input_ContractInfoResponse_Contract     *graphql.InputObject // message ContractInfoResponse.Contract in api_account.proto
 	gql__input_ContractInfoResponse              *graphql.InputObject // message ContractInfoResponse in api_account.proto
 	gql__input_ContractInfoRequest               *graphql.InputObject // message ContractInfoRequest in api_account.proto
 	gql__input_AliasResponse                     *graphql.InputObject // message AliasResponse in api_account.proto
@@ -177,10 +179,10 @@ func Gql__type_Erc20TokenBalanceByHeightRequest() *graphql.Object {
 	return gql__type_Erc20TokenBalanceByHeightRequest
 }
 
-func Gql__type_ContractInfoResponse() *graphql.Object {
-	if gql__type_ContractInfoResponse == nil {
-		gql__type_ContractInfoResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Api_Type_ContractInfoResponse",
+func Gql__type_ContractInfoResponse_Contract() *graphql.Object {
+	if gql__type_ContractInfoResponse_Contract == nil {
+		gql__type_ContractInfoResponse_Contract = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ContractInfoResponse_Contract",
 			Fields: graphql.Fields{
 				"exist": &graphql.Field{
 					Type: graphql.Boolean,
@@ -197,6 +199,23 @@ func Gql__type_ContractInfoResponse() *graphql.Object {
 				"accumulatedGas": &graphql.Field{
 					Type: graphql.String,
 				},
+				"contractAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ContractInfoResponse_Contract
+}
+
+func Gql__type_ContractInfoResponse() *graphql.Object {
+	if gql__type_ContractInfoResponse == nil {
+		gql__type_ContractInfoResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ContractInfoResponse",
+			Fields: graphql.Fields{
+				"contracts": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ContractInfoResponse_Contract()),
+				},
 			},
 		})
 	}
@@ -209,7 +228,7 @@ func Gql__type_ContractInfoRequest() *graphql.Object {
 			Name: "Api_Type_ContractInfoRequest",
 			Fields: graphql.Fields{
 				"contractAddress": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewList(graphql.String),
 				},
 			},
 		})
@@ -412,10 +431,10 @@ func Gql__input_Erc20TokenBalanceByHeightRequest() *graphql.InputObject {
 	return gql__input_Erc20TokenBalanceByHeightRequest
 }
 
-func Gql__input_ContractInfoResponse() *graphql.InputObject {
-	if gql__input_ContractInfoResponse == nil {
-		gql__input_ContractInfoResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Api_Input_ContractInfoResponse",
+func Gql__input_ContractInfoResponse_Contract() *graphql.InputObject {
+	if gql__input_ContractInfoResponse_Contract == nil {
+		gql__input_ContractInfoResponse_Contract = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ContractInfoResponse_Contract",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"exist": &graphql.InputObjectFieldConfig{
 					Type: graphql.Boolean,
@@ -432,6 +451,23 @@ func Gql__input_ContractInfoResponse() *graphql.InputObject {
 				"accumulatedGas": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
+				"contractAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ContractInfoResponse_Contract
+}
+
+func Gql__input_ContractInfoResponse() *graphql.InputObject {
+	if gql__input_ContractInfoResponse == nil {
+		gql__input_ContractInfoResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ContractInfoResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"contracts": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ContractInfoResponse_Contract()),
+				},
 			},
 		})
 	}
@@ -444,7 +480,7 @@ func Gql__input_ContractInfoRequest() *graphql.InputObject {
 			Name: "Api_Input_ContractInfoRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"contractAddress": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewList(graphql.String),
 				},
 			},
 		})
@@ -698,7 +734,7 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 			Type: Gql__type_ContractInfoResponse(),
 			Args: graphql.FieldConfigArgument{
 				"contractAddress": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type: graphql.NewList(graphql.String),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
