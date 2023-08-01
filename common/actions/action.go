@@ -132,8 +132,8 @@ func GetActionInfoByBlockHeightAndContractAddress(blockHeight uint64, contractAd
 	var actionInfo *ActionInfo
 	db := db.DB()
 
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash where a.block_height=? and a.contract_address=?"
-	if err := db.Raw(query, blockHeight, contractAddress).Scan(&actionInfo).Error; err != nil {
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash where a.block_height=? and (a.contract_address=? or a.recipient=?)"
+	if err := db.Raw(query, blockHeight, contractAddress, contractAddress).Scan(&actionInfo).Error; err != nil {
 		return nil, err
 	}
 	if actionInfo == nil {
