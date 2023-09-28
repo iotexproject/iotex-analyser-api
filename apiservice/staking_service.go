@@ -40,6 +40,12 @@ func (s *StakingService) VoteByHeight(ctx context.Context, req *api.VoteByHeight
 		if err != nil {
 			return nil, err
 		}
+		systemStakeAmounts, systemVoteWeights, err := actions.GetSystemStakedBucketByVoterAndHeight(addr, height)
+		if err != nil {
+			return nil, err
+		}
+		stakeAmounts = stakeAmounts.Add(stakeAmounts, systemStakeAmounts)
+		voteWeights = voteWeights.Add(voteWeights, systemVoteWeights)
 		resp.StakeAmount = append(resp.StakeAmount, util.RauToString(stakeAmounts, util.IotxDecimalNum))
 		resp.VoteWeight = append(resp.VoteWeight, util.RauToString(voteWeights, util.IotxDecimalNum))
 	}
