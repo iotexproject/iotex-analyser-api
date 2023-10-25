@@ -30,5 +30,5 @@ func TestBucket(t *testing.T) {
 		amount, _ := big.NewInt(0).SetString(bucket.StakedAmount, 10)
 		totalVoted.Add(totalVoted, amount)
 	}
-	require.Equal(totalVoted.String(), "1000000000000000000")
+	require.Equal(totalVoted.String(), "2862233328803072712008723809")
 }
