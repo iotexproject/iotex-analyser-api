@@ -15,7 +15,7 @@ const (
 	// PollProtocolID is ID of poll protocol
 	PollProtocolID      = "poll"
 	protocolID          = "staking"
-	readBucketsLimit    = 30000
+	readBucketsLimit    = 300000
 	readCandidatesLimit = 20000
 )
 
@@ -107,7 +107,7 @@ func GetAllStakingBuckets(chainClient iotexapi.APIServiceClient, epochHeight uin
 // getStakingBuckets get specific buckets by height
 func getStakingBuckets(chainClient iotexapi.APIServiceClient, offset, limit uint32, height uint64) (voteBucketList *iotextypes.VoteBucketList, err error) {
 	methodName, err := proto.Marshal(&iotexapi.ReadStakingDataMethod{
-		Method: iotexapi.ReadStakingDataMethod_BUCKETS,
+		Method: iotexapi.ReadStakingDataMethod_COMPOSITE_BUCKETS,
 	})
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ func getStakingBuckets(chainClient iotexapi.APIServiceClient, offset, limit uint
 		Arguments:  [][]byte{arg},
 		Height:     fmt.Sprintf("%d", height),
 	}
-	ctx := context.WithValue(context.Background(), &iotexapi.ReadStateRequest{}, iotexapi.ReadStakingDataMethod_BUCKETS)
+	ctx := context.WithValue(context.Background(), &iotexapi.ReadStateRequest{}, iotexapi.ReadStakingDataMethod_COMPOSITE_BUCKETS)
 	readStateRes, err := chainClient.ReadState(ctx, readStateRequest)
 	if err != nil {
 		return

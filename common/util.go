@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"time"
 
+	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 
@@ -33,6 +34,14 @@ func ChainClient(endpoint string) iotexapi.APIServiceClient {
 	}
 
 	return iotexapi.NewAPIServiceClient(conn)
+}
+
+func DefaultChainClient() (iotexapi.APIServiceClient, error) {
+	conn, err := NewDefaultGRPCConn(config.Default.RPC)
+	if err != nil {
+		return nil, err
+	}
+	return iotexapi.NewAPIServiceClient(conn), nil
 }
 
 // NewDefaultGRPCConn creates a default grpc connection. With tls and retry.
