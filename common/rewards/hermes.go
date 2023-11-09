@@ -2,8 +2,11 @@ package rewards
 
 import (
 	"context"
+	"encoding/csv"
+	"fmt"
 	"math"
 	"math/big"
+	"os"
 	"sync"
 	"time"
 
@@ -168,7 +171,6 @@ func GetBookkeeping(ctx context.Context, startEpoch uint64, epochCount uint64, d
 }
 
 func WeightedVotesBySearchPairsFix(delegateMap map[uint64][]string) (map[string]map[uint64]map[string]*big.Int, error) {
-	db := db.DB()
 	g := errgroup.Group{}
 	g.GOMAXPROCS(8)
 	var minEpoch, maxEpoch uint64
@@ -184,9 +186,26 @@ func WeightedVotesBySearchPairsFix(delegateMap map[uint64][]string) (map[string]
 	}
 	f := func(ctx context.Context, epochNum uint64) ([]AggregateVoting, error) {
 		var votes []AggregateVoting
-		if err := db.Table("hermes_aggregate_votings_fix").Select("candidate_name,voter_address,aggregate_votes").Where("epoch_number = ?", epochNum).Scan(&votes).Error; err != nil {
+		fileName := fmt.Sprintf("epoch_fix_%d.csv", epochNum)
+		file, err := os.Open(fileName)
+		if err != nil {
 			return nil, errors.WithStack(err)
 		}
+		csvReader := csv.NewReader(file)
+		csvReader.FieldsPerRecord = -1
+		votesArr, err := csvReader.ReadAll()
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+		for _, row := range votesArr {
+			votes = append(votes, AggregateVoting{
+				EpochNumber:    epochNum,
+				CandidateName:  row[0],
+				VoterAddress:   row[1],
+				AggregateVotes: row[2],
+			})
+		}
+		file.Close()
 		return votes, nil
 	}
 	var epochMap sync.Map
@@ -244,7 +263,6 @@ func WeightedVotesBySearchPairsFix(delegateMap map[uint64][]string) (map[string]
 }
 
 func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map[uint64]map[string]*big.Int, error) {
-	db := db.DB()
 	g := errgroup.Group{}
 	g.GOMAXPROCS(8)
 	var minEpoch, maxEpoch uint64
@@ -260,9 +278,26 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 	}
 	f := func(ctx context.Context, epochNum uint64) ([]AggregateVoting, error) {
 		var votes []AggregateVoting
-		if err := db.Table("hermes_aggregate_votings").Select("candidate_name,voter_address,aggregate_votes").Where("epoch_number = ?", epochNum).Scan(&votes).Error; err != nil {
+		fileName := fmt.Sprintf("epoch_%d.csv", epochNum)
+		file, err := os.Open(fileName)
+		if err != nil {
 			return nil, errors.WithStack(err)
 		}
+		csvReader := csv.NewReader(file)
+		csvReader.FieldsPerRecord = -1
+		votesArr, err := csvReader.ReadAll()
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+		for _, row := range votesArr {
+			votes = append(votes, AggregateVoting{
+				EpochNumber:    epochNum,
+				CandidateName:  row[0],
+				VoterAddress:   row[1],
+				AggregateVotes: row[2],
+			})
+		}
+		file.Close()
 		return votes, nil
 	}
 	var epochMap sync.Map
