@@ -8,6 +8,7 @@ import (
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 	"github.com/iotexproject/iotex-proto/golang/iotextypes"
 	"github.com/pkg/errors"
+	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -132,7 +133,8 @@ func getStakingBuckets(chainClient iotexapi.APIServiceClient, offset, limit uint
 		Height:     fmt.Sprintf("%d", height),
 	}
 	ctx := context.WithValue(context.Background(), &iotexapi.ReadStateRequest{}, iotexapi.ReadStakingDataMethod_COMPOSITE_BUCKETS)
-	readStateRes, err := chainClient.ReadState(ctx, readStateRequest)
+	maxSizeOption := grpc.MaxCallRecvMsgSize(32 * 10e6)
+	readStateRes, err := chainClient.ReadState(ctx, readStateRequest, maxSizeOption)
 	if err != nil {
 		return
 	}
