@@ -96,7 +96,7 @@ func Gql__type_HermesRequest() *graphql.Object {
 					Type: graphql.Int,
 				},
 				"rewardAddress": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewList(graphql.String),
 				},
 			},
 		})
@@ -495,7 +495,7 @@ func Gql__input_HermesRequest() *graphql.InputObject {
 					Type: graphql.Int,
 				},
 				"rewardAddress": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewList(graphql.String),
 				},
 			},
 		})
@@ -900,7 +900,7 @@ func (x *graphql__resolver_HermesService) GetQueries(conn *grpc.ClientConn) grap
 					Type: graphql.Int,
 				},
 				"rewardAddress": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type: graphql.NewList(graphql.String),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

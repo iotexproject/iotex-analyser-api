@@ -64,11 +64,11 @@ type AccountReward struct {
 
 type HermesDistribution api.HermesDistribution
 
-func distributionPlanByRewardAddress(startEpoch uint64, endEpoch uint64, rewardAddress string) (map[string]map[uint64]*HermesDistributionPlan, error) {
+func distributionPlanByRewardAddress(startEpoch uint64, endEpoch uint64, rewardAddress []string) (map[string]map[uint64]*HermesDistributionPlan, error) {
 
 	db := db.DB()
 	var ids []HermesVotingResult
-	if err := db.Table("hermes_voting_results").Where("epoch_number >= ?  AND epoch_number <= ? AND reward_address= ?", startEpoch, endEpoch, rewardAddress).Find(&ids).Error; err != nil {
+	if err := db.Table("hermes_voting_results").Where("epoch_number >= ?  AND epoch_number <= ? AND reward_address IN ?", startEpoch, endEpoch, rewardAddress).Find(&ids).Error; err != nil {
 		return nil, err
 	}
 

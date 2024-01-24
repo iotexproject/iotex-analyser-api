@@ -47,7 +47,7 @@ func (s *HermesService) HermesDropRecords(ctx context.Context, req *api.HermesDr
 	return resp, nil
 }
 
-//grpcurl -plaintext -d '{"startEpoch": 22416, "epochCount": 1, "rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"}' 127.0.0.1:8888 api.AccountService.Hermes
+// grpcurl -plaintext -d '{"startEpoch": 22416, "epochCount": 1, "rewardAddress": "io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"}' 127.0.0.1:8888 api.AccountService.Hermes
 func (s *HermesService) Hermes(ctx context.Context, req *api.HermesRequest) (*api.HermesResponse, error) {
 	resp := &api.HermesResponse{}
 	startEpoch := req.GetStartEpoch()
@@ -162,7 +162,7 @@ func (s *HermesService) Hermes(ctx context.Context, req *api.HermesRequest) (*ap
 	return resp, nil
 }
 
-//HermesByVoter returns Hermes voters' receiving history
+// HermesByVoter returns Hermes voters' receiving history
 func (s *HermesService) HermesByVoter(ctx context.Context, req *api.HermesByVoterRequest) (*api.HermesByVoterResponse, error) {
 	resp := &api.HermesByVoterResponse{}
 	startEpoch := req.GetStartEpoch()
@@ -274,7 +274,7 @@ func (s *HermesService) HermesAverageStats(ctx context.Context, req *api.HermesA
 	rewardAddress := req.GetRewardAddress()
 	endEpoch := startEpoch + epochCount - 1
 
-	distributePlanMap, err := distributionPlanByRewardAddress(startEpoch, endEpoch, rewardAddress)
+	distributePlanMap, err := distributionPlanByRewardAddress(startEpoch, endEpoch, []string{rewardAddress})
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get reward distribution plan")
 	}
