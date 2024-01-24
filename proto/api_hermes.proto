@@ -9,7 +9,7 @@ option go_package = "./api";
 message HermesRequest {
   uint64 startEpoch = 1; // Start epoch number
   uint64 epochCount = 2; // Number of epochs to query
-  string rewardAddress = 3; //Name of reward address
+  repeated string rewardAddress = 3; //Name of reward address
 }
 
 message RewardDistribution {
