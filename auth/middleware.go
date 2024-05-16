@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"strings"
 
@@ -20,6 +21,7 @@ var JWTTokenMiddleware = func(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api := r.URL.Path[strings.LastIndex(r.URL.Path, "/")+1:]
 		for _, a := range whitelistAPI {
+			log.Println("whitelistAPI " + a)
 			if strings.EqualFold(a, api) {
 				ctx := context.WithValue(r.Context(), WhitelistCtxKey, true)
 				h.ServeHTTP(w, r.WithContext(ctx))
