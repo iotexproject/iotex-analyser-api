@@ -12,6 +12,7 @@ import (
 var (
 	whitelistAPI = []string{
 		"api.StakingService.VoteByHeight",
+		"api.AccountService.Erc20TokenBalanceByHeight",
 	}
 )
 
