@@ -50,6 +50,17 @@ type DelegateHermesDistribution struct {
 	Refund              string
 }
 
+type BucketRewardDistribution api.BucketRewardDistribution
+
+type DelegateHermesBucketDistribution struct {
+	DelegateName        string
+	Distributions       []*BucketRewardDistribution
+	StakingIotexAddress string
+	VoterCount          uint64
+	WaiveServiceFee     bool
+	Refund              string
+}
+
 type AccountReward struct {
 	ID              uint64
 	BlockHeight     uint64
@@ -204,4 +215,21 @@ func convertVoterDistributionMapToList(voterAddrToReward map[string]*big.Int) ([
 		})
 	}
 	return rewardDistribution, nil
+}
+
+// convertVoterDistributionMapToList converts voter reward distribution map to list
+func convertVoterBucketDistributionMapToList(voterAddrToReward map[string]map[uint64]*big.Int) ([]*BucketRewardDistribution, error) {
+	bucketRewardDistribution := make([]*BucketRewardDistribution, 0)
+	for ioAddress, bucketMap := range voterAddrToReward {
+		voterAddr, _ := address.FromString(ioAddress)
+		for bucketID, rewardAmount := range bucketMap {
+			bucketRewardDistribution = append(bucketRewardDistribution, &BucketRewardDistribution{
+				VoterEthAddress:   voterAddr.Hex(),
+				VoterIotexAddress: ioAddress,
+				BucketID: bucketID,
+				Amount:            rewardAmount.String(),
+			})
+		}
+	}
+	return bucketRewardDistribution, nil
 }
