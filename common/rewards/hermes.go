@@ -31,6 +31,15 @@ type AggregateVoting struct {
 	AggregateVotes string
 }
 
+type BucketVoting struct {
+	EpochNumber    uint64
+	CandidateName  string
+	VoterAddress   string
+	NativeFlag     bool
+	BucketID uint64
+	Votes string
+}
+
 type EpochFoundationReward struct {
 	EpochNumber     uint64
 	EpochReward     string
@@ -236,6 +245,88 @@ func WeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map
 				voterMap[row.VoterAddress] = weightedVotesInt
 			} else {
 				voterMap[row.VoterAddress] = new(big.Int).Add(val, weightedVotesInt)
+			}
+		}
+		return true
+	})
+	return voterVotesMap, nil
+}
+
+func BucketIDWeightedVotesBySearchPairs(delegateMap map[uint64][]string) (map[string]map[uint64]map[string]map[uint64]*big.Int, error) {
+	db := db.DB()
+	g := errgroup.Group{}
+	g.GOMAXPROCS(8)
+	var minEpoch, maxEpoch uint64
+	minEpoch = math.MaxUint64
+	maxEpoch = 0
+	for k := range delegateMap {
+		if k >= maxEpoch {
+			maxEpoch = k
+		}
+		if k <= minEpoch {
+			minEpoch = k
+		}
+	}
+	f := func(ctx context.Context, epochNum uint64) ([]BucketVoting, error) {
+		var votes []BucketVoting
+		if err := db.Table("hermes_bucket_votings").Select("candidate_name,voter_address,bucket_id,votes").Where("epoch_number = ?", epochNum).Scan(&votes).Error; err != nil {
+			return nil, errors.WithStack(err)
+		}
+		return votes, nil
+	}
+	var epochMap sync.Map
+	for epoch := minEpoch; epoch <= maxEpoch; epoch++ {
+		epoch := epoch
+		g.Go(func(ctx context.Context) error {
+			voters, err := f(ctx, epoch)
+			if err != nil {
+				return err
+			}
+			epochMap.Store(epoch, voters)
+			return nil
+		})
+	}
+	if err := g.Wait(); err != nil {
+		return nil, err
+	}
+	voterVotesMap := make(map[string]map[uint64]map[string]map[uint64]*big.Int) //map[candidateName][epoch][voterAddr][bucketId]weightedVotes
+	epochMap.Range(func(key, value interface{}) bool {
+		epoch := key.(uint64)
+		voters := value.([]BucketVoting)
+		for _, row := range voters {
+			exist := false
+			for _, v := range delegateMap[epoch] {
+				if row.CandidateName == v {
+					exist = true
+					break
+				}
+			}
+			if !exist {
+				continue
+			}
+			if _, ok := voterVotesMap[row.CandidateName]; !ok {
+				voterVotesMap[row.CandidateName] = make(map[uint64]map[string]map[uint64]*big.Int)
+			}
+			epochVoterMap := voterVotesMap[row.CandidateName]
+			if _, ok := epochVoterMap[epoch]; !ok {
+				epochVoterMap[epoch] = make(map[string]map[uint64]*big.Int)
+			}
+			voterMap := epochVoterMap[epoch]
+
+			if _, ok := voterMap[row.VoterAddress]; !ok {
+				voterMap[row.VoterAddress] = make(map[uint64]*big.Int)
+			}
+			bucketIDMap := voterMap[row.VoterAddress]
+
+			weightedVotesInt, ok := new(big.Int).SetString(row.Votes, 10)
+			if !ok {
+				return false
+			}
+			// TODO QA voter address is bucket owner?
+			if val, ok := bucketIDMap[row.BucketID]; !ok {
+				bucketIDMap[row.BucketID] = weightedVotesInt
+			} else {
+				bucketIDMap[row.BucketID] = new(big.Int).Add(val, weightedVotesInt)
 			}
 		}
 		return true

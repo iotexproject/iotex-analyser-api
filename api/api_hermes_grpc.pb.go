@@ -20,7 +20,9 @@ const _ = grpc.SupportPackageIsVersion7
 type HermesServiceClient interface {
 	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
 	Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error)
-	//HermesByVoter returns Hermes voters' receiving history
+	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
+	HermesBucket(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesBucketResponse, error)
+	// HermesByVoter returns Hermes voters' receiving history
 	HermesByVoter(ctx context.Context, in *HermesByVoterRequest, opts ...grpc.CallOption) (*HermesByVoterResponse, error)
 	// HermesByDelegate returns Hermes delegates' distribution history
 	HermesByDelegate(ctx context.Context, in *HermesByDelegateRequest, opts ...grpc.CallOption) (*HermesByDelegateResponse, error)
@@ -43,6 +45,15 @@ func NewHermesServiceClient(cc grpc.ClientConnInterface) HermesServiceClient {
 func (c *hermesServiceClient) Hermes(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesResponse, error) {
 	out := new(HermesResponse)
 	err := c.cc.Invoke(ctx, "/api.HermesService/Hermes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hermesServiceClient) HermesBucket(ctx context.Context, in *HermesRequest, opts ...grpc.CallOption) (*HermesBucketResponse, error) {
+	out := new(HermesBucketResponse)
+	err := c.cc.Invoke(ctx, "/api.HermesService/HermesBucket", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +111,9 @@ func (c *hermesServiceClient) HermesDropRecords(ctx context.Context, in *HermesD
 type HermesServiceServer interface {
 	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
 	Hermes(context.Context, *HermesRequest) (*HermesResponse, error)
-	//HermesByVoter returns Hermes voters' receiving history
+	// Hermes gives delegates who register the service of automatic reward distribution an overview of the reward distributions to their voters within a range of epochs
+	HermesBucket(context.Context, *HermesRequest) (*HermesBucketResponse, error)
+	// HermesByVoter returns Hermes voters' receiving history
 	HermesByVoter(context.Context, *HermesByVoterRequest) (*HermesByVoterResponse, error)
 	// HermesByDelegate returns Hermes delegates' distribution history
 	HermesByDelegate(context.Context, *HermesByDelegateRequest) (*HermesByDelegateResponse, error)
@@ -119,6 +132,9 @@ type UnimplementedHermesServiceServer struct {
 
 func (UnimplementedHermesServiceServer) Hermes(context.Context, *HermesRequest) (*HermesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Hermes not implemented")
+}
+func (UnimplementedHermesServiceServer) HermesBucket(context.Context, *HermesRequest) (*HermesBucketResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HermesBucket not implemented")
 }
 func (UnimplementedHermesServiceServer) HermesByVoter(context.Context, *HermesByVoterRequest) (*HermesByVoterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HermesByVoter not implemented")
@@ -162,6 +178,24 @@ func _HermesService_Hermes_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(HermesServiceServer).Hermes(ctx, req.(*HermesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HermesService_HermesBucket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HermesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HermesServiceServer).HermesBucket(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.HermesService/HermesBucket",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HermesServiceServer).HermesBucket(ctx, req.(*HermesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -266,6 +300,10 @@ var HermesService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Hermes",
 			Handler:    _HermesService_Hermes_Handler,
+		},
+		{
+			MethodName: "HermesBucket",
+			Handler:    _HermesService_HermesBucket_Handler,
 		},
 		{
 			MethodName: "HermesByVoter",

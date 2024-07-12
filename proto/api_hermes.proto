@@ -31,6 +31,26 @@ message HermesResponse {
   repeated HermesDistribution hermesDistribution = 1;
 }
 
+message BucketRewardDistribution {
+  string voterEthAddress = 1; // voter’s ERC20 address
+  string voterIotexAddress = 2; // voter’s IoTeX address
+  uint64 bucketID = 3; // voter's bucketID
+  string amount = 4; // amount of reward distribution
+}
+
+message HermesBucketDistribution {
+  string delegateName = 1; // delegate name
+  repeated BucketRewardDistribution bucketRewardDistribution = 2;
+  string stakingIotexAddress = 3; // delegate IoTeX staking address
+  uint64 voterCount = 4; // number of voters
+  bool waiveServiceFee = 5; // whether the delegate is qualified for waiving the service fee
+  string refund = 6; // amount of refund
+}
+
+message HermesBucketResponse {
+  repeated HermesBucketDistribution hermesBucketDistribution = 1;
+}
+
 message HermesByVoterRequest {
   uint64 startEpoch = 1; // Start epoch number
   uint64 epochCount = 2; // Number of epochs to query
@@ -129,6 +149,17 @@ service HermesService {
     };
     option (google.api.http) = {
       post: "/api.HermesService.Hermes"
+      body: "*"
+    };
+  };
+  // Hermes gives delegates who register the service of automatic reward distribution an overview of the bucket reward distributions to their voters within a range of epochs
+  rpc HermesBucket(HermesRequest) returns (HermesBucketResponse) {
+    option (graphql.schema) = {
+      type: QUERY 
+      name: "HermesBucket"
+    };
+    option (google.api.http) = {
+      post: "/api.HermesService.HermesBucket"
       body: "*"
     };
   };
