@@ -138,3 +138,44 @@ func GetSystemStakedBucketByVoterAndHeight(addr string, height uint64) (*big.Int
 	}
 	return totalStakeAmount, totalVotingPower, nil
 }
+
+func GetSystemV2BucketIDsByVoterAndHeight(addr string, height uint64) ([]uint64, error) {
+	db := db.DB()
+	var ids []struct {
+		BucketID uint64
+	}
+	if err := db.Table("system_staking_buckets_v2").Distinct("bucket_id").Where("block_height<=? and owner_address=?", height, addr).Find(&ids).Error; err != nil {
+		return nil, err
+	}
+	bucketID := []uint64{}
+	for _, id := range ids {
+		bucketID = append(bucketID, id.BucketID)
+	}
+	return bucketID, nil
+}
+
+func GetSystemV2StakedBucketByVoterAndHeight(addr string, height uint64) (*big.Int, *big.Int, error) {
+	db := db.DB()
+
+	bucketIDs, err := GetSystemV2BucketIDsByVoterAndHeight(addr, height)
+	if err != nil {
+		return nil, nil, err
+	}
+	var stakingBuckets []*model.StakingBucket
+	query := "select t1.* from system_staking_buckets_v2 t1 INNER JOIN (select MAX(id)AS max_id  from system_staking_buckets_v2 t4 where block_height<=? and bucket_id in ? GROUP BY bucket_id) as t2 on t2.max_id=t1.id"
+	if err := db.Raw(query, height, bucketIDs).Scan(&stakingBuckets).Error; err != nil {
+		return nil, nil, err
+	}
+	totalStakeAmount := big.NewInt(0)
+	totalVotingPower := big.NewInt(0)
+	for _, stakingBucket := range stakingBuckets {
+		if addr != stakingBucket.OwnerAddress {
+			continue
+		}
+		stakeAmount, _ := big.NewInt(0).SetString(stakingBucket.StakedAmount, 0)
+		totalStakeAmount.Add(totalStakeAmount, stakeAmount)
+		votingPower, _ := big.NewInt(0).SetString(stakingBucket.VotingPower, 0)
+		totalVotingPower.Add(totalVotingPower, votingPower)
+	}
+	return totalStakeAmount, totalVotingPower, nil
+}
