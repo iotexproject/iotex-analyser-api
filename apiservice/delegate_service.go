@@ -59,7 +59,9 @@ func (s *DelegateService) BucketInfo(ctx context.Context, req *api.BucketInfoReq
 			first = page.GetFirst()
 		}
 		if skip >= uint64(len(bucketInfo)) {
-			return nil, errors.New("invalid pagination skip number for bucket info")
+			bucketInfoList.BucketInfo = make([]*api.BucketInfo, 0)
+			bucketInfoLists = append(bucketInfoLists, bucketInfoList)
+			continue
 		}
 		if uint64(len(bucketInfo))-skip < first {
 			first = uint64(len(bucketInfo)) - skip
