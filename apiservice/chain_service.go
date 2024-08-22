@@ -3,6 +3,7 @@ package apiservice
 import (
 	"context"
 	"math/big"
+	"time"
 
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
@@ -107,8 +108,8 @@ func (s *ChainService) MostRecentTPS(ctx context.Context, req *api.MostRecentTPS
 	db := db.DB()
 	query := "select (select timestamp from block where block_height=?) start_time,(select timestamp from block where block_height=?) end_time,sum(num_actions) num_actions from block where block_height>=? and block_height<=?"
 	var result struct {
-		StartTime  uint64
-		EndTime    uint64
+		StartTime  time.Time
+		EndTime    time.Time
 		NumActions uint64
 	}
 	err = db.Raw(query, start, end, start, end).Scan(&result).Error
@@ -116,7 +117,7 @@ func (s *ChainService) MostRecentTPS(ctx context.Context, req *api.MostRecentTPS
 		return nil, err
 	}
 
-	resp.MostRecentTPS = float64(result.NumActions) / float64(result.EndTime-result.StartTime)
+	resp.MostRecentTPS = float64(result.NumActions) / float64(result.EndTime.Unix()-result.StartTime.Unix())
 	return resp, nil
 }
 
