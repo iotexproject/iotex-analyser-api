@@ -2,7 +2,7 @@ package accounts
 
 import (
 	"github.com/iotexproject/iotex-analyser-api/db"
-	"github.com/iotexproject/iotex-core/ioctl/util"
+	"github.com/iotexproject/iotex-core/v2/ioctl/util"
 )
 
 func ContractIsExist(contractAddress string) (bool, uint64, error) {

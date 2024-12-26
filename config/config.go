@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/imdario/mergo"
-	"github.com/iotexproject/iotex-core/blockchain/genesis"
+	"github.com/iotexproject/iotex-core/v2/blockchain/genesis"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
 	"github.com/sethvargo/go-envconfig"

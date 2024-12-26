@@ -10,7 +10,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/common/accounts"
 	"github.com/iotexproject/iotex-analyser-api/common/actions"
 	"github.com/iotexproject/iotex-analyser-api/db"
-	"github.com/iotexproject/iotex-core/ioctl/util"
+	"github.com/iotexproject/iotex-core/v2/ioctl/util"
 	"github.com/pkg/errors"
 )
 
