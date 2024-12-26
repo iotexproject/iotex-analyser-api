@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine AS builder
+FROM golang:1.23-bullseye AS builder
 
 WORKDIR /app
 
@@ -6,13 +6,13 @@ WORKDIR /app
 # ENV GOPROXY https://goproxy.cn
 
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
-RUN apk add --no-cache make gcc musl-dev linux-headers git
+RUN apt-get update && apt-get install -y make gcc musl-dev git libc-dev build-essential
 
 COPY . .
 RUN go mod download
 RUN make
 
-FROM alpine:latest
+FROM golang:1.23-bullseye
 
 WORKDIR /app
 COPY --from=builder /app/config.yml /app/
