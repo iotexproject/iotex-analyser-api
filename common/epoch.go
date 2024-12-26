@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/iotexproject/iotex-core/blockchain/genesis"
+	"github.com/iotexproject/iotex-core/v2/blockchain/genesis"
 )
 
 var (
@@ -13,7 +13,7 @@ func init() {
 	genesisCfg.Blockchain.NumSubEpochs = 15
 }
 
-//https://github.com/millken/iotex-core/blob/77950cec681d2e441a77b2b9a162ffa1c4ca4f55/action/protocol/rolldpos/epoch.go#L213
+// https://github.com/millken/iotex-core/blob/77950cec681d2e441a77b2b9a162ffa1c4ca4f55/action/protocol/rolldpos/epoch.go#L213
 // GetEpochNum returns the number of the epoch for a given height
 func GetEpochNum(height uint64) uint64 {
 	if height == 0 {

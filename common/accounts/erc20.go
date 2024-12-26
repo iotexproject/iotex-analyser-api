@@ -12,8 +12,8 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
-	"github.com/iotexproject/iotex-core/action"
-	"github.com/iotexproject/iotex-core/test/identityset"
+	"github.com/iotexproject/iotex-core/v2/action"
+	"github.com/iotexproject/iotex-core/v2/test/identityset"
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 )
 
@@ -88,16 +88,10 @@ func ReadERC20DecimalsWithCache(contractAddress string) (int, error) {
 func ReadERC20Decimals(client iotexapi.APIServiceClient, contractAddr string) (int, error) {
 	decimals := 6 //default decimal
 
-	nonce := uint64(1)
 	transferAmount := big.NewInt(0)
-	gasLimit := uint64(100000)
-	gasPrice := big.NewInt(10000000)
 	callerAddress := identityset.Address(30).String()
 	callData, _ := hex.DecodeString("313ce567")
-	execution, err := action.NewExecution(contractAddr, nonce, transferAmount, gasLimit, gasPrice, callData)
-	if err != nil {
-		return decimals, nil
-	}
+	execution := action.NewExecution(contractAddr, transferAmount, callData)
 	request := &iotexapi.ReadContractRequest{
 		Execution:     execution.Proto(),
 		CallerAddress: callerAddress,
