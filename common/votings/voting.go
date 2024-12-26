@@ -39,7 +39,7 @@ func getStakingBucketInfoByEpoch(height uint64, epochNum uint64, delegateName st
 	var candidateAddress string
 	for _, cand := range candidateList.Candidates {
 		if cand.Name == delegateName {
-			candidateAddress = cand.OwnerAddress
+			candidateAddress = cand.Id
 			break
 		}
 	}
