@@ -23,7 +23,7 @@ func GetContractCallTimesAndAccumulatedGas(contractAddress string) (uint64, stri
 		Count int
 		Sum   string
 	}
-	query := "select count(*),sum(ba.gas_price*ba.gas_consumed) from action_execution ae left join block_action ba using(action_hash) where ae.contract=?"
+	query := "select count(*),sum(ba.gas_price*ba.gas_consumed) from action_execution ae left join block_action_partition ba using(action_hash) where ae.contract=?"
 	db := db.DB()
 	if err := db.Raw(query, contractAddress).Scan(&result).Error; err != nil {
 		return 0, "", err
