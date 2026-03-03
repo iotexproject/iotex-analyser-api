@@ -349,3 +349,49 @@ MethodName:      actionInfo.MethodName,
 }
 return resp, nil
 }
+
+// ActionByHeight finds actions by block height
+func (s *ActionService) ActionByHeight(ctx context.Context, req *api.ActionByHeightRequest) (*api.ActionByHeightResponse, error) {
+resp := &api.ActionByHeightResponse{
+Count:   0,
+Exist:   false,
+Actions: make([]*api.ActionInfo, 0),
+}
+height := req.GetHeight()
+count, err := actions.GetActionCountByHeight(height)
+if err != nil {
+return nil, err
+}
+resp.Count = uint64(count)
+if count == 0 {
+return resp, nil
+}
+resp.Exist = true
+skip := common.PageOffset(req.GetPagination())
+first := common.PageSize(req.GetPagination())
+actionInfoList, err := actions.GetActionInfoByHeight(height, skip, first)
+if err != nil {
+return nil, err
+}
+for _, actionInfo := range actionInfoList {
+resp.Actions = append(resp.Actions, &api.ActionInfo{
+ActHash:         actionInfo.ActHash,
+BlkHash:         actionInfo.BlkHash,
+Timestamp:       uint64(actionInfo.Timestamp.Unix()),
+ActType:         actionInfo.ActType,
+Sender:          actionInfo.Sender,
+Recipient:       actionInfo.Recipient,
+Amount:          actionInfo.Amount,
+GasFee:          actionInfo.GasFee,
+BlkHeight:       actionInfo.BlkHeight,
+GasPrice:        actionInfo.GasPrice,
+GasLimit:        actionInfo.GasLimit,
+GasConsumed:     actionInfo.GasConsumed,
+Nonce:           actionInfo.Nonce,
+Status:          actionInfo.Status,
+ContractAddress: actionInfo.ContractAddress,
+MethodName:      actionInfo.MethodName,
+})
+}
+return resp, nil
+}

@@ -18,6 +18,8 @@ var (
 	gql__type_EvmTransfersByAddressRequest               *graphql.Object      // message EvmTransfersByAddressRequest in api_action.proto
 	gql__type_ActionListResponse                         *graphql.Object      // message ActionListResponse in api_action.proto
 	gql__type_ActionListRequest                          *graphql.Object      // message ActionListRequest in api_action.proto
+	gql__type_ActionByHeightResponse                     *graphql.Object      // message ActionByHeightResponse in api_action.proto
+	gql__type_ActionByHeightRequest                      *graphql.Object      // message ActionByHeightRequest in api_action.proto
 	gql__type_EvmTransferInfo                            *graphql.Object      // message EvmTransferInfo in api_action.proto
 	gql__type_ActionResponse                             *graphql.Object      // message ActionResponse in api_action.proto
 	gql__type_ActionRequest                              *graphql.Object      // message ActionRequest in api_action.proto
@@ -37,6 +39,8 @@ var (
 	gql__input_EvmTransfersByAddressRequest              *graphql.InputObject // message EvmTransfersByAddressRequest in api_action.proto
 	gql__input_ActionListResponse                        *graphql.InputObject // message ActionListResponse in api_action.proto
 	gql__input_ActionListRequest                         *graphql.InputObject // message ActionListRequest in api_action.proto
+	gql__input_ActionByHeightResponse                    *graphql.InputObject // message ActionByHeightResponse in api_action.proto
+	gql__input_ActionByHeightRequest                     *graphql.InputObject // message ActionByHeightRequest in api_action.proto
 	gql__input_EvmTransferInfo                           *graphql.InputObject // message EvmTransferInfo in api_action.proto
 	gql__input_ActionResponse                            *graphql.InputObject // message ActionResponse in api_action.proto
 	gql__input_ActionRequest                             *graphql.InputObject // message ActionRequest in api_action.proto
@@ -986,6 +990,80 @@ func Gql__input_ActionListRequest() *graphql.InputObject {
 	return gql__input_ActionListRequest
 }
 
+func Gql__type_ActionByHeightResponse() *graphql.Object {
+	if gql__type_ActionByHeightResponse == nil {
+		gql__type_ActionByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHeightResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHeightResponse
+}
+
+func Gql__type_ActionByHeightRequest() *graphql.Object {
+	if gql__type_ActionByHeightRequest == nil {
+		gql__type_ActionByHeightRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHeightRequest",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHeightRequest
+}
+
+func Gql__input_ActionByHeightResponse() *graphql.InputObject {
+	if gql__input_ActionByHeightResponse == nil {
+		gql__input_ActionByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHeightResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHeightResponse
+}
+
+func Gql__input_ActionByHeightRequest() *graphql.InputObject {
+	if gql__input_ActionByHeightRequest == nil {
+		gql__input_ActionByHeightRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHeightRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHeightRequest
+}
+
 // CreateConnection() returns grpc connection which user specified or newly connected and closing function
 func (x *graphql__resolver_ActionService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
 	// If x.conn is not nil, user injected their own connection
@@ -1196,6 +1274,29 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 				resp, err := client.ActionList(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC ActionList")
+				}
+				return resp, nil
+			},
+		},
+		"ActionByHeight": &graphql.Field{
+			Type: Gql__type_ActionByHeightResponse(),
+			Args: graphql.FieldConfigArgument{
+				"height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ActionByHeightRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for ActionByHeight")
+				}
+				client := NewActionServiceClient(conn)
+				resp, err := client.ActionByHeight(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ActionByHeight")
 				}
 				return resp, nil
 			},

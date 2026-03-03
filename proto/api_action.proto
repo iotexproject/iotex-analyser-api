@@ -139,6 +139,16 @@ message ActionListResponse {
   uint64 count = 2;
   repeated ActionInfo actions = 3;
 }
+
+message ActionByHeightRequest {
+  uint64 height = 1;
+  pagination.Pagination pagination = 2;
+}
+message ActionByHeightResponse {
+  bool exist = 1;
+  uint64 count = 2;
+  repeated ActionInfo actions = 3;
+}
 service ActionService {
   rpc ActionByVoter(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
@@ -223,6 +233,17 @@ service ActionService {
     };
     option (google.api.http) = {
       post: "/api.ActionService.ActionList"
+      body: "*"
+    };
+  };
+  // ActionByHeight finds actions by block height
+  rpc ActionByHeight(ActionByHeightRequest) returns (ActionByHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "ActionByHeight"
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.ActionByHeight"
       body: "*"
     };
   };
