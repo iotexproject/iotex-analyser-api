@@ -61,8 +61,8 @@ func getHeightByDate(unixtime uint64) (minBlkHeight uint64, maxBlkHeight uint64,
 func GetActionCountByAddress(ctx context.Context, addr string) (int64, error) {
 	var count int64
 	db := db.DB()
-	query := "select (SELECT count(*) FROM block_action_partition a WHERE a.sender=?)+(SELECT count(*) FROM block_action_partition a WHERE a.recipient=?)"
-	if err := db.WithContext(ctx).Raw(query, addr, addr).Scan(&count).Error; err != nil {
+	query := "select (SELECT count(*) FROM block_action_partition a WHERE a.sender=?)+(SELECT count(*) FROM block_action_partition a WHERE a.recipient=?)+(SELECT count(*) FROM block_action_partition a WHERE a.contract_address=?)"
+	if err := db.WithContext(ctx).Raw(query, addr, addr, addr).Scan(&count).Error; err != nil {
 		return 0, err
 	}
 	return count, nil
