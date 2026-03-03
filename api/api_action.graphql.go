@@ -16,6 +16,8 @@ var (
 	gql__type_EvmTransfersByAddressResponse_EvmTransfer  *graphql.Object      // message EvmTransfersByAddressResponse.EvmTransfer in api_action.proto
 	gql__type_EvmTransfersByAddressResponse              *graphql.Object      // message EvmTransfersByAddressResponse in api_action.proto
 	gql__type_EvmTransfersByAddressRequest               *graphql.Object      // message EvmTransfersByAddressRequest in api_action.proto
+	gql__type_ActionListResponse                         *graphql.Object      // message ActionListResponse in api_action.proto
+	gql__type_ActionListRequest                          *graphql.Object      // message ActionListRequest in api_action.proto
 	gql__type_EvmTransferInfo                            *graphql.Object      // message EvmTransferInfo in api_action.proto
 	gql__type_ActionResponse                             *graphql.Object      // message ActionResponse in api_action.proto
 	gql__type_ActionRequest                              *graphql.Object      // message ActionRequest in api_action.proto
@@ -33,6 +35,8 @@ var (
 	gql__input_EvmTransfersByAddressResponse_EvmTransfer *graphql.InputObject // message EvmTransfersByAddressResponse.EvmTransfer in api_action.proto
 	gql__input_EvmTransfersByAddressResponse             *graphql.InputObject // message EvmTransfersByAddressResponse in api_action.proto
 	gql__input_EvmTransfersByAddressRequest              *graphql.InputObject // message EvmTransfersByAddressRequest in api_action.proto
+	gql__input_ActionListResponse                        *graphql.InputObject // message ActionListResponse in api_action.proto
+	gql__input_ActionListRequest                         *graphql.InputObject // message ActionListRequest in api_action.proto
 	gql__input_EvmTransferInfo                           *graphql.InputObject // message EvmTransferInfo in api_action.proto
 	gql__input_ActionResponse                            *graphql.InputObject // message ActionResponse in api_action.proto
 	gql__input_ActionRequest                             *graphql.InputObject // message ActionRequest in api_action.proto
@@ -282,6 +286,9 @@ func Gql__type_ActionInfo() *graphql.Object {
 				},
 				"chainId": &graphql.Field{
 					Type: graphql.Int,
+				},
+				"methodName": &graphql.Field{
+					Type: graphql.String,
 				},
 			},
 		})
@@ -692,6 +699,9 @@ func Gql__input_ActionInfo() *graphql.InputObject {
 				"chainId": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
+				"methodName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -890,6 +900,74 @@ func new_graphql_resolver_ActionService(conn *grpc.ClientConn) *graphql__resolve
 	}
 }
 
+func Gql__type_ActionListResponse() *graphql.Object {
+	if gql__type_ActionListResponse == nil {
+		gql__type_ActionListResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionListResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_ActionListResponse
+}
+
+func Gql__type_ActionListRequest() *graphql.Object {
+	if gql__type_ActionListRequest == nil {
+		gql__type_ActionListRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionListRequest",
+			Fields: graphql.Fields{
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_ActionListRequest
+}
+
+func Gql__input_ActionListResponse() *graphql.InputObject {
+	if gql__input_ActionListResponse == nil {
+		gql__input_ActionListResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionListResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_ActionListResponse
+}
+
+func Gql__input_ActionListRequest() *graphql.InputObject {
+	if gql__input_ActionListRequest == nil {
+		gql__input_ActionListRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionListRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_ActionListRequest
+}
+
 // CreateConnection() returns grpc connection which user specified or newly connected and closing function
 func (x *graphql__resolver_ActionService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
 	// If x.conn is not nil, user injected their own connection
@@ -1071,6 +1149,26 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 				resp, err := client.EvmTransfersByAddress(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC EvmTransfersByAddress")
+				}
+				return resp, nil
+			},
+		},
+		"ActionList": &graphql.Field{
+			Type: Gql__type_ActionListResponse(),
+			Args: graphql.FieldConfigArgument{
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ActionListRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for ActionList")
+				}
+				client := NewActionServiceClient(conn)
+				resp, err := client.ActionList(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ActionList")
 				}
 				return resp, nil
 			},
