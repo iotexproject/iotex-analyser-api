@@ -280,6 +280,9 @@ func Gql__type_ActionInfo() *graphql.Object {
 				"executionRevertMsg": &graphql.Field{
 					Type: graphql.String,
 				},
+				"chainId": &graphql.Field{
+					Type: graphql.Int,
+				},
 			},
 		})
 	}
@@ -685,6 +688,9 @@ func Gql__input_ActionInfo() *graphql.InputObject {
 				},
 				"executionRevertMsg": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
+				},
+				"chainId": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
 				},
 			},
 		})

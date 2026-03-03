@@ -162,6 +162,7 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 		Status:             actionInfo.Status,
 		ContractAddress:    actionInfo.ContractAddress,
 		ExecutionRevertMsg: actionInfo.ExecutionRevertMsg,
+		ChainId:            actionInfo.ChainId,
 	}
 	brt, err := actions.GetBlockReceiptTransactionByHash(actHash)
 	if err != nil {
