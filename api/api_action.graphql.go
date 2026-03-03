@@ -458,6 +458,15 @@ func Gql__type_ActionByAddressRequest() *graphql.Object {
 				"pagination": &graphql.Field{
 					Type: pagination.Gql__type_Pagination(),
 				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.Field{
+					Type: graphql.String,
+				},
+				"actionType": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -870,6 +879,15 @@ func Gql__input_ActionByAddressRequest() *graphql.InputObject {
 				"pagination": &graphql.InputObjectFieldConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"actionType": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -1092,6 +1110,15 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 				},
 				"pagination": &graphql.ArgumentConfig{
 					Type: pagination.Gql__input_Pagination(),
+				},
+				"sender": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"actionType": &graphql.ArgumentConfig{
+					Type: graphql.String,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
