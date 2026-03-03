@@ -20,6 +20,8 @@ var (
 	gql__type_ActionListRequest                          *graphql.Object      // message ActionListRequest in api_action.proto
 	gql__type_ActionByHeightResponse                     *graphql.Object      // message ActionByHeightResponse in api_action.proto
 	gql__type_ActionByHeightRequest                      *graphql.Object      // message ActionByHeightRequest in api_action.proto
+gql__type_ContractInteractorsResponse                *graphql.Object      // message ContractInteractorsResponse in api_action.proto
+gql__type_ContractInteractorsRequest                 *graphql.Object      // message ContractInteractorsRequest in api_action.proto
 	gql__type_EvmTransferInfo                            *graphql.Object      // message EvmTransferInfo in api_action.proto
 	gql__type_ActionResponse                             *graphql.Object      // message ActionResponse in api_action.proto
 	gql__type_ActionRequest                              *graphql.Object      // message ActionRequest in api_action.proto
@@ -41,6 +43,8 @@ var (
 	gql__input_ActionListRequest                         *graphql.InputObject // message ActionListRequest in api_action.proto
 	gql__input_ActionByHeightResponse                    *graphql.InputObject // message ActionByHeightResponse in api_action.proto
 	gql__input_ActionByHeightRequest                     *graphql.InputObject // message ActionByHeightRequest in api_action.proto
+gql__input_ContractInteractorsResponse               *graphql.InputObject // message ContractInteractorsResponse in api_action.proto
+gql__input_ContractInteractorsRequest                *graphql.InputObject // message ContractInteractorsRequest in api_action.proto
 	gql__input_EvmTransferInfo                           *graphql.InputObject // message EvmTransferInfo in api_action.proto
 	gql__input_ActionResponse                            *graphql.InputObject // message ActionResponse in api_action.proto
 	gql__input_ActionRequest                             *graphql.InputObject // message ActionRequest in api_action.proto
@@ -1064,6 +1068,68 @@ func Gql__input_ActionByHeightRequest() *graphql.InputObject {
 	return gql__input_ActionByHeightRequest
 }
 
+func Gql__type_ContractInteractorsResponse() *graphql.Object {
+if gql__type_ContractInteractorsResponse == nil {
+gql__type_ContractInteractorsResponse = graphql.NewObject(graphql.ObjectConfig{
+Name: "ContractInteractorsResponseType",
+Fields: graphql.Fields{
+"senders": &graphql.Field{
+Type: graphql.NewList(graphql.String),
+},
+},
+})
+}
+return gql__type_ContractInteractorsResponse
+}
+
+func Gql__type_ContractInteractorsRequest() *graphql.Object {
+if gql__type_ContractInteractorsRequest == nil {
+gql__type_ContractInteractorsRequest = graphql.NewObject(graphql.ObjectConfig{
+Name: "ContractInteractorsRequestType",
+Fields: graphql.Fields{
+"address": &graphql.Field{
+Type: graphql.String,
+},
+"startTime": &graphql.Field{
+Type: graphql.String,
+},
+},
+})
+}
+return gql__type_ContractInteractorsRequest
+}
+
+func Gql__input_ContractInteractorsResponse() *graphql.InputObject {
+if gql__input_ContractInteractorsResponse == nil {
+gql__input_ContractInteractorsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+Name: "ContractInteractorsResponseInput",
+Fields: graphql.InputObjectConfigFieldMap{
+"senders": &graphql.InputObjectFieldConfig{
+Type: graphql.NewList(graphql.String),
+},
+},
+})
+}
+return gql__input_ContractInteractorsResponse
+}
+
+func Gql__input_ContractInteractorsRequest() *graphql.InputObject {
+if gql__input_ContractInteractorsRequest == nil {
+gql__input_ContractInteractorsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+Name: "ContractInteractorsRequestInput",
+Fields: graphql.InputObjectConfigFieldMap{
+"address": &graphql.InputObjectFieldConfig{
+Type: graphql.String,
+},
+"startTime": &graphql.InputObjectFieldConfig{
+Type: graphql.String,
+},
+},
+})
+}
+return gql__input_ContractInteractorsRequest
+}
+
 // CreateConnection() returns grpc connection which user specified or newly connected and closing function
 func (x *graphql__resolver_ActionService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
 	// If x.conn is not nil, user injected their own connection
@@ -1301,6 +1367,29 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 				return resp, nil
 			},
 		},
+"ContractInteractors": &graphql.Field{
+Type: Gql__type_ContractInteractorsResponse(),
+Args: graphql.FieldConfigArgument{
+"address": &graphql.ArgumentConfig{
+Type: graphql.String,
+},
+"startTime": &graphql.ArgumentConfig{
+Type: graphql.String,
+},
+},
+Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+var req ContractInteractorsRequest
+if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+return nil, errors.Wrap(err, "Failed to marshal request for ContractInteractors")
+}
+client := NewActionServiceClient(conn)
+resp, err := client.ContractInteractors(p.Context, &req)
+if err != nil {
+return nil, errors.Wrap(err, "Failed to call RPC ContractInteractors")
+}
+return resp, nil
+},
+},
 	}
 }
 

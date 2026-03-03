@@ -28,6 +28,7 @@ const (
 	ActionService_EvmTransfersByAddress_FullMethodName = "/api.ActionService/EvmTransfersByAddress"
 	ActionService_ActionList_FullMethodName            = "/api.ActionService/ActionList"
 	ActionService_ActionByHeight_FullMethodName        = "/api.ActionService/ActionByHeight"
+	ActionService_ContractInteractors_FullMethodName   = "/api.ActionService/ContractInteractors"
 )
 
 // ActionServiceClient is the client API for ActionService service.
@@ -50,6 +51,8 @@ type ActionServiceClient interface {
 	ActionList(ctx context.Context, in *ActionListRequest, opts ...grpc.CallOption) (*ActionListResponse, error)
 	// ActionByHeight finds actions by block height
 	ActionByHeight(ctx context.Context, in *ActionByHeightRequest, opts ...grpc.CallOption) (*ActionByHeightResponse, error)
+	// ContractInteractors returns distinct senders who interacted with a contract
+	ContractInteractors(ctx context.Context, in *ContractInteractorsRequest, opts ...grpc.CallOption) (*ContractInteractorsResponse, error)
 }
 
 type actionServiceClient struct {
@@ -141,6 +144,15 @@ func (c *actionServiceClient) ActionByHeight(ctx context.Context, in *ActionByHe
 	return out, nil
 }
 
+func (c *actionServiceClient) ContractInteractors(ctx context.Context, in *ContractInteractorsRequest, opts ...grpc.CallOption) (*ContractInteractorsResponse, error) {
+	out := new(ContractInteractorsResponse)
+	err := c.cc.Invoke(ctx, ActionService_ContractInteractors_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActionServiceServer is the server API for ActionService service.
 // All implementations must embed UnimplementedActionServiceServer
 // for forward compatibility
@@ -161,6 +173,8 @@ type ActionServiceServer interface {
 	ActionList(context.Context, *ActionListRequest) (*ActionListResponse, error)
 	// ActionByHeight finds actions by block height
 	ActionByHeight(context.Context, *ActionByHeightRequest) (*ActionByHeightResponse, error)
+	// ContractInteractors returns distinct senders who interacted with a contract
+	ContractInteractors(context.Context, *ContractInteractorsRequest) (*ContractInteractorsResponse, error)
 	mustEmbedUnimplementedActionServiceServer()
 }
 
@@ -194,6 +208,9 @@ func (UnimplementedActionServiceServer) ActionList(context.Context, *ActionListR
 }
 func (UnimplementedActionServiceServer) ActionByHeight(context.Context, *ActionByHeightRequest) (*ActionByHeightResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActionByHeight not implemented")
+}
+func (UnimplementedActionServiceServer) ContractInteractors(context.Context, *ContractInteractorsRequest) (*ContractInteractorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractInteractors not implemented")
 }
 func (UnimplementedActionServiceServer) mustEmbedUnimplementedActionServiceServer() {}
 
@@ -370,6 +387,24 @@ func _ActionService_ActionByHeight_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActionService_ContractInteractors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractInteractorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).ContractInteractors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActionService_ContractInteractors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).ContractInteractors(ctx, req.(*ContractInteractorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActionService_ServiceDesc is the grpc.ServiceDesc for ActionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -412,6 +447,10 @@ var ActionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ActionByHeight",
 			Handler:    _ActionService_ActionByHeight_Handler,
+		},
+		{
+			MethodName: "ContractInteractors",
+			Handler:    _ActionService_ContractInteractors_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
