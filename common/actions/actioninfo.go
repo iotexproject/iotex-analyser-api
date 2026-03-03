@@ -19,6 +19,7 @@ type ActionInfo struct {
 	ContractAddress    string
 	ExecutionRevertMsg string
 	ChainId            uint64
+	MethodName         string
 	Timestamp          time.Time
 }
 

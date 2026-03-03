@@ -26,6 +26,7 @@ const (
 	ActionService_ActionByAddress_FullMethodName       = "/api.ActionService/ActionByAddress"
 	ActionService_ActionByType_FullMethodName          = "/api.ActionService/ActionByType"
 	ActionService_EvmTransfersByAddress_FullMethodName = "/api.ActionService/EvmTransfersByAddress"
+	ActionService_ActionList_FullMethodName            = "/api.ActionService/ActionList"
 )
 
 // ActionServiceClient is the client API for ActionService service.
@@ -44,6 +45,8 @@ type ActionServiceClient interface {
 	ActionByType(ctx context.Context, in *ActionByTypeRequest, opts ...grpc.CallOption) (*ActionByTypeResponse, error)
 	// EvmTransfersByAddress finds EVM transfers by address
 	EvmTransfersByAddress(ctx context.Context, in *EvmTransfersByAddressRequest, opts ...grpc.CallOption) (*EvmTransfersByAddressResponse, error)
+	// ActionList returns paginated list of latest actions
+	ActionList(ctx context.Context, in *ActionListRequest, opts ...grpc.CallOption) (*ActionListResponse, error)
 }
 
 type actionServiceClient struct {
@@ -117,6 +120,15 @@ func (c *actionServiceClient) EvmTransfersByAddress(ctx context.Context, in *Evm
 	return out, nil
 }
 
+func (c *actionServiceClient) ActionList(ctx context.Context, in *ActionListRequest, opts ...grpc.CallOption) (*ActionListResponse, error) {
+	out := new(ActionListResponse)
+	err := c.cc.Invoke(ctx, ActionService_ActionList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActionServiceServer is the server API for ActionService service.
 // All implementations must embed UnimplementedActionServiceServer
 // for forward compatibility
@@ -133,6 +145,8 @@ type ActionServiceServer interface {
 	ActionByType(context.Context, *ActionByTypeRequest) (*ActionByTypeResponse, error)
 	// EvmTransfersByAddress finds EVM transfers by address
 	EvmTransfersByAddress(context.Context, *EvmTransfersByAddressRequest) (*EvmTransfersByAddressResponse, error)
+	// ActionList returns paginated list of latest actions
+	ActionList(context.Context, *ActionListRequest) (*ActionListResponse, error)
 	mustEmbedUnimplementedActionServiceServer()
 }
 
@@ -160,6 +174,9 @@ func (UnimplementedActionServiceServer) ActionByType(context.Context, *ActionByT
 }
 func (UnimplementedActionServiceServer) EvmTransfersByAddress(context.Context, *EvmTransfersByAddressRequest) (*EvmTransfersByAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EvmTransfersByAddress not implemented")
+}
+func (UnimplementedActionServiceServer) ActionList(context.Context, *ActionListRequest) (*ActionListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActionList not implemented")
 }
 func (UnimplementedActionServiceServer) mustEmbedUnimplementedActionServiceServer() {}
 
@@ -300,6 +317,24 @@ func _ActionService_EvmTransfersByAddress_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActionService_ActionList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActionListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).ActionList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActionService_ActionList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).ActionList(ctx, req.(*ActionListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActionService_ServiceDesc is the grpc.ServiceDesc for ActionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -334,6 +369,10 @@ var ActionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EvmTransfersByAddress",
 			Handler:    _ActionService_EvmTransfersByAddress_Handler,
+		},
+		{
+			MethodName: "ActionList",
+			Handler:    _ActionService_ActionList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
