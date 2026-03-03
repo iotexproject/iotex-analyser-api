@@ -170,21 +170,22 @@ type ActionInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ActHash         string `protobuf:"bytes,1,opt,name=actHash,proto3" json:"actHash,omitempty"`                  // action hash
-	BlkHash         string `protobuf:"bytes,2,opt,name=blkHash,proto3" json:"blkHash,omitempty"`                  // block hash
-	ActType         string `protobuf:"bytes,3,opt,name=actType,proto3" json:"actType,omitempty"`                  // action type
-	Sender          string `protobuf:"bytes,4,opt,name=sender,proto3" json:"sender,omitempty"`                    // sender address
-	Recipient       string `protobuf:"bytes,5,opt,name=recipient,proto3" json:"recipient,omitempty"`              // recipient address
-	Amount          string `protobuf:"bytes,6,opt,name=amount,proto3" json:"amount,omitempty"`                    // amount transferred
-	Timestamp       uint64 `protobuf:"varint,7,opt,name=timestamp,proto3" json:"timestamp,omitempty"`             // unix timestamp
-	GasFee          string `protobuf:"bytes,8,opt,name=gasFee,proto3" json:"gasFee,omitempty"`                    // gas fee
-	BlkHeight       uint64 `protobuf:"varint,9,opt,name=blkHeight,proto3" json:"blkHeight,omitempty"`             // block height
-	GasPrice        string `protobuf:"bytes,10,opt,name=gasPrice,proto3" json:"gasPrice,omitempty"`               // gas price
-	GasLimit        uint64 `protobuf:"varint,11,opt,name=gasLimit,proto3" json:"gasLimit,omitempty"`              // gas limit
-	GasConsumed     uint64 `protobuf:"varint,12,opt,name=gasConsumed,proto3" json:"gasConsumed,omitempty"`        // gas consumed
-	Nonce           uint64 `protobuf:"varint,13,opt,name=nonce,proto3" json:"nonce,omitempty"`                    // nonce
-	Status          uint64 `protobuf:"varint,14,opt,name=status,proto3" json:"status,omitempty"`                  // execution status
-	ContractAddress string `protobuf:"bytes,15,opt,name=contractAddress,proto3" json:"contractAddress,omitempty"` // contract address
+	ActHash            string `protobuf:"bytes,1,opt,name=actHash,proto3" json:"actHash,omitempty"`                        // action hash
+	BlkHash            string `protobuf:"bytes,2,opt,name=blkHash,proto3" json:"blkHash,omitempty"`                        // block hash
+	ActType            string `protobuf:"bytes,3,opt,name=actType,proto3" json:"actType,omitempty"`                        // action type
+	Sender             string `protobuf:"bytes,4,opt,name=sender,proto3" json:"sender,omitempty"`                          // sender address
+	Recipient          string `protobuf:"bytes,5,opt,name=recipient,proto3" json:"recipient,omitempty"`                    // recipient address
+	Amount             string `protobuf:"bytes,6,opt,name=amount,proto3" json:"amount,omitempty"`                          // amount transferred
+	Timestamp          uint64 `protobuf:"varint,7,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                   // unix timestamp
+	GasFee             string `protobuf:"bytes,8,opt,name=gasFee,proto3" json:"gasFee,omitempty"`                          // gas fee
+	BlkHeight          uint64 `protobuf:"varint,9,opt,name=blkHeight,proto3" json:"blkHeight,omitempty"`                   // block height
+	GasPrice           string `protobuf:"bytes,10,opt,name=gasPrice,proto3" json:"gasPrice,omitempty"`                     // gas price
+	GasLimit           uint64 `protobuf:"varint,11,opt,name=gasLimit,proto3" json:"gasLimit,omitempty"`                    // gas limit
+	GasConsumed        uint64 `protobuf:"varint,12,opt,name=gasConsumed,proto3" json:"gasConsumed,omitempty"`              // gas consumed
+	Nonce              uint64 `protobuf:"varint,13,opt,name=nonce,proto3" json:"nonce,omitempty"`                          // nonce
+	Status             uint64 `protobuf:"varint,14,opt,name=status,proto3" json:"status,omitempty"`                        // execution status
+	ContractAddress    string `protobuf:"bytes,15,opt,name=contractAddress,proto3" json:"contractAddress,omitempty"`       // contract address
+	ExecutionRevertMsg string `protobuf:"bytes,16,opt,name=executionRevertMsg,proto3" json:"executionRevertMsg,omitempty"` // execution revert message
 }
 
 func (x *ActionInfo) Reset() {
@@ -320,6 +321,13 @@ func (x *ActionInfo) GetStatus() uint64 {
 func (x *ActionInfo) GetContractAddress() string {
 	if x != nil {
 		return x.ContractAddress
+	}
+	return ""
+}
+
+func (x *ActionInfo) GetExecutionRevertMsg() string {
+	if x != nil {
+		return x.ExecutionRevertMsg
 	}
 	return ""
 }
@@ -1292,7 +1300,7 @@ var file_api_action_proto_rawDesc = []byte{
 	0x66, 0x6f, 0x52, 0x0f, 0x65, 0x76, 0x6d, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x4c,
 	0x69, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x07, 0x78, 0x72, 0x63, 0x4c, 0x69, 0x73, 0x74, 0x18, 0x05,
 	0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x58, 0x72, 0x63, 0x49, 0x6e,
-	0x66, 0x6f, 0x52, 0x07, 0x78, 0x72, 0x63, 0x4c, 0x69, 0x73, 0x74, 0x22, 0xae, 0x03, 0x0a, 0x0a,
+	0x66, 0x6f, 0x52, 0x07, 0x78, 0x72, 0x63, 0x4c, 0x69, 0x73, 0x74, 0x22, 0xde, 0x03, 0x0a, 0x0a,
 	0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x63,
 	0x74, 0x48, 0x61, 0x73, 0x68, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x63, 0x74,
 	0x48, 0x61, 0x73, 0x68, 0x12, 0x18, 0x0a, 0x07, 0x62, 0x6c, 0x6b, 0x48, 0x61, 0x73, 0x68, 0x18,
@@ -1319,7 +1327,10 @@ var file_api_action_proto_rawDesc = []byte{
 	0x61, 0x74, 0x75, 0x73, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74,
 	0x75, 0x73, 0x12, 0x28, 0x0a, 0x0f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64,
 	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x63, 0x6f, 0x6e,
-	0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0xc1, 0x01, 0x0a,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a, 0x12,
+	0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x76, 0x65, 0x72, 0x74, 0x4d,
+	0x73, 0x67, 0x18, 0x10, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x76, 0x65, 0x72, 0x74, 0x4d, 0x73, 0x67, 0x22, 0xc1, 0x01, 0x0a,
 	0x0f, 0x45, 0x76, 0x6d, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f,
 	0x12, 0x18, 0x0a, 0x07, 0x61, 0x63, 0x74, 0x48, 0x61, 0x73, 0x68, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x07, 0x61, 0x63, 0x74, 0x48, 0x61, 0x73, 0x68, 0x12, 0x18, 0x0a, 0x07, 0x62, 0x6c,

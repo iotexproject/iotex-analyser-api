@@ -146,21 +146,22 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 		return nil, err
 	}
 	resp.ActionInfo = &api.ActionInfo{
-		ActHash:         actionInfo.ActHash,
-		BlkHash:         actionInfo.BlkHash,
-		Timestamp:       uint64(actionInfo.Timestamp.Unix()),
-		ActType:         actionInfo.ActType,
-		Sender:          actionInfo.Sender,
-		Recipient:       actionInfo.Recipient,
-		Amount:          actionInfo.Amount,
-		GasFee:          actionInfo.GasFee,
-		BlkHeight:       actionInfo.BlkHeight,
-		GasPrice:        actionInfo.GasPrice,
-		GasLimit:        actionInfo.GasLimit,
-		GasConsumed:     actionInfo.GasConsumed,
-		Nonce:           actionInfo.Nonce,
-		Status:          actionInfo.Status,
-		ContractAddress: actionInfo.ContractAddress,
+		ActHash:            actionInfo.ActHash,
+		BlkHash:            actionInfo.BlkHash,
+		Timestamp:          uint64(actionInfo.Timestamp.Unix()),
+		ActType:            actionInfo.ActType,
+		Sender:             actionInfo.Sender,
+		Recipient:          actionInfo.Recipient,
+		Amount:             actionInfo.Amount,
+		GasFee:             actionInfo.GasFee,
+		BlkHeight:          actionInfo.BlkHeight,
+		GasPrice:           actionInfo.GasPrice,
+		GasLimit:           actionInfo.GasLimit,
+		GasConsumed:        actionInfo.GasConsumed,
+		Nonce:              actionInfo.Nonce,
+		Status:             actionInfo.Status,
+		ContractAddress:    actionInfo.ContractAddress,
+		ExecutionRevertMsg: actionInfo.ExecutionRevertMsg,
 	}
 	brt, err := actions.GetBlockReceiptTransactionByHash(actHash)
 	if err != nil {
