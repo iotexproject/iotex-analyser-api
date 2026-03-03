@@ -259,6 +259,24 @@ func Gql__type_ActionInfo() *graphql.Object {
 				"blkHeight": &graphql.Field{
 					Type: graphql.Int,
 				},
+				"gasPrice": &graphql.Field{
+					Type: graphql.String,
+				},
+				"gasLimit": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"gasConsumed": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"nonce": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"status": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"contractAddress": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -643,6 +661,24 @@ func Gql__input_ActionInfo() *graphql.InputObject {
 				},
 				"blkHeight": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
+				},
+				"gasPrice": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"gasLimit": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"gasConsumed": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"nonce": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"status": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"contractAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
 				},
 			},
 		})

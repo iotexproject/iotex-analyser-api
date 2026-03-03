@@ -30,6 +30,12 @@ message ActionInfo {
   uint64 timestamp = 7; // unix timestamp
   string gasFee = 8; // gas fee
   uint64 blkHeight = 9; // block height
+  string gasPrice = 10; // gas price
+  uint64 gasLimit = 11; // gas limit
+  uint64 gasConsumed = 12; // gas consumed
+  uint64 nonce = 13; // nonce
+  uint64 status = 14; // execution status
+  string contractAddress = 15; // contract address
 }
 
 message EvmTransferInfo {
