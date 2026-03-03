@@ -149,6 +149,14 @@ message ActionByHeightResponse {
   uint64 count = 2;
   repeated ActionInfo actions = 3;
 }
+
+message ContractInteractorsRequest {
+  string address = 1; // contract address
+  string startTime = 2; // optional time filter start
+}
+message ContractInteractorsResponse {
+  repeated string senders = 1;
+}
 service ActionService {
   rpc ActionByVoter(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
@@ -244,6 +252,17 @@ service ActionService {
     };
     option (google.api.http) = {
       post: "/api.ActionService.ActionByHeight"
+      body: "*"
+    };
+  };
+  // ContractInteractors returns distinct senders who interacted with a contract
+  rpc ContractInteractors(ContractInteractorsRequest) returns (ContractInteractorsResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "ContractInteractors"
+    };
+    option (google.api.http) = {
+      post: "/api.ActionService.ContractInteractors"
       body: "*"
     };
   };

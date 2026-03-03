@@ -248,3 +248,21 @@ func GetActionInfoByType(ctx context.Context, typ string, skip, first uint64) ([
 	}
 	return actionInfos, nil
 }
+
+func GetContractInteractors(address string, startTime string) ([]string, error) {
+	var senders []string
+	db := db.DB()
+	var query string
+	var args []interface{}
+	if startTime != "" {
+		query = `SELECT DISTINCT a.sender FROM block_action_partition a WHERE a.contract_address=? AND a.action_type='execution' AND a.timestamp >= ?::timestamp UNION SELECT DISTINCT a.sender FROM block_action_partition a WHERE a.recipient=? AND a.action_type='execution' AND a.timestamp >= ?::timestamp`
+		args = []interface{}{address, startTime, address, startTime}
+	} else {
+		query = `SELECT DISTINCT a.sender FROM block_action_partition a WHERE a.contract_address=? AND a.action_type='execution' UNION SELECT DISTINCT a.sender FROM block_action_partition a WHERE a.recipient=? AND a.action_type='execution'`
+		args = []interface{}{address, address}
+	}
+	if err := db.Raw(query, args...).Scan(&senders).Error; err != nil {
+		return nil, err
+	}
+	return senders, nil
+}

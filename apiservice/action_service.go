@@ -395,3 +395,18 @@ MethodName:      actionInfo.MethodName,
 }
 return resp, nil
 }
+
+// ContractInteractors returns distinct senders who interacted with a contract
+func (s *ActionService) ContractInteractors(ctx context.Context, req *api.ContractInteractorsRequest) (*api.ContractInteractorsResponse, error) {
+resp := &api.ContractInteractorsResponse{
+Senders: make([]string, 0),
+}
+address := req.GetAddress()
+startTime := req.GetStartTime()
+senders, err := actions.GetContractInteractors(address, startTime)
+if err != nil {
+return nil, err
+}
+resp.Senders = senders
+return resp, nil
+}
