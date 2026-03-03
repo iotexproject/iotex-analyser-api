@@ -58,11 +58,11 @@ func getHeightByDate(unixtime uint64) (minBlkHeight uint64, maxBlkHeight uint64,
 	return result.MinBlkHeight, result.MaxBlkHeight, nil
 }
 
-func GetActionCountByAddress(ctx context.Context, addr string, sender string, recipient string, actionType string) (int64, error) {
+func GetActionCountByAddress(ctx context.Context, addr string, sender string, recipient string, actionType string, startTime string, endTime string) (int64, error) {
 	var count int64
 	db := db.DB()
 	// Build filter conditions
-	filterSQL, filterArgs := buildAddressFilterConditions(sender, recipient, actionType)
+	filterSQL, filterArgs := buildAddressFilterConditions(sender, recipient, actionType, startTime, endTime)
 	query := fmt.Sprintf("select (SELECT count(*) FROM block_action_partition a WHERE a.sender=?%s)+(SELECT count(*) FROM block_action_partition a WHERE a.recipient=?%s)+(SELECT count(*) FROM block_action_partition a WHERE a.contract_address=?%s)", filterSQL, filterSQL, filterSQL)
 	args := []interface{}{addr}
 	args = append(args, filterArgs...)
@@ -76,7 +76,7 @@ func GetActionCountByAddress(ctx context.Context, addr string, sender string, re
 	return count, nil
 }
 
-func buildAddressFilterConditions(sender, recipient, actionType string) (string, []interface{}) {
+func buildAddressFilterConditions(sender, recipient, actionType, startTime, endTime string) (string, []interface{}) {
 	var conditions string
 	var args []interface{}
 	if sender != "" {
@@ -91,13 +91,17 @@ func buildAddressFilterConditions(sender, recipient, actionType string) (string,
 		conditions += " AND a.action_type=?"
 		args = append(args, actionType)
 	}
+	if startTime != "" && endTime != "" {
+		conditions += " AND a.id IN (SELECT ba.id FROM block_action_partition ba JOIN block bl ON bl.block_height=ba.block_height WHERE bl.timestamp BETWEEN ? AND ?)"
+		args = append(args, startTime, endTime)
+	}
 	return conditions, args
 }
 
-func GetActionInfoByAddress(ctx context.Context, addr string, skip, first uint64, sender string, recipient string, actionType string) ([]*ActionInfo, error) {
+func GetActionInfoByAddress(ctx context.Context, addr string, skip, first uint64, sender string, recipient string, actionType string, startTime string, endTime string) ([]*ActionInfo, error) {
 	var actionInfos []*ActionInfo
 	db := db.DB()
-	filterSQL, filterArgs := buildAddressFilterConditions(sender, recipient, actionType)
+	filterSQL, filterArgs := buildAddressFilterConditions(sender, recipient, actionType, startTime, endTime)
 	query := fmt.Sprintf(`SELECT b.act_hash,b.act_type,b.sender,b.recipient,b.amount,b.gas_price*r.gas_consumed as gas_fee,b.gas_price,r.gas_consumed,b.nonce,r.status,b.contract_address,b.blk_height,blk.block_hash blk_hash,blk.timestamp,COALESCE(m."methodName",m.bytecode,substring(ae.data::text from 3 for 8),'') as method_name FROM (select * from (SELECT a.id,a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.block_height blk_height,a.gas_price,a.nonce,a.contract_address FROM block_action_partition a where a.sender=?%s union all SELECT a.id,a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.block_height blk_height,a.gas_price,a.nonce,a.contract_address FROM block_action_partition a where a.recipient=?%s union all SELECT a.id,a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.block_height blk_height,a.gas_price,a.nonce,a.contract_address FROM block_action_partition a where a.contract_address=?%s)tmp order by id desc limit ? offset ?) b LEFT JOIN block blk ON blk.block_height=b.blk_height LEFT JOIN block_receipts r ON r.action_hash=b.act_hash LEFT JOIN action_execution ae ON ae.action_hash=b.act_hash LEFT JOIN method_bytes m ON substring(ae.data::text from 3 for 8)=m.bytecode ORDER BY b.id DESC`, filterSQL, filterSQL, filterSQL)
 	args := []interface{}{addr}
 	args = append(args, filterArgs...)
