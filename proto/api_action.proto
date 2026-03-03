@@ -37,6 +37,7 @@ message ActionInfo {
   uint64 status = 14; // execution status
   string contractAddress = 15; // contract address
   string executionRevertMsg = 16; // execution revert message
+  uint64 chainId = 17; // chain id
 }
 
 message EvmTransferInfo {
