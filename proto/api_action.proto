@@ -36,6 +36,7 @@ message ActionInfo {
   uint64 nonce = 13; // nonce
   uint64 status = 14; // execution status
   string contractAddress = 15; // contract address
+  string executionRevertMsg = 16; // execution revert message
 }
 
 message EvmTransferInfo {

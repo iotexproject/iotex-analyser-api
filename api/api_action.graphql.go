@@ -277,6 +277,9 @@ func Gql__type_ActionInfo() *graphql.Object {
 				"contractAddress": &graphql.Field{
 					Type: graphql.String,
 				},
+				"executionRevertMsg": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -678,6 +681,9 @@ func Gql__input_ActionInfo() *graphql.InputObject {
 					Type: graphql.Int,
 				},
 				"contractAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"executionRevertMsg": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 			},
