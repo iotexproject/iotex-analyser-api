@@ -192,15 +192,17 @@ func (s *ActionService) ActionByAddress(ctx context.Context, req *api.ActionByAd
 	sender := req.GetSender()
 	recipient := req.GetRecipient()
 	actionType := req.GetActionType()
+	startTime := req.GetStartTime()
+	endTime := req.GetEndTime()
 
-	count, err := actions.GetActionCountByAddress(ctx, *address, sender, recipient, actionType)
+	count, err := actions.GetActionCountByAddress(ctx, *address, sender, recipient, actionType, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
 	resp.Count = uint64(count)
 	skip := common.PageOffset(req.GetPagination())
 	first := common.PageSize(req.GetPagination())
-	actionInfoList, err := actions.GetActionInfoByAddress(ctx, *address, skip, first, sender, recipient, actionType)
+	actionInfoList, err := actions.GetActionInfoByAddress(ctx, *address, skip, first, sender, recipient, actionType, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
