@@ -189,29 +189,38 @@ func (s *ActionService) ActionByAddress(ctx context.Context, req *api.ActionByAd
 	if err != nil {
 		return nil, err
 	}
+	sender := req.GetSender()
+	recipient := req.GetRecipient()
+	actionType := req.GetActionType()
 
-	count, err := actions.GetActionCountByAddress(ctx, *address)
+	count, err := actions.GetActionCountByAddress(ctx, *address, sender, recipient, actionType)
 	if err != nil {
 		return nil, err
 	}
 	resp.Count = uint64(count)
 	skip := common.PageOffset(req.GetPagination())
 	first := common.PageSize(req.GetPagination())
-	actionInfoList, err := actions.GetActionInfoByAddress(ctx, *address, skip, first)
+	actionInfoList, err := actions.GetActionInfoByAddress(ctx, *address, skip, first, sender, recipient, actionType)
 	if err != nil {
 		return nil, err
 	}
 	for _, actionInfo := range actionInfoList {
 		resp.Actions = append(resp.Actions, &api.ActionInfo{
-			ActHash:   actionInfo.ActHash,
-			BlkHash:   actionInfo.BlkHash,
-			Timestamp: uint64(actionInfo.Timestamp.Unix()),
-			ActType:   actionInfo.ActType,
-			Sender:    actionInfo.Sender,
-			Recipient: actionInfo.Recipient,
-			Amount:    actionInfo.Amount,
-			GasFee:    actionInfo.GasFee,
-			BlkHeight: actionInfo.BlkHeight,
+			ActHash:         actionInfo.ActHash,
+			BlkHash:         actionInfo.BlkHash,
+			Timestamp:       uint64(actionInfo.Timestamp.Unix()),
+			ActType:         actionInfo.ActType,
+			Sender:          actionInfo.Sender,
+			Recipient:       actionInfo.Recipient,
+			Amount:          actionInfo.Amount,
+			GasFee:          actionInfo.GasFee,
+			BlkHeight:       actionInfo.BlkHeight,
+			GasPrice:        actionInfo.GasPrice,
+			GasConsumed:     actionInfo.GasConsumed,
+			Nonce:           actionInfo.Nonce,
+			Status:          actionInfo.Status,
+			ContractAddress: actionInfo.ContractAddress,
+			MethodName:      actionInfo.MethodName,
 		})
 	}
 	return resp, nil

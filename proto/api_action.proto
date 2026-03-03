@@ -89,6 +89,9 @@ message ActionByHashResponse {
 message ActionByAddressRequest {
   string address = 1; // sender address or recipient address
   pagination.Pagination pagination = 2;
+  string sender = 3; // optional filter by sender
+  string recipient = 4; // optional filter by recipient
+  string actionType = 5; // optional filter by action type
 }
 message ActionByAddressResponse {
   bool exist = 1; // whether actions exist for the given address
