@@ -68,6 +68,13 @@ message BlockSizeByHeightResponse {
   string serverVersion = 3; // version
 }
 
+message GetLatestBlockHeightRequest {
+}
+
+message GetLatestBlockHeightResponse {
+  uint64 height = 1; // latest block height
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -118,11 +125,23 @@ service ChainService {
   // BlockSizeByHeight gives the block size by height
   rpc BlockSizeByHeight(BlockSizeByHeightRequest) returns (BlockSizeByHeightResponse) {
     option (graphql.schema) = {
-      type: QUERY 
+      type: QUERY
       name: "BlockSizeByHeight"
     };
     option (google.api.http) = {
       post: "/api.ChainService.BlockSizeByHeight"
+      body: "*"
+    };
+  };
+
+  // GetLatestBlockHeight gives the latest block height
+  rpc GetLatestBlockHeight(GetLatestBlockHeightRequest) returns (GetLatestBlockHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetLatestBlockHeight"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetLatestBlockHeight"
       body: "*"
     };
   };
