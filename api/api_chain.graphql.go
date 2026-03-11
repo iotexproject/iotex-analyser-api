@@ -3,7 +3,6 @@ package api
 
 import (
 	"context"
-
 	"github.com/graphql-go/graphql"
 	"github.com/pkg/errors"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
@@ -18,6 +17,7 @@ var (
 	gql__type_NumberOfActionsRequest          *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
 	gql__type_MostRecentTPSResponse           *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
 	gql__type_MostRecentTPSRequest            *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
+	gql__type_GetLatestBlockHeightResponse    *graphql.Object      // message GetLatestBlockHeightResponse in api_chain.proto
 	gql__type_ChainResponse_Rewards           *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
 	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
 	gql__type_BlockSizeByHeightResponse       *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
@@ -29,6 +29,7 @@ var (
 	gql__input_NumberOfActionsRequest         *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
 	gql__input_MostRecentTPSResponse          *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
 	gql__input_MostRecentTPSRequest           *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
+	gql__input_GetLatestBlockHeightResponse   *graphql.InputObject // message GetLatestBlockHeightResponse in api_chain.proto
 	gql__input_ChainResponse_Rewards          *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
 	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
 	gql__input_BlockSizeByHeightResponse      *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
@@ -146,6 +147,20 @@ func Gql__type_MostRecentTPSRequest() *graphql.Object {
 		})
 	}
 	return gql__type_MostRecentTPSRequest
+}
+
+func Gql__type_GetLatestBlockHeightResponse() *graphql.Object {
+	if gql__type_GetLatestBlockHeightResponse == nil {
+		gql__type_GetLatestBlockHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetLatestBlockHeightResponse",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetLatestBlockHeightResponse
 }
 
 func Gql__type_ChainResponse_Rewards() *graphql.Object {
@@ -345,6 +360,20 @@ func Gql__input_MostRecentTPSRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_MostRecentTPSRequest
+}
+
+func Gql__input_GetLatestBlockHeightResponse() *graphql.InputObject {
+	if gql__input_GetLatestBlockHeightResponse == nil {
+		gql__input_GetLatestBlockHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetLatestBlockHeightResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetLatestBlockHeightResponse
 }
 
 func Gql__input_ChainResponse_Rewards() *graphql.InputObject {
@@ -577,11 +606,32 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 				return resp, nil
 			},
 		},
+		"GetLatestBlockHeight": &graphql.Field{
+			Type: Gql__type_GetLatestBlockHeightResponse(),
+			Args: graphql.FieldConfigArgument{},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetLatestBlockHeightRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetLatestBlockHeight")
+				}
+				client := NewChainServiceClient(conn)
+				resp, err := client.GetLatestBlockHeight(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetLatestBlockHeight")
+				}
+				return resp, nil
+			},
+		},
 	}
 }
 
 // GetMutations returns acceptable graphql.Fields for Mutation.
 func (x *graphql__resolver_ChainService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
+	return graphql.Fields{}
+}
+
+// GetSubscriptions returns graphql.Fields for Subscription.
+func (x *graphql__resolver_ChainService) GetSubscriptions(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{}
 }
 
@@ -598,14 +648,14 @@ func RegisterChainServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service ChainService {
-//    option (graphql.service) = {
-//        host: "host:port"
-//        insecure: true or false
-//    };
+//	service ChainService {
+//	   option (graphql.service) = {
+//	       host: "host:port"
+//	       insecure: true or false
+//	   };
 //
-//    ...with RPC definitions
-// }
+//	   ...with RPC definitions
+//	}
 func RegisterChainServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	return mux.AddHandler(new_graphql_resolver_ChainService(conn))
 }

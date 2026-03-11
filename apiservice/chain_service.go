@@ -212,3 +212,16 @@ func getHardForkVersion(blk uint64) string {
 	}
 	return "0.6.0"
 }
+
+// GetLatestBlockHeight returns the latest block height
+func (s *ChainService) GetLatestBlockHeight(ctx context.Context, req *api.GetLatestBlockHeightRequest) (*api.GetLatestBlockHeightResponse, error) {
+	resp := &api.GetLatestBlockHeightResponse{}
+
+	_, height, err := common.GetCurrentEpochAndHeight()
+	if err != nil {
+		return nil, err
+	}
+
+	resp.Height = height
+	return resp, nil
+}
