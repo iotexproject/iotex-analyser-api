@@ -75,6 +75,29 @@ message GetLatestBlockHeightResponse {
   uint64 height = 1; // latest block height
 }
 
+message BlockInfo {
+  uint64 block_height = 1; // block height
+  string block_hash = 2; // block hash
+  string producer_address = 3; // producer address
+  uint64 num_actions = 4; // number of actions
+  int64 timestamp = 5; // block timestamp (unix timestamp)
+  uint64 gas_consumed = 6; // gas consumed
+  string producer_name = 7; // producer name
+  string block_reward = 8; // block reward
+  uint64 epoch_num = 9; // epoch number
+  string priority_bonus = 10; // priority bonus
+  string base_fee = 11; // base fee
+}
+
+message GetBlocksRequest {
+  uint64 page = 1; // page number (starts from 1)
+  uint64 limit = 2; // number of blocks per page
+}
+
+message GetBlocksResponse {
+  repeated BlockInfo blocks = 1; // list of blocks
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -142,6 +165,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.GetLatestBlockHeight"
+      body: "*"
+    };
+  };
+
+  // GetBlocks gives a list of blocks with pagination
+  rpc GetBlocks(GetBlocksRequest) returns (GetBlocksResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBlocks"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlocks"
       body: "*"
     };
   };
