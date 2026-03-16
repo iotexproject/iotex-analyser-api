@@ -2,6 +2,7 @@ package apiservice
 
 import (
 	"context"
+	"database/sql"
 	"math/big"
 	"time"
 
@@ -223,5 +224,91 @@ func (s *ChainService) GetLatestBlockHeight(ctx context.Context, req *api.GetLat
 	}
 
 	resp.Height = height
+	return resp, nil
+}
+
+// GetBlocks returns a list of blocks with pagination
+func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest) (*api.GetBlocksResponse, error) {
+	resp := &api.GetBlocksResponse{}
+
+	page := req.GetPage()
+	limit := req.GetLimit()
+
+	if page <= 0 {
+		page = 1
+	}
+
+	_, height, err := common.GetCurrentEpochAndHeight()
+	if err != nil {
+		return nil, err
+	}
+
+	start := height - (page-1)*limit
+
+	db := db.DB()
+	query := `SELECT
+		m.base_fee,
+		m.priority_bonus,
+		b.block_height,
+		b.block_hash,
+		b.producer_address,
+		b.num_actions,
+		(EXTRACT(EPOCH FROM (b.timestamp AT TIME ZONE 'UTC')) * 1000)::bigint as timestamp,
+		m.epoch_num,
+		m.gas_consumed,
+		m.producer_name,
+		m.block_reward
+	FROM block b
+	LEFT JOIN block_meta m ON m.block_height = b.block_height
+	WHERE b.block_height <= ?
+	ORDER BY b.block_height DESC
+	LIMIT ?`
+
+	type BlockResult struct {
+		BaseFee         sql.NullString
+		PriorityBonus   sql.NullString
+		BlockHeight     uint64
+		BlockHash       string
+		ProducerAddress string
+		NumActions      uint64
+		Timestamp       int64
+		EpochNum        uint64
+		GasConsumed     uint64
+		ProducerName    sql.NullString
+		BlockReward     sql.NullString
+	}
+
+	var results []BlockResult
+	if err := db.WithContext(ctx).Raw(query, start, limit).Scan(&results).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get blocks")
+	}
+
+	for _, r := range results {
+		block := &api.BlockInfo{
+			BlockHeight:     r.BlockHeight,
+			BlockHash:       r.BlockHash,
+			ProducerAddress: r.ProducerAddress,
+			NumActions:      r.NumActions,
+			Timestamp:       r.Timestamp,
+			GasConsumed:     r.GasConsumed,
+			EpochNum:        r.EpochNum,
+		}
+
+		if r.BaseFee.Valid {
+			block.BaseFee = r.BaseFee.String
+		}
+		if r.PriorityBonus.Valid {
+			block.PriorityBonus = r.PriorityBonus.String
+		}
+		if r.ProducerName.Valid {
+			block.ProducerName = r.ProducerName.String
+		}
+		if r.BlockReward.Valid {
+			block.BlockReward = r.BlockReward.String
+		}
+
+		resp.Blocks = append(resp.Blocks, block)
+	}
+
 	return resp, nil
 }
