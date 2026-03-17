@@ -312,3 +312,71 @@ func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest)
 
 	return resp, nil
 }
+
+// GetBlockByHeight returns a block by height
+func (s *ChainService) GetBlockByHeight(ctx context.Context, req *api.GetBlockByHeightRequest) (*api.GetBlockByHeightResponse, error) {
+	resp := &api.GetBlockByHeightResponse{}
+
+	height := req.GetHeight()
+	db := db.DB()
+	query := `SELECT
+		m.base_fee,
+		m.priority_bonus,
+		b.block_height,
+		b.block_hash,
+		b.producer_address,
+		b.num_actions,
+		(EXTRACT(EPOCH FROM (b.timestamp AT TIME ZONE 'UTC')) * 1000)::bigint as timestamp,
+		m.epoch_num,
+		m.gas_consumed,
+		m.producer_name,
+		m.block_reward
+	FROM block b
+	LEFT JOIN block_meta m ON m.block_height = b.block_height
+	WHERE b.block_height = ?`
+
+	type BlockResult struct {
+		BaseFee         sql.NullString
+		PriorityBonus   sql.NullString
+		BlockHeight     uint64
+		BlockHash       string
+		ProducerAddress string
+		NumActions      uint64
+		Timestamp       int64
+		EpochNum        uint64
+		GasConsumed     uint64
+		ProducerName    sql.NullString
+		BlockReward     sql.NullString
+	}
+
+	var result BlockResult
+	if err := db.WithContext(ctx).Raw(query, height).Scan(&result).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get block by height")
+	}
+
+	block := &api.BlockInfo{
+		BlockHeight:     result.BlockHeight,
+		BlockHash:       result.BlockHash,
+		ProducerAddress: result.ProducerAddress,
+		NumActions:      result.NumActions,
+		Timestamp:       result.Timestamp,
+		GasConsumed:     result.GasConsumed,
+		EpochNum:        result.EpochNum,
+	}
+
+	if result.BaseFee.Valid {
+		block.BaseFee = result.BaseFee.String
+	}
+	if result.PriorityBonus.Valid {
+		block.PriorityBonus = result.PriorityBonus.String
+	}
+	if result.ProducerName.Valid {
+		block.ProducerName = result.ProducerName.String
+	}
+	if result.BlockReward.Valid {
+		block.BlockReward = result.BlockReward.String
+	}
+
+	resp.Block = block
+	return resp, nil
+}

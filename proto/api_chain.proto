@@ -98,6 +98,14 @@ message GetBlocksResponse {
   repeated BlockInfo blocks = 1; // list of blocks
 }
 
+message GetBlockByHeightRequest {
+  uint64 height = 1; // block height
+}
+
+message GetBlockByHeightResponse {
+  BlockInfo block = 1; // block info
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -177,6 +185,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.GetBlocks"
+      body: "*"
+    };
+  };
+
+  // GetBlockByHeight gives a block by height
+  rpc GetBlockByHeight(GetBlockByHeightRequest) returns (GetBlockByHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBlockByHeight"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockByHeight"
       body: "*"
     };
   };
