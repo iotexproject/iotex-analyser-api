@@ -1259,6 +1259,186 @@ func (x *GetBlockReceiptByActionHashResponse) GetReceipt() *BlockReceipt {
 	return nil
 }
 
+type BlockReceiptTransaction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                      // transaction id
+	BlockHeight   uint64                 `protobuf:"varint,2,opt,name=block_height,json=blockHeight,proto3" json:"block_height,omitempty"` // block height
+	ActionHash    string                 `protobuf:"bytes,3,opt,name=action_hash,json=actionHash,proto3" json:"action_hash,omitempty"`     // action hash
+	Type          string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`                                   // transaction type
+	Amount        string                 `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`                               // amount
+	Sender        string                 `protobuf:"bytes,6,opt,name=sender,proto3" json:"sender,omitempty"`                               // sender address
+	Recipient     string                 `protobuf:"bytes,7,opt,name=recipient,proto3" json:"recipient,omitempty"`                         // recipient address
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BlockReceiptTransaction) Reset() {
+	*x = BlockReceiptTransaction{}
+	mi := &file_api_chain_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BlockReceiptTransaction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BlockReceiptTransaction) ProtoMessage() {}
+
+func (x *BlockReceiptTransaction) ProtoReflect() protoreflect.Message {
+	mi := &file_api_chain_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BlockReceiptTransaction.ProtoReflect.Descriptor instead.
+func (*BlockReceiptTransaction) Descriptor() ([]byte, []int) {
+	return file_api_chain_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *BlockReceiptTransaction) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *BlockReceiptTransaction) GetBlockHeight() uint64 {
+	if x != nil {
+		return x.BlockHeight
+	}
+	return 0
+}
+
+func (x *BlockReceiptTransaction) GetActionHash() string {
+	if x != nil {
+		return x.ActionHash
+	}
+	return ""
+}
+
+func (x *BlockReceiptTransaction) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *BlockReceiptTransaction) GetAmount() string {
+	if x != nil {
+		return x.Amount
+	}
+	return ""
+}
+
+func (x *BlockReceiptTransaction) GetSender() string {
+	if x != nil {
+		return x.Sender
+	}
+	return ""
+}
+
+func (x *BlockReceiptTransaction) GetRecipient() string {
+	if x != nil {
+		return x.Recipient
+	}
+	return ""
+}
+
+type GetBlockReceiptTransactionsByActHashRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ActionHash    string                 `protobuf:"bytes,1,opt,name=action_hash,json=actionHash,proto3" json:"action_hash,omitempty"` // action hash
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlockReceiptTransactionsByActHashRequest) Reset() {
+	*x = GetBlockReceiptTransactionsByActHashRequest{}
+	mi := &file_api_chain_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlockReceiptTransactionsByActHashRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlockReceiptTransactionsByActHashRequest) ProtoMessage() {}
+
+func (x *GetBlockReceiptTransactionsByActHashRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_chain_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlockReceiptTransactionsByActHashRequest.ProtoReflect.Descriptor instead.
+func (*GetBlockReceiptTransactionsByActHashRequest) Descriptor() ([]byte, []int) {
+	return file_api_chain_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetBlockReceiptTransactionsByActHashRequest) GetActionHash() string {
+	if x != nil {
+		return x.ActionHash
+	}
+	return ""
+}
+
+type GetBlockReceiptTransactionsByActHashResponse struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Transactions  []*BlockReceiptTransaction `protobuf:"bytes,1,rep,name=transactions,proto3" json:"transactions,omitempty"` // list of transactions
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlockReceiptTransactionsByActHashResponse) Reset() {
+	*x = GetBlockReceiptTransactionsByActHashResponse{}
+	mi := &file_api_chain_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlockReceiptTransactionsByActHashResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlockReceiptTransactionsByActHashResponse) ProtoMessage() {}
+
+func (x *GetBlockReceiptTransactionsByActHashResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_chain_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlockReceiptTransactionsByActHashResponse.ProtoReflect.Descriptor instead.
+func (*GetBlockReceiptTransactionsByActHashResponse) Descriptor() ([]byte, []int) {
+	return file_api_chain_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *GetBlockReceiptTransactionsByActHashResponse) GetTransactions() []*BlockReceiptTransaction {
+	if x != nil {
+		return x.Transactions
+	}
+	return nil
+}
+
 type ChainResponse_Rewards struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	TotalBalance   string                 `protobuf:"bytes,1,opt,name=totalBalance,proto3" json:"totalBalance,omitempty"`     // total balance
@@ -1270,7 +1450,7 @@ type ChainResponse_Rewards struct {
 
 func (x *ChainResponse_Rewards) Reset() {
 	*x = ChainResponse_Rewards{}
-	mi := &file_api_chain_proto_msgTypes[23]
+	mi := &file_api_chain_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1282,7 +1462,7 @@ func (x *ChainResponse_Rewards) String() string {
 func (*ChainResponse_Rewards) ProtoMessage() {}
 
 func (x *ChainResponse_Rewards) ProtoReflect() protoreflect.Message {
-	mi := &file_api_chain_proto_msgTypes[23]
+	mi := &file_api_chain_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1415,7 +1595,21 @@ const file_api_chain_proto_rawDesc = "" +
 	"\vaction_hash\x18\x01 \x01(\tR\n" +
 	"actionHash\"R\n" +
 	"#GetBlockReceiptByActionHashResponse\x12+\n" +
-	"\areceipt\x18\x01 \x01(\v2\x11.api.BlockReceiptR\areceipt2\x90\f\n" +
+	"\areceipt\x18\x01 \x01(\v2\x11.api.BlockReceiptR\areceipt\"\xcf\x01\n" +
+	"\x17BlockReceiptTransaction\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x04R\x02id\x12!\n" +
+	"\fblock_height\x18\x02 \x01(\x04R\vblockHeight\x12\x1f\n" +
+	"\vaction_hash\x18\x03 \x01(\tR\n" +
+	"actionHash\x12\x12\n" +
+	"\x04type\x18\x04 \x01(\tR\x04type\x12\x16\n" +
+	"\x06amount\x18\x05 \x01(\tR\x06amount\x12\x16\n" +
+	"\x06sender\x18\x06 \x01(\tR\x06sender\x12\x1c\n" +
+	"\trecipient\x18\a \x01(\tR\trecipient\"N\n" +
+	"+GetBlockReceiptTransactionsByActHashRequest\x12\x1f\n" +
+	"\vaction_hash\x18\x01 \x01(\tR\n" +
+	"actionHash\"p\n" +
+	",GetBlockReceiptTransactionsByActHashResponse\x12@\n" +
+	"\ftransactions\x18\x01 \x03(\v2\x1c.api.BlockReceiptTransactionR\ftransactions2\x8a\x0e\n" +
 	"\fChainService\x12\\\n" +
 	"\x05Chain\x12\x11.api.ChainRequest\x1a\x12.api.ChainResponse\",\xbaC\a\x12\x05Chain\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/api.ChainService.Chain\x12\x84\x01\n" +
 	"\rMostRecentTPS\x12\x19.api.MostRecentTPSRequest\x1a\x1a.api.MostRecentTPSResponse\"<\xbaC\x0f\x12\rMostRecentTPS\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api.ChainService.MostRecentTPS\x12\x8e\x01\n" +
@@ -1426,7 +1620,8 @@ const file_api_chain_proto_rawDesc = "" +
 	"\tGetBlocks\x12\x15.api.GetBlocksRequest\x1a\x16.api.GetBlocksResponse\"4\xbaC\v\x12\tGetBlocks\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api.ChainService.GetBlocks\x12\x93\x01\n" +
 	"\x10GetBlockByHeight\x12\x1c.api.GetBlockByHeightRequest\x1a\x1d.api.GetBlockByHeightResponse\"B\xbaC\x12\x12\x10GetBlockByHeight\x82\xd3\xe4\x93\x02':\x01*\"\"/api.ChainService.GetBlockByHeight\x12\xbb\x01\n" +
 	"\x18GetBlockInfoByActionHash\x12$.api.GetBlockInfoByActionHashRequest\x1a%.api.GetBlockInfoByActionHashResponse\"R\xbaC\x1a\x12\x18GetBlockInfoByActionHash\x82\xd3\xe4\x93\x02/:\x01*\"*/api.ChainService.GetBlockInfoByActionHash\x12\xca\x01\n" +
-	"\x1bGetBlockReceiptByActionHash\x12'.api.GetBlockReceiptByActionHashRequest\x1a(.api.GetBlockReceiptByActionHashResponse\"X\xbaC\x1d\x12\x1bGetBlockReceiptByActionHash\x82\xd3\xe4\x93\x022:\x01*\"-/api.ChainService.GetBlockReceiptByActionHashB\aZ\x05./apib\x06proto3"
+	"\x1bGetBlockReceiptByActionHash\x12'.api.GetBlockReceiptByActionHashRequest\x1a(.api.GetBlockReceiptByActionHashResponse\"X\xbaC\x1d\x12\x1bGetBlockReceiptByActionHash\x82\xd3\xe4\x93\x022:\x01*\"-/api.ChainService.GetBlockReceiptByActionHash\x12\xf7\x01\n" +
+	"$GetBlockReceiptTransactionsByActHash\x120.api.GetBlockReceiptTransactionsByActHashRequest\x1a1.api.GetBlockReceiptTransactionsByActHashResponse\"j\xbaC&\x12$GetBlockReceiptTransactionsByActHash\x82\xd3\xe4\x93\x02;:\x01*\"6/api.ChainService.GetBlockReceiptTransactionsByActHashB\aZ\x05./apib\x06proto3"
 
 var (
 	file_api_chain_proto_rawDescOnce sync.Once
@@ -1440,64 +1635,70 @@ func file_api_chain_proto_rawDescGZIP() []byte {
 	return file_api_chain_proto_rawDescData
 }
 
-var file_api_chain_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_api_chain_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_api_chain_proto_goTypes = []any{
-	(*ChainRequest)(nil),                        // 0: api.ChainRequest
-	(*VotingResultMeta)(nil),                    // 1: api.VotingResultMeta
-	(*ChainResponse)(nil),                       // 2: api.ChainResponse
-	(*MostRecentTPSRequest)(nil),                // 3: api.MostRecentTPSRequest
-	(*MostRecentTPSResponse)(nil),               // 4: api.MostRecentTPSResponse
-	(*NumberOfActionsRequest)(nil),              // 5: api.NumberOfActionsRequest
-	(*NumberOfActionsResponse)(nil),             // 6: api.NumberOfActionsResponse
-	(*TotalTransferredTokensRequest)(nil),       // 7: api.TotalTransferredTokensRequest
-	(*TotalTransferredTokensResponse)(nil),      // 8: api.TotalTransferredTokensResponse
-	(*BlockSizeByHeightRequest)(nil),            // 9: api.BlockSizeByHeightRequest
-	(*BlockSizeByHeightResponse)(nil),           // 10: api.BlockSizeByHeightResponse
-	(*GetLatestBlockHeightRequest)(nil),         // 11: api.GetLatestBlockHeightRequest
-	(*GetLatestBlockHeightResponse)(nil),        // 12: api.GetLatestBlockHeightResponse
-	(*BlockInfo)(nil),                           // 13: api.BlockInfo
-	(*GetBlocksRequest)(nil),                    // 14: api.GetBlocksRequest
-	(*GetBlocksResponse)(nil),                   // 15: api.GetBlocksResponse
-	(*GetBlockByHeightRequest)(nil),             // 16: api.GetBlockByHeightRequest
-	(*GetBlockByHeightResponse)(nil),            // 17: api.GetBlockByHeightResponse
-	(*GetBlockInfoByActionHashRequest)(nil),     // 18: api.GetBlockInfoByActionHashRequest
-	(*GetBlockInfoByActionHashResponse)(nil),    // 19: api.GetBlockInfoByActionHashResponse
-	(*BlockReceipt)(nil),                        // 20: api.BlockReceipt
-	(*GetBlockReceiptByActionHashRequest)(nil),  // 21: api.GetBlockReceiptByActionHashRequest
-	(*GetBlockReceiptByActionHashResponse)(nil), // 22: api.GetBlockReceiptByActionHashResponse
-	(*ChainResponse_Rewards)(nil),               // 23: api.ChainResponse.Rewards
+	(*ChainRequest)(nil),                                 // 0: api.ChainRequest
+	(*VotingResultMeta)(nil),                             // 1: api.VotingResultMeta
+	(*ChainResponse)(nil),                                // 2: api.ChainResponse
+	(*MostRecentTPSRequest)(nil),                         // 3: api.MostRecentTPSRequest
+	(*MostRecentTPSResponse)(nil),                        // 4: api.MostRecentTPSResponse
+	(*NumberOfActionsRequest)(nil),                       // 5: api.NumberOfActionsRequest
+	(*NumberOfActionsResponse)(nil),                      // 6: api.NumberOfActionsResponse
+	(*TotalTransferredTokensRequest)(nil),                // 7: api.TotalTransferredTokensRequest
+	(*TotalTransferredTokensResponse)(nil),               // 8: api.TotalTransferredTokensResponse
+	(*BlockSizeByHeightRequest)(nil),                     // 9: api.BlockSizeByHeightRequest
+	(*BlockSizeByHeightResponse)(nil),                    // 10: api.BlockSizeByHeightResponse
+	(*GetLatestBlockHeightRequest)(nil),                  // 11: api.GetLatestBlockHeightRequest
+	(*GetLatestBlockHeightResponse)(nil),                 // 12: api.GetLatestBlockHeightResponse
+	(*BlockInfo)(nil),                                    // 13: api.BlockInfo
+	(*GetBlocksRequest)(nil),                             // 14: api.GetBlocksRequest
+	(*GetBlocksResponse)(nil),                            // 15: api.GetBlocksResponse
+	(*GetBlockByHeightRequest)(nil),                      // 16: api.GetBlockByHeightRequest
+	(*GetBlockByHeightResponse)(nil),                     // 17: api.GetBlockByHeightResponse
+	(*GetBlockInfoByActionHashRequest)(nil),              // 18: api.GetBlockInfoByActionHashRequest
+	(*GetBlockInfoByActionHashResponse)(nil),             // 19: api.GetBlockInfoByActionHashResponse
+	(*BlockReceipt)(nil),                                 // 20: api.BlockReceipt
+	(*GetBlockReceiptByActionHashRequest)(nil),           // 21: api.GetBlockReceiptByActionHashRequest
+	(*GetBlockReceiptByActionHashResponse)(nil),          // 22: api.GetBlockReceiptByActionHashResponse
+	(*BlockReceiptTransaction)(nil),                      // 23: api.BlockReceiptTransaction
+	(*GetBlockReceiptTransactionsByActHashRequest)(nil),  // 24: api.GetBlockReceiptTransactionsByActHashRequest
+	(*GetBlockReceiptTransactionsByActHashResponse)(nil), // 25: api.GetBlockReceiptTransactionsByActHashResponse
+	(*ChainResponse_Rewards)(nil),                        // 26: api.ChainResponse.Rewards
 }
 var file_api_chain_proto_depIdxs = []int32{
 	1,  // 0: api.ChainResponse.votingResultMeta:type_name -> api.VotingResultMeta
-	23, // 1: api.ChainResponse.rewards:type_name -> api.ChainResponse.Rewards
+	26, // 1: api.ChainResponse.rewards:type_name -> api.ChainResponse.Rewards
 	13, // 2: api.GetBlocksResponse.blocks:type_name -> api.BlockInfo
 	13, // 3: api.GetBlockByHeightResponse.block:type_name -> api.BlockInfo
 	20, // 4: api.GetBlockReceiptByActionHashResponse.receipt:type_name -> api.BlockReceipt
-	0,  // 5: api.ChainService.Chain:input_type -> api.ChainRequest
-	3,  // 6: api.ChainService.MostRecentTPS:input_type -> api.MostRecentTPSRequest
-	5,  // 7: api.ChainService.NumberOfActions:input_type -> api.NumberOfActionsRequest
-	7,  // 8: api.ChainService.TotalTransferredTokens:input_type -> api.TotalTransferredTokensRequest
-	9,  // 9: api.ChainService.BlockSizeByHeight:input_type -> api.BlockSizeByHeightRequest
-	11, // 10: api.ChainService.GetLatestBlockHeight:input_type -> api.GetLatestBlockHeightRequest
-	14, // 11: api.ChainService.GetBlocks:input_type -> api.GetBlocksRequest
-	16, // 12: api.ChainService.GetBlockByHeight:input_type -> api.GetBlockByHeightRequest
-	18, // 13: api.ChainService.GetBlockInfoByActionHash:input_type -> api.GetBlockInfoByActionHashRequest
-	21, // 14: api.ChainService.GetBlockReceiptByActionHash:input_type -> api.GetBlockReceiptByActionHashRequest
-	2,  // 15: api.ChainService.Chain:output_type -> api.ChainResponse
-	4,  // 16: api.ChainService.MostRecentTPS:output_type -> api.MostRecentTPSResponse
-	6,  // 17: api.ChainService.NumberOfActions:output_type -> api.NumberOfActionsResponse
-	8,  // 18: api.ChainService.TotalTransferredTokens:output_type -> api.TotalTransferredTokensResponse
-	10, // 19: api.ChainService.BlockSizeByHeight:output_type -> api.BlockSizeByHeightResponse
-	12, // 20: api.ChainService.GetLatestBlockHeight:output_type -> api.GetLatestBlockHeightResponse
-	15, // 21: api.ChainService.GetBlocks:output_type -> api.GetBlocksResponse
-	17, // 22: api.ChainService.GetBlockByHeight:output_type -> api.GetBlockByHeightResponse
-	19, // 23: api.ChainService.GetBlockInfoByActionHash:output_type -> api.GetBlockInfoByActionHashResponse
-	22, // 24: api.ChainService.GetBlockReceiptByActionHash:output_type -> api.GetBlockReceiptByActionHashResponse
-	15, // [15:25] is the sub-list for method output_type
-	5,  // [5:15] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	23, // 5: api.GetBlockReceiptTransactionsByActHashResponse.transactions:type_name -> api.BlockReceiptTransaction
+	0,  // 6: api.ChainService.Chain:input_type -> api.ChainRequest
+	3,  // 7: api.ChainService.MostRecentTPS:input_type -> api.MostRecentTPSRequest
+	5,  // 8: api.ChainService.NumberOfActions:input_type -> api.NumberOfActionsRequest
+	7,  // 9: api.ChainService.TotalTransferredTokens:input_type -> api.TotalTransferredTokensRequest
+	9,  // 10: api.ChainService.BlockSizeByHeight:input_type -> api.BlockSizeByHeightRequest
+	11, // 11: api.ChainService.GetLatestBlockHeight:input_type -> api.GetLatestBlockHeightRequest
+	14, // 12: api.ChainService.GetBlocks:input_type -> api.GetBlocksRequest
+	16, // 13: api.ChainService.GetBlockByHeight:input_type -> api.GetBlockByHeightRequest
+	18, // 14: api.ChainService.GetBlockInfoByActionHash:input_type -> api.GetBlockInfoByActionHashRequest
+	21, // 15: api.ChainService.GetBlockReceiptByActionHash:input_type -> api.GetBlockReceiptByActionHashRequest
+	24, // 16: api.ChainService.GetBlockReceiptTransactionsByActHash:input_type -> api.GetBlockReceiptTransactionsByActHashRequest
+	2,  // 17: api.ChainService.Chain:output_type -> api.ChainResponse
+	4,  // 18: api.ChainService.MostRecentTPS:output_type -> api.MostRecentTPSResponse
+	6,  // 19: api.ChainService.NumberOfActions:output_type -> api.NumberOfActionsResponse
+	8,  // 20: api.ChainService.TotalTransferredTokens:output_type -> api.TotalTransferredTokensResponse
+	10, // 21: api.ChainService.BlockSizeByHeight:output_type -> api.BlockSizeByHeightResponse
+	12, // 22: api.ChainService.GetLatestBlockHeight:output_type -> api.GetLatestBlockHeightResponse
+	15, // 23: api.ChainService.GetBlocks:output_type -> api.GetBlocksResponse
+	17, // 24: api.ChainService.GetBlockByHeight:output_type -> api.GetBlockByHeightResponse
+	19, // 25: api.ChainService.GetBlockInfoByActionHash:output_type -> api.GetBlockInfoByActionHashResponse
+	22, // 26: api.ChainService.GetBlockReceiptByActionHash:output_type -> api.GetBlockReceiptByActionHashResponse
+	25, // 27: api.ChainService.GetBlockReceiptTransactionsByActHash:output_type -> api.GetBlockReceiptTransactionsByActHashResponse
+	17, // [17:28] is the sub-list for method output_type
+	6,  // [6:17] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_api_chain_proto_init() }
@@ -1511,7 +1712,7 @@ func file_api_chain_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_chain_proto_rawDesc), len(file_api_chain_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   24,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

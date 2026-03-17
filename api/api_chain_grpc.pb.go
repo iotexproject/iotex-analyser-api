@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ChainService_Chain_FullMethodName                       = "/api.ChainService/Chain"
-	ChainService_MostRecentTPS_FullMethodName               = "/api.ChainService/MostRecentTPS"
-	ChainService_NumberOfActions_FullMethodName             = "/api.ChainService/NumberOfActions"
-	ChainService_TotalTransferredTokens_FullMethodName      = "/api.ChainService/TotalTransferredTokens"
-	ChainService_BlockSizeByHeight_FullMethodName           = "/api.ChainService/BlockSizeByHeight"
-	ChainService_GetLatestBlockHeight_FullMethodName        = "/api.ChainService/GetLatestBlockHeight"
-	ChainService_GetBlocks_FullMethodName                   = "/api.ChainService/GetBlocks"
-	ChainService_GetBlockByHeight_FullMethodName            = "/api.ChainService/GetBlockByHeight"
-	ChainService_GetBlockInfoByActionHash_FullMethodName    = "/api.ChainService/GetBlockInfoByActionHash"
-	ChainService_GetBlockReceiptByActionHash_FullMethodName = "/api.ChainService/GetBlockReceiptByActionHash"
+	ChainService_Chain_FullMethodName                                = "/api.ChainService/Chain"
+	ChainService_MostRecentTPS_FullMethodName                        = "/api.ChainService/MostRecentTPS"
+	ChainService_NumberOfActions_FullMethodName                      = "/api.ChainService/NumberOfActions"
+	ChainService_TotalTransferredTokens_FullMethodName               = "/api.ChainService/TotalTransferredTokens"
+	ChainService_BlockSizeByHeight_FullMethodName                    = "/api.ChainService/BlockSizeByHeight"
+	ChainService_GetLatestBlockHeight_FullMethodName                 = "/api.ChainService/GetLatestBlockHeight"
+	ChainService_GetBlocks_FullMethodName                            = "/api.ChainService/GetBlocks"
+	ChainService_GetBlockByHeight_FullMethodName                     = "/api.ChainService/GetBlockByHeight"
+	ChainService_GetBlockInfoByActionHash_FullMethodName             = "/api.ChainService/GetBlockInfoByActionHash"
+	ChainService_GetBlockReceiptByActionHash_FullMethodName          = "/api.ChainService/GetBlockReceiptByActionHash"
+	ChainService_GetBlockReceiptTransactionsByActHash_FullMethodName = "/api.ChainService/GetBlockReceiptTransactionsByActHash"
 )
 
 // ChainServiceClient is the client API for ChainService service.
@@ -54,6 +55,8 @@ type ChainServiceClient interface {
 	GetBlockInfoByActionHash(ctx context.Context, in *GetBlockInfoByActionHashRequest, opts ...grpc.CallOption) (*GetBlockInfoByActionHashResponse, error)
 	// GetBlockReceiptByActionHash gives block receipt by action hash
 	GetBlockReceiptByActionHash(ctx context.Context, in *GetBlockReceiptByActionHashRequest, opts ...grpc.CallOption) (*GetBlockReceiptByActionHashResponse, error)
+	// GetBlockReceiptTransactionsByActHash gives block receipt transactions by action hash
+	GetBlockReceiptTransactionsByActHash(ctx context.Context, in *GetBlockReceiptTransactionsByActHashRequest, opts ...grpc.CallOption) (*GetBlockReceiptTransactionsByActHashResponse, error)
 }
 
 type chainServiceClient struct {
@@ -164,6 +167,16 @@ func (c *chainServiceClient) GetBlockReceiptByActionHash(ctx context.Context, in
 	return out, nil
 }
 
+func (c *chainServiceClient) GetBlockReceiptTransactionsByActHash(ctx context.Context, in *GetBlockReceiptTransactionsByActHashRequest, opts ...grpc.CallOption) (*GetBlockReceiptTransactionsByActHashResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBlockReceiptTransactionsByActHashResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetBlockReceiptTransactionsByActHash_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility.
@@ -187,6 +200,8 @@ type ChainServiceServer interface {
 	GetBlockInfoByActionHash(context.Context, *GetBlockInfoByActionHashRequest) (*GetBlockInfoByActionHashResponse, error)
 	// GetBlockReceiptByActionHash gives block receipt by action hash
 	GetBlockReceiptByActionHash(context.Context, *GetBlockReceiptByActionHashRequest) (*GetBlockReceiptByActionHashResponse, error)
+	// GetBlockReceiptTransactionsByActHash gives block receipt transactions by action hash
+	GetBlockReceiptTransactionsByActHash(context.Context, *GetBlockReceiptTransactionsByActHashRequest) (*GetBlockReceiptTransactionsByActHashResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -226,6 +241,9 @@ func (UnimplementedChainServiceServer) GetBlockInfoByActionHash(context.Context,
 }
 func (UnimplementedChainServiceServer) GetBlockReceiptByActionHash(context.Context, *GetBlockReceiptByActionHashRequest) (*GetBlockReceiptByActionHashResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetBlockReceiptByActionHash not implemented")
+}
+func (UnimplementedChainServiceServer) GetBlockReceiptTransactionsByActHash(context.Context, *GetBlockReceiptTransactionsByActHashRequest) (*GetBlockReceiptTransactionsByActHashResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetBlockReceiptTransactionsByActHash not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 func (UnimplementedChainServiceServer) testEmbeddedByValue()                      {}
@@ -428,6 +446,24 @@ func _ChainService_GetBlockReceiptByActionHash_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_GetBlockReceiptTransactionsByActHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlockReceiptTransactionsByActHashRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetBlockReceiptTransactionsByActHash(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetBlockReceiptTransactionsByActHash_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetBlockReceiptTransactionsByActHash(ctx, req.(*GetBlockReceiptTransactionsByActHashRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -474,6 +510,10 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBlockReceiptByActionHash",
 			Handler:    _ChainService_GetBlockReceiptByActionHash_Handler,
+		},
+		{
+			MethodName: "GetBlockReceiptTransactionsByActHash",
+			Handler:    _ChainService_GetBlockReceiptTransactionsByActHash_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
