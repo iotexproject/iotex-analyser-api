@@ -114,6 +114,24 @@ message GetBlockInfoByActionHashResponse {
   string base_fee = 1; // base fee
 }
 
+message BlockReceipt {
+  uint64 id = 1; // receipt id
+  uint64 block_height = 2; // block height
+  string action_hash = 3; // action hash
+  uint64 gas_consumed = 4; // gas consumed
+  string contract_address = 5; // contract address
+  bool status = 6; // status
+  string execution_revert_msg = 7; // execution revert message
+}
+
+message GetBlockReceiptByActionHashRequest {
+  string action_hash = 1; // action hash
+}
+
+message GetBlockReceiptByActionHashResponse {
+  BlockReceipt receipt = 1; // block receipt
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -217,6 +235,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.GetBlockInfoByActionHash"
+      body: "*"
+    };
+  };
+
+  // GetBlockReceiptByActionHash gives block receipt by action hash
+  rpc GetBlockReceiptByActionHash(GetBlockReceiptByActionHashRequest) returns (GetBlockReceiptByActionHashResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBlockReceiptByActionHash"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockReceiptByActionHash"
       body: "*"
     };
   };

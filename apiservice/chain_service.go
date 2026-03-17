@@ -400,3 +400,45 @@ func (s *ChainService) GetBlockInfoByActionHash(ctx context.Context, req *api.Ge
 
 	return resp, nil
 }
+
+// GetBlockReceiptByActionHash returns block receipt by action hash
+func (s *ChainService) GetBlockReceiptByActionHash(ctx context.Context, req *api.GetBlockReceiptByActionHashRequest) (*api.GetBlockReceiptByActionHashResponse, error) {
+	resp := &api.GetBlockReceiptByActionHashResponse{}
+
+	actionHash := req.GetActionHash()
+	db := db.DB()
+	query := `SELECT id, block_height, action_hash, gas_consumed, contract_address, status, execution_revert_msg FROM block_receipt WHERE action_hash = ?`
+
+	type ReceiptResult struct {
+		ID                   uint64
+		BlockHeight          uint64
+		ActionHash           string
+		GasConsumed          uint64
+		ContractAddress      sql.NullString
+		Status               bool
+		ExecutionRevertMsg   sql.NullString
+	}
+
+	var result ReceiptResult
+	if err := db.WithContext(ctx).Raw(query, actionHash).Scan(&result).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get block receipt by action hash")
+	}
+
+	receipt := &api.BlockReceipt{
+		Id:         result.ID,
+		BlockHeight: result.BlockHeight,
+		ActionHash:  result.ActionHash,
+		GasConsumed: result.GasConsumed,
+		Status:      result.Status,
+	}
+
+	if result.ContractAddress.Valid {
+		receipt.ContractAddress = result.ContractAddress.String
+	}
+	if result.ExecutionRevertMsg.Valid {
+		receipt.ExecutionRevertMsg = result.ExecutionRevertMsg.String
+	}
+
+	resp.Receipt = receipt
+	return resp, nil
+}

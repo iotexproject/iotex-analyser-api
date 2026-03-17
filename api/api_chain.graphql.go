@@ -10,44 +10,50 @@ import (
 )
 
 var (
-	gql__type_VotingResultMeta                  *graphql.Object      // message VotingResultMeta in api_chain.proto
-	gql__type_TotalTransferredTokensResponse    *graphql.Object      // message TotalTransferredTokensResponse in api_chain.proto
-	gql__type_TotalTransferredTokensRequest     *graphql.Object      // message TotalTransferredTokensRequest in api_chain.proto
-	gql__type_NumberOfActionsResponse           *graphql.Object      // message NumberOfActionsResponse in api_chain.proto
-	gql__type_NumberOfActionsRequest            *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
-	gql__type_MostRecentTPSResponse             *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
-	gql__type_MostRecentTPSRequest              *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
-	gql__type_GetLatestBlockHeightResponse      *graphql.Object      // message GetLatestBlockHeightResponse in api_chain.proto
-	gql__type_GetBlocksResponse                 *graphql.Object      // message GetBlocksResponse in api_chain.proto
-	gql__type_GetBlocksRequest                  *graphql.Object      // message GetBlocksRequest in api_chain.proto
-	gql__type_GetBlockInfoByActionHashResponse  *graphql.Object      // message GetBlockInfoByActionHashResponse in api_chain.proto
-	gql__type_GetBlockInfoByActionHashRequest   *graphql.Object      // message GetBlockInfoByActionHashRequest in api_chain.proto
-	gql__type_GetBlockByHeightResponse          *graphql.Object      // message GetBlockByHeightResponse in api_chain.proto
-	gql__type_GetBlockByHeightRequest           *graphql.Object      // message GetBlockByHeightRequest in api_chain.proto
-	gql__type_ChainResponse_Rewards             *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
-	gql__type_ChainResponse                     *graphql.Object      // message ChainResponse in api_chain.proto
-	gql__type_BlockSizeByHeightResponse         *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
-	gql__type_BlockSizeByHeightRequest          *graphql.Object      // message BlockSizeByHeightRequest in api_chain.proto
-	gql__type_BlockInfo                         *graphql.Object      // message BlockInfo in api_chain.proto
-	gql__input_VotingResultMeta                 *graphql.InputObject // message VotingResultMeta in api_chain.proto
-	gql__input_TotalTransferredTokensResponse   *graphql.InputObject // message TotalTransferredTokensResponse in api_chain.proto
-	gql__input_TotalTransferredTokensRequest    *graphql.InputObject // message TotalTransferredTokensRequest in api_chain.proto
-	gql__input_NumberOfActionsResponse          *graphql.InputObject // message NumberOfActionsResponse in api_chain.proto
-	gql__input_NumberOfActionsRequest           *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
-	gql__input_MostRecentTPSResponse            *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
-	gql__input_MostRecentTPSRequest             *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
-	gql__input_GetLatestBlockHeightResponse     *graphql.InputObject // message GetLatestBlockHeightResponse in api_chain.proto
-	gql__input_GetBlocksResponse                *graphql.InputObject // message GetBlocksResponse in api_chain.proto
-	gql__input_GetBlocksRequest                 *graphql.InputObject // message GetBlocksRequest in api_chain.proto
-	gql__input_GetBlockInfoByActionHashResponse *graphql.InputObject // message GetBlockInfoByActionHashResponse in api_chain.proto
-	gql__input_GetBlockInfoByActionHashRequest  *graphql.InputObject // message GetBlockInfoByActionHashRequest in api_chain.proto
-	gql__input_GetBlockByHeightResponse         *graphql.InputObject // message GetBlockByHeightResponse in api_chain.proto
-	gql__input_GetBlockByHeightRequest          *graphql.InputObject // message GetBlockByHeightRequest in api_chain.proto
-	gql__input_ChainResponse_Rewards            *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
-	gql__input_ChainResponse                    *graphql.InputObject // message ChainResponse in api_chain.proto
-	gql__input_BlockSizeByHeightResponse        *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
-	gql__input_BlockSizeByHeightRequest         *graphql.InputObject // message BlockSizeByHeightRequest in api_chain.proto
-	gql__input_BlockInfo                        *graphql.InputObject // message BlockInfo in api_chain.proto
+	gql__type_VotingResultMeta                     *graphql.Object      // message VotingResultMeta in api_chain.proto
+	gql__type_TotalTransferredTokensResponse       *graphql.Object      // message TotalTransferredTokensResponse in api_chain.proto
+	gql__type_TotalTransferredTokensRequest        *graphql.Object      // message TotalTransferredTokensRequest in api_chain.proto
+	gql__type_NumberOfActionsResponse              *graphql.Object      // message NumberOfActionsResponse in api_chain.proto
+	gql__type_NumberOfActionsRequest               *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
+	gql__type_MostRecentTPSResponse                *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
+	gql__type_MostRecentTPSRequest                 *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
+	gql__type_GetLatestBlockHeightResponse         *graphql.Object      // message GetLatestBlockHeightResponse in api_chain.proto
+	gql__type_GetBlocksResponse                    *graphql.Object      // message GetBlocksResponse in api_chain.proto
+	gql__type_GetBlocksRequest                     *graphql.Object      // message GetBlocksRequest in api_chain.proto
+	gql__type_GetBlockReceiptByActionHashResponse  *graphql.Object      // message GetBlockReceiptByActionHashResponse in api_chain.proto
+	gql__type_GetBlockReceiptByActionHashRequest   *graphql.Object      // message GetBlockReceiptByActionHashRequest in api_chain.proto
+	gql__type_GetBlockInfoByActionHashResponse     *graphql.Object      // message GetBlockInfoByActionHashResponse in api_chain.proto
+	gql__type_GetBlockInfoByActionHashRequest      *graphql.Object      // message GetBlockInfoByActionHashRequest in api_chain.proto
+	gql__type_GetBlockByHeightResponse             *graphql.Object      // message GetBlockByHeightResponse in api_chain.proto
+	gql__type_GetBlockByHeightRequest              *graphql.Object      // message GetBlockByHeightRequest in api_chain.proto
+	gql__type_ChainResponse_Rewards                *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
+	gql__type_ChainResponse                        *graphql.Object      // message ChainResponse in api_chain.proto
+	gql__type_BlockSizeByHeightResponse            *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
+	gql__type_BlockSizeByHeightRequest             *graphql.Object      // message BlockSizeByHeightRequest in api_chain.proto
+	gql__type_BlockReceipt                         *graphql.Object      // message BlockReceipt in api_chain.proto
+	gql__type_BlockInfo                            *graphql.Object      // message BlockInfo in api_chain.proto
+	gql__input_VotingResultMeta                    *graphql.InputObject // message VotingResultMeta in api_chain.proto
+	gql__input_TotalTransferredTokensResponse      *graphql.InputObject // message TotalTransferredTokensResponse in api_chain.proto
+	gql__input_TotalTransferredTokensRequest       *graphql.InputObject // message TotalTransferredTokensRequest in api_chain.proto
+	gql__input_NumberOfActionsResponse             *graphql.InputObject // message NumberOfActionsResponse in api_chain.proto
+	gql__input_NumberOfActionsRequest              *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
+	gql__input_MostRecentTPSResponse               *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
+	gql__input_MostRecentTPSRequest                *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
+	gql__input_GetLatestBlockHeightResponse        *graphql.InputObject // message GetLatestBlockHeightResponse in api_chain.proto
+	gql__input_GetBlocksResponse                   *graphql.InputObject // message GetBlocksResponse in api_chain.proto
+	gql__input_GetBlocksRequest                    *graphql.InputObject // message GetBlocksRequest in api_chain.proto
+	gql__input_GetBlockReceiptByActionHashResponse *graphql.InputObject // message GetBlockReceiptByActionHashResponse in api_chain.proto
+	gql__input_GetBlockReceiptByActionHashRequest  *graphql.InputObject // message GetBlockReceiptByActionHashRequest in api_chain.proto
+	gql__input_GetBlockInfoByActionHashResponse    *graphql.InputObject // message GetBlockInfoByActionHashResponse in api_chain.proto
+	gql__input_GetBlockInfoByActionHashRequest     *graphql.InputObject // message GetBlockInfoByActionHashRequest in api_chain.proto
+	gql__input_GetBlockByHeightResponse            *graphql.InputObject // message GetBlockByHeightResponse in api_chain.proto
+	gql__input_GetBlockByHeightRequest             *graphql.InputObject // message GetBlockByHeightRequest in api_chain.proto
+	gql__input_ChainResponse_Rewards               *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
+	gql__input_ChainResponse                       *graphql.InputObject // message ChainResponse in api_chain.proto
+	gql__input_BlockSizeByHeightResponse           *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
+	gql__input_BlockSizeByHeightRequest            *graphql.InputObject // message BlockSizeByHeightRequest in api_chain.proto
+	gql__input_BlockReceipt                        *graphql.InputObject // message BlockReceipt in api_chain.proto
+	gql__input_BlockInfo                           *graphql.InputObject // message BlockInfo in api_chain.proto
 )
 
 func Gql__type_VotingResultMeta() *graphql.Object {
@@ -208,6 +214,34 @@ func Gql__type_GetBlocksRequest() *graphql.Object {
 	return gql__type_GetBlocksRequest
 }
 
+func Gql__type_GetBlockReceiptByActionHashResponse() *graphql.Object {
+	if gql__type_GetBlockReceiptByActionHashResponse == nil {
+		gql__type_GetBlockReceiptByActionHashResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlockReceiptByActionHashResponse",
+			Fields: graphql.Fields{
+				"receipt": &graphql.Field{
+					Type: Gql__type_BlockReceipt(),
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockReceiptByActionHashResponse
+}
+
+func Gql__type_GetBlockReceiptByActionHashRequest() *graphql.Object {
+	if gql__type_GetBlockReceiptByActionHashRequest == nil {
+		gql__type_GetBlockReceiptByActionHashRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlockReceiptByActionHashRequest",
+			Fields: graphql.Fields{
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockReceiptByActionHashRequest
+}
+
 func Gql__type_GetBlockInfoByActionHashResponse() *graphql.Object {
 	if gql__type_GetBlockInfoByActionHashResponse == nil {
 		gql__type_GetBlockInfoByActionHashResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -348,6 +382,38 @@ func Gql__type_BlockSizeByHeightRequest() *graphql.Object {
 		})
 	}
 	return gql__type_BlockSizeByHeightRequest
+}
+
+func Gql__type_BlockReceipt() *graphql.Object {
+	if gql__type_BlockReceipt == nil {
+		gql__type_BlockReceipt = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BlockReceipt",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"gas_consumed": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"status": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"execution_revert_msg": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_BlockReceipt
 }
 
 func Gql__type_BlockInfo() *graphql.Object {
@@ -552,6 +618,34 @@ func Gql__input_GetBlocksRequest() *graphql.InputObject {
 	return gql__input_GetBlocksRequest
 }
 
+func Gql__input_GetBlockReceiptByActionHashResponse() *graphql.InputObject {
+	if gql__input_GetBlockReceiptByActionHashResponse == nil {
+		gql__input_GetBlockReceiptByActionHashResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockReceiptByActionHashResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"receipt": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_BlockReceipt(),
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockReceiptByActionHashResponse
+}
+
+func Gql__input_GetBlockReceiptByActionHashRequest() *graphql.InputObject {
+	if gql__input_GetBlockReceiptByActionHashRequest == nil {
+		gql__input_GetBlockReceiptByActionHashRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockReceiptByActionHashRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockReceiptByActionHashRequest
+}
+
 func Gql__input_GetBlockInfoByActionHashResponse() *graphql.InputObject {
 	if gql__input_GetBlockInfoByActionHashResponse == nil {
 		gql__input_GetBlockInfoByActionHashResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -692,6 +786,38 @@ func Gql__input_BlockSizeByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_BlockSizeByHeightRequest
+}
+
+func Gql__input_BlockReceipt() *graphql.InputObject {
+	if gql__input_BlockReceipt == nil {
+		gql__input_BlockReceipt = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BlockReceipt",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"gas_consumed": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"status": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"execution_revert_msg": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_BlockReceipt
 }
 
 func Gql__input_BlockInfo() *graphql.InputObject {
@@ -957,6 +1083,26 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 				resp, err := client.GetBlockInfoByActionHash(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC GetBlockInfoByActionHash")
+				}
+				return resp, nil
+			},
+		},
+		"GetBlockReceiptByActionHash": &graphql.Field{
+			Type: Gql__type_GetBlockReceiptByActionHashResponse(),
+			Args: graphql.FieldConfigArgument{
+				"action_hash": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetBlockReceiptByActionHashRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetBlockReceiptByActionHash")
+				}
+				client := NewChainServiceClient(conn)
+				resp, err := client.GetBlockReceiptByActionHash(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetBlockReceiptByActionHash")
 				}
 				return resp, nil
 			},
