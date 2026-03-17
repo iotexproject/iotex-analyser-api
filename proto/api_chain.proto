@@ -106,6 +106,14 @@ message GetBlockByHeightResponse {
   BlockInfo block = 1; // block info
 }
 
+message GetBlockInfoByActionHashRequest {
+  string action_hash = 1; // action hash
+}
+
+message GetBlockInfoByActionHashResponse {
+  string base_fee = 1; // base fee
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -197,6 +205,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.GetBlockByHeight"
+      body: "*"
+    };
+  };
+
+  // GetBlockInfoByActionHash gives block info by action hash
+  rpc GetBlockInfoByActionHash(GetBlockInfoByActionHashRequest) returns (GetBlockInfoByActionHashResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBlockInfoByActionHash"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockInfoByActionHash"
       body: "*"
     };
   };

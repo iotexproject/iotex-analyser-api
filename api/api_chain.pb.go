@@ -991,6 +991,94 @@ func (x *GetBlockByHeightResponse) GetBlock() *BlockInfo {
 	return nil
 }
 
+type GetBlockInfoByActionHashRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ActionHash    string                 `protobuf:"bytes,1,opt,name=action_hash,json=actionHash,proto3" json:"action_hash,omitempty"` // action hash
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlockInfoByActionHashRequest) Reset() {
+	*x = GetBlockInfoByActionHashRequest{}
+	mi := &file_api_chain_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlockInfoByActionHashRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlockInfoByActionHashRequest) ProtoMessage() {}
+
+func (x *GetBlockInfoByActionHashRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_chain_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlockInfoByActionHashRequest.ProtoReflect.Descriptor instead.
+func (*GetBlockInfoByActionHashRequest) Descriptor() ([]byte, []int) {
+	return file_api_chain_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetBlockInfoByActionHashRequest) GetActionHash() string {
+	if x != nil {
+		return x.ActionHash
+	}
+	return ""
+}
+
+type GetBlockInfoByActionHashResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BaseFee       string                 `protobuf:"bytes,1,opt,name=base_fee,json=baseFee,proto3" json:"base_fee,omitempty"` // base fee
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlockInfoByActionHashResponse) Reset() {
+	*x = GetBlockInfoByActionHashResponse{}
+	mi := &file_api_chain_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlockInfoByActionHashResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlockInfoByActionHashResponse) ProtoMessage() {}
+
+func (x *GetBlockInfoByActionHashResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_chain_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlockInfoByActionHashResponse.ProtoReflect.Descriptor instead.
+func (*GetBlockInfoByActionHashResponse) Descriptor() ([]byte, []int) {
+	return file_api_chain_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetBlockInfoByActionHashResponse) GetBaseFee() string {
+	if x != nil {
+		return x.BaseFee
+	}
+	return ""
+}
+
 type ChainResponse_Rewards struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	TotalBalance   string                 `protobuf:"bytes,1,opt,name=totalBalance,proto3" json:"totalBalance,omitempty"`     // total balance
@@ -1002,7 +1090,7 @@ type ChainResponse_Rewards struct {
 
 func (x *ChainResponse_Rewards) Reset() {
 	*x = ChainResponse_Rewards{}
-	mi := &file_api_chain_proto_msgTypes[18]
+	mi := &file_api_chain_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1014,7 +1102,7 @@ func (x *ChainResponse_Rewards) String() string {
 func (*ChainResponse_Rewards) ProtoMessage() {}
 
 func (x *ChainResponse_Rewards) ProtoReflect() protoreflect.Message {
-	mi := &file_api_chain_proto_msgTypes[18]
+	mi := &file_api_chain_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1128,7 +1216,13 @@ const file_api_chain_proto_rawDesc = "" +
 	"\x17GetBlockByHeightRequest\x12\x16\n" +
 	"\x06height\x18\x01 \x01(\x04R\x06height\"@\n" +
 	"\x18GetBlockByHeightResponse\x12$\n" +
-	"\x05block\x18\x01 \x01(\v2\x0e.api.BlockInfoR\x05block2\x85\t\n" +
+	"\x05block\x18\x01 \x01(\v2\x0e.api.BlockInfoR\x05block\"B\n" +
+	"\x1fGetBlockInfoByActionHashRequest\x12\x1f\n" +
+	"\vaction_hash\x18\x01 \x01(\tR\n" +
+	"actionHash\"=\n" +
+	" GetBlockInfoByActionHashResponse\x12\x19\n" +
+	"\bbase_fee\x18\x01 \x01(\tR\abaseFee2\xc3\n" +
+	"\n" +
 	"\fChainService\x12\\\n" +
 	"\x05Chain\x12\x11.api.ChainRequest\x1a\x12.api.ChainResponse\",\xbaC\a\x12\x05Chain\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/api.ChainService.Chain\x12\x84\x01\n" +
 	"\rMostRecentTPS\x12\x19.api.MostRecentTPSRequest\x1a\x1a.api.MostRecentTPSResponse\"<\xbaC\x0f\x12\rMostRecentTPS\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api.ChainService.MostRecentTPS\x12\x8e\x01\n" +
@@ -1137,7 +1231,8 @@ const file_api_chain_proto_rawDesc = "" +
 	"\x11BlockSizeByHeight\x12\x1d.api.BlockSizeByHeightRequest\x1a\x1e.api.BlockSizeByHeightResponse\"D\xbaC\x13\x12\x11BlockSizeByHeight\x82\xd3\xe4\x93\x02(:\x01*\"#/api.ChainService.BlockSizeByHeight\x12\xa7\x01\n" +
 	"\x14GetLatestBlockHeight\x12 .api.GetLatestBlockHeightRequest\x1a!.api.GetLatestBlockHeightResponse\"J\xbaC\x16\x12\x14GetLatestBlockHeight\x82\xd3\xe4\x93\x02+:\x01*\"&/api.ChainService.GetLatestBlockHeight\x12p\n" +
 	"\tGetBlocks\x12\x15.api.GetBlocksRequest\x1a\x16.api.GetBlocksResponse\"4\xbaC\v\x12\tGetBlocks\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/api.ChainService.GetBlocks\x12\x93\x01\n" +
-	"\x10GetBlockByHeight\x12\x1c.api.GetBlockByHeightRequest\x1a\x1d.api.GetBlockByHeightResponse\"B\xbaC\x12\x12\x10GetBlockByHeight\x82\xd3\xe4\x93\x02':\x01*\"\"/api.ChainService.GetBlockByHeightB\aZ\x05./apib\x06proto3"
+	"\x10GetBlockByHeight\x12\x1c.api.GetBlockByHeightRequest\x1a\x1d.api.GetBlockByHeightResponse\"B\xbaC\x12\x12\x10GetBlockByHeight\x82\xd3\xe4\x93\x02':\x01*\"\"/api.ChainService.GetBlockByHeight\x12\xbb\x01\n" +
+	"\x18GetBlockInfoByActionHash\x12$.api.GetBlockInfoByActionHashRequest\x1a%.api.GetBlockInfoByActionHashResponse\"R\xbaC\x1a\x12\x18GetBlockInfoByActionHash\x82\xd3\xe4\x93\x02/:\x01*\"*/api.ChainService.GetBlockInfoByActionHashB\aZ\x05./apib\x06proto3"
 
 var (
 	file_api_chain_proto_rawDescOnce sync.Once
@@ -1151,31 +1246,33 @@ func file_api_chain_proto_rawDescGZIP() []byte {
 	return file_api_chain_proto_rawDescData
 }
 
-var file_api_chain_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_api_chain_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_api_chain_proto_goTypes = []any{
-	(*ChainRequest)(nil),                   // 0: api.ChainRequest
-	(*VotingResultMeta)(nil),               // 1: api.VotingResultMeta
-	(*ChainResponse)(nil),                  // 2: api.ChainResponse
-	(*MostRecentTPSRequest)(nil),           // 3: api.MostRecentTPSRequest
-	(*MostRecentTPSResponse)(nil),          // 4: api.MostRecentTPSResponse
-	(*NumberOfActionsRequest)(nil),         // 5: api.NumberOfActionsRequest
-	(*NumberOfActionsResponse)(nil),        // 6: api.NumberOfActionsResponse
-	(*TotalTransferredTokensRequest)(nil),  // 7: api.TotalTransferredTokensRequest
-	(*TotalTransferredTokensResponse)(nil), // 8: api.TotalTransferredTokensResponse
-	(*BlockSizeByHeightRequest)(nil),       // 9: api.BlockSizeByHeightRequest
-	(*BlockSizeByHeightResponse)(nil),      // 10: api.BlockSizeByHeightResponse
-	(*GetLatestBlockHeightRequest)(nil),    // 11: api.GetLatestBlockHeightRequest
-	(*GetLatestBlockHeightResponse)(nil),   // 12: api.GetLatestBlockHeightResponse
-	(*BlockInfo)(nil),                      // 13: api.BlockInfo
-	(*GetBlocksRequest)(nil),               // 14: api.GetBlocksRequest
-	(*GetBlocksResponse)(nil),              // 15: api.GetBlocksResponse
-	(*GetBlockByHeightRequest)(nil),        // 16: api.GetBlockByHeightRequest
-	(*GetBlockByHeightResponse)(nil),       // 17: api.GetBlockByHeightResponse
-	(*ChainResponse_Rewards)(nil),          // 18: api.ChainResponse.Rewards
+	(*ChainRequest)(nil),                     // 0: api.ChainRequest
+	(*VotingResultMeta)(nil),                 // 1: api.VotingResultMeta
+	(*ChainResponse)(nil),                    // 2: api.ChainResponse
+	(*MostRecentTPSRequest)(nil),             // 3: api.MostRecentTPSRequest
+	(*MostRecentTPSResponse)(nil),            // 4: api.MostRecentTPSResponse
+	(*NumberOfActionsRequest)(nil),           // 5: api.NumberOfActionsRequest
+	(*NumberOfActionsResponse)(nil),          // 6: api.NumberOfActionsResponse
+	(*TotalTransferredTokensRequest)(nil),    // 7: api.TotalTransferredTokensRequest
+	(*TotalTransferredTokensResponse)(nil),   // 8: api.TotalTransferredTokensResponse
+	(*BlockSizeByHeightRequest)(nil),         // 9: api.BlockSizeByHeightRequest
+	(*BlockSizeByHeightResponse)(nil),        // 10: api.BlockSizeByHeightResponse
+	(*GetLatestBlockHeightRequest)(nil),      // 11: api.GetLatestBlockHeightRequest
+	(*GetLatestBlockHeightResponse)(nil),     // 12: api.GetLatestBlockHeightResponse
+	(*BlockInfo)(nil),                        // 13: api.BlockInfo
+	(*GetBlocksRequest)(nil),                 // 14: api.GetBlocksRequest
+	(*GetBlocksResponse)(nil),                // 15: api.GetBlocksResponse
+	(*GetBlockByHeightRequest)(nil),          // 16: api.GetBlockByHeightRequest
+	(*GetBlockByHeightResponse)(nil),         // 17: api.GetBlockByHeightResponse
+	(*GetBlockInfoByActionHashRequest)(nil),  // 18: api.GetBlockInfoByActionHashRequest
+	(*GetBlockInfoByActionHashResponse)(nil), // 19: api.GetBlockInfoByActionHashResponse
+	(*ChainResponse_Rewards)(nil),            // 20: api.ChainResponse.Rewards
 }
 var file_api_chain_proto_depIdxs = []int32{
 	1,  // 0: api.ChainResponse.votingResultMeta:type_name -> api.VotingResultMeta
-	18, // 1: api.ChainResponse.rewards:type_name -> api.ChainResponse.Rewards
+	20, // 1: api.ChainResponse.rewards:type_name -> api.ChainResponse.Rewards
 	13, // 2: api.GetBlocksResponse.blocks:type_name -> api.BlockInfo
 	13, // 3: api.GetBlockByHeightResponse.block:type_name -> api.BlockInfo
 	0,  // 4: api.ChainService.Chain:input_type -> api.ChainRequest
@@ -1186,16 +1283,18 @@ var file_api_chain_proto_depIdxs = []int32{
 	11, // 9: api.ChainService.GetLatestBlockHeight:input_type -> api.GetLatestBlockHeightRequest
 	14, // 10: api.ChainService.GetBlocks:input_type -> api.GetBlocksRequest
 	16, // 11: api.ChainService.GetBlockByHeight:input_type -> api.GetBlockByHeightRequest
-	2,  // 12: api.ChainService.Chain:output_type -> api.ChainResponse
-	4,  // 13: api.ChainService.MostRecentTPS:output_type -> api.MostRecentTPSResponse
-	6,  // 14: api.ChainService.NumberOfActions:output_type -> api.NumberOfActionsResponse
-	8,  // 15: api.ChainService.TotalTransferredTokens:output_type -> api.TotalTransferredTokensResponse
-	10, // 16: api.ChainService.BlockSizeByHeight:output_type -> api.BlockSizeByHeightResponse
-	12, // 17: api.ChainService.GetLatestBlockHeight:output_type -> api.GetLatestBlockHeightResponse
-	15, // 18: api.ChainService.GetBlocks:output_type -> api.GetBlocksResponse
-	17, // 19: api.ChainService.GetBlockByHeight:output_type -> api.GetBlockByHeightResponse
-	12, // [12:20] is the sub-list for method output_type
-	4,  // [4:12] is the sub-list for method input_type
+	18, // 12: api.ChainService.GetBlockInfoByActionHash:input_type -> api.GetBlockInfoByActionHashRequest
+	2,  // 13: api.ChainService.Chain:output_type -> api.ChainResponse
+	4,  // 14: api.ChainService.MostRecentTPS:output_type -> api.MostRecentTPSResponse
+	6,  // 15: api.ChainService.NumberOfActions:output_type -> api.NumberOfActionsResponse
+	8,  // 16: api.ChainService.TotalTransferredTokens:output_type -> api.TotalTransferredTokensResponse
+	10, // 17: api.ChainService.BlockSizeByHeight:output_type -> api.BlockSizeByHeightResponse
+	12, // 18: api.ChainService.GetLatestBlockHeight:output_type -> api.GetLatestBlockHeightResponse
+	15, // 19: api.ChainService.GetBlocks:output_type -> api.GetBlocksResponse
+	17, // 20: api.ChainService.GetBlockByHeight:output_type -> api.GetBlockByHeightResponse
+	19, // 21: api.ChainService.GetBlockInfoByActionHash:output_type -> api.GetBlockInfoByActionHashResponse
+	13, // [13:22] is the sub-list for method output_type
+	4,  // [4:13] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -1212,7 +1311,7 @@ func file_api_chain_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_chain_proto_rawDesc), len(file_api_chain_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   19,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

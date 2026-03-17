@@ -251,6 +251,33 @@ func local_request_ChainService_GetBlockByHeight_0(ctx context.Context, marshale
 	return msg, metadata, err
 }
 
+func request_ChainService_GetBlockInfoByActionHash_0(ctx context.Context, marshaler runtime.Marshaler, client ChainServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetBlockInfoByActionHashRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetBlockInfoByActionHash(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_ChainService_GetBlockInfoByActionHash_0(ctx context.Context, marshaler runtime.Marshaler, server ChainServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetBlockInfoByActionHashRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetBlockInfoByActionHash(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 // RegisterChainServiceHandlerServer registers the http handlers for service ChainService to "mux".
 // UnaryRPC     :call ChainServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -416,6 +443,26 @@ func RegisterChainServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 		forward_ChainService_GetBlockByHeight_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_ChainService_GetBlockInfoByActionHash_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.ChainService/GetBlockInfoByActionHash", runtime.WithHTTPPathPattern("/api.ChainService.GetBlockInfoByActionHash"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_ChainService_GetBlockInfoByActionHash_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_ChainService_GetBlockInfoByActionHash_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -593,27 +640,46 @@ func RegisterChainServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_ChainService_GetBlockByHeight_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodPost, pattern_ChainService_GetBlockInfoByActionHash_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.ChainService/GetBlockInfoByActionHash", runtime.WithHTTPPathPattern("/api.ChainService.GetBlockInfoByActionHash"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_ChainService_GetBlockInfoByActionHash_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_ChainService_GetBlockInfoByActionHash_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	return nil
 }
 
 var (
-	pattern_ChainService_Chain_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.Chain"}, ""))
-	pattern_ChainService_MostRecentTPS_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.MostRecentTPS"}, ""))
-	pattern_ChainService_NumberOfActions_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.NumberOfActions"}, ""))
-	pattern_ChainService_TotalTransferredTokens_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.TotalTransferredTokens"}, ""))
-	pattern_ChainService_BlockSizeByHeight_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.BlockSizeByHeight"}, ""))
-	pattern_ChainService_GetLatestBlockHeight_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.GetLatestBlockHeight"}, ""))
-	pattern_ChainService_GetBlocks_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.GetBlocks"}, ""))
-	pattern_ChainService_GetBlockByHeight_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.GetBlockByHeight"}, ""))
+	pattern_ChainService_Chain_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.Chain"}, ""))
+	pattern_ChainService_MostRecentTPS_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.MostRecentTPS"}, ""))
+	pattern_ChainService_NumberOfActions_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.NumberOfActions"}, ""))
+	pattern_ChainService_TotalTransferredTokens_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.TotalTransferredTokens"}, ""))
+	pattern_ChainService_BlockSizeByHeight_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.BlockSizeByHeight"}, ""))
+	pattern_ChainService_GetLatestBlockHeight_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.GetLatestBlockHeight"}, ""))
+	pattern_ChainService_GetBlocks_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.GetBlocks"}, ""))
+	pattern_ChainService_GetBlockByHeight_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.GetBlockByHeight"}, ""))
+	pattern_ChainService_GetBlockInfoByActionHash_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.ChainService.GetBlockInfoByActionHash"}, ""))
 )
 
 var (
-	forward_ChainService_Chain_0                  = runtime.ForwardResponseMessage
-	forward_ChainService_MostRecentTPS_0          = runtime.ForwardResponseMessage
-	forward_ChainService_NumberOfActions_0        = runtime.ForwardResponseMessage
-	forward_ChainService_TotalTransferredTokens_0 = runtime.ForwardResponseMessage
-	forward_ChainService_BlockSizeByHeight_0      = runtime.ForwardResponseMessage
-	forward_ChainService_GetLatestBlockHeight_0   = runtime.ForwardResponseMessage
-	forward_ChainService_GetBlocks_0              = runtime.ForwardResponseMessage
-	forward_ChainService_GetBlockByHeight_0       = runtime.ForwardResponseMessage
+	forward_ChainService_Chain_0                    = runtime.ForwardResponseMessage
+	forward_ChainService_MostRecentTPS_0            = runtime.ForwardResponseMessage
+	forward_ChainService_NumberOfActions_0          = runtime.ForwardResponseMessage
+	forward_ChainService_TotalTransferredTokens_0   = runtime.ForwardResponseMessage
+	forward_ChainService_BlockSizeByHeight_0        = runtime.ForwardResponseMessage
+	forward_ChainService_GetLatestBlockHeight_0     = runtime.ForwardResponseMessage
+	forward_ChainService_GetBlocks_0                = runtime.ForwardResponseMessage
+	forward_ChainService_GetBlockByHeight_0         = runtime.ForwardResponseMessage
+	forward_ChainService_GetBlockInfoByActionHash_0 = runtime.ForwardResponseMessage
 )
