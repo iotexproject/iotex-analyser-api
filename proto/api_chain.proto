@@ -132,6 +132,24 @@ message GetBlockReceiptByActionHashResponse {
   BlockReceipt receipt = 1; // block receipt
 }
 
+message BlockReceiptTransaction {
+  uint64 id = 1; // transaction id
+  uint64 block_height = 2; // block height
+  string action_hash = 3; // action hash
+  string type = 4; // transaction type
+  string amount = 5; // amount
+  string sender = 6; // sender address
+  string recipient = 7; // recipient address
+}
+
+message GetBlockReceiptTransactionsByActHashRequest {
+  string action_hash = 1; // action hash
+}
+
+message GetBlockReceiptTransactionsByActHashResponse {
+  repeated BlockReceiptTransaction transactions = 1; // list of transactions
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -247,6 +265,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.GetBlockReceiptByActionHash"
+      body: "*"
+    };
+  };
+
+  // GetBlockReceiptTransactionsByActHash gives block receipt transactions by action hash
+  rpc GetBlockReceiptTransactionsByActHash(GetBlockReceiptTransactionsByActHashRequest) returns (GetBlockReceiptTransactionsByActHashResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBlockReceiptTransactionsByActHash"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockReceiptTransactionsByActHash"
       body: "*"
     };
   };

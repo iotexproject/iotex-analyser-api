@@ -442,3 +442,42 @@ func (s *ChainService) GetBlockReceiptByActionHash(ctx context.Context, req *api
 	resp.Receipt = receipt
 	return resp, nil
 }
+
+// GetBlockReceiptTransactionsByActHash returns block receipt transactions by action hash
+func (s *ChainService) GetBlockReceiptTransactionsByActHash(ctx context.Context, req *api.GetBlockReceiptTransactionsByActHashRequest) (*api.GetBlockReceiptTransactionsByActHashResponse, error) {
+	resp := &api.GetBlockReceiptTransactionsByActHashResponse{}
+
+	actionHash := req.GetActionHash()
+	db := db.DB()
+	query := `SELECT id, block_height, action_hash, type, amount, sender, recipient FROM block_receipt_transactions WHERE action_hash = ?`
+
+	type TransactionResult struct {
+		ID           uint64
+		BlockHeight  uint64
+		ActionHash   string
+		Type         string
+		Amount       string
+		Sender       string
+		Recipient    string
+	}
+
+	var results []TransactionResult
+	if err := db.WithContext(ctx).Raw(query, actionHash).Scan(&results).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get block receipt transactions by action hash")
+	}
+
+	for _, result := range results {
+		transaction := &api.BlockReceiptTransaction{
+			Id:          result.ID,
+			BlockHeight: result.BlockHeight,
+			ActionHash:  result.ActionHash,
+			Type:        result.Type,
+			Amount:      result.Amount,
+			Sender:      result.Sender,
+			Recipient:   result.Recipient,
+		}
+		resp.Transactions = append(resp.Transactions, transaction)
+	}
+
+	return resp, nil
+}
