@@ -380,3 +380,23 @@ func (s *ChainService) GetBlockByHeight(ctx context.Context, req *api.GetBlockBy
 	resp.Block = block
 	return resp, nil
 }
+
+// GetBlockInfoByActionHash returns block info by action hash
+func (s *ChainService) GetBlockInfoByActionHash(ctx context.Context, req *api.GetBlockInfoByActionHashRequest) (*api.GetBlockInfoByActionHashResponse, error) {
+	resp := &api.GetBlockInfoByActionHashResponse{}
+
+	actionHash := req.GetActionHash()
+	db := db.DB()
+	query := `SELECT base_fee FROM block_meta WHERE block_height = (SELECT block_height FROM block_action_partition WHERE action_hash = ?)`
+
+	var result sql.NullString
+	if err := db.WithContext(ctx).Raw(query, actionHash).Scan(&result).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get block info by action hash")
+	}
+
+	if result.Valid {
+		resp.BaseFee = result.String
+	}
+
+	return resp, nil
+}
