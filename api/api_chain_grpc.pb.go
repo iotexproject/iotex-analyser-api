@@ -26,6 +26,7 @@ const (
 	ChainService_BlockSizeByHeight_FullMethodName      = "/api.ChainService/BlockSizeByHeight"
 	ChainService_GetLatestBlockHeight_FullMethodName   = "/api.ChainService/GetLatestBlockHeight"
 	ChainService_GetBlocks_FullMethodName              = "/api.ChainService/GetBlocks"
+	ChainService_GetBlockByHeight_FullMethodName       = "/api.ChainService/GetBlockByHeight"
 )
 
 // ChainServiceClient is the client API for ChainService service.
@@ -45,6 +46,8 @@ type ChainServiceClient interface {
 	GetLatestBlockHeight(ctx context.Context, in *GetLatestBlockHeightRequest, opts ...grpc.CallOption) (*GetLatestBlockHeightResponse, error)
 	// GetBlocks gives a list of blocks with pagination
 	GetBlocks(ctx context.Context, in *GetBlocksRequest, opts ...grpc.CallOption) (*GetBlocksResponse, error)
+	// GetBlockByHeight gives a block by height
+	GetBlockByHeight(ctx context.Context, in *GetBlockByHeightRequest, opts ...grpc.CallOption) (*GetBlockByHeightResponse, error)
 }
 
 type chainServiceClient struct {
@@ -125,6 +128,16 @@ func (c *chainServiceClient) GetBlocks(ctx context.Context, in *GetBlocksRequest
 	return out, nil
 }
 
+func (c *chainServiceClient) GetBlockByHeight(ctx context.Context, in *GetBlockByHeightRequest, opts ...grpc.CallOption) (*GetBlockByHeightResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBlockByHeightResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetBlockByHeight_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility.
@@ -142,6 +155,8 @@ type ChainServiceServer interface {
 	GetLatestBlockHeight(context.Context, *GetLatestBlockHeightRequest) (*GetLatestBlockHeightResponse, error)
 	// GetBlocks gives a list of blocks with pagination
 	GetBlocks(context.Context, *GetBlocksRequest) (*GetBlocksResponse, error)
+	// GetBlockByHeight gives a block by height
+	GetBlockByHeight(context.Context, *GetBlockByHeightRequest) (*GetBlockByHeightResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -172,6 +187,9 @@ func (UnimplementedChainServiceServer) GetLatestBlockHeight(context.Context, *Ge
 }
 func (UnimplementedChainServiceServer) GetBlocks(context.Context, *GetBlocksRequest) (*GetBlocksResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetBlocks not implemented")
+}
+func (UnimplementedChainServiceServer) GetBlockByHeight(context.Context, *GetBlockByHeightRequest) (*GetBlockByHeightResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetBlockByHeight not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 func (UnimplementedChainServiceServer) testEmbeddedByValue()                      {}
@@ -320,6 +338,24 @@ func _ChainService_GetBlocks_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_GetBlockByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlockByHeightRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetBlockByHeight(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetBlockByHeight_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetBlockByHeight(ctx, req.(*GetBlockByHeightRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -354,6 +390,10 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBlocks",
 			Handler:    _ChainService_GetBlocks_Handler,
+		},
+		{
+			MethodName: "GetBlockByHeight",
+			Handler:    _ChainService_GetBlockByHeight_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
