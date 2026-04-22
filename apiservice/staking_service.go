@@ -13,6 +13,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/internal/sync/errgroup"
+	"github.com/iotexproject/iotex-analyser-api/model"
 	"github.com/iotexproject/iotex-core/v2/blockchain/genesis"
 	"github.com/iotexproject/iotex-core/v2/ioctl/util"
 )
@@ -116,6 +117,111 @@ func (s *StakingService) CandidateVoteByHeight(ctx context.Context, req *api.Can
 		return nil, err
 	}
 	return resp, nil
+}
+
+func (s *StakingService) BucketByID(ctx context.Context, req *api.BucketByIDRequest) (*api.BucketByIDResponse, error) {
+	pluginHeight, err := db.GetIndexHeight("staking_actions")
+	if err != nil {
+		return nil, err
+	}
+	height := req.GetHeight()
+	if height == 0 {
+		height = pluginHeight
+	} else if height > pluginHeight {
+		return nil, fmt.Errorf("request height greater than plugin height, %d > %d", height, pluginHeight)
+	}
+	bucketIDs := req.GetBucketId()
+	resp := &api.BucketByIDResponse{Height: height}
+
+	nativeBuckets, err := actions.GetNativeBucketsByIDsAndHeight(bucketIDs, height)
+	if err != nil {
+		return nil, err
+	}
+	for _, b := range nativeBuckets {
+		resp.NativeBuckets = append(resp.NativeBuckets, nativeBucketToStakingInfo(b))
+	}
+
+	if req.GetIncludeSystem() {
+		g := new(errgroup.Group)
+		var systemBuckets, systemV2Buckets []*model.SystemStakingBucket
+		var systemV3Buckets []*model.SystemStakingBucketV3
+		g.Go(func(ctx context.Context) error {
+			var err error
+			systemBuckets, err = actions.GetSystemBucketsByIDsAndHeight(bucketIDs, height)
+			return err
+		})
+		g.Go(func(ctx context.Context) error {
+			var err error
+			systemV2Buckets, err = actions.GetSystemV2BucketsByIDsAndHeight(bucketIDs, height)
+			return err
+		})
+		g.Go(func(ctx context.Context) error {
+			var err error
+			systemV3Buckets, err = actions.GetSystemV3BucketsByIDsAndHeight(bucketIDs, height)
+			return err
+		})
+		if err := g.Wait(); err != nil {
+			return nil, err
+		}
+		for _, b := range systemBuckets {
+			resp.SystemBuckets = append(resp.SystemBuckets, systemBucketToStakingInfo(b))
+		}
+		for _, b := range systemV2Buckets {
+			resp.SystemV2Buckets = append(resp.SystemV2Buckets, systemBucketToStakingInfo(b))
+		}
+		for _, b := range systemV3Buckets {
+			resp.SystemV3Buckets = append(resp.SystemV3Buckets, systemV3BucketToStakingInfo(b))
+		}
+	}
+	return resp, nil
+}
+
+func nativeBucketToStakingInfo(b *model.StakingBucket) *api.StakingBucketInfo {
+	return &api.StakingBucketInfo{
+		BucketId:         b.BucketID,
+		OwnerAddress:     b.OwnerAddress,
+		Candidate:        b.Candidate,
+		StakedAmount:     b.StakedAmount,
+		VotingPower:      b.VotingPower,
+		Duration:         b.Duration * 86400,
+		AutoStake:        b.AutoStake,
+		CreateTime:       uint32(b.CreateTime),
+		StakeStartTime:   uint32(b.StakeStartTime),
+		UnstakeStartTime: uint32(b.UnstakeStartTime),
+		BlockHeight:      b.BlockHeight,
+	}
+}
+
+func systemBucketToStakingInfo(b *model.SystemStakingBucket) *api.StakingBucketInfo {
+	return &api.StakingBucketInfo{
+		BucketId:         b.BucketID,
+		OwnerAddress:     b.OwnerAddress,
+		Candidate:        b.Candidate,
+		StakedAmount:     b.StakedAmount,
+		VotingPower:      b.VotingPower,
+		Duration:         b.Duration * 86400, // stored in days
+		AutoStake:        b.AutoStake,
+		CreateTime:       uint32(b.CreateTime),
+		StakeStartTime:   uint32(b.StakeStartTime),
+		UnstakeStartTime: uint32(b.UnstakeStartTime),
+		BlockHeight:      b.BlockHeight,
+	}
+}
+
+func systemV3BucketToStakingInfo(b *model.SystemStakingBucketV3) *api.StakingBucketInfo {
+	return &api.StakingBucketInfo{
+		BucketId:         b.BucketID,
+		OwnerAddress:     b.OwnerAddress,
+		Candidate:        b.Candidate,
+		StakedAmount:     b.StakedAmount,
+		VotingPower:      b.VotingPower,
+		Duration:         b.Duration, // stored in seconds
+		AutoStake:        b.AutoStake,
+		CreateTime:       uint32(b.CreateTime),
+		StakeStartTime:   uint32(b.StakeStartTime),
+		UnstakeStartTime: uint32(b.UnstakeStartTime),
+		BlockHeight:      b.BlockHeight,
+	}
 }
 
 type VoteBucket struct {

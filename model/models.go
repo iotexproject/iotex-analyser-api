@@ -30,6 +30,26 @@ type SystemStakingBucket struct {
 	StakedAmount     string
 	VotingPower      string
 	OwnerAddress     string
+	Candidate        string // aliased from delegate_owner_address in queries
+	Amount           string
+	EventType        string
+	Sender           string
+	ActHash          string
+	Timestamp        int64
+	AutoStake        bool
+	Duration         uint32 // days
+}
+
+type SystemStakingBucketV3 struct {
+	ID               uint64
+	BucketID         uint64
+	BlockHeight      uint64
+	CreateTime       int64
+	StakeStartTime   int64
+	UnstakeStartTime int64
+	StakedAmount     string
+	VotingPower      string
+	OwnerAddress     string
 	Candidate        string
 	Amount           string
 	EventType        string
@@ -37,5 +57,5 @@ type SystemStakingBucket struct {
 	ActHash          string
 	Timestamp        int64
 	AutoStake        bool
-	Duration         uint32
+	Duration         uint32 // always seconds
 }

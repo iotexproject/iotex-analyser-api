@@ -48,6 +48,42 @@ func GetVoteBucketList(epochNum uint64) (*iotextypes.VoteBucketList, error) {
 	return votings.GetVoteBucketList(epochNum)
 }
 
+func GetNativeBucketsByIDsAndHeight(bucketIDs []uint64, height uint64) ([]*model.StakingBucket, error) {
+	var buckets []*model.StakingBucket
+	query := "select t1.* from staking_buckets t1 INNER JOIN (select MAX(id) AS max_id from staking_buckets t2 where block_height<=? and bucket_id in ? GROUP BY bucket_id) as t2 on t2.max_id=t1.id"
+	if err := db.DB().Raw(query, height, bucketIDs).Scan(&buckets).Error; err != nil {
+		return nil, err
+	}
+	return buckets, nil
+}
+
+func GetSystemBucketsByIDsAndHeight(bucketIDs []uint64, height uint64) ([]*model.SystemStakingBucket, error) {
+	var buckets []*model.SystemStakingBucket
+	query := "select t1.id,t1.bucket_id,t1.block_height,t1.create_time,t1.stake_start_time,t1.unstake_start_time,t1.staked_amount,t1.voting_power,t1.owner_address,t1.delegate_owner_address as candidate,t1.amount,t1.event_type,t1.sender,t1.act_hash,t1.timestamp,t1.auto_stake,t1.duration from system_staking_buckets t1 INNER JOIN (select MAX(id) AS max_id from system_staking_buckets t2 where block_height<=? and bucket_id in ? GROUP BY bucket_id) as t2 on t2.max_id=t1.id"
+	if err := db.DB().Raw(query, height, bucketIDs).Scan(&buckets).Error; err != nil {
+		return nil, err
+	}
+	return buckets, nil
+}
+
+func GetSystemV2BucketsByIDsAndHeight(bucketIDs []uint64, height uint64) ([]*model.SystemStakingBucket, error) {
+	var buckets []*model.SystemStakingBucket
+	query := "select t1.id,t1.bucket_id,t1.block_height,t1.create_time,t1.stake_start_time,t1.unstake_start_time,t1.staked_amount,t1.voting_power,t1.owner_address,t1.delegate_owner_address as candidate,t1.amount,t1.event_type,t1.sender,t1.act_hash,t1.timestamp,t1.auto_stake,t1.duration from system_staking_buckets_v2 t1 INNER JOIN (select MAX(id) AS max_id from system_staking_buckets_v2 t2 where block_height<=? and bucket_id in ? GROUP BY bucket_id) as t2 on t2.max_id=t1.id"
+	if err := db.DB().Raw(query, height, bucketIDs).Scan(&buckets).Error; err != nil {
+		return nil, err
+	}
+	return buckets, nil
+}
+
+func GetSystemV3BucketsByIDsAndHeight(bucketIDs []uint64, height uint64) ([]*model.SystemStakingBucketV3, error) {
+	var buckets []*model.SystemStakingBucketV3
+	query := "select t1.id,t1.bucket_id,t1.block_height,t1.create_time,t1.stake_start_time,t1.unstake_start_time,t1.staked_amount,t1.voting_power,t1.owner_address,t1.delegate_owner_address as candidate,t1.amount,t1.event_type,t1.sender,t1.act_hash,t1.timestamp,t1.auto_stake,t1.duration from system_staking_buckets_v3_record t1 INNER JOIN (select MAX(id) AS max_id from system_staking_buckets_v3_record t2 where block_height<=? and bucket_id in ? GROUP BY bucket_id) as t2 on t2.max_id=t1.id"
+	if err := db.DB().Raw(query, height, bucketIDs).Scan(&buckets).Error; err != nil {
+		return nil, err
+	}
+	return buckets, nil
+}
+
 func getLatestStakingBucketOwnerWithHeight(bucketID, height uint64) (*model.StakingBucket, error) {
 	var stakingBucket model.StakingBucket
 	db := db.DB()
