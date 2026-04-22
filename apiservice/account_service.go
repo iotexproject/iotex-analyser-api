@@ -97,7 +97,7 @@ func (s *AccountService) ActiveAccounts(ctx context.Context, req *api.ActiveAcco
 	if count == 0 {
 		count = 100
 	}
-	query := "SELECT DISTINCT sender, block_height FROM block_action ORDER BY block_height desc limit ?"
+	query := "SELECT DISTINCT sender, block_height FROM block_action_partition ORDER BY block_height desc limit ?"
 
 	var results []struct {
 		Sender      string

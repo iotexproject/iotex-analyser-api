@@ -16,6 +16,12 @@ var (
 	gql__type_EvmTransfersByAddressResponse_EvmTransfer  *graphql.Object      // message EvmTransfersByAddressResponse.EvmTransfer in api_action.proto
 	gql__type_EvmTransfersByAddressResponse              *graphql.Object      // message EvmTransfersByAddressResponse in api_action.proto
 	gql__type_EvmTransfersByAddressRequest               *graphql.Object      // message EvmTransfersByAddressRequest in api_action.proto
+	gql__type_ActionListResponse                         *graphql.Object      // message ActionListResponse in api_action.proto
+	gql__type_ActionListRequest                          *graphql.Object      // message ActionListRequest in api_action.proto
+	gql__type_ActionByHeightResponse                     *graphql.Object      // message ActionByHeightResponse in api_action.proto
+	gql__type_ActionByHeightRequest                      *graphql.Object      // message ActionByHeightRequest in api_action.proto
+gql__type_ContractInteractorsResponse                *graphql.Object      // message ContractInteractorsResponse in api_action.proto
+gql__type_ContractInteractorsRequest                 *graphql.Object      // message ContractInteractorsRequest in api_action.proto
 	gql__type_EvmTransferInfo                            *graphql.Object      // message EvmTransferInfo in api_action.proto
 	gql__type_ActionResponse                             *graphql.Object      // message ActionResponse in api_action.proto
 	gql__type_ActionRequest                              *graphql.Object      // message ActionRequest in api_action.proto
@@ -33,6 +39,12 @@ var (
 	gql__input_EvmTransfersByAddressResponse_EvmTransfer *graphql.InputObject // message EvmTransfersByAddressResponse.EvmTransfer in api_action.proto
 	gql__input_EvmTransfersByAddressResponse             *graphql.InputObject // message EvmTransfersByAddressResponse in api_action.proto
 	gql__input_EvmTransfersByAddressRequest              *graphql.InputObject // message EvmTransfersByAddressRequest in api_action.proto
+	gql__input_ActionListResponse                        *graphql.InputObject // message ActionListResponse in api_action.proto
+	gql__input_ActionListRequest                         *graphql.InputObject // message ActionListRequest in api_action.proto
+	gql__input_ActionByHeightResponse                    *graphql.InputObject // message ActionByHeightResponse in api_action.proto
+	gql__input_ActionByHeightRequest                     *graphql.InputObject // message ActionByHeightRequest in api_action.proto
+gql__input_ContractInteractorsResponse               *graphql.InputObject // message ContractInteractorsResponse in api_action.proto
+gql__input_ContractInteractorsRequest                *graphql.InputObject // message ContractInteractorsRequest in api_action.proto
 	gql__input_EvmTransferInfo                           *graphql.InputObject // message EvmTransferInfo in api_action.proto
 	gql__input_ActionResponse                            *graphql.InputObject // message ActionResponse in api_action.proto
 	gql__input_ActionRequest                             *graphql.InputObject // message ActionRequest in api_action.proto
@@ -259,6 +271,33 @@ func Gql__type_ActionInfo() *graphql.Object {
 				"blkHeight": &graphql.Field{
 					Type: graphql.Int,
 				},
+				"gasPrice": &graphql.Field{
+					Type: graphql.String,
+				},
+				"gasLimit": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"gasConsumed": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"nonce": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"status": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"contractAddress": &graphql.Field{
+					Type: graphql.String,
+				},
+				"executionRevertMsg": &graphql.Field{
+					Type: graphql.String,
+				},
+				"chainId": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"methodName": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -426,6 +465,15 @@ func Gql__type_ActionByAddressRequest() *graphql.Object {
 				},
 				"pagination": &graphql.Field{
 					Type: pagination.Gql__type_Pagination(),
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.Field{
+					Type: graphql.String,
+				},
+				"actionType": &graphql.Field{
+					Type: graphql.String,
 				},
 			},
 		})
@@ -644,6 +692,33 @@ func Gql__input_ActionInfo() *graphql.InputObject {
 				"blkHeight": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
+				"gasPrice": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"gasLimit": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"gasConsumed": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"nonce": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"status": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"contractAddress": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"executionRevertMsg": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"chainId": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"methodName": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -812,6 +887,15 @@ func Gql__input_ActionByAddressRequest() *graphql.InputObject {
 				"pagination": &graphql.InputObjectFieldConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"actionType": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
@@ -840,6 +924,210 @@ func new_graphql_resolver_ActionService(conn *grpc.ClientConn) *graphql__resolve
 		host:        "localhost:50051",
 		dialOptions: []grpc.DialOption{},
 	}
+}
+
+func Gql__type_ActionListResponse() *graphql.Object {
+	if gql__type_ActionListResponse == nil {
+		gql__type_ActionListResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionListResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_ActionListResponse
+}
+
+func Gql__type_ActionListRequest() *graphql.Object {
+	if gql__type_ActionListRequest == nil {
+		gql__type_ActionListRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionListRequest",
+			Fields: graphql.Fields{
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_ActionListRequest
+}
+
+func Gql__input_ActionListResponse() *graphql.InputObject {
+	if gql__input_ActionListResponse == nil {
+		gql__input_ActionListResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionListResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_ActionListResponse
+}
+
+func Gql__input_ActionListRequest() *graphql.InputObject {
+	if gql__input_ActionListRequest == nil {
+		gql__input_ActionListRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionListRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_ActionListRequest
+}
+
+func Gql__type_ActionByHeightResponse() *graphql.Object {
+	if gql__type_ActionByHeightResponse == nil {
+		gql__type_ActionByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHeightResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHeightResponse
+}
+
+func Gql__type_ActionByHeightRequest() *graphql.Object {
+	if gql__type_ActionByHeightRequest == nil {
+		gql__type_ActionByHeightRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHeightRequest",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHeightRequest
+}
+
+func Gql__input_ActionByHeightResponse() *graphql.InputObject {
+	if gql__input_ActionByHeightResponse == nil {
+		gql__input_ActionByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHeightResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ActionInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHeightResponse
+}
+
+func Gql__input_ActionByHeightRequest() *graphql.InputObject {
+	if gql__input_ActionByHeightRequest == nil {
+		gql__input_ActionByHeightRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHeightRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHeightRequest
+}
+
+func Gql__type_ContractInteractorsResponse() *graphql.Object {
+if gql__type_ContractInteractorsResponse == nil {
+gql__type_ContractInteractorsResponse = graphql.NewObject(graphql.ObjectConfig{
+Name: "ContractInteractorsResponseType",
+Fields: graphql.Fields{
+"senders": &graphql.Field{
+Type: graphql.NewList(graphql.String),
+},
+},
+})
+}
+return gql__type_ContractInteractorsResponse
+}
+
+func Gql__type_ContractInteractorsRequest() *graphql.Object {
+if gql__type_ContractInteractorsRequest == nil {
+gql__type_ContractInteractorsRequest = graphql.NewObject(graphql.ObjectConfig{
+Name: "ContractInteractorsRequestType",
+Fields: graphql.Fields{
+"address": &graphql.Field{
+Type: graphql.String,
+},
+"startTime": &graphql.Field{
+Type: graphql.String,
+},
+},
+})
+}
+return gql__type_ContractInteractorsRequest
+}
+
+func Gql__input_ContractInteractorsResponse() *graphql.InputObject {
+if gql__input_ContractInteractorsResponse == nil {
+gql__input_ContractInteractorsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+Name: "ContractInteractorsResponseInput",
+Fields: graphql.InputObjectConfigFieldMap{
+"senders": &graphql.InputObjectFieldConfig{
+Type: graphql.NewList(graphql.String),
+},
+},
+})
+}
+return gql__input_ContractInteractorsResponse
+}
+
+func Gql__input_ContractInteractorsRequest() *graphql.InputObject {
+if gql__input_ContractInteractorsRequest == nil {
+gql__input_ContractInteractorsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+Name: "ContractInteractorsRequestInput",
+Fields: graphql.InputObjectConfigFieldMap{
+"address": &graphql.InputObjectFieldConfig{
+Type: graphql.String,
+},
+"startTime": &graphql.InputObjectFieldConfig{
+Type: graphql.String,
+},
+},
+})
+}
+return gql__input_ContractInteractorsRequest
 }
 
 // CreateConnection() returns grpc connection which user specified or newly connected and closing function
@@ -967,6 +1255,15 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 				"pagination": &graphql.ArgumentConfig{
 					Type: pagination.Gql__input_Pagination(),
 				},
+				"sender": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"actionType": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				var req ActionByAddressRequest
@@ -1027,6 +1324,72 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 				return resp, nil
 			},
 		},
+		"ActionList": &graphql.Field{
+			Type: Gql__type_ActionListResponse(),
+			Args: graphql.FieldConfigArgument{
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ActionListRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for ActionList")
+				}
+				client := NewActionServiceClient(conn)
+				resp, err := client.ActionList(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ActionList")
+				}
+				return resp, nil
+			},
+		},
+		"ActionByHeight": &graphql.Field{
+			Type: Gql__type_ActionByHeightResponse(),
+			Args: graphql.FieldConfigArgument{
+				"height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"pagination": &graphql.ArgumentConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req ActionByHeightRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for ActionByHeight")
+				}
+				client := NewActionServiceClient(conn)
+				resp, err := client.ActionByHeight(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ActionByHeight")
+				}
+				return resp, nil
+			},
+		},
+"ContractInteractors": &graphql.Field{
+Type: Gql__type_ContractInteractorsResponse(),
+Args: graphql.FieldConfigArgument{
+"address": &graphql.ArgumentConfig{
+Type: graphql.String,
+},
+"startTime": &graphql.ArgumentConfig{
+Type: graphql.String,
+},
+},
+Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+var req ContractInteractorsRequest
+if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+return nil, errors.Wrap(err, "Failed to marshal request for ContractInteractors")
+}
+client := NewActionServiceClient(conn)
+resp, err := client.ContractInteractors(p.Context, &req)
+if err != nil {
+return nil, errors.Wrap(err, "Failed to call RPC ContractInteractors")
+}
+return resp, nil
+},
+},
 	}
 }
 
