@@ -29,6 +29,34 @@ message CandidateVoteByHeightResponse {
   repeated string address = 4;
 }
 
+message StakingBucketInfo {
+  uint64 bucket_id          = 1;
+  string owner_address      = 2;
+  string candidate          = 3;
+  string staked_amount      = 4;
+  string voting_power       = 5;
+  uint32 duration           = 6; // seconds
+  bool   auto_stake         = 7;
+  uint32 create_time        = 8; // unix timestamp
+  uint32 stake_start_time   = 9; // unix timestamp
+  uint32 unstake_start_time = 10; // unix timestamp, 0 if not unstaking
+  uint64 block_height       = 11;
+}
+
+message BucketByIDRequest {
+  repeated uint64 bucket_id      = 1;
+  uint64          height         = 2; // 0 = latest indexed height
+  bool            include_system = 3; // whether to query system buckets, default false
+}
+
+message BucketByIDResponse {
+  uint64                   height             = 1;
+  repeated StakingBucketInfo native_buckets    = 2;
+  repeated StakingBucketInfo system_buckets    = 3;
+  repeated StakingBucketInfo system_v2_buckets = 4;
+  repeated StakingBucketInfo system_v3_buckets = 5;
+}
+
 service StakingService {
   // Get the stake amount and voting weight of the voter's specified height
   rpc VoteByHeight(VoteByHeightRequest) returns (VoteByHeightResponse) {
@@ -43,11 +71,21 @@ service StakingService {
   };
   rpc CandidateVoteByHeight(CandidateVoteByHeightRequest) returns (CandidateVoteByHeightResponse) {
     option (graphql.schema) = {
-      type: QUERY 
+      type: QUERY
       name: "CandidateVoteByHeight"
     };
     option (google.api.http) = {
       post: "/api.StakingService.CandidateVoteByHeight"
+      body: "*"
+    };
+  };
+  rpc BucketByID(BucketByIDRequest) returns (BucketByIDResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "BucketByID"
+    };
+    option (google.api.http) = {
+      post: "/api.StakingService.BucketByID"
       body: "*"
     };
   };

@@ -122,8 +122,11 @@
     - [HermesService](#api-HermesService)
   
 - [api_staking.proto](#api_staking-proto)
+    - [BucketByIDRequest](#api-BucketByIDRequest)
+    - [BucketByIDResponse](#api-BucketByIDResponse)
     - [CandidateVoteByHeightRequest](#api-CandidateVoteByHeightRequest)
     - [CandidateVoteByHeightResponse](#api-CandidateVoteByHeightResponse)
+    - [StakingBucketInfo](#api-StakingBucketInfo)
     - [VoteByHeightRequest](#api-VoteByHeightRequest)
     - [VoteByHeightResponse](#api-VoteByHeightResponse)
   
@@ -1931,6 +1934,38 @@
 
 
 
+<a name="api-BucketByIDRequest"></a>
+
+### BucketByIDRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucket_id | [uint64](#uint64) | repeated | list of bucket IDs to query |
+| height | [uint64](#uint64) |  | block height (0 = latest indexed height) |
+| include_system | [bool](#bool) |  | whether to include system buckets in response (default false) |
+
+
+
+
+<a name="api-BucketByIDResponse"></a>
+
+### BucketByIDResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height of the query |
+| native_buckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | native staking buckets |
+| system_buckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | system staking buckets v1 (only when include_system=true) |
+| system_v2_buckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | system staking buckets v2 (only when include_system=true) |
+| system_v3_buckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | system staking buckets v3 (only when include_system=true) |
+
+
+
+
 <a name="api-CandidateVoteByHeightRequest"></a>
 
 ### CandidateVoteByHeightRequest
@@ -1961,6 +1996,29 @@
 | address | [string](#string) | repeated |  |
 
 
+
+
+
+
+<a name="api-StakingBucketInfo"></a>
+
+### StakingBucketInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucket_id | [uint64](#uint64) |  | unique bucket ID |
+| owner_address | [string](#string) |  | bucket owner IoTeX address |
+| candidate | [string](#string) |  | delegate address receiving the vote |
+| staked_amount | [string](#string) |  | total staked amount in Rau (decimal string) |
+| voting_power | [string](#string) |  | voting power in Rau (decimal string) |
+| duration | [uint32](#uint32) |  | lock duration in seconds |
+| auto_stake | [bool](#bool) |  | whether auto-stake is enabled |
+| create_time | [uint32](#uint32) |  | bucket creation time (unix timestamp) |
+| stake_start_time | [uint32](#uint32) |  | staking start time (unix timestamp) |
+| unstake_start_time | [uint32](#uint32) |  | unstaking start time (unix timestamp, 0 if not unstaking) |
+| block_height | [uint64](#uint64) |  | block height of this bucket state |
 
 
 
@@ -2013,6 +2071,7 @@
 | ----------- | ------------ | ------------- | ------------|
 | VoteByHeight | [VoteByHeightRequest](#api-VoteByHeightRequest) | [VoteByHeightResponse](#api-VoteByHeightResponse) | Get the stake amount and voting weight of the voter&#39;s specified height |
 | CandidateVoteByHeight | [CandidateVoteByHeightRequest](#api-CandidateVoteByHeightRequest) | [CandidateVoteByHeightResponse](#api-CandidateVoteByHeightResponse) |  |
+| BucketByID | [BucketByIDRequest](#api-BucketByIDRequest) | [BucketByIDResponse](#api-BucketByIDResponse) | Get staking bucket details by bucket IDs at a given block height |
 
  
 
