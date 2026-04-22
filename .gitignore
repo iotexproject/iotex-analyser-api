@@ -6,3 +6,4 @@ config_local.yml
 .DS_Store
 v1_config.yml
 .vscode
+proto/google/protobuf
