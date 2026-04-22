@@ -3,15 +3,24 @@ package actions
 import "time"
 
 type ActionInfo struct {
-	BlkHeight uint64
-	ActHash   string
-	BlkHash   string
-	ActType   string
-	Sender    string
-	Recipient string
-	Amount    string
-	GasFee    string
-	Timestamp time.Time
+	BlkHeight          uint64
+	ActHash            string
+	BlkHash            string
+	ActType            string
+	Sender             string
+	Recipient          string
+	Amount             string
+	GasFee             string
+	GasPrice           string
+	GasLimit           uint64
+	GasConsumed        uint64
+	Nonce              uint64
+	Status             uint64
+	ContractAddress    string
+	ExecutionRevertMsg string
+	ChainId            uint64
+	MethodName         string
+	Timestamp          time.Time
 }
 
 type BlockReceiptTransaction struct {

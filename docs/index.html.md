@@ -2543,6 +2543,119 @@ query {
 | stakeAmount | [string](#string) | repeated |  |
 | voteWeight | [string](#string) | repeated |  |
 
+## BucketByID
+
+Get staking bucket details by bucket IDs at a given block height. Set `includeSystem` to `true` to also return system staking buckets (v1/v2/v3). All `duration` values are returned in seconds.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.StakingService.BucketByID \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "bucketId": [1, 2],
+    "height": 0,
+    "includeSystem": false
+}'
+```
+
+```graphql
+query {
+  BucketByID(
+    bucketId: [1, 2]
+    height: 0
+    includeSystem: false
+  ) {
+    height
+    nativeBuckets {
+      bucketId
+      ownerAddress
+      candidate
+      stakedAmount
+      votingPower
+      duration
+      autoStake
+      createTime
+      stakeStartTime
+      unstakeStartTime
+      blockHeight
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "height": 37000000,
+  "nativeBuckets": [
+    {
+      "bucketId": "1",
+      "ownerAddress": "io1jh0ekmccywfkmj7e8qsuzsupnlk3w5337hjjg",
+      "candidate": "io1xpq62aw85uqzrccg9y5hnryv8ld2nkpycc3gza",
+      "stakedAmount": "1200000000000000000000000",
+      "votingPower": "2012011090252587925504000",
+      "duration": 7862400,
+      "autoStake": true,
+      "createTime": 1553591580,
+      "stakeStartTime": 1553591580,
+      "unstakeStartTime": 0,
+      "blockHeight": 36999980
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.StakingService.BucketByID`
+
+<a name="api-BucketByIDRequest"></a>
+
+### BucketByIDRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucketId | [uint64](#uint64) | repeated | list of bucket IDs to query |
+| height | [uint64](#uint64) |  | block height (0 = latest indexed height) |
+| includeSystem | [bool](#bool) |  | whether to include system buckets in response (default false) |
+
+<a name="api-BucketByIDResponse"></a>
+
+### BucketByIDResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height of the query |
+| nativeBuckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | native staking buckets |
+| systemBuckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | system staking buckets v1 (only when includeSystem=true) |
+| systemV2Buckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | system staking buckets v2 (only when includeSystem=true) |
+| systemV3Buckets | [StakingBucketInfo](#api-StakingBucketInfo) | repeated | system staking buckets v3 (only when includeSystem=true) |
+
+<a name="api-StakingBucketInfo"></a>
+
+### StakingBucketInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucketId | [uint64](#uint64) |  | unique bucket ID |
+| ownerAddress | [string](#string) |  | bucket owner IoTeX address |
+| candidate | [string](#string) |  | delegate address receiving the vote |
+| stakedAmount | [string](#string) |  | total staked amount in Rau (decimal string) |
+| votingPower | [string](#string) |  | voting power in Rau (decimal string) |
+| duration | [uint32](#uint32) |  | lock duration in seconds |
+| autoStake | [bool](#bool) |  | whether auto-stake is enabled |
+| createTime | [uint32](#uint32) |  | bucket creation time (unix timestamp) |
+| stakeStartTime | [uint32](#uint32) |  | staking start time (unix timestamp) |
+| unstakeStartTime | [uint32](#uint32) |  | unstaking start time (unix timestamp, 0 if not unstaking) |
+| blockHeight | [uint64](#uint64) |  | block height of this bucket state |
+
 # XRC20 Service API
 
 ## XRC20ByAddress

@@ -13,12 +13,18 @@ import (
 var (
 	gql__type_VoteByHeightResponse           *graphql.Object      // message VoteByHeightResponse in api_staking.proto
 	gql__type_VoteByHeightRequest            *graphql.Object      // message VoteByHeightRequest in api_staking.proto
+	gql__type_StakingBucketInfo              *graphql.Object      // message StakingBucketInfo in api_staking.proto
 	gql__type_CandidateVoteByHeightResponse  *graphql.Object      // message CandidateVoteByHeightResponse in api_staking.proto
 	gql__type_CandidateVoteByHeightRequest   *graphql.Object      // message CandidateVoteByHeightRequest in api_staking.proto
+	gql__type_BucketByIDResponse             *graphql.Object      // message BucketByIDResponse in api_staking.proto
+	gql__type_BucketByIDRequest              *graphql.Object      // message BucketByIDRequest in api_staking.proto
 	gql__input_VoteByHeightResponse          *graphql.InputObject // message VoteByHeightResponse in api_staking.proto
 	gql__input_VoteByHeightRequest           *graphql.InputObject // message VoteByHeightRequest in api_staking.proto
+	gql__input_StakingBucketInfo             *graphql.InputObject // message StakingBucketInfo in api_staking.proto
 	gql__input_CandidateVoteByHeightResponse *graphql.InputObject // message CandidateVoteByHeightResponse in api_staking.proto
 	gql__input_CandidateVoteByHeightRequest  *graphql.InputObject // message CandidateVoteByHeightRequest in api_staking.proto
+	gql__input_BucketByIDResponse            *graphql.InputObject // message BucketByIDResponse in api_staking.proto
+	gql__input_BucketByIDRequest             *graphql.InputObject // message BucketByIDRequest in api_staking.proto
 )
 
 func Gql__type_VoteByHeightResponse() *graphql.Object {
@@ -56,6 +62,50 @@ func Gql__type_VoteByHeightRequest() *graphql.Object {
 		})
 	}
 	return gql__type_VoteByHeightRequest
+}
+
+func Gql__type_StakingBucketInfo() *graphql.Object {
+	if gql__type_StakingBucketInfo == nil {
+		gql__type_StakingBucketInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_StakingBucketInfo",
+			Fields: graphql.Fields{
+				"bucket_id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"owner_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"candidate": &graphql.Field{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"voting_power": &graphql.Field{
+					Type: graphql.String,
+				},
+				"duration": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"auto_stake": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"create_time": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"stake_start_time": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"unstake_start_time": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_StakingBucketInfo
 }
 
 func Gql__type_CandidateVoteByHeightResponse() *graphql.Object {
@@ -98,6 +148,52 @@ func Gql__type_CandidateVoteByHeightRequest() *graphql.Object {
 	return gql__type_CandidateVoteByHeightRequest
 }
 
+func Gql__type_BucketByIDResponse() *graphql.Object {
+	if gql__type_BucketByIDResponse == nil {
+		gql__type_BucketByIDResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BucketByIDResponse",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"native_buckets": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingBucketInfo()),
+				},
+				"system_buckets": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingBucketInfo()),
+				},
+				"system_v2_buckets": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingBucketInfo()),
+				},
+				"system_v3_buckets": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingBucketInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_BucketByIDResponse
+}
+
+func Gql__type_BucketByIDRequest() *graphql.Object {
+	if gql__type_BucketByIDRequest == nil {
+		gql__type_BucketByIDRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BucketByIDRequest",
+			Fields: graphql.Fields{
+				"bucket_id": &graphql.Field{
+					Type: graphql.NewList(graphql.Int),
+				},
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"include_system": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__type_BucketByIDRequest
+}
+
 func Gql__input_VoteByHeightResponse() *graphql.InputObject {
 	if gql__input_VoteByHeightResponse == nil {
 		gql__input_VoteByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -133,6 +229,50 @@ func Gql__input_VoteByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_VoteByHeightRequest
+}
+
+func Gql__input_StakingBucketInfo() *graphql.InputObject {
+	if gql__input_StakingBucketInfo == nil {
+		gql__input_StakingBucketInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_StakingBucketInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"owner_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"candidate": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"voting_power": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"duration": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"auto_stake": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"create_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"stake_start_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"unstake_start_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_StakingBucketInfo
 }
 
 func Gql__input_CandidateVoteByHeightResponse() *graphql.InputObject {
@@ -173,6 +313,52 @@ func Gql__input_CandidateVoteByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_CandidateVoteByHeightRequest
+}
+
+func Gql__input_BucketByIDResponse() *graphql.InputObject {
+	if gql__input_BucketByIDResponse == nil {
+		gql__input_BucketByIDResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BucketByIDResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"native_buckets": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingBucketInfo()),
+				},
+				"system_buckets": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingBucketInfo()),
+				},
+				"system_v2_buckets": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingBucketInfo()),
+				},
+				"system_v3_buckets": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingBucketInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_BucketByIDResponse
+}
+
+func Gql__input_BucketByIDRequest() *graphql.InputObject {
+	if gql__input_BucketByIDRequest == nil {
+		gql__input_BucketByIDRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BucketByIDRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.Int),
+				},
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"include_system": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__input_BucketByIDRequest
 }
 
 // graphql__resolver_StakingService is a struct for making query, mutation and resolve fields.
@@ -263,6 +449,32 @@ func (x *graphql__resolver_StakingService) GetQueries(conn *grpc.ClientConn) gra
 				return resp, nil
 			},
 		},
+		"BucketByID": &graphql.Field{
+			Type: Gql__type_BucketByIDResponse(),
+			Args: graphql.FieldConfigArgument{
+				"bucket_id": &graphql.ArgumentConfig{
+					Type: graphql.NewList(graphql.Int),
+				},
+				"height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"include_system": &graphql.ArgumentConfig{
+					Type: graphql.Boolean,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req BucketByIDRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for BucketByID")
+				}
+				client := NewStakingServiceClient(conn)
+				resp, err := client.BucketByID(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC BucketByID")
+				}
+				return resp, nil
+			},
+		},
 	}
 }
 
@@ -284,14 +496,14 @@ func RegisterStakingServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service StakingService {
-//    option (graphql.service) = {
-//        host: "host:port"
-//        insecure: true or false
-//    };
+//	service StakingService {
+//	   option (graphql.service) = {
+//	       host: "host:port"
+//	       insecure: true or false
+//	   };
 //
-//    ...with RPC definitions
-// }
+//	   ...with RPC definitions
+//	}
 func RegisterStakingServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	return mux.AddHandler(new_graphql_resolver_StakingService(conn))
 }

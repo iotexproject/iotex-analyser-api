@@ -436,6 +436,9 @@
                   <li>
                     <a href="#votebyheight" class="toc-h2 toc-link" data-title="VoteByHeight">VoteByHeight</a>
                   </li>
+                  <li>
+                    <a href="#bucketbyid" class="toc-h2 toc-link" data-title="BucketByID">BucketByID</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -3808,6 +3811,212 @@
 <td></td>
 </tr>
 </tbody></table>
+<h2 id='bucketbyid'>BucketByID</h2>
+<p>Get staking bucket details by bucket IDs at a given block height. Set <code>includeSystem</code> to <code>true</code> to also return system staking buckets (v1/v2/v3). All <code>duration</code> values are returned in seconds.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> https://analyser-api.iotex.io/api.StakingService.BucketByID <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{
+    "bucketId": [1, 2],
+    "height": 0,
+    "includeSystem": false
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">BucketByID</span><span class="p">(</span><span class="w">
+    </span><span class="n">bucketId</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">
+    </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="err">0</span><span class="w">
+    </span><span class="n">includeSystem</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">height</span><span class="w">
+    </span><span class="n">nativeBuckets</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">bucketId</span><span class="w">
+      </span><span class="n">ownerAddress</span><span class="w">
+      </span><span class="n">candidate</span><span class="w">
+      </span><span class="n">stakedAmount</span><span class="w">
+      </span><span class="n">votingPower</span><span class="w">
+      </span><span class="n">duration</span><span class="w">
+      </span><span class="n">autoStake</span><span class="w">
+      </span><span class="n">createTime</span><span class="w">
+      </span><span class="n">stakeStartTime</span><span class="w">
+      </span><span class="n">unstakeStartTime</span><span class="w">
+      </span><span class="n">blockHeight</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"height"</span><span class="p">:</span><span class="w"> </span><span class="mi">37000000</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"nativeBuckets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"bucketId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ownerAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1jh0ekmccywfkmj7e8qsuzsupnlk3w5337hjjg"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"candidate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io1xpq62aw85uqzrccg9y5hnryv8ld2nkpycc3gza"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"stakedAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1200000000000000000000000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"votingPower"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012011090252587925504000"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">7862400</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"autoStake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"createTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1553591580</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"stakeStartTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1553591580</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"unstakeStartTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"blockHeight"</span><span class="p">:</span><span class="w"> </span><span class="mi">36999980</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='http-request-28'>HTTP Request</h3>
+<p><code>POST /api.StakingService.BucketByID</code></p>
+
+<p><a name="api-BucketByIDRequest"></a></p>
+<h3 id='bucketbyidrequest'>BucketByIDRequest</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bucketId</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>list of bucket IDs to query</td>
+</tr>
+<tr>
+<td>height</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>block height (0 = latest indexed height)</td>
+</tr>
+<tr>
+<td>includeSystem</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether to include system buckets in response (default false)</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-BucketByIDResponse"></a></p>
+<h3 id='bucketbyidresponse'>BucketByIDResponse</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>height</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>block height of the query</td>
+</tr>
+<tr>
+<td>nativeBuckets</td>
+<td><a href="#api-StakingBucketInfo">StakingBucketInfo</a></td>
+<td>repeated</td>
+<td>native staking buckets</td>
+</tr>
+<tr>
+<td>systemBuckets</td>
+<td><a href="#api-StakingBucketInfo">StakingBucketInfo</a></td>
+<td>repeated</td>
+<td>system staking buckets v1 (only when includeSystem=true)</td>
+</tr>
+<tr>
+<td>systemV2Buckets</td>
+<td><a href="#api-StakingBucketInfo">StakingBucketInfo</a></td>
+<td>repeated</td>
+<td>system staking buckets v2 (only when includeSystem=true)</td>
+</tr>
+<tr>
+<td>systemV3Buckets</td>
+<td><a href="#api-StakingBucketInfo">StakingBucketInfo</a></td>
+<td>repeated</td>
+<td>system staking buckets v3 (only when includeSystem=true)</td>
+</tr>
+</tbody></table>
+
+<p><a name="api-StakingBucketInfo"></a></p>
+<h3 id='stakingbucketinfo'>StakingBucketInfo</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bucketId</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>unique bucket ID</td>
+</tr>
+<tr>
+<td>ownerAddress</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>bucket owner IoTeX address</td>
+</tr>
+<tr>
+<td>candidate</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>delegate address receiving the vote</td>
+</tr>
+<tr>
+<td>stakedAmount</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>total staked amount in Rau (decimal string)</td>
+</tr>
+<tr>
+<td>votingPower</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>voting power in Rau (decimal string)</td>
+</tr>
+<tr>
+<td>duration</td>
+<td><a href="#uint32">uint32</a></td>
+<td></td>
+<td>lock duration in seconds</td>
+</tr>
+<tr>
+<td>autoStake</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>whether auto-stake is enabled</td>
+</tr>
+<tr>
+<td>createTime</td>
+<td><a href="#uint32">uint32</a></td>
+<td></td>
+<td>bucket creation time (unix timestamp)</td>
+</tr>
+<tr>
+<td>stakeStartTime</td>
+<td><a href="#uint32">uint32</a></td>
+<td></td>
+<td>staking start time (unix timestamp)</td>
+</tr>
+<tr>
+<td>unstakeStartTime</td>
+<td><a href="#uint32">uint32</a></td>
+<td></td>
+<td>unstaking start time (unix timestamp, 0 if not unstaking)</td>
+</tr>
+<tr>
+<td>blockHeight</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>block height of this bucket state</td>
+</tr>
+</tbody></table>
 <h1 id='xrc20-service-api'>XRC20 Service API</h1><h2 id='xrc20byaddress'>XRC20ByAddress</h2>
 <p>XRC20ByAddress returns Xrc20 actions given the sender address or recipient address</p>
 <div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
@@ -3860,7 +4069,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-28'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-29'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByAddress</code></p>
 
 <p><a name="api-XRC20ByAddressRequest"></a></p>
@@ -4016,7 +4225,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-29'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-30'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByContractAddress</code></p>
 
 <p><a name="api-XRC20ByContractAddressRequest"></a></p>
@@ -4121,7 +4330,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-30'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-31'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20ByPage</code></p>
 
 <p><a name="api-XRC20ByPageRequest"></a></p>
@@ -4208,7 +4417,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-31'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-32'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20Addresses</code></p>
 
 <p><a name="api-XRC20AddressesRequest"></a></p>
@@ -4297,7 +4506,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-32'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-33'>HTTP Request</h3>
 <p><code>POST /api.XRC20Service.XRC20TokenHolderAddresses</code></p>
 
 <p><a name="api-XRC20TokenHolderAddressesRequest"></a></p>
@@ -4398,7 +4607,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-33'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-34'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByAddress</code></p>
 
 <p><a name="api-XRC721ByAddressRequest"></a></p>
@@ -4553,7 +4762,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-34'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-35'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByContractAddress</code></p>
 
 <p><a name="api-XRC721ByContractAddressRequest"></a></p>
@@ -4658,7 +4867,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-35'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-36'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721ByPage</code></p>
 
 <p><a name="api-XRC721ByPageRequest"></a></p>
@@ -4744,7 +4953,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-36'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-37'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721Addresses</code></p>
 
 <p><a name="api-XRC721AddressesRequest"></a></p>
@@ -4833,7 +5042,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-37'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-38'>HTTP Request</h3>
 <p><code>POST /api.XRC721Service.XRC721TokenHolderAddresses</code></p>
 
 <p><a name="api-XRC721TokenHolderAddressesRequest"></a></p>
@@ -4937,7 +5146,7 @@
         </span><span class="p">},</span><span class="w">
         </span><span class="err">...</span><span class="w">
 </span><span class="err">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-38'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-39'>HTTP Request</h3>
 <p><code>POST /api.HermesService.Hermes</code></p>
 
 <p><a name="api-HermesRequest"></a></p>
@@ -5124,7 +5333,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-39'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-40'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesByVoter</code></p>
 
 <p><a name="api-HermesByVoterRequest"></a></p>
@@ -5310,7 +5519,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-40'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-41'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesByDelegate</code></p>
 
 <p><a name="api-HermesByDelegateRequest"></a></p>
@@ -5507,7 +5716,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-41'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-42'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesMeta</code></p>
 
 <p><a name="api-HermesMetaRequest"></a></p>
@@ -5612,7 +5821,7 @@
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div><h3 id='http-request-42'>HTTP Request</h3>
+</span></code></pre></div><h3 id='http-request-43'>HTTP Request</h3>
 <p><code>POST /api.HermesService.HermesAverageStats</code></p>
 
 <p><a name="api-HermesAverageStatsRequest"></a></p>
