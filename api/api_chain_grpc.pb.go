@@ -27,6 +27,10 @@ const (
 	ChainService_GetLatestBlockHeight_FullMethodName   = "/api.ChainService/GetLatestBlockHeight"
 	ChainService_GetBlocks_FullMethodName              = "/api.ChainService/GetBlocks"
 	ChainService_GetBlockByHeight_FullMethodName       = "/api.ChainService/GetBlockByHeight"
+	ChainService_GetEpochInfo_FullMethodName           = "/api.ChainService/GetEpochInfo"
+	ChainService_GetLatestStakingRecord_FullMethodName = "/api.ChainService/GetLatestStakingRecord"
+	ChainService_GetPeakTps_FullMethodName             = "/api.ChainService/GetPeakTps"
+	ChainService_GetActionHistory_FullMethodName       = "/api.ChainService/GetActionHistory"
 )
 
 // ChainServiceClient is the client API for ChainService service.
@@ -48,6 +52,14 @@ type ChainServiceClient interface {
 	GetBlocks(ctx context.Context, in *GetBlocksRequest, opts ...grpc.CallOption) (*GetBlocksResponse, error)
 	// GetBlockByHeight returns a single block by its height
 	GetBlockByHeight(ctx context.Context, in *GetBlockByHeightRequest, opts ...grpc.CallOption) (*GetBlockByHeightResponse, error)
+	// GetEpochInfo returns the current epoch number and its starting block height
+	GetEpochInfo(ctx context.Context, in *GetEpochInfoRequest, opts ...grpc.CallOption) (*GetEpochInfoResponse, error)
+	// GetLatestStakingRecord returns the most recent staking statistics
+	GetLatestStakingRecord(ctx context.Context, in *GetLatestStakingRecordRequest, opts ...grpc.CallOption) (*GetLatestStakingRecordResponse, error)
+	// GetPeakTps returns the all-time peak TPS (max block actions / 5-second block time)
+	GetPeakTps(ctx context.Context, in *GetPeakTpsRequest, opts ...grpc.CallOption) (*GetPeakTpsResponse, error)
+	// GetActionHistory returns aggregated action counts over a time range
+	GetActionHistory(ctx context.Context, in *GetActionHistoryRequest, opts ...grpc.CallOption) (*GetActionHistoryResponse, error)
 }
 
 type chainServiceClient struct {
@@ -130,6 +142,42 @@ func (c *chainServiceClient) GetBlockByHeight(ctx context.Context, in *GetBlockB
 	return out, nil
 }
 
+func (c *chainServiceClient) GetEpochInfo(ctx context.Context, in *GetEpochInfoRequest, opts ...grpc.CallOption) (*GetEpochInfoResponse, error) {
+	out := new(GetEpochInfoResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetEpochInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetLatestStakingRecord(ctx context.Context, in *GetLatestStakingRecordRequest, opts ...grpc.CallOption) (*GetLatestStakingRecordResponse, error) {
+	out := new(GetLatestStakingRecordResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetLatestStakingRecord_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetPeakTps(ctx context.Context, in *GetPeakTpsRequest, opts ...grpc.CallOption) (*GetPeakTpsResponse, error) {
+	out := new(GetPeakTpsResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetPeakTps_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetActionHistory(ctx context.Context, in *GetActionHistoryRequest, opts ...grpc.CallOption) (*GetActionHistoryResponse, error) {
+	out := new(GetActionHistoryResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetActionHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility
@@ -149,6 +197,14 @@ type ChainServiceServer interface {
 	GetBlocks(context.Context, *GetBlocksRequest) (*GetBlocksResponse, error)
 	// GetBlockByHeight returns a single block by its height
 	GetBlockByHeight(context.Context, *GetBlockByHeightRequest) (*GetBlockByHeightResponse, error)
+	// GetEpochInfo returns the current epoch number and its starting block height
+	GetEpochInfo(context.Context, *GetEpochInfoRequest) (*GetEpochInfoResponse, error)
+	// GetLatestStakingRecord returns the most recent staking statistics
+	GetLatestStakingRecord(context.Context, *GetLatestStakingRecordRequest) (*GetLatestStakingRecordResponse, error)
+	// GetPeakTps returns the all-time peak TPS (max block actions / 5-second block time)
+	GetPeakTps(context.Context, *GetPeakTpsRequest) (*GetPeakTpsResponse, error)
+	// GetActionHistory returns aggregated action counts over a time range
+	GetActionHistory(context.Context, *GetActionHistoryRequest) (*GetActionHistoryResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -179,6 +235,18 @@ func (UnimplementedChainServiceServer) GetBlocks(context.Context, *GetBlocksRequ
 }
 func (UnimplementedChainServiceServer) GetBlockByHeight(context.Context, *GetBlockByHeightRequest) (*GetBlockByHeightResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBlockByHeight not implemented")
+}
+func (UnimplementedChainServiceServer) GetEpochInfo(context.Context, *GetEpochInfoRequest) (*GetEpochInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEpochInfo not implemented")
+}
+func (UnimplementedChainServiceServer) GetLatestStakingRecord(context.Context, *GetLatestStakingRecordRequest) (*GetLatestStakingRecordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLatestStakingRecord not implemented")
+}
+func (UnimplementedChainServiceServer) GetPeakTps(context.Context, *GetPeakTpsRequest) (*GetPeakTpsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPeakTps not implemented")
+}
+func (UnimplementedChainServiceServer) GetActionHistory(context.Context, *GetActionHistoryRequest) (*GetActionHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetActionHistory not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 
@@ -337,6 +405,78 @@ func _ChainService_GetBlockByHeight_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_GetEpochInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEpochInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetEpochInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetEpochInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetEpochInfo(ctx, req.(*GetEpochInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetLatestStakingRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLatestStakingRecordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetLatestStakingRecord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetLatestStakingRecord_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetLatestStakingRecord(ctx, req.(*GetLatestStakingRecordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetPeakTps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPeakTpsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetPeakTps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetPeakTps_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetPeakTps(ctx, req.(*GetPeakTpsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetActionHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActionHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetActionHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetActionHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetActionHistory(ctx, req.(*GetActionHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -375,6 +515,22 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBlockByHeight",
 			Handler:    _ChainService_GetBlockByHeight_Handler,
+		},
+		{
+			MethodName: "GetEpochInfo",
+			Handler:    _ChainService_GetEpochInfo_Handler,
+		},
+		{
+			MethodName: "GetLatestStakingRecord",
+			Handler:    _ChainService_GetLatestStakingRecord_Handler,
+		},
+		{
+			MethodName: "GetPeakTps",
+			Handler:    _ChainService_GetPeakTps_Handler,
+		},
+		{
+			MethodName: "GetActionHistory",
+			Handler:    _ChainService_GetActionHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
