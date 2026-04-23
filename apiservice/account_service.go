@@ -256,6 +256,139 @@ func (s *AccountService) GetAccountMeta(ctx context.Context, req *api.GetAccount
 	return resp, nil
 }
 
+// GetAddressNFTBalances returns NFT token balances grouped by (contract, type) for an address.
+func (s *AccountService) GetAddressNFTBalances(ctx context.Context, req *api.GetAddressNFTBalancesRequest) (*api.GetAddressNFTBalancesResponse, error) {
+	resp := &api.GetAddressNFTBalancesResponse{}
+	gormDB := db.DB()
+	var rows []struct {
+		ContractAddress string
+		ErcType         string
+		Balance         string
+	}
+	q := `SELECT contract_address, ('xrc' || erc_type) AS erc_type,
+               SUM(CASE WHEN erc_type = '721' THEN 1 ELSE token_value END)::text AS balance
+          FROM erc1155_721_holders_v2_1_0
+          WHERE holder = ? AND token_value > 0
+          GROUP BY contract_address, erc_type`
+	if err := gormDB.WithContext(ctx).Raw(q, req.GetAddress()).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get NFT balances")
+	}
+	for _, r := range rows {
+		resp.Balances = append(resp.Balances, &api.NFTBalanceInfo{
+			ContractAddress: r.ContractAddress,
+			Type:            r.ErcType,
+			Balance:         r.Balance,
+		})
+	}
+	return resp, nil
+}
+
+// GetAddressTokenBalances returns ERC20 token balances (positive) for an address.
+func (s *AccountService) GetAddressTokenBalances(ctx context.Context, req *api.GetAddressTokenBalancesRequest) (*api.GetAddressTokenBalancesResponse, error) {
+	resp := &api.GetAddressTokenBalancesResponse{}
+	gormDB := db.DB()
+	addr := req.GetAddress()
+	var rows []struct {
+		ContractAddress string
+		Balance         string
+	}
+	q := `SELECT contract_address, balance::text
+          FROM (
+              SELECT contract_address,
+                  COALESCE(SUM(amount::numeric) FILTER (WHERE recipient = ?), 0) -
+                  COALESCE(SUM(amount::numeric) FILTER (WHERE sender = ?), 0) AS balance
+              FROM erc20_transfers
+              WHERE recipient = ? OR sender = ?
+              GROUP BY contract_address
+          ) a
+          WHERE balance > 0`
+	if err := gormDB.WithContext(ctx).Raw(q, addr, addr, addr, addr).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get token balances")
+	}
+	for _, r := range rows {
+		resp.Balances = append(resp.Balances, &api.TokenBalanceInfo{
+			ContractAddress: r.ContractAddress,
+			Balance:         r.Balance,
+		})
+	}
+	return resp, nil
+}
+
+// GetTopAccounts returns top stakers from stats_top_list_view with stake/duration/mf filters.
+func (s *AccountService) GetTopAccounts(ctx context.Context, req *api.GetTopAccountsRequest) (*api.GetTopAccountsResponse, error) {
+	resp := &api.GetTopAccountsResponse{}
+	gormDB := db.DB()
+
+	var stakeAmountCond, stakeDurationCond, mfCond string
+	if req.GetStakeAmount() == "less" {
+		stakeAmountCond = "staked_amount < 10000000000000000000000"
+	} else {
+		stakeAmountCond = "staked_amount >= 10000000000000000000000"
+	}
+	if req.GetStakeDuration() == "less" {
+		stakeDurationCond = "duration < 91"
+	} else {
+		stakeDurationCond = "duration >= 91"
+	}
+	if req.GetMf() == "" {
+		mfCond = "mf = 0"
+	} else {
+		mfCond = "mf > 0"
+	}
+	wherePart := stakeAmountCond + " AND " + stakeDurationCond + " AND " + mfCond
+
+	var count int64
+	if err := gormDB.WithContext(ctx).Raw("SELECT COUNT(1) FROM stats_top_list_view WHERE " + wherePart).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count top accounts")
+	}
+	resp.Count = count
+
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+	var rows []struct {
+		OwnerAddress sql.NullString
+		BucketId     uint64
+		StakedAmount sql.NullString
+		Duration     sql.NullString
+		Mf           sql.NullString
+		LastUpdate   sql.NullString
+		Balance      sql.NullString
+	}
+	q := `SELECT owner_address, bucket_id,
+               ROUND(staked_amount / 1e18, 2)::text AS staked_amount,
+               duration::text, mf::text,
+               to_char(last_update AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS last_update,
+               balance::text
+          FROM stats_top_list_view
+          WHERE ` + wherePart + ` ORDER BY staked_amount DESC LIMIT ? OFFSET ?`
+	if err := gormDB.WithContext(ctx).Raw(q, first, skip).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get top accounts")
+	}
+	for _, r := range rows {
+		row := &api.TopAccountRow{BucketId: r.BucketId}
+		if r.OwnerAddress.Valid {
+			row.OwnerAddress = r.OwnerAddress.String
+		}
+		if r.StakedAmount.Valid {
+			row.StakedAmount = r.StakedAmount.String
+		}
+		if r.Duration.Valid {
+			row.Duration = r.Duration.String
+		}
+		if r.Mf.Valid {
+			row.Mf = r.Mf.String
+		}
+		if r.LastUpdate.Valid {
+			row.LastUpdate = r.LastUpdate.String
+		}
+		if r.Balance.Valid {
+			row.Balance = r.Balance.String
+		}
+		resp.Accounts = append(resp.Accounts, row)
+	}
+	return resp, nil
+}
+
 // GetContractCreateInfo returns the action hash and creator for a contract
 func (s *AccountService) GetContractCreateInfo(ctx context.Context, req *api.GetContractCreateInfoRequest) (*api.GetContractCreateInfoResponse, error) {
 	resp := &api.GetContractCreateInfoResponse{}

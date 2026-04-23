@@ -29,6 +29,9 @@ const (
 	AccountService_ContractInfo_FullMethodName              = "/api.AccountService/ContractInfo"
 	AccountService_GetAccountMeta_FullMethodName            = "/api.AccountService/GetAccountMeta"
 	AccountService_GetContractCreateInfo_FullMethodName     = "/api.AccountService/GetContractCreateInfo"
+	AccountService_GetAddressNFTBalances_FullMethodName     = "/api.AccountService/GetAddressNFTBalances"
+	AccountService_GetAddressTokenBalances_FullMethodName   = "/api.AccountService/GetAddressTokenBalances"
+	AccountService_GetTopAccounts_FullMethodName            = "/api.AccountService/GetTopAccounts"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -54,6 +57,12 @@ type AccountServiceClient interface {
 	GetAccountMeta(ctx context.Context, in *GetAccountMetaRequest, opts ...grpc.CallOption) (*GetAccountMetaResponse, error)
 	// GetContractCreateInfo returns the action hash and creator for a contract
 	GetContractCreateInfo(ctx context.Context, in *GetContractCreateInfoRequest, opts ...grpc.CallOption) (*GetContractCreateInfoResponse, error)
+	// GetAddressNFTBalances returns NFT token balances for an address
+	GetAddressNFTBalances(ctx context.Context, in *GetAddressNFTBalancesRequest, opts ...grpc.CallOption) (*GetAddressNFTBalancesResponse, error)
+	// GetAddressTokenBalances returns ERC20 token balances for an address
+	GetAddressTokenBalances(ctx context.Context, in *GetAddressTokenBalancesRequest, opts ...grpc.CallOption) (*GetAddressTokenBalancesResponse, error)
+	// GetTopAccounts returns top stakers from stats_top_list_view with filters
+	GetTopAccounts(ctx context.Context, in *GetTopAccountsRequest, opts ...grpc.CallOption) (*GetTopAccountsResponse, error)
 }
 
 type accountServiceClient struct {
@@ -154,6 +163,33 @@ func (c *accountServiceClient) GetContractCreateInfo(ctx context.Context, in *Ge
 	return out, nil
 }
 
+func (c *accountServiceClient) GetAddressNFTBalances(ctx context.Context, in *GetAddressNFTBalancesRequest, opts ...grpc.CallOption) (*GetAddressNFTBalancesResponse, error) {
+	out := new(GetAddressNFTBalancesResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetAddressNFTBalances_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) GetAddressTokenBalances(ctx context.Context, in *GetAddressTokenBalancesRequest, opts ...grpc.CallOption) (*GetAddressTokenBalancesResponse, error) {
+	out := new(GetAddressTokenBalancesResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetAddressTokenBalances_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) GetTopAccounts(ctx context.Context, in *GetTopAccountsRequest, opts ...grpc.CallOption) (*GetTopAccountsResponse, error) {
+	out := new(GetTopAccountsResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetTopAccounts_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -177,6 +213,12 @@ type AccountServiceServer interface {
 	GetAccountMeta(context.Context, *GetAccountMetaRequest) (*GetAccountMetaResponse, error)
 	// GetContractCreateInfo returns the action hash and creator for a contract
 	GetContractCreateInfo(context.Context, *GetContractCreateInfoRequest) (*GetContractCreateInfoResponse, error)
+	// GetAddressNFTBalances returns NFT token balances for an address
+	GetAddressNFTBalances(context.Context, *GetAddressNFTBalancesRequest) (*GetAddressNFTBalancesResponse, error)
+	// GetAddressTokenBalances returns ERC20 token balances for an address
+	GetAddressTokenBalances(context.Context, *GetAddressTokenBalancesRequest) (*GetAddressTokenBalancesResponse, error)
+	// GetTopAccounts returns top stakers from stats_top_list_view with filters
+	GetTopAccounts(context.Context, *GetTopAccountsRequest) (*GetTopAccountsResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -213,6 +255,15 @@ func (UnimplementedAccountServiceServer) GetAccountMeta(context.Context, *GetAcc
 }
 func (UnimplementedAccountServiceServer) GetContractCreateInfo(context.Context, *GetContractCreateInfoRequest) (*GetContractCreateInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetContractCreateInfo not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAddressNFTBalances(context.Context, *GetAddressNFTBalancesRequest) (*GetAddressNFTBalancesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAddressNFTBalances not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAddressTokenBalances(context.Context, *GetAddressTokenBalancesRequest) (*GetAddressTokenBalancesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAddressTokenBalances not implemented")
+}
+func (UnimplementedAccountServiceServer) GetTopAccounts(context.Context, *GetTopAccountsRequest) (*GetTopAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopAccounts not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -407,6 +458,60 @@ func _AccountService_GetContractCreateInfo_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetAddressNFTBalances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAddressNFTBalancesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAddressNFTBalances(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetAddressNFTBalances_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAddressNFTBalances(ctx, req.(*GetAddressNFTBalancesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetAddressTokenBalances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAddressTokenBalancesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAddressTokenBalances(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetAddressTokenBalances_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAddressTokenBalances(ctx, req.(*GetAddressTokenBalancesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetTopAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopAccountsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetTopAccounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetTopAccounts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetTopAccounts(ctx, req.(*GetTopAccountsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -453,6 +558,18 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetContractCreateInfo",
 			Handler:    _AccountService_GetContractCreateInfo_Handler,
+		},
+		{
+			MethodName: "GetAddressNFTBalances",
+			Handler:    _AccountService_GetAddressNFTBalances_Handler,
+		},
+		{
+			MethodName: "GetAddressTokenBalances",
+			Handler:    _AccountService_GetAddressTokenBalances_Handler,
+		},
+		{
+			MethodName: "GetTopAccounts",
+			Handler:    _AccountService_GetTopAccounts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

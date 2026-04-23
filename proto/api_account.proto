@@ -3,6 +3,7 @@ syntax = "proto3";
 package api;
 import "google/api/annotations.proto";
 import "include/graphql.proto";
+import "include/pagination.proto";
 option go_package = "./api";
 
 message IotexBalanceByHeightRequest {
@@ -105,6 +106,55 @@ message GetContractCreateInfoResponse {
   string creator = 2;
 }
 
+message NFTBalanceInfo {
+  string contract_address = 1;
+  string type = 2;    // "xrc721" or "xrc1155"
+  string balance = 3;
+}
+
+message GetAddressNFTBalancesRequest {
+  string address = 1;
+}
+
+message GetAddressNFTBalancesResponse {
+  repeated NFTBalanceInfo balances = 1;
+}
+
+message TokenBalanceInfo {
+  string contract_address = 1;
+  string balance = 2;
+}
+
+message GetAddressTokenBalancesRequest {
+  string address = 1;
+}
+
+message GetAddressTokenBalancesResponse {
+  repeated TokenBalanceInfo balances = 1;
+}
+
+message TopAccountRow {
+  string owner_address = 1;
+  uint64 bucket_id = 2;
+  string staked_amount = 3;
+  string duration = 4;
+  string mf = 5;
+  string last_update = 6;
+  string balance = 7;
+}
+
+message GetTopAccountsRequest {
+  pagination.Pagination pagination = 1;
+  string stake_amount = 2;    // "more" (>= 10000 IOTX) or "less"
+  string stake_duration = 3;  // "more" (>= 91 days) or "less"
+  string mf = 4;              // "hold" (mf > 0) or "" (mf = 0)
+}
+
+message GetTopAccountsResponse {
+  int64 count = 1;
+  repeated TopAccountRow accounts = 2;
+}
+
 service AccountService {
   // IotexBalanceByHeight returns the balance of the given address at the given height.
   rpc IotexBalanceByHeight(IotexBalanceByHeightRequest) returns (IotexBalanceByHeightResponse) {
@@ -204,6 +254,27 @@ service AccountService {
   rpc GetContractCreateInfo(GetContractCreateInfoRequest) returns (GetContractCreateInfoResponse) {
     option (google.api.http) = {
       post: "/api.AccountService.GetContractCreateInfo"
+      body: "*"
+    };
+  };
+  // GetAddressNFTBalances returns NFT token balances for an address
+  rpc GetAddressNFTBalances(GetAddressNFTBalancesRequest) returns (GetAddressNFTBalancesResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetAddressNFTBalances"
+      body: "*"
+    };
+  };
+  // GetAddressTokenBalances returns ERC20 token balances for an address
+  rpc GetAddressTokenBalances(GetAddressTokenBalancesRequest) returns (GetAddressTokenBalancesResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetAddressTokenBalances"
+      body: "*"
+    };
+  };
+  // GetTopAccounts returns top stakers from stats_top_list_view with filters
+  rpc GetTopAccounts(GetTopAccountsRequest) returns (GetTopAccountsResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetTopAccounts"
       body: "*"
     };
   };

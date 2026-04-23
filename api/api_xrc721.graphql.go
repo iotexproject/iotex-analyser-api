@@ -23,6 +23,12 @@ var (
 	gql__type_XRC721ByAddressRequest              *graphql.Object      // message XRC721ByAddressRequest in api_xrc721.proto
 	gql__type_XRC721AddressesResponse             *graphql.Object      // message XRC721AddressesResponse in api_xrc721.proto
 	gql__type_XRC721AddressesRequest              *graphql.Object      // message XRC721AddressesRequest in api_xrc721.proto
+	gql__type_NFTTransferInfo                     *graphql.Object      // message NFTTransferInfo in api_xrc721.proto
+	gql__type_NFTHolderInfo                       *graphql.Object      // message NFTHolderInfo in api_xrc721.proto
+	gql__type_GetNFTTransferListResponse          *graphql.Object      // message GetNFTTransferListResponse in api_xrc721.proto
+	gql__type_GetNFTTransferListRequest           *graphql.Object      // message GetNFTTransferListRequest in api_xrc721.proto
+	gql__type_GetNFTHoldersByContractResponse     *graphql.Object      // message GetNFTHoldersByContractResponse in api_xrc721.proto
+	gql__type_GetNFTHoldersByContractRequest      *graphql.Object      // message GetNFTHoldersByContractRequest in api_xrc721.proto
 	gql__input_Xrc721Action                       *graphql.InputObject // message Xrc721Action in api_xrc721.proto
 	gql__input_XRC721TokenHolderAddressesResponse *graphql.InputObject // message XRC721TokenHolderAddressesResponse in api_xrc721.proto
 	gql__input_XRC721TokenHolderAddressesRequest  *graphql.InputObject // message XRC721TokenHolderAddressesRequest in api_xrc721.proto
@@ -34,6 +40,12 @@ var (
 	gql__input_XRC721ByAddressRequest             *graphql.InputObject // message XRC721ByAddressRequest in api_xrc721.proto
 	gql__input_XRC721AddressesResponse            *graphql.InputObject // message XRC721AddressesResponse in api_xrc721.proto
 	gql__input_XRC721AddressesRequest             *graphql.InputObject // message XRC721AddressesRequest in api_xrc721.proto
+	gql__input_NFTTransferInfo                    *graphql.InputObject // message NFTTransferInfo in api_xrc721.proto
+	gql__input_NFTHolderInfo                      *graphql.InputObject // message NFTHolderInfo in api_xrc721.proto
+	gql__input_GetNFTTransferListResponse         *graphql.InputObject // message GetNFTTransferListResponse in api_xrc721.proto
+	gql__input_GetNFTTransferListRequest          *graphql.InputObject // message GetNFTTransferListRequest in api_xrc721.proto
+	gql__input_GetNFTHoldersByContractResponse    *graphql.InputObject // message GetNFTHoldersByContractResponse in api_xrc721.proto
+	gql__input_GetNFTHoldersByContractRequest     *graphql.InputObject // message GetNFTHoldersByContractRequest in api_xrc721.proto
 )
 
 func Gql__type_Xrc721Action() *graphql.Object {
@@ -241,6 +253,138 @@ func Gql__type_XRC721AddressesRequest() *graphql.Object {
 	return gql__type_XRC721AddressesRequest
 }
 
+func Gql__type_NFTTransferInfo() *graphql.Object {
+	if gql__type_NFTTransferInfo == nil {
+		gql__type_NFTTransferInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_NFTTransferInfo",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"type": &graphql.Field{
+					Type: graphql.String,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"token_id": &graphql.Field{
+					Type: graphql.String,
+				},
+				"value": &graphql.Field{
+					Type: graphql.String,
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.Field{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_NFTTransferInfo
+}
+
+func Gql__type_NFTHolderInfo() *graphql.Object {
+	if gql__type_NFTHolderInfo == nil {
+		gql__type_NFTHolderInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_NFTHolderInfo",
+			Fields: graphql.Fields{
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"balance": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_NFTHolderInfo
+}
+
+func Gql__type_GetNFTTransferListResponse() *graphql.Object {
+	if gql__type_GetNFTTransferListResponse == nil {
+		gql__type_GetNFTTransferListResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetNFTTransferListResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"transfers": &graphql.Field{
+					Type: graphql.NewList(Gql__type_NFTTransferInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetNFTTransferListResponse
+}
+
+func Gql__type_GetNFTTransferListRequest() *graphql.Object {
+	if gql__type_GetNFTTransferListRequest == nil {
+		gql__type_GetNFTTransferListRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetNFTTransferListRequest",
+			Fields: graphql.Fields{
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetNFTTransferListRequest
+}
+
+func Gql__type_GetNFTHoldersByContractResponse() *graphql.Object {
+	if gql__type_GetNFTHoldersByContractResponse == nil {
+		gql__type_GetNFTHoldersByContractResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetNFTHoldersByContractResponse",
+			Fields: graphql.Fields{
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"holders": &graphql.Field{
+					Type: graphql.NewList(Gql__type_NFTHolderInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetNFTHoldersByContractResponse
+}
+
+func Gql__type_GetNFTHoldersByContractRequest() *graphql.Object {
+	if gql__type_GetNFTHoldersByContractRequest == nil {
+		gql__type_GetNFTHoldersByContractRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetNFTHoldersByContractRequest",
+			Fields: graphql.Fields{
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_GetNFTHoldersByContractRequest
+}
+
 func Gql__input_Xrc721Action() *graphql.InputObject {
 	if gql__input_Xrc721Action == nil {
 		gql__input_Xrc721Action = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -444,6 +588,138 @@ func Gql__input_XRC721AddressesRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_XRC721AddressesRequest
+}
+
+func Gql__input_NFTTransferInfo() *graphql.InputObject {
+	if gql__input_NFTTransferInfo == nil {
+		gql__input_NFTTransferInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_NFTTransferInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"token_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"value": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_NFTTransferInfo
+}
+
+func Gql__input_NFTHolderInfo() *graphql.InputObject {
+	if gql__input_NFTHolderInfo == nil {
+		gql__input_NFTHolderInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_NFTHolderInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"balance": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_NFTHolderInfo
+}
+
+func Gql__input_GetNFTTransferListResponse() *graphql.InputObject {
+	if gql__input_GetNFTTransferListResponse == nil {
+		gql__input_GetNFTTransferListResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetNFTTransferListResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"transfers": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_NFTTransferInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetNFTTransferListResponse
+}
+
+func Gql__input_GetNFTTransferListRequest() *graphql.InputObject {
+	if gql__input_GetNFTTransferListRequest == nil {
+		gql__input_GetNFTTransferListRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetNFTTransferListRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetNFTTransferListRequest
+}
+
+func Gql__input_GetNFTHoldersByContractResponse() *graphql.InputObject {
+	if gql__input_GetNFTHoldersByContractResponse == nil {
+		gql__input_GetNFTHoldersByContractResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetNFTHoldersByContractResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"holders": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_NFTHolderInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetNFTHoldersByContractResponse
+}
+
+func Gql__input_GetNFTHoldersByContractRequest() *graphql.InputObject {
+	if gql__input_GetNFTHoldersByContractRequest == nil {
+		gql__input_GetNFTHoldersByContractRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetNFTHoldersByContractRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_GetNFTHoldersByContractRequest
 }
 
 // graphql__resolver_XRC721Service is a struct for making query, mutation and resolve fields.
