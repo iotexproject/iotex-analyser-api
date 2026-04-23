@@ -17,6 +17,8 @@ var (
 	gql__type_RewardSourcesResponse_DelegateDistributions  *graphql.Object      // message RewardSourcesResponse.DelegateDistributions in api_voting.proto
 	gql__type_RewardSourcesResponse                        *graphql.Object      // message RewardSourcesResponse in api_voting.proto
 	gql__type_RewardSourcesRequest                         *graphql.Object      // message RewardSourcesRequest in api_voting.proto
+	gql__type_GetCurrentDelegatesResponse                  *graphql.Object      // message GetCurrentDelegatesResponse in api_voting.proto
+	gql__type_CurrentDelegateInfo                          *graphql.Object      // message CurrentDelegateInfo in api_voting.proto
 	gql__type_CandidateInfoResponse_Candidates             *graphql.Object      // message CandidateInfoResponse.Candidates in api_voting.proto
 	gql__type_CandidateInfoResponse_CandidateInfo          *graphql.Object      // message CandidateInfoResponse.CandidateInfo in api_voting.proto
 	gql__type_CandidateInfoResponse                        *graphql.Object      // message CandidateInfoResponse in api_voting.proto
@@ -27,6 +29,8 @@ var (
 	gql__input_RewardSourcesResponse_DelegateDistributions *graphql.InputObject // message RewardSourcesResponse.DelegateDistributions in api_voting.proto
 	gql__input_RewardSourcesResponse                       *graphql.InputObject // message RewardSourcesResponse in api_voting.proto
 	gql__input_RewardSourcesRequest                        *graphql.InputObject // message RewardSourcesRequest in api_voting.proto
+	gql__input_GetCurrentDelegatesResponse                 *graphql.InputObject // message GetCurrentDelegatesResponse in api_voting.proto
+	gql__input_CurrentDelegateInfo                         *graphql.InputObject // message CurrentDelegateInfo in api_voting.proto
 	gql__input_CandidateInfoResponse_Candidates            *graphql.InputObject // message CandidateInfoResponse.Candidates in api_voting.proto
 	gql__input_CandidateInfoResponse_CandidateInfo         *graphql.InputObject // message CandidateInfoResponse.CandidateInfo in api_voting.proto
 	gql__input_CandidateInfoResponse                       *graphql.InputObject // message CandidateInfoResponse in api_voting.proto
@@ -145,6 +149,58 @@ func Gql__type_RewardSourcesRequest() *graphql.Object {
 		})
 	}
 	return gql__type_RewardSourcesRequest
+}
+
+func Gql__type_GetCurrentDelegatesResponse() *graphql.Object {
+	if gql__type_GetCurrentDelegatesResponse == nil {
+		gql__type_GetCurrentDelegatesResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetCurrentDelegatesResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"delegates": &graphql.Field{
+					Type: graphql.NewList(Gql__type_CurrentDelegateInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetCurrentDelegatesResponse
+}
+
+func Gql__type_CurrentDelegateInfo() *graphql.Object {
+	if gql__type_CurrentDelegateInfo == nil {
+		gql__type_CurrentDelegateInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_CurrentDelegateInfo",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"name": &graphql.Field{
+					Type: graphql.String,
+				},
+				"vote_weight": &graphql.Field{
+					Type: graphql.String,
+				},
+				"productivity": &graphql.Field{
+					Type: graphql.Float,
+				},
+				"candidate": &graphql.Field{
+					Type: graphql.String,
+				},
+				"operator_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"active": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_CurrentDelegateInfo
 }
 
 func Gql__type_CandidateInfoResponse_Candidates() *graphql.Object {
@@ -338,6 +394,58 @@ func Gql__input_RewardSourcesRequest() *graphql.InputObject {
 	return gql__input_RewardSourcesRequest
 }
 
+func Gql__input_GetCurrentDelegatesResponse() *graphql.InputObject {
+	if gql__input_GetCurrentDelegatesResponse == nil {
+		gql__input_GetCurrentDelegatesResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetCurrentDelegatesResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"delegates": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_CurrentDelegateInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetCurrentDelegatesResponse
+}
+
+func Gql__input_CurrentDelegateInfo() *graphql.InputObject {
+	if gql__input_CurrentDelegateInfo == nil {
+		gql__input_CurrentDelegateInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_CurrentDelegateInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"vote_weight": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"productivity": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+				"candidate": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"operator_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"active": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_CurrentDelegateInfo
+}
+
 func Gql__input_CandidateInfoResponse_Candidates() *graphql.InputObject {
 	if gql__input_CandidateInfoResponse_Candidates == nil {
 		gql__input_CandidateInfoResponse_Candidates = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -525,6 +633,22 @@ func (x *graphql__resolver_VotingService) GetQueries(conn *grpc.ClientConn) grap
 				resp, err := client.VotingMeta(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC VotingMeta")
+				}
+				return resp, nil
+			},
+		},
+		"GetCurrentDelegates": &graphql.Field{
+			Type: Gql__type_GetCurrentDelegatesResponse(),
+			Args: graphql.FieldConfigArgument{},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetCurrentDelegatesRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetCurrentDelegates")
+				}
+				client := NewVotingServiceClient(conn)
+				resp, err := client.GetCurrentDelegates(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetCurrentDelegates")
 				}
 				return resp, nil
 			},

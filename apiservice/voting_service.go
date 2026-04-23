@@ -231,3 +231,43 @@ func distributionPlanByDelegate(delegateMap map[uint64][]string) (map[string]map
 
 	return parseDistributionPlanFromVotingResult(ids)
 }
+
+// GetCurrentDelegates returns the current delegate list ordered by vote weight
+func (s *VotingService) GetCurrentDelegates(ctx context.Context, req *api.GetCurrentDelegatesRequest) (*api.GetCurrentDelegatesResponse, error) {
+	resp := &api.GetCurrentDelegatesResponse{
+		Exist:     false,
+		Delegates: make([]*api.CurrentDelegateInfo, 0),
+	}
+
+	var rows []struct {
+		Id              uint64
+		Name            string
+		VoteWeight      string
+		Productivity    float64
+		Candidate       string
+		OperatorAddress string
+		Active          bool
+		BlockHeight     uint64
+	}
+	query := `SELECT row_number() OVER (ORDER BY vote_weight DESC) AS id, name, vote_weight, productivity, candidate, operator_address, active, block_height FROM delegate ORDER BY vote_weight DESC`
+	if err := db.DB().Raw(query).Scan(&rows).Error; err != nil {
+		return nil, err
+	}
+	if len(rows) == 0 {
+		return resp, nil
+	}
+	resp.Exist = true
+	for _, row := range rows {
+		resp.Delegates = append(resp.Delegates, &api.CurrentDelegateInfo{
+			Id:              row.Id,
+			Name:            row.Name,
+			VoteWeight:      row.VoteWeight,
+			Productivity:    row.Productivity,
+			Candidate:       row.Candidate,
+			OperatorAddress: row.OperatorAddress,
+			Active:          row.Active,
+			BlockHeight:     row.BlockHeight,
+		})
+	}
+	return resp, nil
+}
