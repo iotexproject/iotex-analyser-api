@@ -233,19 +233,24 @@ func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest)
 
 	page := req.GetPage()
 	limit := req.GetLimit()
+	beforeHeight := req.GetBeforeHeight()
 
 	if page <= 0 {
 		page = 1
 	}
 
-	_, height, err := common.GetCurrentEpochAndHeight()
-	if err != nil {
-		return nil, err
+	var start uint64
+	if beforeHeight > 0 {
+		start = beforeHeight
+	} else {
+		_, height, err := common.GetCurrentEpochAndHeight()
+		if err != nil {
+			return nil, err
+		}
+		start = height - (page-1)*limit
 	}
 
-	start := height - (page-1)*limit
-
-	db := db.DB()
+	gormDB := db.DB()
 	query := `SELECT
 		m.base_fee,
 		m.priority_bonus,
@@ -279,7 +284,7 @@ func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest)
 	}
 
 	var results []BlockResult
-	if err := db.WithContext(ctx).Raw(query, start, limit).Scan(&results).Error; err != nil {
+	if err := gormDB.WithContext(ctx).Raw(query, start, limit).Scan(&results).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to get blocks")
 	}
 
@@ -309,6 +314,77 @@ func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest)
 
 		resp.Blocks = append(resp.Blocks, block)
 	}
+
+	return resp, nil
+}
+
+// GetBlockByHeight returns a single block by its height
+func (s *ChainService) GetBlockByHeight(ctx context.Context, req *api.GetBlockByHeightRequest) (*api.GetBlockByHeightResponse, error) {
+	resp := &api.GetBlockByHeightResponse{}
+
+	gormDB := db.DB()
+	query := `SELECT
+		m.base_fee,
+		m.priority_bonus,
+		b.block_height,
+		b.block_hash,
+		b.producer_address,
+		b.num_actions,
+		(EXTRACT(EPOCH FROM (b.timestamp AT TIME ZONE 'UTC')) * 1000)::bigint as timestamp,
+		m.epoch_num,
+		m.gas_consumed,
+		m.producer_name,
+		m.block_reward
+	FROM block b
+	LEFT JOIN block_meta m ON m.block_height = b.block_height
+	WHERE b.block_height = ?
+	LIMIT 1`
+
+	type BlockResult struct {
+		BaseFee         sql.NullString
+		PriorityBonus   sql.NullString
+		BlockHeight     uint64
+		BlockHash       string
+		ProducerAddress string
+		NumActions      uint64
+		Timestamp       int64
+		EpochNum        uint64
+		GasConsumed     uint64
+		ProducerName    sql.NullString
+		BlockReward     sql.NullString
+	}
+
+	var r BlockResult
+	if err := gormDB.WithContext(ctx).Raw(query, req.GetHeight()).Scan(&r).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get block by height")
+	}
+	if r.BlockHeight == 0 {
+		return resp, nil
+	}
+
+	resp.Exist = true
+	block := &api.BlockInfo{
+		BlockHeight:     r.BlockHeight,
+		BlockHash:       r.BlockHash,
+		ProducerAddress: r.ProducerAddress,
+		NumActions:      r.NumActions,
+		Timestamp:       r.Timestamp,
+		GasConsumed:     r.GasConsumed,
+		EpochNum:        r.EpochNum,
+	}
+	if r.BaseFee.Valid {
+		block.BaseFee = r.BaseFee.String
+	}
+	if r.PriorityBonus.Valid {
+		block.PriorityBonus = r.PriorityBonus.String
+	}
+	if r.ProducerName.Valid {
+		block.ProducerName = r.ProducerName.String
+	}
+	if r.BlockReward.Valid {
+		block.BlockReward = r.BlockReward.String
+	}
+	resp.Block = block
 
 	return resp, nil
 }

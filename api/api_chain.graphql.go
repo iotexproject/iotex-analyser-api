@@ -21,6 +21,8 @@ var (
 	gql__type_GetLatestBlockHeightResponse    *graphql.Object      // message GetLatestBlockHeightResponse in api_chain.proto
 	gql__type_GetBlocksResponse               *graphql.Object      // message GetBlocksResponse in api_chain.proto
 	gql__type_GetBlocksRequest                *graphql.Object      // message GetBlocksRequest in api_chain.proto
+	gql__type_GetBlockByHeightResponse        *graphql.Object      // message GetBlockByHeightResponse in api_chain.proto
+	gql__type_GetBlockByHeightRequest         *graphql.Object      // message GetBlockByHeightRequest in api_chain.proto
 	gql__type_ChainResponse_Rewards           *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
 	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
 	gql__type_BlockSizeByHeightResponse       *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
@@ -36,6 +38,8 @@ var (
 	gql__input_GetLatestBlockHeightResponse   *graphql.InputObject // message GetLatestBlockHeightResponse in api_chain.proto
 	gql__input_GetBlocksResponse              *graphql.InputObject // message GetBlocksResponse in api_chain.proto
 	gql__input_GetBlocksRequest               *graphql.InputObject // message GetBlocksRequest in api_chain.proto
+	gql__input_GetBlockByHeightResponse       *graphql.InputObject // message GetBlockByHeightResponse in api_chain.proto
+	gql__input_GetBlockByHeightRequest        *graphql.InputObject // message GetBlockByHeightRequest in api_chain.proto
 	gql__input_ChainResponse_Rewards          *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
 	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
 	gql__input_BlockSizeByHeightResponse      *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
@@ -195,10 +199,44 @@ func Gql__type_GetBlocksRequest() *graphql.Object {
 				"limit": &graphql.Field{
 					Type: graphql.Int,
 				},
+				"before_height": &graphql.Field{
+					Type: graphql.Int,
+				},
 			},
 		})
 	}
 	return gql__type_GetBlocksRequest
+}
+
+func Gql__type_GetBlockByHeightResponse() *graphql.Object {
+	if gql__type_GetBlockByHeightResponse == nil {
+		gql__type_GetBlockByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlockByHeightResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"block": &graphql.Field{
+					Type: Gql__type_BlockInfo(),
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockByHeightResponse
+}
+
+func Gql__type_GetBlockByHeightRequest() *graphql.Object {
+	if gql__type_GetBlockByHeightRequest == nil {
+		gql__type_GetBlockByHeightRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlockByHeightRequest",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockByHeightRequest
 }
 
 func Gql__type_ChainResponse_Rewards() *graphql.Object {
@@ -483,10 +521,44 @@ func Gql__input_GetBlocksRequest() *graphql.InputObject {
 				"limit": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
+				"before_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
 			},
 		})
 	}
 	return gql__input_GetBlocksRequest
+}
+
+func Gql__input_GetBlockByHeightResponse() *graphql.InputObject {
+	if gql__input_GetBlockByHeightResponse == nil {
+		gql__input_GetBlockByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockByHeightResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"block": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_BlockInfo(),
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockByHeightResponse
+}
+
+func Gql__input_GetBlockByHeightRequest() *graphql.InputObject {
+	if gql__input_GetBlockByHeightRequest == nil {
+		gql__input_GetBlockByHeightRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockByHeightRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockByHeightRequest
 }
 
 func Gql__input_ChainResponse_Rewards() *graphql.InputObject {
@@ -788,6 +860,9 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 				"limit": &graphql.ArgumentConfig{
 					Type: graphql.Int,
 				},
+				"before_height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				var req GetBlocksRequest
@@ -798,6 +873,26 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 				resp, err := client.GetBlocks(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC GetBlocks")
+				}
+				return resp, nil
+			},
+		},
+		"GetBlockByHeight": &graphql.Field{
+			Type: Gql__type_GetBlockByHeightResponse(),
+			Args: graphql.FieldConfigArgument{
+				"height": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetBlockByHeightRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetBlockByHeight")
+				}
+				client := NewChainServiceClient(conn)
+				resp, err := client.GetBlockByHeight(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetBlockByHeight")
 				}
 				return resp, nil
 			},
