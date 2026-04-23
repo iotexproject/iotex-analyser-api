@@ -1195,14 +1195,14 @@ func RegisterDelegateServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service DelegateService {
-//    option (graphql.service) = {
-//        host: "host:port"
-//        insecure: true or false
-//    };
+//	service DelegateService {
+//	   option (graphql.service) = {
+//	       host: "host:port"
+//	       insecure: true or false
+//	   };
 //
-//    ...with RPC definitions
-// }
+//	   ...with RPC definitions
+//	}
 func RegisterDelegateServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	return mux.AddHandler(new_graphql_resolver_DelegateService(conn))
 }

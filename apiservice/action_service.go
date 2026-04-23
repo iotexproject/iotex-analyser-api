@@ -99,7 +99,7 @@ func (s *ActionService) GetXrc20ByAddress(ctx context.Context, req *api.ActionRe
 	return resp, nil
 }
 
-//ActionByDates finds actions by dates
+// ActionByDates finds actions by dates
 func (s *ActionService) ActionByDates(ctx context.Context, req *api.ActionByDatesRequest) (*api.ActionByDatesResponse, error) {
 	resp := &api.ActionByDatesResponse{}
 	startDate := req.GetStartDate()
@@ -136,7 +136,7 @@ func (s *ActionService) ActionByDates(ctx context.Context, req *api.ActionByDate
 	return resp, nil
 }
 
-//ActionByHash finds actions by hash
+// ActionByHash finds actions by hash
 func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashRequest) (*api.ActionByHashResponse, error) {
 	resp := &api.ActionByHashResponse{}
 	actHash := req.GetActHash()
@@ -264,7 +264,7 @@ func (s *ActionService) ActionByType(ctx context.Context, req *api.ActionByTypeR
 	return resp, nil
 }
 
-//EvmTransfersByAddress finds EVM transfers by address
+// EvmTransfersByAddress finds EVM transfers by address
 func (s *ActionService) EvmTransfersByAddress(ctx context.Context, req *api.EvmTransfersByAddressRequest) (*api.EvmTransfersByAddressResponse, error) {
 	resp := &api.EvmTransfersByAddressResponse{
 		Count:        0,
@@ -306,107 +306,119 @@ func (s *ActionService) EvmTransfersByAddress(ctx context.Context, req *api.EvmT
 
 // ActionList returns paginated list of latest actions
 func (s *ActionService) ActionList(ctx context.Context, req *api.ActionListRequest) (*api.ActionListResponse, error) {
-resp := &api.ActionListResponse{
-Count:   0,
-Exist:   false,
-Actions: make([]*api.ActionInfo, 0),
-}
+	resp := &api.ActionListResponse{
+		Count:   0,
+		Exist:   false,
+		Actions: make([]*api.ActionInfo, 0),
+	}
 
-count, err := actions.GetActionCount()
-if err != nil {
-return nil, err
-}
-resp.Count = uint64(count)
-if count == 0 {
-return resp, nil
-}
-resp.Exist = true
-skip := common.PageOffset(req.GetPagination())
-first := common.PageSize(req.GetPagination())
-actionInfoList, err := actions.GetActionInfoList(skip, first)
-if err != nil {
-return nil, err
-}
-for _, actionInfo := range actionInfoList {
-resp.Actions = append(resp.Actions, &api.ActionInfo{
-ActHash:         actionInfo.ActHash,
-BlkHash:         actionInfo.BlkHash,
-Timestamp:       uint64(actionInfo.Timestamp.Unix()),
-ActType:         actionInfo.ActType,
-Sender:          actionInfo.Sender,
-Recipient:       actionInfo.Recipient,
-Amount:          actionInfo.Amount,
-GasFee:          actionInfo.GasFee,
-BlkHeight:       actionInfo.BlkHeight,
-GasPrice:        actionInfo.GasPrice,
-GasLimit:        actionInfo.GasLimit,
-GasConsumed:     actionInfo.GasConsumed,
-Nonce:           actionInfo.Nonce,
-Status:          actionInfo.Status,
-ContractAddress: actionInfo.ContractAddress,
-MethodName:      actionInfo.MethodName,
-})
-}
-return resp, nil
+	startBh := req.GetStartBlockHeight()
+	var count int64
+	var err error
+	if startBh > 0 {
+		count, err = actions.GetActionCountFromHeight(startBh)
+	} else {
+		count, err = actions.GetActionCount()
+	}
+	if err != nil {
+		return nil, err
+	}
+	resp.Count = uint64(count)
+	if count == 0 {
+		return resp, nil
+	}
+	resp.Exist = true
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+	var actionInfoList []*actions.ActionInfo
+	if startBh > 0 {
+		actionInfoList, err = actions.GetActionInfoListFromHeight(startBh, skip, first)
+	} else {
+		actionInfoList, err = actions.GetActionInfoList(skip, first)
+	}
+	if err != nil {
+		return nil, err
+	}
+	for _, actionInfo := range actionInfoList {
+		resp.Actions = append(resp.Actions, &api.ActionInfo{
+			ActHash:         actionInfo.ActHash,
+			BlkHash:         actionInfo.BlkHash,
+			Timestamp:       uint64(actionInfo.Timestamp.Unix()),
+			ActType:         actionInfo.ActType,
+			Sender:          actionInfo.Sender,
+			Recipient:       actionInfo.Recipient,
+			Amount:          actionInfo.Amount,
+			GasFee:          actionInfo.GasFee,
+			BlkHeight:       actionInfo.BlkHeight,
+			GasPrice:        actionInfo.GasPrice,
+			GasLimit:        actionInfo.GasLimit,
+			GasConsumed:     actionInfo.GasConsumed,
+			Nonce:           actionInfo.Nonce,
+			Status:          actionInfo.Status,
+			ContractAddress: actionInfo.ContractAddress,
+			MethodName:      actionInfo.MethodName,
+		})
+	}
+	return resp, nil
 }
 
 // ActionByHeight finds actions by block height
 func (s *ActionService) ActionByHeight(ctx context.Context, req *api.ActionByHeightRequest) (*api.ActionByHeightResponse, error) {
-resp := &api.ActionByHeightResponse{
-Count:   0,
-Exist:   false,
-Actions: make([]*api.ActionInfo, 0),
-}
-height := req.GetHeight()
-count, err := actions.GetActionCountByHeight(height)
-if err != nil {
-return nil, err
-}
-resp.Count = uint64(count)
-if count == 0 {
-return resp, nil
-}
-resp.Exist = true
-skip := common.PageOffset(req.GetPagination())
-first := common.PageSize(req.GetPagination())
-actionInfoList, err := actions.GetActionInfoByHeight(height, skip, first)
-if err != nil {
-return nil, err
-}
-for _, actionInfo := range actionInfoList {
-resp.Actions = append(resp.Actions, &api.ActionInfo{
-ActHash:         actionInfo.ActHash,
-BlkHash:         actionInfo.BlkHash,
-Timestamp:       uint64(actionInfo.Timestamp.Unix()),
-ActType:         actionInfo.ActType,
-Sender:          actionInfo.Sender,
-Recipient:       actionInfo.Recipient,
-Amount:          actionInfo.Amount,
-GasFee:          actionInfo.GasFee,
-BlkHeight:       actionInfo.BlkHeight,
-GasPrice:        actionInfo.GasPrice,
-GasLimit:        actionInfo.GasLimit,
-GasConsumed:     actionInfo.GasConsumed,
-Nonce:           actionInfo.Nonce,
-Status:          actionInfo.Status,
-ContractAddress: actionInfo.ContractAddress,
-MethodName:      actionInfo.MethodName,
-})
-}
-return resp, nil
+	resp := &api.ActionByHeightResponse{
+		Count:   0,
+		Exist:   false,
+		Actions: make([]*api.ActionInfo, 0),
+	}
+	height := req.GetHeight()
+	count, err := actions.GetActionCountByHeight(height)
+	if err != nil {
+		return nil, err
+	}
+	resp.Count = uint64(count)
+	if count == 0 {
+		return resp, nil
+	}
+	resp.Exist = true
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+	actionInfoList, err := actions.GetActionInfoByHeight(height, skip, first)
+	if err != nil {
+		return nil, err
+	}
+	for _, actionInfo := range actionInfoList {
+		resp.Actions = append(resp.Actions, &api.ActionInfo{
+			ActHash:         actionInfo.ActHash,
+			BlkHash:         actionInfo.BlkHash,
+			Timestamp:       uint64(actionInfo.Timestamp.Unix()),
+			ActType:         actionInfo.ActType,
+			Sender:          actionInfo.Sender,
+			Recipient:       actionInfo.Recipient,
+			Amount:          actionInfo.Amount,
+			GasFee:          actionInfo.GasFee,
+			BlkHeight:       actionInfo.BlkHeight,
+			GasPrice:        actionInfo.GasPrice,
+			GasLimit:        actionInfo.GasLimit,
+			GasConsumed:     actionInfo.GasConsumed,
+			Nonce:           actionInfo.Nonce,
+			Status:          actionInfo.Status,
+			ContractAddress: actionInfo.ContractAddress,
+			MethodName:      actionInfo.MethodName,
+		})
+	}
+	return resp, nil
 }
 
 // ContractInteractors returns distinct senders who interacted with a contract
 func (s *ActionService) ContractInteractors(ctx context.Context, req *api.ContractInteractorsRequest) (*api.ContractInteractorsResponse, error) {
-resp := &api.ContractInteractorsResponse{
-Senders: make([]string, 0),
-}
-address := req.GetAddress()
-startTime := req.GetStartTime()
-senders, err := actions.GetContractInteractors(address, startTime)
-if err != nil {
-return nil, err
-}
-resp.Senders = senders
-return resp, nil
+	resp := &api.ContractInteractorsResponse{
+		Senders: make([]string, 0),
+	}
+	address := req.GetAddress()
+	startTime := req.GetStartTime()
+	senders, err := actions.GetContractInteractors(address, startTime)
+	if err != nil {
+		return nil, err
+	}
+	resp.Senders = senders
+	return resp, nil
 }
