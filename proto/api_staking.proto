@@ -57,6 +57,74 @@ message BucketByIDResponse {
   repeated StakingBucketInfo system_v3_buckets = 5;
 }
 
+// BucketInfoEx carries all fields for the bucket list/detail pages.
+message BucketInfoEx {
+  int64  bucket_id          = 1;
+  string action_hash        = 2;
+  string timestamp          = 3;
+  string create_time        = 4;
+  string stake_start_time   = 5;
+  string unstake_start_time = 6;
+  string amount             = 7;
+  string staked_amount      = 8;
+  string act_type           = 9;
+  string sender             = 10;
+  string owner_address      = 11;
+  string candidate          = 12;
+  bool   auto_stake         = 13;
+  string duration           = 14;
+  string gas_price          = 15;
+  string gas_limit          = 16;
+  string recipient          = 17;
+  string delegate_name      = 18;
+}
+
+message GetBucketListRequest {
+  int64  limit    = 1;
+  int64  offset   = 2;
+  string sort     = 3;     // e.g. "timestamp:desc"
+  string interval = 4;    // "1D", "7D", "30D", "1Y", "ALL"
+  string version  = 5;    // "native", "nft_v1", "nft_v2", "nft_v3"
+}
+
+message GetBucketListResponse {
+  repeated BucketInfoEx buckets     = 1;
+  int64                 count       = 2;
+  int64                 group_count = 3;
+}
+
+message GetBucketsByBucketIdRequest {
+  int64  bucket_id = 1;
+  int64  limit     = 2;
+  int64  offset    = 3;
+  string version   = 4;
+}
+
+message GetBucketsByBucketIdResponse {
+  repeated BucketInfoEx buckets = 1;
+  int64                 count   = 2;
+}
+
+message GetBucketByBucketIdRequest {
+  int64  bucket_id = 1;
+  string version   = 2;
+}
+
+message GetBucketByBucketIdResponse {
+  bool         exist  = 1;
+  BucketInfoEx bucket = 2;
+}
+
+message GetNativeBucketsRequest {
+  int64 limit  = 1;
+  int64 offset = 2;
+}
+
+message GetNativeBucketsResponse {
+  repeated BucketInfoEx buckets = 1;
+  int64                 count   = 2;
+}
+
 service StakingService {
   // Get the stake amount and voting weight of the voter's specified height
   rpc VoteByHeight(VoteByHeightRequest) returns (VoteByHeightResponse) {
@@ -86,6 +154,46 @@ service StakingService {
     };
     option (google.api.http) = {
       post: "/api.StakingService.BucketByID"
+      body: "*"
+    };
+  };
+  rpc GetBucketList(GetBucketListRequest) returns (GetBucketListResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBucketList"
+    };
+    option (google.api.http) = {
+      post: "/api.StakingService.GetBucketList"
+      body: "*"
+    };
+  };
+  rpc GetBucketsByBucketId(GetBucketsByBucketIdRequest) returns (GetBucketsByBucketIdResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBucketsByBucketId"
+    };
+    option (google.api.http) = {
+      post: "/api.StakingService.GetBucketsByBucketId"
+      body: "*"
+    };
+  };
+  rpc GetBucketByBucketId(GetBucketByBucketIdRequest) returns (GetBucketByBucketIdResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBucketByBucketId"
+    };
+    option (google.api.http) = {
+      post: "/api.StakingService.GetBucketByBucketId"
+      body: "*"
+    };
+  };
+  rpc GetNativeBuckets(GetNativeBucketsRequest) returns (GetNativeBucketsResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetNativeBuckets"
+    };
+    option (google.api.http) = {
+      post: "/api.StakingService.GetNativeBuckets"
       body: "*"
     };
   };
