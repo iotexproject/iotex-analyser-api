@@ -22,6 +22,10 @@ const (
 	StakingService_VoteByHeight_FullMethodName          = "/api.StakingService/VoteByHeight"
 	StakingService_CandidateVoteByHeight_FullMethodName = "/api.StakingService/CandidateVoteByHeight"
 	StakingService_BucketByID_FullMethodName            = "/api.StakingService/BucketByID"
+	StakingService_GetBucketList_FullMethodName         = "/api.StakingService/GetBucketList"
+	StakingService_GetBucketsByBucketId_FullMethodName  = "/api.StakingService/GetBucketsByBucketId"
+	StakingService_GetBucketByBucketId_FullMethodName   = "/api.StakingService/GetBucketByBucketId"
+	StakingService_GetNativeBuckets_FullMethodName      = "/api.StakingService/GetNativeBuckets"
 )
 
 // StakingServiceClient is the client API for StakingService service.
@@ -32,6 +36,10 @@ type StakingServiceClient interface {
 	VoteByHeight(ctx context.Context, in *VoteByHeightRequest, opts ...grpc.CallOption) (*VoteByHeightResponse, error)
 	CandidateVoteByHeight(ctx context.Context, in *CandidateVoteByHeightRequest, opts ...grpc.CallOption) (*CandidateVoteByHeightResponse, error)
 	BucketByID(ctx context.Context, in *BucketByIDRequest, opts ...grpc.CallOption) (*BucketByIDResponse, error)
+	GetBucketList(ctx context.Context, in *GetBucketListRequest, opts ...grpc.CallOption) (*GetBucketListResponse, error)
+	GetBucketsByBucketId(ctx context.Context, in *GetBucketsByBucketIdRequest, opts ...grpc.CallOption) (*GetBucketsByBucketIdResponse, error)
+	GetBucketByBucketId(ctx context.Context, in *GetBucketByBucketIdRequest, opts ...grpc.CallOption) (*GetBucketByBucketIdResponse, error)
+	GetNativeBuckets(ctx context.Context, in *GetNativeBucketsRequest, opts ...grpc.CallOption) (*GetNativeBucketsResponse, error)
 }
 
 type stakingServiceClient struct {
@@ -69,6 +77,42 @@ func (c *stakingServiceClient) BucketByID(ctx context.Context, in *BucketByIDReq
 	return out, nil
 }
 
+func (c *stakingServiceClient) GetBucketList(ctx context.Context, in *GetBucketListRequest, opts ...grpc.CallOption) (*GetBucketListResponse, error) {
+	out := new(GetBucketListResponse)
+	err := c.cc.Invoke(ctx, StakingService_GetBucketList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stakingServiceClient) GetBucketsByBucketId(ctx context.Context, in *GetBucketsByBucketIdRequest, opts ...grpc.CallOption) (*GetBucketsByBucketIdResponse, error) {
+	out := new(GetBucketsByBucketIdResponse)
+	err := c.cc.Invoke(ctx, StakingService_GetBucketsByBucketId_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stakingServiceClient) GetBucketByBucketId(ctx context.Context, in *GetBucketByBucketIdRequest, opts ...grpc.CallOption) (*GetBucketByBucketIdResponse, error) {
+	out := new(GetBucketByBucketIdResponse)
+	err := c.cc.Invoke(ctx, StakingService_GetBucketByBucketId_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stakingServiceClient) GetNativeBuckets(ctx context.Context, in *GetNativeBucketsRequest, opts ...grpc.CallOption) (*GetNativeBucketsResponse, error) {
+	out := new(GetNativeBucketsResponse)
+	err := c.cc.Invoke(ctx, StakingService_GetNativeBuckets_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StakingServiceServer is the server API for StakingService service.
 // All implementations must embed UnimplementedStakingServiceServer
 // for forward compatibility
@@ -77,6 +121,10 @@ type StakingServiceServer interface {
 	VoteByHeight(context.Context, *VoteByHeightRequest) (*VoteByHeightResponse, error)
 	CandidateVoteByHeight(context.Context, *CandidateVoteByHeightRequest) (*CandidateVoteByHeightResponse, error)
 	BucketByID(context.Context, *BucketByIDRequest) (*BucketByIDResponse, error)
+	GetBucketList(context.Context, *GetBucketListRequest) (*GetBucketListResponse, error)
+	GetBucketsByBucketId(context.Context, *GetBucketsByBucketIdRequest) (*GetBucketsByBucketIdResponse, error)
+	GetBucketByBucketId(context.Context, *GetBucketByBucketIdRequest) (*GetBucketByBucketIdResponse, error)
+	GetNativeBuckets(context.Context, *GetNativeBucketsRequest) (*GetNativeBucketsResponse, error)
 	mustEmbedUnimplementedStakingServiceServer()
 }
 
@@ -92,6 +140,18 @@ func (UnimplementedStakingServiceServer) CandidateVoteByHeight(context.Context, 
 }
 func (UnimplementedStakingServiceServer) BucketByID(context.Context, *BucketByIDRequest) (*BucketByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BucketByID not implemented")
+}
+func (UnimplementedStakingServiceServer) GetBucketList(context.Context, *GetBucketListRequest) (*GetBucketListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBucketList not implemented")
+}
+func (UnimplementedStakingServiceServer) GetBucketsByBucketId(context.Context, *GetBucketsByBucketIdRequest) (*GetBucketsByBucketIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBucketsByBucketId not implemented")
+}
+func (UnimplementedStakingServiceServer) GetBucketByBucketId(context.Context, *GetBucketByBucketIdRequest) (*GetBucketByBucketIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBucketByBucketId not implemented")
+}
+func (UnimplementedStakingServiceServer) GetNativeBuckets(context.Context, *GetNativeBucketsRequest) (*GetNativeBucketsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNativeBuckets not implemented")
 }
 func (UnimplementedStakingServiceServer) mustEmbedUnimplementedStakingServiceServer() {}
 
@@ -160,6 +220,78 @@ func _StakingService_BucketByID_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StakingService_GetBucketList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBucketListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakingServiceServer).GetBucketList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakingService_GetBucketList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakingServiceServer).GetBucketList(ctx, req.(*GetBucketListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StakingService_GetBucketsByBucketId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBucketsByBucketIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakingServiceServer).GetBucketsByBucketId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakingService_GetBucketsByBucketId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakingServiceServer).GetBucketsByBucketId(ctx, req.(*GetBucketsByBucketIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StakingService_GetBucketByBucketId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBucketByBucketIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakingServiceServer).GetBucketByBucketId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakingService_GetBucketByBucketId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakingServiceServer).GetBucketByBucketId(ctx, req.(*GetBucketByBucketIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StakingService_GetNativeBuckets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNativeBucketsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakingServiceServer).GetNativeBuckets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakingService_GetNativeBuckets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakingServiceServer).GetNativeBuckets(ctx, req.(*GetNativeBucketsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StakingService_ServiceDesc is the grpc.ServiceDesc for StakingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -178,6 +310,22 @@ var StakingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BucketByID",
 			Handler:    _StakingService_BucketByID_Handler,
+		},
+		{
+			MethodName: "GetBucketList",
+			Handler:    _StakingService_GetBucketList_Handler,
+		},
+		{
+			MethodName: "GetBucketsByBucketId",
+			Handler:    _StakingService_GetBucketsByBucketId_Handler,
+		},
+		{
+			MethodName: "GetBucketByBucketId",
+			Handler:    _StakingService_GetBucketByBucketId_Handler,
+		},
+		{
+			MethodName: "GetNativeBuckets",
+			Handler:    _StakingService_GetNativeBuckets_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
