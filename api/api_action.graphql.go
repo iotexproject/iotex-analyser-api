@@ -28,7 +28,11 @@ var (
 	gql__type_ActionByTypeRequest                        *graphql.Object      // message ActionByTypeRequest in api_action.proto
 	gql__type_ActionByHeightResponse                     *graphql.Object      // message ActionByHeightResponse in api_action.proto
 	gql__type_ActionByHeightRequest                      *graphql.Object      // message ActionByHeightRequest in api_action.proto
+	gql__type_ActionByHashResponse_TokenTransfer         *graphql.Object      // message ActionByHashResponse.TokenTransfer in api_action.proto
+	gql__type_ActionByHashResponse_StakeAction           *graphql.Object      // message ActionByHashResponse.StakeAction in api_action.proto
 	gql__type_ActionByHashResponse_EvmTransfers          *graphql.Object      // message ActionByHashResponse.EvmTransfers in api_action.proto
+	gql__type_ActionByHashResponse_ActionTypeInfo        *graphql.Object      // message ActionByHashResponse.ActionTypeInfo in api_action.proto
+	gql__type_ActionByHashResponse_ActionLog             *graphql.Object      // message ActionByHashResponse.ActionLog in api_action.proto
 	gql__type_ActionByHashResponse                       *graphql.Object      // message ActionByHashResponse in api_action.proto
 	gql__type_ActionByHashRequest                        *graphql.Object      // message ActionByHashRequest in api_action.proto
 	gql__type_ActionByDatesResponse                      *graphql.Object      // message ActionByDatesResponse in api_action.proto
@@ -51,7 +55,11 @@ var (
 	gql__input_ActionByTypeRequest                       *graphql.InputObject // message ActionByTypeRequest in api_action.proto
 	gql__input_ActionByHeightResponse                    *graphql.InputObject // message ActionByHeightResponse in api_action.proto
 	gql__input_ActionByHeightRequest                     *graphql.InputObject // message ActionByHeightRequest in api_action.proto
+	gql__input_ActionByHashResponse_TokenTransfer        *graphql.InputObject // message ActionByHashResponse.TokenTransfer in api_action.proto
+	gql__input_ActionByHashResponse_StakeAction          *graphql.InputObject // message ActionByHashResponse.StakeAction in api_action.proto
 	gql__input_ActionByHashResponse_EvmTransfers         *graphql.InputObject // message ActionByHashResponse.EvmTransfers in api_action.proto
+	gql__input_ActionByHashResponse_ActionTypeInfo       *graphql.InputObject // message ActionByHashResponse.ActionTypeInfo in api_action.proto
+	gql__input_ActionByHashResponse_ActionLog            *graphql.InputObject // message ActionByHashResponse.ActionLog in api_action.proto
 	gql__input_ActionByHashResponse                      *graphql.InputObject // message ActionByHashResponse in api_action.proto
 	gql__input_ActionByHashRequest                       *graphql.InputObject // message ActionByHashRequest in api_action.proto
 	gql__input_ActionByDatesResponse                     *graphql.InputObject // message ActionByDatesResponse in api_action.proto
@@ -446,6 +454,70 @@ func Gql__type_ActionByHeightRequest() *graphql.Object {
 	return gql__type_ActionByHeightRequest
 }
 
+func Gql__type_ActionByHashResponse_TokenTransfer() *graphql.Object {
+	if gql__type_ActionByHashResponse_TokenTransfer == nil {
+		gql__type_ActionByHashResponse_TokenTransfer = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHashResponse_TokenTransfer",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"type": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHashResponse_TokenTransfer
+}
+
+func Gql__type_ActionByHashResponse_StakeAction() *graphql.Object {
+	if gql__type_ActionByHashResponse_StakeAction == nil {
+		gql__type_ActionByHashResponse_StakeAction = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHashResponse_StakeAction",
+			Fields: graphql.Fields{
+				"bucket_id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"duration": &graphql.Field{
+					Type: graphql.String,
+				},
+				"auto_stake": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"candidate": &graphql.Field{
+					Type: graphql.String,
+				},
+				"act_type": &graphql.Field{
+					Type: graphql.String,
+				},
+				"owner_address": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHashResponse_StakeAction
+}
+
 func Gql__type_ActionByHashResponse_EvmTransfers() *graphql.Object {
 	if gql__type_ActionByHashResponse_EvmTransfers == nil {
 		gql__type_ActionByHashResponse_EvmTransfers = graphql.NewObject(graphql.ObjectConfig{
@@ -466,6 +538,79 @@ func Gql__type_ActionByHashResponse_EvmTransfers() *graphql.Object {
 	return gql__type_ActionByHashResponse_EvmTransfers
 }
 
+func Gql__type_ActionByHashResponse_ActionTypeInfo() *graphql.Object {
+	if gql__type_ActionByHashResponse_ActionTypeInfo == nil {
+		gql__type_ActionByHashResponse_ActionTypeInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHashResponse_ActionTypeInfo",
+			Fields: graphql.Fields{
+				"type": &graphql.Field{
+					Type: graphql.String,
+				},
+				"access_list": &graphql.Field{
+					Type: graphql.String,
+				},
+				"gas_tip_cap": &graphql.Field{
+					Type: graphql.String,
+				},
+				"gas_fee_cap": &graphql.Field{
+					Type: graphql.String,
+				},
+				"blob_gas": &graphql.Field{
+					Type: graphql.String,
+				},
+				"blob_fee_cap": &graphql.Field{
+					Type: graphql.String,
+				},
+				"blob_hashes": &graphql.Field{
+					Type: graphql.String,
+				},
+				"blob_gas_price": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHashResponse_ActionTypeInfo
+}
+
+func Gql__type_ActionByHashResponse_ActionLog() *graphql.Object {
+	if gql__type_ActionByHashResponse_ActionLog == nil {
+		gql__type_ActionByHashResponse_ActionLog = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_ActionByHashResponse_ActionLog",
+			Fields: graphql.Fields{
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"topic0": &graphql.Field{
+					Type: graphql.String,
+				},
+				"topic1": &graphql.Field{
+					Type: graphql.String,
+				},
+				"topic2": &graphql.Field{
+					Type: graphql.String,
+				},
+				"topic3": &graphql.Field{
+					Type: graphql.String,
+				},
+				"data": &graphql.Field{
+					Type: graphql.String,
+				},
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"index": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_ActionByHashResponse_ActionLog
+}
+
 func Gql__type_ActionByHashResponse() *graphql.Object {
 	if gql__type_ActionByHashResponse == nil {
 		gql__type_ActionByHashResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -479,6 +624,24 @@ func Gql__type_ActionByHashResponse() *graphql.Object {
 				},
 				"evmTransfers": &graphql.Field{
 					Type: graphql.NewList(Gql__type_ActionByHashResponse_EvmTransfers()),
+				},
+				"action_type_info": &graphql.Field{
+					Type: Gql__type_ActionByHashResponse_ActionTypeInfo(),
+				},
+				"input_data": &graphql.Field{
+					Type: graphql.String,
+				},
+				"logs": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ActionByHashResponse_ActionLog()),
+				},
+				"token_transfers": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ActionByHashResponse_TokenTransfer()),
+				},
+				"block_base_fee": &graphql.Field{
+					Type: graphql.String,
+				},
+				"stake_action": &graphql.Field{
+					Type: Gql__type_ActionByHashResponse_StakeAction(),
 				},
 			},
 		})
@@ -978,6 +1141,70 @@ func Gql__input_ActionByHeightRequest() *graphql.InputObject {
 	return gql__input_ActionByHeightRequest
 }
 
+func Gql__input_ActionByHashResponse_TokenTransfer() *graphql.InputObject {
+	if gql__input_ActionByHashResponse_TokenTransfer == nil {
+		gql__input_ActionByHashResponse_TokenTransfer = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHashResponse_TokenTransfer",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHashResponse_TokenTransfer
+}
+
+func Gql__input_ActionByHashResponse_StakeAction() *graphql.InputObject {
+	if gql__input_ActionByHashResponse_StakeAction == nil {
+		gql__input_ActionByHashResponse_StakeAction = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHashResponse_StakeAction",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"duration": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"auto_stake": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"candidate": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"act_type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"owner_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHashResponse_StakeAction
+}
+
 func Gql__input_ActionByHashResponse_EvmTransfers() *graphql.InputObject {
 	if gql__input_ActionByHashResponse_EvmTransfers == nil {
 		gql__input_ActionByHashResponse_EvmTransfers = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -998,6 +1225,79 @@ func Gql__input_ActionByHashResponse_EvmTransfers() *graphql.InputObject {
 	return gql__input_ActionByHashResponse_EvmTransfers
 }
 
+func Gql__input_ActionByHashResponse_ActionTypeInfo() *graphql.InputObject {
+	if gql__input_ActionByHashResponse_ActionTypeInfo == nil {
+		gql__input_ActionByHashResponse_ActionTypeInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHashResponse_ActionTypeInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"access_list": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"gas_tip_cap": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"gas_fee_cap": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"blob_gas": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"blob_fee_cap": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"blob_hashes": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"blob_gas_price": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHashResponse_ActionTypeInfo
+}
+
+func Gql__input_ActionByHashResponse_ActionLog() *graphql.InputObject {
+	if gql__input_ActionByHashResponse_ActionLog == nil {
+		gql__input_ActionByHashResponse_ActionLog = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ActionByHashResponse_ActionLog",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"topic0": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"topic1": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"topic2": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"topic3": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"data": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"index": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_ActionByHashResponse_ActionLog
+}
+
 func Gql__input_ActionByHashResponse() *graphql.InputObject {
 	if gql__input_ActionByHashResponse == nil {
 		gql__input_ActionByHashResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -1011,6 +1311,24 @@ func Gql__input_ActionByHashResponse() *graphql.InputObject {
 				},
 				"evmTransfers": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(Gql__input_ActionByHashResponse_EvmTransfers()),
+				},
+				"action_type_info": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_ActionByHashResponse_ActionTypeInfo(),
+				},
+				"input_data": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"logs": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ActionByHashResponse_ActionLog()),
+				},
+				"token_transfers": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ActionByHashResponse_TokenTransfer()),
+				},
+				"block_base_fee": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"stake_action": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_ActionByHashResponse_StakeAction(),
 				},
 			},
 		})

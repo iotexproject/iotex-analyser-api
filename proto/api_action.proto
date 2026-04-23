@@ -84,6 +84,57 @@ message ActionByHashResponse {
     string amount = 3; // amount transferred
   }
   repeated EvmTransfers evmTransfers = 3;
+
+  message ActionTypeInfo {
+    string type = 1;
+    string access_list = 2;
+    string gas_tip_cap = 3;
+    string gas_fee_cap = 4;
+    string blob_gas = 5;
+    string blob_fee_cap = 6;
+    string blob_hashes = 7;
+    string blob_gas_price = 8;
+  }
+  ActionTypeInfo action_type_info = 4;
+
+  string input_data = 5; // hex-encoded execution data
+
+  message ActionLog {
+    uint64 block_height = 1;
+    string address = 2;
+    string topic0 = 3;
+    string topic1 = 4;
+    string topic2 = 5;
+    string topic3 = 6;
+    bytes data = 7; // raw log data (base64 in JSON)
+    string action_hash = 8;
+    int64 index = 9;
+  }
+  repeated ActionLog logs = 6;
+
+  message TokenTransfer {
+    int64 id = 1;
+    string contract_address = 2;
+    string sender = 3;
+    string recipient = 4;
+    string amount = 5;
+    string type = 6; // "erc20" or "nft"
+  }
+  repeated TokenTransfer token_transfers = 7;
+
+  string block_base_fee = 8;
+
+  message StakeAction {
+    int64 bucket_id = 1;
+    string amount = 2;
+    string staked_amount = 3;
+    string duration = 4;
+    bool auto_stake = 5;
+    string candidate = 6;
+    string act_type = 7;
+    string owner_address = 8;
+  }
+  StakeAction stake_action = 9;
 }
 
 message ActionByAddressRequest {
