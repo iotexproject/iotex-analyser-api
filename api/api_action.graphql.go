@@ -13,6 +13,12 @@ import (
 
 var (
 	gql__type_XrcInfo                                    *graphql.Object      // message XrcInfo in api_action.proto
+	gql__type_StakingActionInfo                          *graphql.Object      // message StakingActionInfo in api_action.proto
+	gql__type_InternalTxnInfo                            *graphql.Object      // message InternalTxnInfo in api_action.proto
+	gql__type_GetStakingActionsByAddressResponse         *graphql.Object      // message GetStakingActionsByAddressResponse in api_action.proto
+	gql__type_GetStakingActionsByAddressRequest          *graphql.Object      // message GetStakingActionsByAddressRequest in api_action.proto
+	gql__type_GetInternalTxnsResponse                    *graphql.Object      // message GetInternalTxnsResponse in api_action.proto
+	gql__type_GetInternalTxnsRequest                     *graphql.Object      // message GetInternalTxnsRequest in api_action.proto
 	gql__type_EvmTransfersByAddressResponse_EvmTransfer  *graphql.Object      // message EvmTransfersByAddressResponse.EvmTransfer in api_action.proto
 	gql__type_EvmTransfersByAddressResponse              *graphql.Object      // message EvmTransfersByAddressResponse in api_action.proto
 	gql__type_EvmTransfersByAddressRequest               *graphql.Object      // message EvmTransfersByAddressRequest in api_action.proto
@@ -40,6 +46,12 @@ var (
 	gql__type_ActionByAddressResponse                    *graphql.Object      // message ActionByAddressResponse in api_action.proto
 	gql__type_ActionByAddressRequest                     *graphql.Object      // message ActionByAddressRequest in api_action.proto
 	gql__input_XrcInfo                                   *graphql.InputObject // message XrcInfo in api_action.proto
+	gql__input_StakingActionInfo                         *graphql.InputObject // message StakingActionInfo in api_action.proto
+	gql__input_InternalTxnInfo                           *graphql.InputObject // message InternalTxnInfo in api_action.proto
+	gql__input_GetStakingActionsByAddressResponse        *graphql.InputObject // message GetStakingActionsByAddressResponse in api_action.proto
+	gql__input_GetStakingActionsByAddressRequest         *graphql.InputObject // message GetStakingActionsByAddressRequest in api_action.proto
+	gql__input_GetInternalTxnsResponse                   *graphql.InputObject // message GetInternalTxnsResponse in api_action.proto
+	gql__input_GetInternalTxnsRequest                    *graphql.InputObject // message GetInternalTxnsRequest in api_action.proto
 	gql__input_EvmTransfersByAddressResponse_EvmTransfer *graphql.InputObject // message EvmTransfersByAddressResponse.EvmTransfer in api_action.proto
 	gql__input_EvmTransfersByAddressResponse             *graphql.InputObject // message EvmTransfersByAddressResponse in api_action.proto
 	gql__input_EvmTransfersByAddressRequest              *graphql.InputObject // message EvmTransfersByAddressRequest in api_action.proto
@@ -98,6 +110,138 @@ func Gql__type_XrcInfo() *graphql.Object {
 		})
 	}
 	return gql__type_XrcInfo
+}
+
+func Gql__type_StakingActionInfo() *graphql.Object {
+	if gql__type_StakingActionInfo == nil {
+		gql__type_StakingActionInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_StakingActionInfo",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"action_type": &graphql.Field{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_StakingActionInfo
+}
+
+func Gql__type_InternalTxnInfo() *graphql.Object {
+	if gql__type_InternalTxnInfo == nil {
+		gql__type_InternalTxnInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_InternalTxnInfo",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"type": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.Field{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_InternalTxnInfo
+}
+
+func Gql__type_GetStakingActionsByAddressResponse() *graphql.Object {
+	if gql__type_GetStakingActionsByAddressResponse == nil {
+		gql__type_GetStakingActionsByAddressResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetStakingActionsByAddressResponse",
+			Fields: graphql.Fields{
+				"actions": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingActionInfo()),
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetStakingActionsByAddressResponse
+}
+
+func Gql__type_GetStakingActionsByAddressRequest() *graphql.Object {
+	if gql__type_GetStakingActionsByAddressRequest == nil {
+		gql__type_GetStakingActionsByAddressRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetStakingActionsByAddressRequest",
+			Fields: graphql.Fields{
+				"owner_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_GetStakingActionsByAddressRequest
+}
+
+func Gql__type_GetInternalTxnsResponse() *graphql.Object {
+	if gql__type_GetInternalTxnsResponse == nil {
+		gql__type_GetInternalTxnsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetInternalTxnsResponse",
+			Fields: graphql.Fields{
+				"txns": &graphql.Field{
+					Type: graphql.NewList(Gql__type_InternalTxnInfo()),
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetInternalTxnsResponse
+}
+
+func Gql__type_GetInternalTxnsRequest() *graphql.Object {
+	if gql__type_GetInternalTxnsRequest == nil {
+		gql__type_GetInternalTxnsRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetInternalTxnsRequest",
+			Fields: graphql.Fields{
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_GetInternalTxnsRequest
 }
 
 func Gql__type_EvmTransfersByAddressResponse_EvmTransfer() *graphql.Object {
@@ -785,6 +929,138 @@ func Gql__input_XrcInfo() *graphql.InputObject {
 		})
 	}
 	return gql__input_XrcInfo
+}
+
+func Gql__input_StakingActionInfo() *graphql.InputObject {
+	if gql__input_StakingActionInfo == nil {
+		gql__input_StakingActionInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_StakingActionInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"action_type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_StakingActionInfo
+}
+
+func Gql__input_InternalTxnInfo() *graphql.InputObject {
+	if gql__input_InternalTxnInfo == nil {
+		gql__input_InternalTxnInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_InternalTxnInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_InternalTxnInfo
+}
+
+func Gql__input_GetStakingActionsByAddressResponse() *graphql.InputObject {
+	if gql__input_GetStakingActionsByAddressResponse == nil {
+		gql__input_GetStakingActionsByAddressResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetStakingActionsByAddressResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingActionInfo()),
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetStakingActionsByAddressResponse
+}
+
+func Gql__input_GetStakingActionsByAddressRequest() *graphql.InputObject {
+	if gql__input_GetStakingActionsByAddressRequest == nil {
+		gql__input_GetStakingActionsByAddressRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetStakingActionsByAddressRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"owner_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_GetStakingActionsByAddressRequest
+}
+
+func Gql__input_GetInternalTxnsResponse() *graphql.InputObject {
+	if gql__input_GetInternalTxnsResponse == nil {
+		gql__input_GetInternalTxnsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetInternalTxnsResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"txns": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_InternalTxnInfo()),
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetInternalTxnsResponse
+}
+
+func Gql__input_GetInternalTxnsRequest() *graphql.InputObject {
+	if gql__input_GetInternalTxnsRequest == nil {
+		gql__input_GetInternalTxnsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetInternalTxnsRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_GetInternalTxnsRequest
 }
 
 func Gql__input_EvmTransfersByAddressResponse_EvmTransfer() *graphql.InputObject {

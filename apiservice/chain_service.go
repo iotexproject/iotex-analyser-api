@@ -493,3 +493,43 @@ func (s *ChainService) GetBlockByHeight(ctx context.Context, req *api.GetBlockBy
 
 	return resp, nil
 }
+
+// GetStakingRatioHistory returns staking ratio history over a time range
+func (s *ChainService) GetStakingRatioHistory(ctx context.Context, req *api.GetStakingRatioHistoryRequest) (*api.GetStakingRatioHistoryResponse, error) {
+	resp := &api.GetStakingRatioHistoryResponse{}
+	gormDB := db.DB()
+	startTime := req.GetStartTime()
+	endTime := req.GetEndTime()
+
+	var rows []struct {
+		DateTime string
+		Ratio    string
+	}
+	var err error
+	if startTime != "" && endTime != "" {
+		err = gormDB.WithContext(ctx).Raw(
+			`SELECT to_char(date_time AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as date_time,
+				staking_ratio::text as ratio
+			FROM staking_record
+			WHERE date_time::date >= ?::date AND date_time::date <= ?::date
+			ORDER BY id ASC`,
+			startTime, endTime,
+		).Scan(&rows).Error
+	} else {
+		err = gormDB.WithContext(ctx).Raw(
+			`SELECT to_char(date_time AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as date_time,
+				staking_ratio::text as ratio
+			FROM staking_record ORDER BY id ASC`,
+		).Scan(&rows).Error
+	}
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get staking ratio history")
+	}
+	for _, r := range rows {
+		resp.Data = append(resp.Data, &api.StakingRatioPoint{
+			DateTime: r.DateTime,
+			Ratio:    r.Ratio,
+		})
+	}
+	return resp, nil
+}

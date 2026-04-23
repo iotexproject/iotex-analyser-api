@@ -419,6 +419,7 @@ func (s *ActionService) ActionByAddress(ctx context.Context, req *api.ActionByAd
 			GasFee:          actionInfo.GasFee,
 			BlkHeight:       actionInfo.BlkHeight,
 			GasPrice:        actionInfo.GasPrice,
+			GasLimit:        actionInfo.GasLimit,
 			GasConsumed:     actionInfo.GasConsumed,
 			Nonce:           actionInfo.Nonce,
 			Status:          actionInfo.Status,
@@ -621,5 +622,124 @@ func (s *ActionService) ContractInteractors(ctx context.Context, req *api.Contra
 		return nil, err
 	}
 	resp.Senders = senders
+	return resp, nil
+}
+
+// GetInternalTxns returns paginated EVM internal transactions
+func (s *ActionService) GetInternalTxns(ctx context.Context, req *api.GetInternalTxnsRequest) (*api.GetInternalTxnsResponse, error) {
+	resp := &api.GetInternalTxnsResponse{}
+	gormDB := db.DB()
+
+	var count uint64
+	if err := gormDB.WithContext(ctx).Raw(
+		"SELECT COUNT(1) FROM block_receipt_transactions WHERE type = 'execution'",
+	).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count internal txns")
+	}
+	resp.Count = count
+	if count == 0 {
+		return resp, nil
+	}
+
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+	var rows []struct {
+		ID          int64
+		BlockHeight uint64
+		ActionHash  string
+		Type        sql.NullString
+		Amount      string
+		Sender      string
+		Recipient   string
+		Timestamp   sql.NullString
+	}
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT brt.id, brt.block_height, brt.action_hash, brt.type, brt.amount, brt.sender, brt.recipient,
+			to_char(b.timestamp AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as timestamp
+		FROM block_receipt_transactions brt
+		LEFT JOIN block b ON brt.block_height = b.block_height
+		WHERE brt.type = 'execution'
+		ORDER BY brt.id DESC LIMIT ? OFFSET ?`,
+		first, skip,
+	).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get internal txns")
+	}
+	for _, r := range rows {
+		txn := &api.InternalTxnInfo{
+			Id:          r.ID,
+			BlockHeight: r.BlockHeight,
+			ActionHash:  r.ActionHash,
+			Amount:      r.Amount,
+			Sender:      r.Sender,
+			Recipient:   r.Recipient,
+		}
+		if r.Type.Valid {
+			txn.Type = r.Type.String
+		}
+		if r.Timestamp.Valid {
+			txn.Timestamp = r.Timestamp.String
+		}
+		resp.Txns = append(resp.Txns, txn)
+	}
+	return resp, nil
+}
+
+// GetStakingActionsByAddress returns paginated staking actions for an owner address
+func (s *ActionService) GetStakingActionsByAddress(ctx context.Context, req *api.GetStakingActionsByAddressRequest) (*api.GetStakingActionsByAddressResponse, error) {
+	resp := &api.GetStakingActionsByAddressResponse{}
+	ownerAddress := req.GetOwnerAddress()
+	gormDB := db.DB()
+
+	var count uint64
+	if err := gormDB.WithContext(ctx).Raw(
+		"SELECT COUNT(1) FROM staking_actions WHERE owner_address = ?",
+		ownerAddress,
+	).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count staking actions")
+	}
+	resp.Count = count
+	if count == 0 {
+		return resp, nil
+	}
+
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+	var rows []struct {
+		ID          int64
+		BlockHeight uint64
+		ActionHash  string
+		Sender      string
+		Amount      sql.NullString
+		ActionType  string
+		Timestamp   sql.NullString
+	}
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT a.id, a.block_height, a.act_hash AS action_hash, a.sender, a.amount,
+			a.act_type AS action_type,
+			to_char(b.timestamp AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as timestamp
+		FROM staking_actions a
+		LEFT JOIN block b ON a.block_height = b.block_height
+		WHERE a.owner_address = ?
+		ORDER BY a.id DESC LIMIT ? OFFSET ?`,
+		ownerAddress, first, skip,
+	).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get staking actions")
+	}
+	for _, r := range rows {
+		act := &api.StakingActionInfo{
+			Id:          r.ID,
+			BlockHeight: r.BlockHeight,
+			ActionHash:  r.ActionHash,
+			Sender:      r.Sender,
+			ActionType:  r.ActionType,
+		}
+		if r.Amount.Valid {
+			act.Amount = r.Amount.String
+		}
+		if r.Timestamp.Valid {
+			act.Timestamp = r.Timestamp.String
+		}
+		resp.Actions = append(resp.Actions, act)
+	}
 	return resp, nil
 }

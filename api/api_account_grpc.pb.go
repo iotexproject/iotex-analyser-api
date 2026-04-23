@@ -27,6 +27,8 @@ const (
 	AccountService_TotalNumberOfHolders_FullMethodName      = "/api.AccountService/TotalNumberOfHolders"
 	AccountService_TotalAccountSupply_FullMethodName        = "/api.AccountService/TotalAccountSupply"
 	AccountService_ContractInfo_FullMethodName              = "/api.AccountService/ContractInfo"
+	AccountService_GetAccountMeta_FullMethodName            = "/api.AccountService/GetAccountMeta"
+	AccountService_GetContractCreateInfo_FullMethodName     = "/api.AccountService/GetContractCreateInfo"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -48,6 +50,10 @@ type AccountServiceClient interface {
 	TotalAccountSupply(ctx context.Context, in *TotalAccountSupplyRequest, opts ...grpc.CallOption) (*TotalAccountSupplyResponse, error)
 	// ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee
 	ContractInfo(ctx context.Context, in *ContractInfoRequest, opts ...grpc.CallOption) (*ContractInfoResponse, error)
+	// GetAccountMeta returns account metadata (is_contract, block_height, bytecode hash)
+	GetAccountMeta(ctx context.Context, in *GetAccountMetaRequest, opts ...grpc.CallOption) (*GetAccountMetaResponse, error)
+	// GetContractCreateInfo returns the action hash and creator for a contract
+	GetContractCreateInfo(ctx context.Context, in *GetContractCreateInfoRequest, opts ...grpc.CallOption) (*GetContractCreateInfoResponse, error)
 }
 
 type accountServiceClient struct {
@@ -130,6 +136,24 @@ func (c *accountServiceClient) ContractInfo(ctx context.Context, in *ContractInf
 	return out, nil
 }
 
+func (c *accountServiceClient) GetAccountMeta(ctx context.Context, in *GetAccountMetaRequest, opts ...grpc.CallOption) (*GetAccountMetaResponse, error) {
+	out := new(GetAccountMetaResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetAccountMeta_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) GetContractCreateInfo(ctx context.Context, in *GetContractCreateInfoRequest, opts ...grpc.CallOption) (*GetContractCreateInfoResponse, error) {
+	out := new(GetContractCreateInfoResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetContractCreateInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -149,6 +173,10 @@ type AccountServiceServer interface {
 	TotalAccountSupply(context.Context, *TotalAccountSupplyRequest) (*TotalAccountSupplyResponse, error)
 	// ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee
 	ContractInfo(context.Context, *ContractInfoRequest) (*ContractInfoResponse, error)
+	// GetAccountMeta returns account metadata (is_contract, block_height, bytecode hash)
+	GetAccountMeta(context.Context, *GetAccountMetaRequest) (*GetAccountMetaResponse, error)
+	// GetContractCreateInfo returns the action hash and creator for a contract
+	GetContractCreateInfo(context.Context, *GetContractCreateInfoRequest) (*GetContractCreateInfoResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -179,6 +207,12 @@ func (UnimplementedAccountServiceServer) TotalAccountSupply(context.Context, *To
 }
 func (UnimplementedAccountServiceServer) ContractInfo(context.Context, *ContractInfoRequest) (*ContractInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractInfo not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAccountMeta(context.Context, *GetAccountMetaRequest) (*GetAccountMetaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountMeta not implemented")
+}
+func (UnimplementedAccountServiceServer) GetContractCreateInfo(context.Context, *GetContractCreateInfoRequest) (*GetContractCreateInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetContractCreateInfo not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -337,6 +371,42 @@ func _AccountService_ContractInfo_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetAccountMeta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccountMetaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAccountMeta(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetAccountMeta_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAccountMeta(ctx, req.(*GetAccountMetaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetContractCreateInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetContractCreateInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetContractCreateInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetContractCreateInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetContractCreateInfo(ctx, req.(*GetContractCreateInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -375,6 +445,14 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractInfo",
 			Handler:    _AccountService_ContractInfo_Handler,
+		},
+		{
+			MethodName: "GetAccountMeta",
+			Handler:    _AccountService_GetAccountMeta_Handler,
+		},
+		{
+			MethodName: "GetContractCreateInfo",
+			Handler:    _AccountService_GetContractCreateInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

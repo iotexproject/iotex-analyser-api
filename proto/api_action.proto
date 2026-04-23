@@ -209,6 +209,43 @@ message ContractInteractorsRequest {
 message ContractInteractorsResponse {
   repeated string senders = 1;
 }
+
+message GetInternalTxnsRequest {
+  pagination.Pagination pagination = 1;
+}
+message InternalTxnInfo {
+  int64 id = 1;
+  uint64 block_height = 2;
+  string action_hash = 3;
+  string type = 4;
+  string amount = 5;
+  string sender = 6;
+  string recipient = 7;
+  string timestamp = 8;
+}
+message GetInternalTxnsResponse {
+  repeated InternalTxnInfo txns = 1;
+  uint64 count = 2;
+}
+
+message GetStakingActionsByAddressRequest {
+  string owner_address = 1;
+  pagination.Pagination pagination = 2;
+}
+message StakingActionInfo {
+  int64 id = 1;
+  uint64 block_height = 2;
+  string action_hash = 3;
+  string sender = 4;
+  string amount = 5;
+  string action_type = 6;
+  string timestamp = 7;
+}
+message GetStakingActionsByAddressResponse {
+  repeated StakingActionInfo actions = 1;
+  uint64 count = 2;
+}
+
 service ActionService {
   rpc ActionByVoter(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
@@ -318,5 +355,18 @@ service ActionService {
       body: "*"
     };
   };
-
+  // GetInternalTxns returns paginated EVM internal transactions (block_receipt_transactions type=execution)
+  rpc GetInternalTxns(GetInternalTxnsRequest) returns (GetInternalTxnsResponse) {
+    option (google.api.http) = {
+      post: "/api.ActionService.GetInternalTxns"
+      body: "*"
+    };
+  };
+  // GetStakingActionsByAddress returns paginated staking actions for an owner address
+  rpc GetStakingActionsByAddress(GetStakingActionsByAddressRequest) returns (GetStakingActionsByAddressResponse) {
+    option (google.api.http) = {
+      post: "/api.ActionService.GetStakingActionsByAddress"
+      body: "*"
+    };
+  };
 }

@@ -17,6 +17,10 @@ var (
 	gql__type_OperatorAddressRequest             *graphql.Object      // message OperatorAddressRequest in api_account.proto
 	gql__type_IotexBalanceByHeightResponse       *graphql.Object      // message IotexBalanceByHeightResponse in api_account.proto
 	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
+	gql__type_GetContractCreateInfoResponse      *graphql.Object      // message GetContractCreateInfoResponse in api_account.proto
+	gql__type_GetContractCreateInfoRequest       *graphql.Object      // message GetContractCreateInfoRequest in api_account.proto
+	gql__type_GetAccountMetaResponse             *graphql.Object      // message GetAccountMetaResponse in api_account.proto
+	gql__type_GetAccountMetaRequest              *graphql.Object      // message GetAccountMetaRequest in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightResponse  *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__type_Erc20TokenBalanceByHeightRequest   *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
 	gql__type_ContractInfoResponse_Contract      *graphql.Object      // message ContractInfoResponse.Contract in api_account.proto
@@ -26,12 +30,17 @@ var (
 	gql__type_AliasRequest                       *graphql.Object      // message AliasRequest in api_account.proto
 	gql__type_ActiveAccountsResponse             *graphql.Object      // message ActiveAccountsResponse in api_account.proto
 	gql__type_ActiveAccountsRequest              *graphql.Object      // message ActiveAccountsRequest in api_account.proto
+	gql__type_AccountMetaInfo                    *graphql.Object      // message AccountMetaInfo in api_account.proto
 	gql__input_TotalNumberOfHoldersResponse      *graphql.InputObject // message TotalNumberOfHoldersResponse in api_account.proto
 	gql__input_TotalAccountSupplyResponse        *graphql.InputObject // message TotalAccountSupplyResponse in api_account.proto
 	gql__input_OperatorAddressResponse           *graphql.InputObject // message OperatorAddressResponse in api_account.proto
 	gql__input_OperatorAddressRequest            *graphql.InputObject // message OperatorAddressRequest in api_account.proto
 	gql__input_IotexBalanceByHeightResponse      *graphql.InputObject // message IotexBalanceByHeightResponse in api_account.proto
 	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
+	gql__input_GetContractCreateInfoResponse     *graphql.InputObject // message GetContractCreateInfoResponse in api_account.proto
+	gql__input_GetContractCreateInfoRequest      *graphql.InputObject // message GetContractCreateInfoRequest in api_account.proto
+	gql__input_GetAccountMetaResponse            *graphql.InputObject // message GetAccountMetaResponse in api_account.proto
+	gql__input_GetAccountMetaRequest             *graphql.InputObject // message GetAccountMetaRequest in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightResponse *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
 	gql__input_Erc20TokenBalanceByHeightRequest  *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
 	gql__input_ContractInfoResponse_Contract     *graphql.InputObject // message ContractInfoResponse.Contract in api_account.proto
@@ -41,6 +50,7 @@ var (
 	gql__input_AliasRequest                      *graphql.InputObject // message AliasRequest in api_account.proto
 	gql__input_ActiveAccountsResponse            *graphql.InputObject // message ActiveAccountsResponse in api_account.proto
 	gql__input_ActiveAccountsRequest             *graphql.InputObject // message ActiveAccountsRequest in api_account.proto
+	gql__input_AccountMetaInfo                   *graphql.InputObject // message AccountMetaInfo in api_account.proto
 )
 
 func Gql__type_TotalNumberOfHoldersResponse() *graphql.Object {
@@ -134,6 +144,65 @@ func Gql__type_IotexBalanceByHeightRequest() *graphql.Object {
 		})
 	}
 	return gql__type_IotexBalanceByHeightRequest
+}
+
+func Gql__type_GetContractCreateInfoResponse() *graphql.Object {
+	if gql__type_GetContractCreateInfoResponse == nil {
+		gql__type_GetContractCreateInfoResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetContractCreateInfoResponse",
+			Fields: graphql.Fields{
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"creator": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetContractCreateInfoResponse
+}
+
+func Gql__type_GetContractCreateInfoRequest() *graphql.Object {
+	if gql__type_GetContractCreateInfoRequest == nil {
+		gql__type_GetContractCreateInfoRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetContractCreateInfoRequest",
+			Fields: graphql.Fields{
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetContractCreateInfoRequest
+}
+
+func Gql__type_GetAccountMetaResponse() *graphql.Object {
+	if gql__type_GetAccountMetaResponse == nil {
+		gql__type_GetAccountMetaResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetAccountMetaResponse",
+			Fields: graphql.Fields{
+				"accounts": &graphql.Field{
+					Type: graphql.NewList(Gql__type_AccountMetaInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetAccountMetaResponse
+}
+
+func Gql__type_GetAccountMetaRequest() *graphql.Object {
+	if gql__type_GetAccountMetaRequest == nil {
+		gql__type_GetAccountMetaRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetAccountMetaRequest",
+			Fields: graphql.Fields{
+				"addresses": &graphql.Field{
+					Type: graphql.NewList(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__type_GetAccountMetaRequest
 }
 
 func Gql__type_Erc20TokenBalanceByHeightResponse() *graphql.Object {
@@ -295,6 +364,29 @@ func Gql__type_ActiveAccountsRequest() *graphql.Object {
 	return gql__type_ActiveAccountsRequest
 }
 
+func Gql__type_AccountMetaInfo() *graphql.Object {
+	if gql__type_AccountMetaInfo == nil {
+		gql__type_AccountMetaInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_AccountMetaInfo",
+			Fields: graphql.Fields{
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"is_contract": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"contract_bytecode_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_AccountMetaInfo
+}
+
 func Gql__input_TotalNumberOfHoldersResponse() *graphql.InputObject {
 	if gql__input_TotalNumberOfHoldersResponse == nil {
 		gql__input_TotalNumberOfHoldersResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -386,6 +478,65 @@ func Gql__input_IotexBalanceByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_IotexBalanceByHeightRequest
+}
+
+func Gql__input_GetContractCreateInfoResponse() *graphql.InputObject {
+	if gql__input_GetContractCreateInfoResponse == nil {
+		gql__input_GetContractCreateInfoResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetContractCreateInfoResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"creator": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetContractCreateInfoResponse
+}
+
+func Gql__input_GetContractCreateInfoRequest() *graphql.InputObject {
+	if gql__input_GetContractCreateInfoRequest == nil {
+		gql__input_GetContractCreateInfoRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetContractCreateInfoRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetContractCreateInfoRequest
+}
+
+func Gql__input_GetAccountMetaResponse() *graphql.InputObject {
+	if gql__input_GetAccountMetaResponse == nil {
+		gql__input_GetAccountMetaResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetAccountMetaResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"accounts": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_AccountMetaInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetAccountMetaResponse
+}
+
+func Gql__input_GetAccountMetaRequest() *graphql.InputObject {
+	if gql__input_GetAccountMetaRequest == nil {
+		gql__input_GetAccountMetaRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetAccountMetaRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"addresses": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__input_GetAccountMetaRequest
 }
 
 func Gql__input_Erc20TokenBalanceByHeightResponse() *graphql.InputObject {
@@ -545,6 +696,29 @@ func Gql__input_ActiveAccountsRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_ActiveAccountsRequest
+}
+
+func Gql__input_AccountMetaInfo() *graphql.InputObject {
+	if gql__input_AccountMetaInfo == nil {
+		gql__input_AccountMetaInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_AccountMetaInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"is_contract": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"contract_bytecode_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_AccountMetaInfo
 }
 
 // graphql__resolver_AccountService is a struct for making query, mutation and resolve fields.

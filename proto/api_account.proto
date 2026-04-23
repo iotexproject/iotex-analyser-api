@@ -84,6 +84,27 @@ message ContractInfoResponse {
   repeated Contract contracts = 1;
 
 }
+message GetAccountMetaRequest {
+  repeated string addresses = 1;
+}
+message AccountMetaInfo {
+  string address = 1;
+  bool is_contract = 2;
+  uint64 block_height = 3;
+  string contract_bytecode_hash = 4;
+}
+message GetAccountMetaResponse {
+  repeated AccountMetaInfo accounts = 1;
+}
+
+message GetContractCreateInfoRequest {
+  string address = 1;
+}
+message GetContractCreateInfoResponse {
+  string action_hash = 1;
+  string creator = 2;
+}
+
 service AccountService {
   // IotexBalanceByHeight returns the balance of the given address at the given height.
   rpc IotexBalanceByHeight(IotexBalanceByHeightRequest) returns (IotexBalanceByHeightResponse) {
@@ -164,11 +185,25 @@ service AccountService {
   // ContractInfo returns contract info by address, include contract creator, contract create time, contract call times, accumulated transaction fee
   rpc ContractInfo(ContractInfoRequest) returns (ContractInfoResponse) {
     option (graphql.schema) = {
-      type: QUERY 
+      type: QUERY
       name: "ContractInfo"
     };
     option (google.api.http) = {
       post: "/api.AccountService.ContractInfo"
+      body: "*"
+    };
+  };
+  // GetAccountMeta returns account metadata (is_contract, block_height, bytecode hash)
+  rpc GetAccountMeta(GetAccountMetaRequest) returns (GetAccountMetaResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetAccountMeta"
+      body: "*"
+    };
+  };
+  // GetContractCreateInfo returns the action hash and creator for a contract
+  rpc GetContractCreateInfo(GetContractCreateInfoRequest) returns (GetContractCreateInfoResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetContractCreateInfo"
       body: "*"
     };
   };

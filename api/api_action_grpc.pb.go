@@ -19,16 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ActionService_ActionByVoter_FullMethodName         = "/api.ActionService/ActionByVoter"
-	ActionService_GetXrc20ByAddress_FullMethodName     = "/api.ActionService/GetXrc20ByAddress"
-	ActionService_ActionByDates_FullMethodName         = "/api.ActionService/ActionByDates"
-	ActionService_ActionByHash_FullMethodName          = "/api.ActionService/ActionByHash"
-	ActionService_ActionByAddress_FullMethodName       = "/api.ActionService/ActionByAddress"
-	ActionService_ActionByType_FullMethodName          = "/api.ActionService/ActionByType"
-	ActionService_EvmTransfersByAddress_FullMethodName = "/api.ActionService/EvmTransfersByAddress"
-	ActionService_ActionList_FullMethodName            = "/api.ActionService/ActionList"
-	ActionService_ActionByHeight_FullMethodName        = "/api.ActionService/ActionByHeight"
-	ActionService_ContractInteractors_FullMethodName   = "/api.ActionService/ContractInteractors"
+	ActionService_ActionByVoter_FullMethodName              = "/api.ActionService/ActionByVoter"
+	ActionService_GetXrc20ByAddress_FullMethodName          = "/api.ActionService/GetXrc20ByAddress"
+	ActionService_ActionByDates_FullMethodName              = "/api.ActionService/ActionByDates"
+	ActionService_ActionByHash_FullMethodName               = "/api.ActionService/ActionByHash"
+	ActionService_ActionByAddress_FullMethodName            = "/api.ActionService/ActionByAddress"
+	ActionService_ActionByType_FullMethodName               = "/api.ActionService/ActionByType"
+	ActionService_EvmTransfersByAddress_FullMethodName      = "/api.ActionService/EvmTransfersByAddress"
+	ActionService_ActionList_FullMethodName                 = "/api.ActionService/ActionList"
+	ActionService_ActionByHeight_FullMethodName             = "/api.ActionService/ActionByHeight"
+	ActionService_ContractInteractors_FullMethodName        = "/api.ActionService/ContractInteractors"
+	ActionService_GetInternalTxns_FullMethodName            = "/api.ActionService/GetInternalTxns"
+	ActionService_GetStakingActionsByAddress_FullMethodName = "/api.ActionService/GetStakingActionsByAddress"
 )
 
 // ActionServiceClient is the client API for ActionService service.
@@ -53,6 +55,10 @@ type ActionServiceClient interface {
 	ActionByHeight(ctx context.Context, in *ActionByHeightRequest, opts ...grpc.CallOption) (*ActionByHeightResponse, error)
 	// ContractInteractors returns distinct senders who interacted with a contract
 	ContractInteractors(ctx context.Context, in *ContractInteractorsRequest, opts ...grpc.CallOption) (*ContractInteractorsResponse, error)
+	// GetInternalTxns returns paginated EVM internal transactions (block_receipt_transactions type=execution)
+	GetInternalTxns(ctx context.Context, in *GetInternalTxnsRequest, opts ...grpc.CallOption) (*GetInternalTxnsResponse, error)
+	// GetStakingActionsByAddress returns paginated staking actions for an owner address
+	GetStakingActionsByAddress(ctx context.Context, in *GetStakingActionsByAddressRequest, opts ...grpc.CallOption) (*GetStakingActionsByAddressResponse, error)
 }
 
 type actionServiceClient struct {
@@ -153,6 +159,24 @@ func (c *actionServiceClient) ContractInteractors(ctx context.Context, in *Contr
 	return out, nil
 }
 
+func (c *actionServiceClient) GetInternalTxns(ctx context.Context, in *GetInternalTxnsRequest, opts ...grpc.CallOption) (*GetInternalTxnsResponse, error) {
+	out := new(GetInternalTxnsResponse)
+	err := c.cc.Invoke(ctx, ActionService_GetInternalTxns_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *actionServiceClient) GetStakingActionsByAddress(ctx context.Context, in *GetStakingActionsByAddressRequest, opts ...grpc.CallOption) (*GetStakingActionsByAddressResponse, error) {
+	out := new(GetStakingActionsByAddressResponse)
+	err := c.cc.Invoke(ctx, ActionService_GetStakingActionsByAddress_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActionServiceServer is the server API for ActionService service.
 // All implementations must embed UnimplementedActionServiceServer
 // for forward compatibility
@@ -175,6 +199,10 @@ type ActionServiceServer interface {
 	ActionByHeight(context.Context, *ActionByHeightRequest) (*ActionByHeightResponse, error)
 	// ContractInteractors returns distinct senders who interacted with a contract
 	ContractInteractors(context.Context, *ContractInteractorsRequest) (*ContractInteractorsResponse, error)
+	// GetInternalTxns returns paginated EVM internal transactions (block_receipt_transactions type=execution)
+	GetInternalTxns(context.Context, *GetInternalTxnsRequest) (*GetInternalTxnsResponse, error)
+	// GetStakingActionsByAddress returns paginated staking actions for an owner address
+	GetStakingActionsByAddress(context.Context, *GetStakingActionsByAddressRequest) (*GetStakingActionsByAddressResponse, error)
 	mustEmbedUnimplementedActionServiceServer()
 }
 
@@ -211,6 +239,12 @@ func (UnimplementedActionServiceServer) ActionByHeight(context.Context, *ActionB
 }
 func (UnimplementedActionServiceServer) ContractInteractors(context.Context, *ContractInteractorsRequest) (*ContractInteractorsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractInteractors not implemented")
+}
+func (UnimplementedActionServiceServer) GetInternalTxns(context.Context, *GetInternalTxnsRequest) (*GetInternalTxnsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInternalTxns not implemented")
+}
+func (UnimplementedActionServiceServer) GetStakingActionsByAddress(context.Context, *GetStakingActionsByAddressRequest) (*GetStakingActionsByAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStakingActionsByAddress not implemented")
 }
 func (UnimplementedActionServiceServer) mustEmbedUnimplementedActionServiceServer() {}
 
@@ -405,6 +439,42 @@ func _ActionService_ContractInteractors_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActionService_GetInternalTxns_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInternalTxnsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).GetInternalTxns(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActionService_GetInternalTxns_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).GetInternalTxns(ctx, req.(*GetInternalTxnsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActionService_GetStakingActionsByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStakingActionsByAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).GetStakingActionsByAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActionService_GetStakingActionsByAddress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).GetStakingActionsByAddress(ctx, req.(*GetStakingActionsByAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActionService_ServiceDesc is the grpc.ServiceDesc for ActionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -451,6 +521,14 @@ var ActionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractInteractors",
 			Handler:    _ActionService_ContractInteractors_Handler,
+		},
+		{
+			MethodName: "GetInternalTxns",
+			Handler:    _ActionService_GetInternalTxns_Handler,
+		},
+		{
+			MethodName: "GetStakingActionsByAddress",
+			Handler:    _ActionService_GetStakingActionsByAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
