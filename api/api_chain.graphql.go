@@ -3,6 +3,7 @@ package api
 
 import (
 	"context"
+
 	"github.com/graphql-go/graphql"
 	"github.com/pkg/errors"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
@@ -806,11 +807,6 @@ func (x *graphql__resolver_ChainService) GetQueries(conn *grpc.ClientConn) graph
 
 // GetMutations returns acceptable graphql.Fields for Mutation.
 func (x *graphql__resolver_ChainService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
-	return graphql.Fields{}
-}
-
-// GetSubscriptions returns graphql.Fields for Subscription.
-func (x *graphql__resolver_ChainService) GetSubscriptions(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{}
 }
 

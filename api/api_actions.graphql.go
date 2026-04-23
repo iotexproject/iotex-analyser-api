@@ -428,14 +428,14 @@ func RegisterActionsServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service ActionsService {
-//    option (graphql.service) = {
-//        host: "host:port"
-//        insecure: true or false
-//    };
+//	service ActionsService {
+//	   option (graphql.service) = {
+//	       host: "host:port"
+//	       insecure: true or false
+//	   };
 //
-//    ...with RPC definitions
-// }
+//	   ...with RPC definitions
+//	}
 func RegisterActionsServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	return mux.AddHandler(new_graphql_resolver_ActionsService(conn))
 }

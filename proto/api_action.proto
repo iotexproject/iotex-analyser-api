@@ -133,6 +133,7 @@ message EvmTransfersByAddressResponse {
 
 message ActionListRequest {
   pagination.Pagination pagination = 1;
+  uint64 start_block_height = 2;
 }
 message ActionListResponse {
   bool exist = 1;
