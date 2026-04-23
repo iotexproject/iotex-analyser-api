@@ -389,6 +389,50 @@ func (s *AccountService) GetTopAccounts(ctx context.Context, req *api.GetTopAcco
 	return resp, nil
 }
 
+// GetTopAccountsByBalance returns top accounts sorted by IOTX balance (in_flow - out_flow) from account_income_count.
+func (s *AccountService) GetTopAccountsByBalance(ctx context.Context, req *api.GetTopAccountsByBalanceRequest) (*api.GetTopAccountsByBalanceResponse, error) {
+	resp := &api.GetTopAccountsByBalanceResponse{}
+	gormDB := db.DB()
+
+	limit := req.GetLimit()
+	if limit <= 0 {
+		limit = 20
+	}
+	offset := req.GetOffset()
+
+	var count int64
+	if err := gormDB.WithContext(ctx).Raw("SELECT COUNT(1) FROM account_income_count").Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count accounts")
+	}
+	resp.Count = count
+
+	var rows []struct {
+		Address      string
+		Balance      sql.NullString
+		TotalActions int64
+	}
+	q := `SELECT address,
+		(in_flow - out_flow)::text AS balance,
+		(in_num_actions + out_num_actions) AS total_actions
+	FROM account_income_count
+	ORDER BY (in_flow - out_flow) DESC
+	LIMIT ? OFFSET ?`
+	if err := gormDB.WithContext(ctx).Raw(q, limit, offset).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get top accounts by balance")
+	}
+	for _, r := range rows {
+		row := &api.AccountBalanceRow{
+			Address:      r.Address,
+			TotalActions: r.TotalActions,
+		}
+		if r.Balance.Valid {
+			row.Balance = r.Balance.String
+		}
+		resp.Accounts = append(resp.Accounts, row)
+	}
+	return resp, nil
+}
+
 // GetContractCreateInfo returns the action hash and creator for a contract
 func (s *AccountService) GetContractCreateInfo(ctx context.Context, req *api.GetContractCreateInfoRequest) (*api.GetContractCreateInfoResponse, error) {
 	resp := &api.GetContractCreateInfoResponse{}

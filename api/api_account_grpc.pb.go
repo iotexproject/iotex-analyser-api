@@ -32,6 +32,7 @@ const (
 	AccountService_GetAddressNFTBalances_FullMethodName     = "/api.AccountService/GetAddressNFTBalances"
 	AccountService_GetAddressTokenBalances_FullMethodName   = "/api.AccountService/GetAddressTokenBalances"
 	AccountService_GetTopAccounts_FullMethodName            = "/api.AccountService/GetTopAccounts"
+	AccountService_GetTopAccountsByBalance_FullMethodName   = "/api.AccountService/GetTopAccountsByBalance"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -63,6 +64,8 @@ type AccountServiceClient interface {
 	GetAddressTokenBalances(ctx context.Context, in *GetAddressTokenBalancesRequest, opts ...grpc.CallOption) (*GetAddressTokenBalancesResponse, error)
 	// GetTopAccounts returns top stakers from stats_top_list_view with filters
 	GetTopAccounts(ctx context.Context, in *GetTopAccountsRequest, opts ...grpc.CallOption) (*GetTopAccountsResponse, error)
+	// GetTopAccountsByBalance returns top accounts by IOTX balance from account_income_count
+	GetTopAccountsByBalance(ctx context.Context, in *GetTopAccountsByBalanceRequest, opts ...grpc.CallOption) (*GetTopAccountsByBalanceResponse, error)
 }
 
 type accountServiceClient struct {
@@ -190,6 +193,15 @@ func (c *accountServiceClient) GetTopAccounts(ctx context.Context, in *GetTopAcc
 	return out, nil
 }
 
+func (c *accountServiceClient) GetTopAccountsByBalance(ctx context.Context, in *GetTopAccountsByBalanceRequest, opts ...grpc.CallOption) (*GetTopAccountsByBalanceResponse, error) {
+	out := new(GetTopAccountsByBalanceResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetTopAccountsByBalance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -219,6 +231,8 @@ type AccountServiceServer interface {
 	GetAddressTokenBalances(context.Context, *GetAddressTokenBalancesRequest) (*GetAddressTokenBalancesResponse, error)
 	// GetTopAccounts returns top stakers from stats_top_list_view with filters
 	GetTopAccounts(context.Context, *GetTopAccountsRequest) (*GetTopAccountsResponse, error)
+	// GetTopAccountsByBalance returns top accounts by IOTX balance from account_income_count
+	GetTopAccountsByBalance(context.Context, *GetTopAccountsByBalanceRequest) (*GetTopAccountsByBalanceResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -264,6 +278,9 @@ func (UnimplementedAccountServiceServer) GetAddressTokenBalances(context.Context
 }
 func (UnimplementedAccountServiceServer) GetTopAccounts(context.Context, *GetTopAccountsRequest) (*GetTopAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopAccounts not implemented")
+}
+func (UnimplementedAccountServiceServer) GetTopAccountsByBalance(context.Context, *GetTopAccountsByBalanceRequest) (*GetTopAccountsByBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopAccountsByBalance not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -512,6 +529,24 @@ func _AccountService_GetTopAccounts_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetTopAccountsByBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopAccountsByBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetTopAccountsByBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetTopAccountsByBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetTopAccountsByBalance(ctx, req.(*GetTopAccountsByBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -570,6 +605,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTopAccounts",
 			Handler:    _AccountService_GetTopAccounts_Handler,
+		},
+		{
+			MethodName: "GetTopAccountsByBalance",
+			Handler:    _AccountService_GetTopAccountsByBalance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
