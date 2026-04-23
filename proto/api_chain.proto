@@ -90,12 +90,22 @@ message BlockInfo {
 }
 
 message GetBlocksRequest {
-  uint64 page = 1; // page number (starts from 1)
-  uint64 limit = 2; // number of blocks per page
+  uint64 page = 1;         // page number (starts from 1); ignored when before_height > 0
+  uint64 limit = 2;        // number of blocks per page
+  uint64 before_height = 3; // cursor: return blocks with height <= before_height (0 = use page)
 }
 
 message GetBlocksResponse {
   repeated BlockInfo blocks = 1; // list of blocks
+}
+
+message GetBlockByHeightRequest {
+  uint64 height = 1; // block height
+}
+
+message GetBlockByHeightResponse {
+  bool exist = 1;
+  BlockInfo block = 2;
 }
 
 service ChainService {
@@ -177,6 +187,18 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.GetBlocks"
+      body: "*"
+    };
+  };
+
+  // GetBlockByHeight returns a single block by its height
+  rpc GetBlockByHeight(GetBlockByHeightRequest) returns (GetBlockByHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBlockByHeight"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockByHeight"
       body: "*"
     };
   };
