@@ -2,6 +2,7 @@ package apiservice
 
 import (
 	"context"
+	"database/sql"
 	"math/big"
 
 	"github.com/iotexproject/iotex-address/address"
@@ -215,6 +216,68 @@ func (s *AccountService) ContractInfo(ctx context.Context, req *api.ContractInfo
 			contractsRes.AccumulatedGas = gas
 		}
 		resp.Contracts = append(resp.Contracts, contractsRes)
+	}
+	return resp, nil
+}
+
+// GetAccountMeta returns account metadata (is_contract, block_height, bytecode hash) for given addresses
+func (s *AccountService) GetAccountMeta(ctx context.Context, req *api.GetAccountMetaRequest) (*api.GetAccountMetaResponse, error) {
+	resp := &api.GetAccountMetaResponse{}
+	addrs := req.GetAddresses()
+	if len(addrs) == 0 {
+		return resp, nil
+	}
+	gormDB := db.DB()
+	var rows []struct {
+		Address              string
+		IsContract           bool
+		BlockHeight          uint64
+		ContractBytecodeHash sql.NullString
+	}
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT address, is_contract, block_height,
+			CASE WHEN contract_byte_code IS NOT NULL THEN ENCODE(sha256(contract_byte_code), 'hex') ELSE NULL END AS contract_bytecode_hash
+		FROM account_meta WHERE address IN ?`,
+		addrs,
+	).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get account meta")
+	}
+	for _, r := range rows {
+		info := &api.AccountMetaInfo{
+			Address:     r.Address,
+			IsContract:  r.IsContract,
+			BlockHeight: r.BlockHeight,
+		}
+		if r.ContractBytecodeHash.Valid {
+			info.ContractBytecodeHash = r.ContractBytecodeHash.String
+		}
+		resp.Accounts = append(resp.Accounts, info)
+	}
+	return resp, nil
+}
+
+// GetContractCreateInfo returns the action hash and creator for a contract
+func (s *AccountService) GetContractCreateInfo(ctx context.Context, req *api.GetContractCreateInfoRequest) (*api.GetContractCreateInfoResponse, error) {
+	resp := &api.GetContractCreateInfoResponse{}
+	gormDB := db.DB()
+	var row struct {
+		ActionHash sql.NullString
+		Creator    sql.NullString
+	}
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT a.action_hash, a.sender AS creator
+		FROM account_meta am
+		LEFT JOIN block_action_partition a ON am.block_height = a.block_height AND am.address = a.contract_address
+		WHERE am.address = ? LIMIT 1`,
+		req.GetAddress(),
+	).Scan(&row).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get contract create info")
+	}
+	if row.ActionHash.Valid {
+		resp.ActionHash = row.ActionHash.String
+	}
+	if row.Creator.Valid {
+		resp.Creator = row.Creator.String
 	}
 	return resp, nil
 }

@@ -31,6 +31,7 @@ const (
 	ChainService_GetLatestStakingRecord_FullMethodName = "/api.ChainService/GetLatestStakingRecord"
 	ChainService_GetPeakTps_FullMethodName             = "/api.ChainService/GetPeakTps"
 	ChainService_GetActionHistory_FullMethodName       = "/api.ChainService/GetActionHistory"
+	ChainService_GetStakingRatioHistory_FullMethodName = "/api.ChainService/GetStakingRatioHistory"
 )
 
 // ChainServiceClient is the client API for ChainService service.
@@ -60,6 +61,8 @@ type ChainServiceClient interface {
 	GetPeakTps(ctx context.Context, in *GetPeakTpsRequest, opts ...grpc.CallOption) (*GetPeakTpsResponse, error)
 	// GetActionHistory returns aggregated action counts over a time range
 	GetActionHistory(ctx context.Context, in *GetActionHistoryRequest, opts ...grpc.CallOption) (*GetActionHistoryResponse, error)
+	// GetStakingRatioHistory returns staking ratio history over a time range
+	GetStakingRatioHistory(ctx context.Context, in *GetStakingRatioHistoryRequest, opts ...grpc.CallOption) (*GetStakingRatioHistoryResponse, error)
 }
 
 type chainServiceClient struct {
@@ -178,6 +181,15 @@ func (c *chainServiceClient) GetActionHistory(ctx context.Context, in *GetAction
 	return out, nil
 }
 
+func (c *chainServiceClient) GetStakingRatioHistory(ctx context.Context, in *GetStakingRatioHistoryRequest, opts ...grpc.CallOption) (*GetStakingRatioHistoryResponse, error) {
+	out := new(GetStakingRatioHistoryResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetStakingRatioHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility
@@ -205,6 +217,8 @@ type ChainServiceServer interface {
 	GetPeakTps(context.Context, *GetPeakTpsRequest) (*GetPeakTpsResponse, error)
 	// GetActionHistory returns aggregated action counts over a time range
 	GetActionHistory(context.Context, *GetActionHistoryRequest) (*GetActionHistoryResponse, error)
+	// GetStakingRatioHistory returns staking ratio history over a time range
+	GetStakingRatioHistory(context.Context, *GetStakingRatioHistoryRequest) (*GetStakingRatioHistoryResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -247,6 +261,9 @@ func (UnimplementedChainServiceServer) GetPeakTps(context.Context, *GetPeakTpsRe
 }
 func (UnimplementedChainServiceServer) GetActionHistory(context.Context, *GetActionHistoryRequest) (*GetActionHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetActionHistory not implemented")
+}
+func (UnimplementedChainServiceServer) GetStakingRatioHistory(context.Context, *GetStakingRatioHistoryRequest) (*GetStakingRatioHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStakingRatioHistory not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 
@@ -477,6 +494,24 @@ func _ChainService_GetActionHistory_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_GetStakingRatioHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStakingRatioHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetStakingRatioHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetStakingRatioHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetStakingRatioHistory(ctx, req.(*GetStakingRatioHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -531,6 +566,10 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetActionHistory",
 			Handler:    _ChainService_GetActionHistory_Handler,
+		},
+		{
+			MethodName: "GetStakingRatioHistory",
+			Handler:    _ChainService_GetStakingRatioHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

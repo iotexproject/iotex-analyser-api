@@ -147,6 +147,18 @@ message GetActionHistoryResponse {
   repeated ActionHistoryPoint data = 1;
 }
 
+message GetStakingRatioHistoryRequest {
+  string start_time = 1; // optional start date (YYYY-MM-DD)
+  string end_time = 2;   // optional end date (YYYY-MM-DD)
+}
+message StakingRatioPoint {
+  string date_time = 1;
+  string ratio = 2;
+}
+message GetStakingRatioHistoryResponse {
+  repeated StakingRatioPoint data = 1;
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -270,6 +282,13 @@ service ChainService {
   rpc GetActionHistory(GetActionHistoryRequest) returns (GetActionHistoryResponse) {
     option (google.api.http) = {
       post: "/api.ChainService.GetActionHistory"
+      body: "*"
+    };
+  };
+  // GetStakingRatioHistory returns staking ratio history over a time range
+  rpc GetStakingRatioHistory(GetStakingRatioHistoryRequest) returns (GetStakingRatioHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetStakingRatioHistory"
       body: "*"
     };
   };

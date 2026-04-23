@@ -14,10 +14,13 @@ var (
 	gql__type_VotingResultMeta                *graphql.Object      // message VotingResultMeta in api_chain.proto
 	gql__type_TotalTransferredTokensResponse  *graphql.Object      // message TotalTransferredTokensResponse in api_chain.proto
 	gql__type_TotalTransferredTokensRequest   *graphql.Object      // message TotalTransferredTokensRequest in api_chain.proto
+	gql__type_StakingRatioPoint               *graphql.Object      // message StakingRatioPoint in api_chain.proto
 	gql__type_NumberOfActionsResponse         *graphql.Object      // message NumberOfActionsResponse in api_chain.proto
 	gql__type_NumberOfActionsRequest          *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
 	gql__type_MostRecentTPSResponse           *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
 	gql__type_MostRecentTPSRequest            *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
+	gql__type_GetStakingRatioHistoryResponse  *graphql.Object      // message GetStakingRatioHistoryResponse in api_chain.proto
+	gql__type_GetStakingRatioHistoryRequest   *graphql.Object      // message GetStakingRatioHistoryRequest in api_chain.proto
 	gql__type_GetPeakTpsResponse              *graphql.Object      // message GetPeakTpsResponse in api_chain.proto
 	gql__type_GetPeakTpsRequest               *graphql.Object      // message GetPeakTpsRequest in api_chain.proto
 	gql__type_GetLatestStakingRecordResponse  *graphql.Object      // message GetLatestStakingRecordResponse in api_chain.proto
@@ -38,10 +41,13 @@ var (
 	gql__input_VotingResultMeta               *graphql.InputObject // message VotingResultMeta in api_chain.proto
 	gql__input_TotalTransferredTokensResponse *graphql.InputObject // message TotalTransferredTokensResponse in api_chain.proto
 	gql__input_TotalTransferredTokensRequest  *graphql.InputObject // message TotalTransferredTokensRequest in api_chain.proto
+	gql__input_StakingRatioPoint              *graphql.InputObject // message StakingRatioPoint in api_chain.proto
 	gql__input_NumberOfActionsResponse        *graphql.InputObject // message NumberOfActionsResponse in api_chain.proto
 	gql__input_NumberOfActionsRequest         *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
 	gql__input_MostRecentTPSResponse          *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
 	gql__input_MostRecentTPSRequest           *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
+	gql__input_GetStakingRatioHistoryResponse *graphql.InputObject // message GetStakingRatioHistoryResponse in api_chain.proto
+	gql__input_GetStakingRatioHistoryRequest  *graphql.InputObject // message GetStakingRatioHistoryRequest in api_chain.proto
 	gql__input_GetPeakTpsResponse             *graphql.InputObject // message GetPeakTpsResponse in api_chain.proto
 	gql__input_GetPeakTpsRequest              *graphql.InputObject // message GetPeakTpsRequest in api_chain.proto
 	gql__input_GetLatestStakingRecordResponse *graphql.InputObject // message GetLatestStakingRecordResponse in api_chain.proto
@@ -112,6 +118,23 @@ func Gql__type_TotalTransferredTokensRequest() *graphql.Object {
 	return gql__type_TotalTransferredTokensRequest
 }
 
+func Gql__type_StakingRatioPoint() *graphql.Object {
+	if gql__type_StakingRatioPoint == nil {
+		gql__type_StakingRatioPoint = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_StakingRatioPoint",
+			Fields: graphql.Fields{
+				"date_time": &graphql.Field{
+					Type: graphql.String,
+				},
+				"ratio": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_StakingRatioPoint
+}
+
 func Gql__type_NumberOfActionsResponse() *graphql.Object {
 	if gql__type_NumberOfActionsResponse == nil {
 		gql__type_NumberOfActionsResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -172,6 +195,37 @@ func Gql__type_MostRecentTPSRequest() *graphql.Object {
 		})
 	}
 	return gql__type_MostRecentTPSRequest
+}
+
+func Gql__type_GetStakingRatioHistoryResponse() *graphql.Object {
+	if gql__type_GetStakingRatioHistoryResponse == nil {
+		gql__type_GetStakingRatioHistoryResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetStakingRatioHistoryResponse",
+			Fields: graphql.Fields{
+				"data": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingRatioPoint()),
+				},
+			},
+		})
+	}
+	return gql__type_GetStakingRatioHistoryResponse
+}
+
+func Gql__type_GetStakingRatioHistoryRequest() *graphql.Object {
+	if gql__type_GetStakingRatioHistoryRequest == nil {
+		gql__type_GetStakingRatioHistoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetStakingRatioHistoryRequest",
+			Fields: graphql.Fields{
+				"start_time": &graphql.Field{
+					Type: graphql.String,
+				},
+				"end_time": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetStakingRatioHistoryRequest
 }
 
 func Gql__type_GetPeakTpsResponse() *graphql.Object {
@@ -553,6 +607,23 @@ func Gql__input_TotalTransferredTokensRequest() *graphql.InputObject {
 	return gql__input_TotalTransferredTokensRequest
 }
 
+func Gql__input_StakingRatioPoint() *graphql.InputObject {
+	if gql__input_StakingRatioPoint == nil {
+		gql__input_StakingRatioPoint = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_StakingRatioPoint",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"date_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"ratio": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_StakingRatioPoint
+}
+
 func Gql__input_NumberOfActionsResponse() *graphql.InputObject {
 	if gql__input_NumberOfActionsResponse == nil {
 		gql__input_NumberOfActionsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -613,6 +684,37 @@ func Gql__input_MostRecentTPSRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_MostRecentTPSRequest
+}
+
+func Gql__input_GetStakingRatioHistoryResponse() *graphql.InputObject {
+	if gql__input_GetStakingRatioHistoryResponse == nil {
+		gql__input_GetStakingRatioHistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetStakingRatioHistoryResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"data": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingRatioPoint()),
+				},
+			},
+		})
+	}
+	return gql__input_GetStakingRatioHistoryResponse
+}
+
+func Gql__input_GetStakingRatioHistoryRequest() *graphql.InputObject {
+	if gql__input_GetStakingRatioHistoryRequest == nil {
+		gql__input_GetStakingRatioHistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetStakingRatioHistoryRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"start_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"end_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetStakingRatioHistoryRequest
 }
 
 func Gql__input_GetPeakTpsResponse() *graphql.InputObject {
