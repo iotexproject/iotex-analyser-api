@@ -23,6 +23,8 @@ var (
 	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
 	gql__type_GetTopAccountsResponse             *graphql.Object      // message GetTopAccountsResponse in api_account.proto
 	gql__type_GetTopAccountsRequest              *graphql.Object      // message GetTopAccountsRequest in api_account.proto
+	gql__type_GetTopAccountsByBalanceResponse    *graphql.Object      // message GetTopAccountsByBalanceResponse in api_account.proto
+	gql__type_GetTopAccountsByBalanceRequest     *graphql.Object      // message GetTopAccountsByBalanceRequest in api_account.proto
 	gql__type_GetContractCreateInfoResponse      *graphql.Object      // message GetContractCreateInfoResponse in api_account.proto
 	gql__type_GetContractCreateInfoRequest       *graphql.Object      // message GetContractCreateInfoRequest in api_account.proto
 	gql__type_GetAddressTokenBalancesResponse    *graphql.Object      // message GetAddressTokenBalancesResponse in api_account.proto
@@ -41,6 +43,7 @@ var (
 	gql__type_ActiveAccountsResponse             *graphql.Object      // message ActiveAccountsResponse in api_account.proto
 	gql__type_ActiveAccountsRequest              *graphql.Object      // message ActiveAccountsRequest in api_account.proto
 	gql__type_AccountMetaInfo                    *graphql.Object      // message AccountMetaInfo in api_account.proto
+	gql__type_AccountBalanceRow                  *graphql.Object      // message AccountBalanceRow in api_account.proto
 	gql__input_TotalNumberOfHoldersResponse      *graphql.InputObject // message TotalNumberOfHoldersResponse in api_account.proto
 	gql__input_TotalAccountSupplyResponse        *graphql.InputObject // message TotalAccountSupplyResponse in api_account.proto
 	gql__input_TopAccountRow                     *graphql.InputObject // message TopAccountRow in api_account.proto
@@ -52,6 +55,8 @@ var (
 	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
 	gql__input_GetTopAccountsResponse            *graphql.InputObject // message GetTopAccountsResponse in api_account.proto
 	gql__input_GetTopAccountsRequest             *graphql.InputObject // message GetTopAccountsRequest in api_account.proto
+	gql__input_GetTopAccountsByBalanceResponse   *graphql.InputObject // message GetTopAccountsByBalanceResponse in api_account.proto
+	gql__input_GetTopAccountsByBalanceRequest    *graphql.InputObject // message GetTopAccountsByBalanceRequest in api_account.proto
 	gql__input_GetContractCreateInfoResponse     *graphql.InputObject // message GetContractCreateInfoResponse in api_account.proto
 	gql__input_GetContractCreateInfoRequest      *graphql.InputObject // message GetContractCreateInfoRequest in api_account.proto
 	gql__input_GetAddressTokenBalancesResponse   *graphql.InputObject // message GetAddressTokenBalancesResponse in api_account.proto
@@ -70,6 +75,7 @@ var (
 	gql__input_ActiveAccountsResponse            *graphql.InputObject // message ActiveAccountsResponse in api_account.proto
 	gql__input_ActiveAccountsRequest             *graphql.InputObject // message ActiveAccountsRequest in api_account.proto
 	gql__input_AccountMetaInfo                   *graphql.InputObject // message AccountMetaInfo in api_account.proto
+	gql__input_AccountBalanceRow                 *graphql.InputObject // message AccountBalanceRow in api_account.proto
 )
 
 func Gql__type_TotalNumberOfHoldersResponse() *graphql.Object {
@@ -272,6 +278,40 @@ func Gql__type_GetTopAccountsRequest() *graphql.Object {
 		})
 	}
 	return gql__type_GetTopAccountsRequest
+}
+
+func Gql__type_GetTopAccountsByBalanceResponse() *graphql.Object {
+	if gql__type_GetTopAccountsByBalanceResponse == nil {
+		gql__type_GetTopAccountsByBalanceResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetTopAccountsByBalanceResponse",
+			Fields: graphql.Fields{
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"accounts": &graphql.Field{
+					Type: graphql.NewList(Gql__type_AccountBalanceRow()),
+				},
+			},
+		})
+	}
+	return gql__type_GetTopAccountsByBalanceResponse
+}
+
+func Gql__type_GetTopAccountsByBalanceRequest() *graphql.Object {
+	if gql__type_GetTopAccountsByBalanceRequest == nil {
+		gql__type_GetTopAccountsByBalanceRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetTopAccountsByBalanceRequest",
+			Fields: graphql.Fields{
+				"limit": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetTopAccountsByBalanceRequest
 }
 
 func Gql__type_GetContractCreateInfoResponse() *graphql.Object {
@@ -571,6 +611,26 @@ func Gql__type_AccountMetaInfo() *graphql.Object {
 	return gql__type_AccountMetaInfo
 }
 
+func Gql__type_AccountBalanceRow() *graphql.Object {
+	if gql__type_AccountBalanceRow == nil {
+		gql__type_AccountBalanceRow = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_AccountBalanceRow",
+			Fields: graphql.Fields{
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"balance": &graphql.Field{
+					Type: graphql.String,
+				},
+				"total_actions": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_AccountBalanceRow
+}
+
 func Gql__input_TotalNumberOfHoldersResponse() *graphql.InputObject {
 	if gql__input_TotalNumberOfHoldersResponse == nil {
 		gql__input_TotalNumberOfHoldersResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -771,6 +831,40 @@ func Gql__input_GetTopAccountsRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_GetTopAccountsRequest
+}
+
+func Gql__input_GetTopAccountsByBalanceResponse() *graphql.InputObject {
+	if gql__input_GetTopAccountsByBalanceResponse == nil {
+		gql__input_GetTopAccountsByBalanceResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetTopAccountsByBalanceResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"accounts": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_AccountBalanceRow()),
+				},
+			},
+		})
+	}
+	return gql__input_GetTopAccountsByBalanceResponse
+}
+
+func Gql__input_GetTopAccountsByBalanceRequest() *graphql.InputObject {
+	if gql__input_GetTopAccountsByBalanceRequest == nil {
+		gql__input_GetTopAccountsByBalanceRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetTopAccountsByBalanceRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"limit": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetTopAccountsByBalanceRequest
 }
 
 func Gql__input_GetContractCreateInfoResponse() *graphql.InputObject {
@@ -1068,6 +1162,26 @@ func Gql__input_AccountMetaInfo() *graphql.InputObject {
 		})
 	}
 	return gql__input_AccountMetaInfo
+}
+
+func Gql__input_AccountBalanceRow() *graphql.InputObject {
+	if gql__input_AccountBalanceRow == nil {
+		gql__input_AccountBalanceRow = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_AccountBalanceRow",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"balance": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"total_actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_AccountBalanceRow
 }
 
 // graphql__resolver_AccountService is a struct for making query, mutation and resolve fields.
