@@ -24,6 +24,8 @@ const (
 	XRC721Service_XRC721ByPage_FullMethodName               = "/api.XRC721Service/XRC721ByPage"
 	XRC721Service_XRC721Addresses_FullMethodName            = "/api.XRC721Service/XRC721Addresses"
 	XRC721Service_XRC721TokenHolderAddresses_FullMethodName = "/api.XRC721Service/XRC721TokenHolderAddresses"
+	XRC721Service_GetNFTTransferList_FullMethodName         = "/api.XRC721Service/GetNFTTransferList"
+	XRC721Service_GetNFTHoldersByContract_FullMethodName    = "/api.XRC721Service/GetNFTHoldersByContract"
 )
 
 // XRC721ServiceClient is the client API for XRC721Service service.
@@ -40,6 +42,10 @@ type XRC721ServiceClient interface {
 	XRC721Addresses(ctx context.Context, in *XRC721AddressesRequest, opts ...grpc.CallOption) (*XRC721AddressesResponse, error)
 	// XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address
 	XRC721TokenHolderAddresses(ctx context.Context, in *XRC721TokenHolderAddressesRequest, opts ...grpc.CallOption) (*XRC721TokenHolderAddressesResponse, error)
+	// GetNFTTransferList returns NFT transfers (xrc721 + xrc1155) with optional contract/address filters
+	GetNFTTransferList(ctx context.Context, in *GetNFTTransferListRequest, opts ...grpc.CallOption) (*GetNFTTransferListResponse, error)
+	// GetNFTHoldersByContract returns NFT holders for a contract
+	GetNFTHoldersByContract(ctx context.Context, in *GetNFTHoldersByContractRequest, opts ...grpc.CallOption) (*GetNFTHoldersByContractResponse, error)
 }
 
 type xRC721ServiceClient struct {
@@ -95,6 +101,24 @@ func (c *xRC721ServiceClient) XRC721TokenHolderAddresses(ctx context.Context, in
 	return out, nil
 }
 
+func (c *xRC721ServiceClient) GetNFTTransferList(ctx context.Context, in *GetNFTTransferListRequest, opts ...grpc.CallOption) (*GetNFTTransferListResponse, error) {
+	out := new(GetNFTTransferListResponse)
+	err := c.cc.Invoke(ctx, XRC721Service_GetNFTTransferList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *xRC721ServiceClient) GetNFTHoldersByContract(ctx context.Context, in *GetNFTHoldersByContractRequest, opts ...grpc.CallOption) (*GetNFTHoldersByContractResponse, error) {
+	out := new(GetNFTHoldersByContractResponse)
+	err := c.cc.Invoke(ctx, XRC721Service_GetNFTHoldersByContract_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // XRC721ServiceServer is the server API for XRC721Service service.
 // All implementations must embed UnimplementedXRC721ServiceServer
 // for forward compatibility
@@ -109,6 +133,10 @@ type XRC721ServiceServer interface {
 	XRC721Addresses(context.Context, *XRC721AddressesRequest) (*XRC721AddressesResponse, error)
 	// XRC721TokenHolderAddresses returns Xrc721 token holder addresses given a Xrc721 contract address
 	XRC721TokenHolderAddresses(context.Context, *XRC721TokenHolderAddressesRequest) (*XRC721TokenHolderAddressesResponse, error)
+	// GetNFTTransferList returns NFT transfers (xrc721 + xrc1155) with optional contract/address filters
+	GetNFTTransferList(context.Context, *GetNFTTransferListRequest) (*GetNFTTransferListResponse, error)
+	// GetNFTHoldersByContract returns NFT holders for a contract
+	GetNFTHoldersByContract(context.Context, *GetNFTHoldersByContractRequest) (*GetNFTHoldersByContractResponse, error)
 	mustEmbedUnimplementedXRC721ServiceServer()
 }
 
@@ -130,6 +158,12 @@ func (UnimplementedXRC721ServiceServer) XRC721Addresses(context.Context, *XRC721
 }
 func (UnimplementedXRC721ServiceServer) XRC721TokenHolderAddresses(context.Context, *XRC721TokenHolderAddressesRequest) (*XRC721TokenHolderAddressesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method XRC721TokenHolderAddresses not implemented")
+}
+func (UnimplementedXRC721ServiceServer) GetNFTTransferList(context.Context, *GetNFTTransferListRequest) (*GetNFTTransferListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNFTTransferList not implemented")
+}
+func (UnimplementedXRC721ServiceServer) GetNFTHoldersByContract(context.Context, *GetNFTHoldersByContractRequest) (*GetNFTHoldersByContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNFTHoldersByContract not implemented")
 }
 func (UnimplementedXRC721ServiceServer) mustEmbedUnimplementedXRC721ServiceServer() {}
 
@@ -234,6 +268,42 @@ func _XRC721Service_XRC721TokenHolderAddresses_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _XRC721Service_GetNFTTransferList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNFTTransferListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(XRC721ServiceServer).GetNFTTransferList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: XRC721Service_GetNFTTransferList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(XRC721ServiceServer).GetNFTTransferList(ctx, req.(*GetNFTTransferListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _XRC721Service_GetNFTHoldersByContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNFTHoldersByContractRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(XRC721ServiceServer).GetNFTHoldersByContract(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: XRC721Service_GetNFTHoldersByContract_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(XRC721ServiceServer).GetNFTHoldersByContract(ctx, req.(*GetNFTHoldersByContractRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // XRC721Service_ServiceDesc is the grpc.ServiceDesc for XRC721Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +330,14 @@ var XRC721Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "XRC721TokenHolderAddresses",
 			Handler:    _XRC721Service_XRC721TokenHolderAddresses_Handler,
+		},
+		{
+			MethodName: "GetNFTTransferList",
+			Handler:    _XRC721Service_GetNFTTransferList_Handler,
+		},
+		{
+			MethodName: "GetNFTHoldersByContract",
+			Handler:    _XRC721Service_GetNFTHoldersByContract_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

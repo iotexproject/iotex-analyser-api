@@ -19,11 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	XRC20Service_XRC20ByAddress_FullMethodName            = "/api.XRC20Service/XRC20ByAddress"
-	XRC20Service_XRC20ByContractAddress_FullMethodName    = "/api.XRC20Service/XRC20ByContractAddress"
-	XRC20Service_XRC20ByPage_FullMethodName               = "/api.XRC20Service/XRC20ByPage"
-	XRC20Service_XRC20Addresses_FullMethodName            = "/api.XRC20Service/XRC20Addresses"
-	XRC20Service_XRC20TokenHolderAddresses_FullMethodName = "/api.XRC20Service/XRC20TokenHolderAddresses"
+	XRC20Service_XRC20ByAddress_FullMethodName              = "/api.XRC20Service/XRC20ByAddress"
+	XRC20Service_XRC20ByContractAddress_FullMethodName      = "/api.XRC20Service/XRC20ByContractAddress"
+	XRC20Service_XRC20ByPage_FullMethodName                 = "/api.XRC20Service/XRC20ByPage"
+	XRC20Service_XRC20Addresses_FullMethodName              = "/api.XRC20Service/XRC20Addresses"
+	XRC20Service_XRC20TokenHolderAddresses_FullMethodName   = "/api.XRC20Service/XRC20TokenHolderAddresses"
+	XRC20Service_GetXRC20TransfersByContract_FullMethodName = "/api.XRC20Service/GetXRC20TransfersByContract"
+	XRC20Service_GetXRC20HoldersByContract_FullMethodName   = "/api.XRC20Service/GetXRC20HoldersByContract"
+	XRC20Service_GetXRC20TokenBalance_FullMethodName        = "/api.XRC20Service/GetXRC20TokenBalance"
 )
 
 // XRC20ServiceClient is the client API for XRC20Service service.
@@ -40,6 +43,12 @@ type XRC20ServiceClient interface {
 	XRC20Addresses(ctx context.Context, in *XRC20AddressesRequest, opts ...grpc.CallOption) (*XRC20AddressesResponse, error)
 	// XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address
 	XRC20TokenHolderAddresses(ctx context.Context, in *XRC20TokenHolderAddressesRequest, opts ...grpc.CallOption) (*XRC20TokenHolderAddressesResponse, error)
+	// GetXRC20TransfersByContract returns ERC20 transfers filtered by contract and optional sender/recipient
+	GetXRC20TransfersByContract(ctx context.Context, in *GetXRC20TransfersByContractRequest, opts ...grpc.CallOption) (*GetXRC20TransfersByContractResponse, error)
+	// GetXRC20HoldersByContract returns all holders of a given ERC20 token with balances
+	GetXRC20HoldersByContract(ctx context.Context, in *GetXRC20HoldersByContractRequest, opts ...grpc.CallOption) (*GetXRC20HoldersByContractResponse, error)
+	// GetXRC20TokenBalance returns the ERC20 token balance for a specific address
+	GetXRC20TokenBalance(ctx context.Context, in *GetXRC20TokenBalanceRequest, opts ...grpc.CallOption) (*GetXRC20TokenBalanceResponse, error)
 }
 
 type xRC20ServiceClient struct {
@@ -95,6 +104,33 @@ func (c *xRC20ServiceClient) XRC20TokenHolderAddresses(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *xRC20ServiceClient) GetXRC20TransfersByContract(ctx context.Context, in *GetXRC20TransfersByContractRequest, opts ...grpc.CallOption) (*GetXRC20TransfersByContractResponse, error) {
+	out := new(GetXRC20TransfersByContractResponse)
+	err := c.cc.Invoke(ctx, XRC20Service_GetXRC20TransfersByContract_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *xRC20ServiceClient) GetXRC20HoldersByContract(ctx context.Context, in *GetXRC20HoldersByContractRequest, opts ...grpc.CallOption) (*GetXRC20HoldersByContractResponse, error) {
+	out := new(GetXRC20HoldersByContractResponse)
+	err := c.cc.Invoke(ctx, XRC20Service_GetXRC20HoldersByContract_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *xRC20ServiceClient) GetXRC20TokenBalance(ctx context.Context, in *GetXRC20TokenBalanceRequest, opts ...grpc.CallOption) (*GetXRC20TokenBalanceResponse, error) {
+	out := new(GetXRC20TokenBalanceResponse)
+	err := c.cc.Invoke(ctx, XRC20Service_GetXRC20TokenBalance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // XRC20ServiceServer is the server API for XRC20Service service.
 // All implementations must embed UnimplementedXRC20ServiceServer
 // for forward compatibility
@@ -109,6 +145,12 @@ type XRC20ServiceServer interface {
 	XRC20Addresses(context.Context, *XRC20AddressesRequest) (*XRC20AddressesResponse, error)
 	// XRC20TokenHolderAddresses returns Xrc20 token holder addresses given a Xrc20 contract address
 	XRC20TokenHolderAddresses(context.Context, *XRC20TokenHolderAddressesRequest) (*XRC20TokenHolderAddressesResponse, error)
+	// GetXRC20TransfersByContract returns ERC20 transfers filtered by contract and optional sender/recipient
+	GetXRC20TransfersByContract(context.Context, *GetXRC20TransfersByContractRequest) (*GetXRC20TransfersByContractResponse, error)
+	// GetXRC20HoldersByContract returns all holders of a given ERC20 token with balances
+	GetXRC20HoldersByContract(context.Context, *GetXRC20HoldersByContractRequest) (*GetXRC20HoldersByContractResponse, error)
+	// GetXRC20TokenBalance returns the ERC20 token balance for a specific address
+	GetXRC20TokenBalance(context.Context, *GetXRC20TokenBalanceRequest) (*GetXRC20TokenBalanceResponse, error)
 	mustEmbedUnimplementedXRC20ServiceServer()
 }
 
@@ -130,6 +172,15 @@ func (UnimplementedXRC20ServiceServer) XRC20Addresses(context.Context, *XRC20Add
 }
 func (UnimplementedXRC20ServiceServer) XRC20TokenHolderAddresses(context.Context, *XRC20TokenHolderAddressesRequest) (*XRC20TokenHolderAddressesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method XRC20TokenHolderAddresses not implemented")
+}
+func (UnimplementedXRC20ServiceServer) GetXRC20TransfersByContract(context.Context, *GetXRC20TransfersByContractRequest) (*GetXRC20TransfersByContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetXRC20TransfersByContract not implemented")
+}
+func (UnimplementedXRC20ServiceServer) GetXRC20HoldersByContract(context.Context, *GetXRC20HoldersByContractRequest) (*GetXRC20HoldersByContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetXRC20HoldersByContract not implemented")
+}
+func (UnimplementedXRC20ServiceServer) GetXRC20TokenBalance(context.Context, *GetXRC20TokenBalanceRequest) (*GetXRC20TokenBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetXRC20TokenBalance not implemented")
 }
 func (UnimplementedXRC20ServiceServer) mustEmbedUnimplementedXRC20ServiceServer() {}
 
@@ -234,6 +285,60 @@ func _XRC20Service_XRC20TokenHolderAddresses_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _XRC20Service_GetXRC20TransfersByContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetXRC20TransfersByContractRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(XRC20ServiceServer).GetXRC20TransfersByContract(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: XRC20Service_GetXRC20TransfersByContract_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(XRC20ServiceServer).GetXRC20TransfersByContract(ctx, req.(*GetXRC20TransfersByContractRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _XRC20Service_GetXRC20HoldersByContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetXRC20HoldersByContractRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(XRC20ServiceServer).GetXRC20HoldersByContract(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: XRC20Service_GetXRC20HoldersByContract_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(XRC20ServiceServer).GetXRC20HoldersByContract(ctx, req.(*GetXRC20HoldersByContractRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _XRC20Service_GetXRC20TokenBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetXRC20TokenBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(XRC20ServiceServer).GetXRC20TokenBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: XRC20Service_GetXRC20TokenBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(XRC20ServiceServer).GetXRC20TokenBalance(ctx, req.(*GetXRC20TokenBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // XRC20Service_ServiceDesc is the grpc.ServiceDesc for XRC20Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +365,18 @@ var XRC20Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "XRC20TokenHolderAddresses",
 			Handler:    _XRC20Service_XRC20TokenHolderAddresses_Handler,
+		},
+		{
+			MethodName: "GetXRC20TransfersByContract",
+			Handler:    _XRC20Service_GetXRC20TransfersByContract_Handler,
+		},
+		{
+			MethodName: "GetXRC20HoldersByContract",
+			Handler:    _XRC20Service_GetXRC20HoldersByContract_Handler,
+		},
+		{
+			MethodName: "GetXRC20TokenBalance",
+			Handler:    _XRC20Service_GetXRC20TokenBalance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

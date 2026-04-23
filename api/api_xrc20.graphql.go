@@ -12,28 +12,44 @@ import (
 )
 
 var (
-	gql__type_Xrc20Action                        *graphql.Object      // message Xrc20Action in api_xrc20.proto
-	gql__type_XRC20TokenHolderAddressesResponse  *graphql.Object      // message XRC20TokenHolderAddressesResponse in api_xrc20.proto
-	gql__type_XRC20TokenHolderAddressesRequest   *graphql.Object      // message XRC20TokenHolderAddressesRequest in api_xrc20.proto
-	gql__type_XRC20ByPageResponse                *graphql.Object      // message XRC20ByPageResponse in api_xrc20.proto
-	gql__type_XRC20ByPageRequest                 *graphql.Object      // message XRC20ByPageRequest in api_xrc20.proto
-	gql__type_XRC20ByContractAddressResponse     *graphql.Object      // message XRC20ByContractAddressResponse in api_xrc20.proto
-	gql__type_XRC20ByContractAddressRequest      *graphql.Object      // message XRC20ByContractAddressRequest in api_xrc20.proto
-	gql__type_XRC20ByAddressResponse             *graphql.Object      // message XRC20ByAddressResponse in api_xrc20.proto
-	gql__type_XRC20ByAddressRequest              *graphql.Object      // message XRC20ByAddressRequest in api_xrc20.proto
-	gql__type_XRC20AddressesResponse             *graphql.Object      // message XRC20AddressesResponse in api_xrc20.proto
-	gql__type_XRC20AddressesRequest              *graphql.Object      // message XRC20AddressesRequest in api_xrc20.proto
-	gql__input_Xrc20Action                       *graphql.InputObject // message Xrc20Action in api_xrc20.proto
-	gql__input_XRC20TokenHolderAddressesResponse *graphql.InputObject // message XRC20TokenHolderAddressesResponse in api_xrc20.proto
-	gql__input_XRC20TokenHolderAddressesRequest  *graphql.InputObject // message XRC20TokenHolderAddressesRequest in api_xrc20.proto
-	gql__input_XRC20ByPageResponse               *graphql.InputObject // message XRC20ByPageResponse in api_xrc20.proto
-	gql__input_XRC20ByPageRequest                *graphql.InputObject // message XRC20ByPageRequest in api_xrc20.proto
-	gql__input_XRC20ByContractAddressResponse    *graphql.InputObject // message XRC20ByContractAddressResponse in api_xrc20.proto
-	gql__input_XRC20ByContractAddressRequest     *graphql.InputObject // message XRC20ByContractAddressRequest in api_xrc20.proto
-	gql__input_XRC20ByAddressResponse            *graphql.InputObject // message XRC20ByAddressResponse in api_xrc20.proto
-	gql__input_XRC20ByAddressRequest             *graphql.InputObject // message XRC20ByAddressRequest in api_xrc20.proto
-	gql__input_XRC20AddressesResponse            *graphql.InputObject // message XRC20AddressesResponse in api_xrc20.proto
-	gql__input_XRC20AddressesRequest             *graphql.InputObject // message XRC20AddressesRequest in api_xrc20.proto
+	gql__type_Xrc20Action                          *graphql.Object      // message Xrc20Action in api_xrc20.proto
+	gql__type_XRC20TransferInfo                    *graphql.Object      // message XRC20TransferInfo in api_xrc20.proto
+	gql__type_XRC20TokenHolderAddressesResponse    *graphql.Object      // message XRC20TokenHolderAddressesResponse in api_xrc20.proto
+	gql__type_XRC20TokenHolderAddressesRequest     *graphql.Object      // message XRC20TokenHolderAddressesRequest in api_xrc20.proto
+	gql__type_XRC20HolderInfo                      *graphql.Object      // message XRC20HolderInfo in api_xrc20.proto
+	gql__type_XRC20ByPageResponse                  *graphql.Object      // message XRC20ByPageResponse in api_xrc20.proto
+	gql__type_XRC20ByPageRequest                   *graphql.Object      // message XRC20ByPageRequest in api_xrc20.proto
+	gql__type_XRC20ByContractAddressResponse       *graphql.Object      // message XRC20ByContractAddressResponse in api_xrc20.proto
+	gql__type_XRC20ByContractAddressRequest        *graphql.Object      // message XRC20ByContractAddressRequest in api_xrc20.proto
+	gql__type_XRC20ByAddressResponse               *graphql.Object      // message XRC20ByAddressResponse in api_xrc20.proto
+	gql__type_XRC20ByAddressRequest                *graphql.Object      // message XRC20ByAddressRequest in api_xrc20.proto
+	gql__type_XRC20AddressesResponse               *graphql.Object      // message XRC20AddressesResponse in api_xrc20.proto
+	gql__type_XRC20AddressesRequest                *graphql.Object      // message XRC20AddressesRequest in api_xrc20.proto
+	gql__type_GetXRC20TransfersByContractResponse  *graphql.Object      // message GetXRC20TransfersByContractResponse in api_xrc20.proto
+	gql__type_GetXRC20TransfersByContractRequest   *graphql.Object      // message GetXRC20TransfersByContractRequest in api_xrc20.proto
+	gql__type_GetXRC20TokenBalanceResponse         *graphql.Object      // message GetXRC20TokenBalanceResponse in api_xrc20.proto
+	gql__type_GetXRC20TokenBalanceRequest          *graphql.Object      // message GetXRC20TokenBalanceRequest in api_xrc20.proto
+	gql__type_GetXRC20HoldersByContractResponse    *graphql.Object      // message GetXRC20HoldersByContractResponse in api_xrc20.proto
+	gql__type_GetXRC20HoldersByContractRequest     *graphql.Object      // message GetXRC20HoldersByContractRequest in api_xrc20.proto
+	gql__input_Xrc20Action                         *graphql.InputObject // message Xrc20Action in api_xrc20.proto
+	gql__input_XRC20TransferInfo                   *graphql.InputObject // message XRC20TransferInfo in api_xrc20.proto
+	gql__input_XRC20TokenHolderAddressesResponse   *graphql.InputObject // message XRC20TokenHolderAddressesResponse in api_xrc20.proto
+	gql__input_XRC20TokenHolderAddressesRequest    *graphql.InputObject // message XRC20TokenHolderAddressesRequest in api_xrc20.proto
+	gql__input_XRC20HolderInfo                     *graphql.InputObject // message XRC20HolderInfo in api_xrc20.proto
+	gql__input_XRC20ByPageResponse                 *graphql.InputObject // message XRC20ByPageResponse in api_xrc20.proto
+	gql__input_XRC20ByPageRequest                  *graphql.InputObject // message XRC20ByPageRequest in api_xrc20.proto
+	gql__input_XRC20ByContractAddressResponse      *graphql.InputObject // message XRC20ByContractAddressResponse in api_xrc20.proto
+	gql__input_XRC20ByContractAddressRequest       *graphql.InputObject // message XRC20ByContractAddressRequest in api_xrc20.proto
+	gql__input_XRC20ByAddressResponse              *graphql.InputObject // message XRC20ByAddressResponse in api_xrc20.proto
+	gql__input_XRC20ByAddressRequest               *graphql.InputObject // message XRC20ByAddressRequest in api_xrc20.proto
+	gql__input_XRC20AddressesResponse              *graphql.InputObject // message XRC20AddressesResponse in api_xrc20.proto
+	gql__input_XRC20AddressesRequest               *graphql.InputObject // message XRC20AddressesRequest in api_xrc20.proto
+	gql__input_GetXRC20TransfersByContractResponse *graphql.InputObject // message GetXRC20TransfersByContractResponse in api_xrc20.proto
+	gql__input_GetXRC20TransfersByContractRequest  *graphql.InputObject // message GetXRC20TransfersByContractRequest in api_xrc20.proto
+	gql__input_GetXRC20TokenBalanceResponse        *graphql.InputObject // message GetXRC20TokenBalanceResponse in api_xrc20.proto
+	gql__input_GetXRC20TokenBalanceRequest         *graphql.InputObject // message GetXRC20TokenBalanceRequest in api_xrc20.proto
+	gql__input_GetXRC20HoldersByContractResponse   *graphql.InputObject // message GetXRC20HoldersByContractResponse in api_xrc20.proto
+	gql__input_GetXRC20HoldersByContractRequest    *graphql.InputObject // message GetXRC20HoldersByContractRequest in api_xrc20.proto
 )
 
 func Gql__type_Xrc20Action() *graphql.Object {
@@ -63,6 +79,41 @@ func Gql__type_Xrc20Action() *graphql.Object {
 		})
 	}
 	return gql__type_Xrc20Action
+}
+
+func Gql__type_XRC20TransferInfo() *graphql.Object {
+	if gql__type_XRC20TransferInfo == nil {
+		gql__type_XRC20TransferInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_XRC20TransferInfo",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.Field{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_XRC20TransferInfo
 }
 
 func Gql__type_XRC20TokenHolderAddressesResponse() *graphql.Object {
@@ -97,6 +148,23 @@ func Gql__type_XRC20TokenHolderAddressesRequest() *graphql.Object {
 		})
 	}
 	return gql__type_XRC20TokenHolderAddressesRequest
+}
+
+func Gql__type_XRC20HolderInfo() *graphql.Object {
+	if gql__type_XRC20HolderInfo == nil {
+		gql__type_XRC20HolderInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_XRC20HolderInfo",
+			Fields: graphql.Fields{
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"balance": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_XRC20HolderInfo
 }
 
 func Gql__type_XRC20ByPageResponse() *graphql.Object {
@@ -241,6 +309,111 @@ func Gql__type_XRC20AddressesRequest() *graphql.Object {
 	return gql__type_XRC20AddressesRequest
 }
 
+func Gql__type_GetXRC20TransfersByContractResponse() *graphql.Object {
+	if gql__type_GetXRC20TransfersByContractResponse == nil {
+		gql__type_GetXRC20TransfersByContractResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetXRC20TransfersByContractResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"transfers": &graphql.Field{
+					Type: graphql.NewList(Gql__type_XRC20TransferInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetXRC20TransfersByContractResponse
+}
+
+func Gql__type_GetXRC20TransfersByContractRequest() *graphql.Object {
+	if gql__type_GetXRC20TransfersByContractRequest == nil {
+		gql__type_GetXRC20TransfersByContractRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetXRC20TransfersByContractRequest",
+			Fields: graphql.Fields{
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_GetXRC20TransfersByContractRequest
+}
+
+func Gql__type_GetXRC20TokenBalanceResponse() *graphql.Object {
+	if gql__type_GetXRC20TokenBalanceResponse == nil {
+		gql__type_GetXRC20TokenBalanceResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetXRC20TokenBalanceResponse",
+			Fields: graphql.Fields{
+				"balance": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetXRC20TokenBalanceResponse
+}
+
+func Gql__type_GetXRC20TokenBalanceRequest() *graphql.Object {
+	if gql__type_GetXRC20TokenBalanceRequest == nil {
+		gql__type_GetXRC20TokenBalanceRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetXRC20TokenBalanceRequest",
+			Fields: graphql.Fields{
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetXRC20TokenBalanceRequest
+}
+
+func Gql__type_GetXRC20HoldersByContractResponse() *graphql.Object {
+	if gql__type_GetXRC20HoldersByContractResponse == nil {
+		gql__type_GetXRC20HoldersByContractResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetXRC20HoldersByContractResponse",
+			Fields: graphql.Fields{
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"holders": &graphql.Field{
+					Type: graphql.NewList(Gql__type_XRC20HolderInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetXRC20HoldersByContractResponse
+}
+
+func Gql__type_GetXRC20HoldersByContractRequest() *graphql.Object {
+	if gql__type_GetXRC20HoldersByContractRequest == nil {
+		gql__type_GetXRC20HoldersByContractRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetXRC20HoldersByContractRequest",
+			Fields: graphql.Fields{
+				"contract_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_GetXRC20HoldersByContractRequest
+}
+
 func Gql__input_Xrc20Action() *graphql.InputObject {
 	if gql__input_Xrc20Action == nil {
 		gql__input_Xrc20Action = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -268,6 +441,41 @@ func Gql__input_Xrc20Action() *graphql.InputObject {
 		})
 	}
 	return gql__input_Xrc20Action
+}
+
+func Gql__input_XRC20TransferInfo() *graphql.InputObject {
+	if gql__input_XRC20TransferInfo == nil {
+		gql__input_XRC20TransferInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_XRC20TransferInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_XRC20TransferInfo
 }
 
 func Gql__input_XRC20TokenHolderAddressesResponse() *graphql.InputObject {
@@ -302,6 +510,23 @@ func Gql__input_XRC20TokenHolderAddressesRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_XRC20TokenHolderAddressesRequest
+}
+
+func Gql__input_XRC20HolderInfo() *graphql.InputObject {
+	if gql__input_XRC20HolderInfo == nil {
+		gql__input_XRC20HolderInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_XRC20HolderInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"balance": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_XRC20HolderInfo
 }
 
 func Gql__input_XRC20ByPageResponse() *graphql.InputObject {
@@ -444,6 +669,111 @@ func Gql__input_XRC20AddressesRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_XRC20AddressesRequest
+}
+
+func Gql__input_GetXRC20TransfersByContractResponse() *graphql.InputObject {
+	if gql__input_GetXRC20TransfersByContractResponse == nil {
+		gql__input_GetXRC20TransfersByContractResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetXRC20TransfersByContractResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"transfers": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_XRC20TransferInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetXRC20TransfersByContractResponse
+}
+
+func Gql__input_GetXRC20TransfersByContractRequest() *graphql.InputObject {
+	if gql__input_GetXRC20TransfersByContractRequest == nil {
+		gql__input_GetXRC20TransfersByContractRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetXRC20TransfersByContractRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_GetXRC20TransfersByContractRequest
+}
+
+func Gql__input_GetXRC20TokenBalanceResponse() *graphql.InputObject {
+	if gql__input_GetXRC20TokenBalanceResponse == nil {
+		gql__input_GetXRC20TokenBalanceResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetXRC20TokenBalanceResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"balance": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetXRC20TokenBalanceResponse
+}
+
+func Gql__input_GetXRC20TokenBalanceRequest() *graphql.InputObject {
+	if gql__input_GetXRC20TokenBalanceRequest == nil {
+		gql__input_GetXRC20TokenBalanceRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetXRC20TokenBalanceRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetXRC20TokenBalanceRequest
+}
+
+func Gql__input_GetXRC20HoldersByContractResponse() *graphql.InputObject {
+	if gql__input_GetXRC20HoldersByContractResponse == nil {
+		gql__input_GetXRC20HoldersByContractResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetXRC20HoldersByContractResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"holders": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_XRC20HolderInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetXRC20HoldersByContractResponse
+}
+
+func Gql__input_GetXRC20HoldersByContractRequest() *graphql.InputObject {
+	if gql__input_GetXRC20HoldersByContractRequest == nil {
+		gql__input_GetXRC20HoldersByContractRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetXRC20HoldersByContractRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"contract_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_GetXRC20HoldersByContractRequest
 }
 
 // graphql__resolver_XRC20Service is a struct for making query, mutation and resolve fields.
