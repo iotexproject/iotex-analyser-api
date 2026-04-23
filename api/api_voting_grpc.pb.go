@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	VotingService_CandidateInfo_FullMethodName = "/api.VotingService/CandidateInfo"
-	VotingService_RewardSources_FullMethodName = "/api.VotingService/RewardSources"
-	VotingService_VotingMeta_FullMethodName    = "/api.VotingService/VotingMeta"
+	VotingService_CandidateInfo_FullMethodName       = "/api.VotingService/CandidateInfo"
+	VotingService_RewardSources_FullMethodName       = "/api.VotingService/RewardSources"
+	VotingService_VotingMeta_FullMethodName          = "/api.VotingService/VotingMeta"
+	VotingService_GetCurrentDelegates_FullMethodName = "/api.VotingService/GetCurrentDelegates"
 )
 
 // VotingServiceClient is the client API for VotingService service.
@@ -33,6 +34,8 @@ type VotingServiceClient interface {
 	RewardSources(ctx context.Context, in *RewardSourcesRequest, opts ...grpc.CallOption) (*RewardSourcesResponse, error)
 	// VotingMeta provides metadata of voting results
 	VotingMeta(ctx context.Context, in *VotingMetaRequest, opts ...grpc.CallOption) (*VotingMetaResponse, error)
+	// GetCurrentDelegates returns the current delegate list ordered by vote weight
+	GetCurrentDelegates(ctx context.Context, in *GetCurrentDelegatesRequest, opts ...grpc.CallOption) (*GetCurrentDelegatesResponse, error)
 }
 
 type votingServiceClient struct {
@@ -70,6 +73,15 @@ func (c *votingServiceClient) VotingMeta(ctx context.Context, in *VotingMetaRequ
 	return out, nil
 }
 
+func (c *votingServiceClient) GetCurrentDelegates(ctx context.Context, in *GetCurrentDelegatesRequest, opts ...grpc.CallOption) (*GetCurrentDelegatesResponse, error) {
+	out := new(GetCurrentDelegatesResponse)
+	err := c.cc.Invoke(ctx, VotingService_GetCurrentDelegates_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VotingServiceServer is the server API for VotingService service.
 // All implementations must embed UnimplementedVotingServiceServer
 // for forward compatibility
@@ -79,6 +91,8 @@ type VotingServiceServer interface {
 	RewardSources(context.Context, *RewardSourcesRequest) (*RewardSourcesResponse, error)
 	// VotingMeta provides metadata of voting results
 	VotingMeta(context.Context, *VotingMetaRequest) (*VotingMetaResponse, error)
+	// GetCurrentDelegates returns the current delegate list ordered by vote weight
+	GetCurrentDelegates(context.Context, *GetCurrentDelegatesRequest) (*GetCurrentDelegatesResponse, error)
 	mustEmbedUnimplementedVotingServiceServer()
 }
 
@@ -94,6 +108,9 @@ func (UnimplementedVotingServiceServer) RewardSources(context.Context, *RewardSo
 }
 func (UnimplementedVotingServiceServer) VotingMeta(context.Context, *VotingMetaRequest) (*VotingMetaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VotingMeta not implemented")
+}
+func (UnimplementedVotingServiceServer) GetCurrentDelegates(context.Context, *GetCurrentDelegatesRequest) (*GetCurrentDelegatesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentDelegates not implemented")
 }
 func (UnimplementedVotingServiceServer) mustEmbedUnimplementedVotingServiceServer() {}
 
@@ -162,6 +179,24 @@ func _VotingService_VotingMeta_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VotingService_GetCurrentDelegates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCurrentDelegatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VotingServiceServer).GetCurrentDelegates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VotingService_GetCurrentDelegates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VotingServiceServer).GetCurrentDelegates(ctx, req.(*GetCurrentDelegatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VotingService_ServiceDesc is the grpc.ServiceDesc for VotingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +215,10 @@ var VotingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VotingMeta",
 			Handler:    _VotingService_VotingMeta_Handler,
+		},
+		{
+			MethodName: "GetCurrentDelegates",
+			Handler:    _VotingService_GetCurrentDelegates_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

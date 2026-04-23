@@ -335,6 +335,194 @@ func (x *VotingMetaResponse) GetCandidateMeta() []*VotingMetaResponse_CandidateM
 	return nil
 }
 
+type GetCurrentDelegatesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCurrentDelegatesRequest) Reset() {
+	*x = GetCurrentDelegatesRequest{}
+	mi := &file_api_voting_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCurrentDelegatesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCurrentDelegatesRequest) ProtoMessage() {}
+
+func (x *GetCurrentDelegatesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_voting_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCurrentDelegatesRequest.ProtoReflect.Descriptor instead.
+func (*GetCurrentDelegatesRequest) Descriptor() ([]byte, []int) {
+	return file_api_voting_proto_rawDescGZIP(), []int{6}
+}
+
+type GetCurrentDelegatesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exist         bool                   `protobuf:"varint,1,opt,name=exist,proto3" json:"exist,omitempty"`
+	Delegates     []*CurrentDelegateInfo `protobuf:"bytes,2,rep,name=delegates,proto3" json:"delegates,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCurrentDelegatesResponse) Reset() {
+	*x = GetCurrentDelegatesResponse{}
+	mi := &file_api_voting_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCurrentDelegatesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCurrentDelegatesResponse) ProtoMessage() {}
+
+func (x *GetCurrentDelegatesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_voting_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCurrentDelegatesResponse.ProtoReflect.Descriptor instead.
+func (*GetCurrentDelegatesResponse) Descriptor() ([]byte, []int) {
+	return file_api_voting_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetCurrentDelegatesResponse) GetExist() bool {
+	if x != nil {
+		return x.Exist
+	}
+	return false
+}
+
+func (x *GetCurrentDelegatesResponse) GetDelegates() []*CurrentDelegateInfo {
+	if x != nil {
+		return x.Delegates
+	}
+	return nil
+}
+
+type CurrentDelegateInfo struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	VoteWeight      string                 `protobuf:"bytes,3,opt,name=vote_weight,json=voteWeight,proto3" json:"vote_weight,omitempty"`
+	Productivity    float64                `protobuf:"fixed64,4,opt,name=productivity,proto3" json:"productivity,omitempty"`
+	Candidate       string                 `protobuf:"bytes,5,opt,name=candidate,proto3" json:"candidate,omitempty"`
+	OperatorAddress string                 `protobuf:"bytes,6,opt,name=operator_address,json=operatorAddress,proto3" json:"operator_address,omitempty"`
+	Active          bool                   `protobuf:"varint,7,opt,name=active,proto3" json:"active,omitempty"`
+	BlockHeight     uint64                 `protobuf:"varint,8,opt,name=block_height,json=blockHeight,proto3" json:"block_height,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CurrentDelegateInfo) Reset() {
+	*x = CurrentDelegateInfo{}
+	mi := &file_api_voting_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CurrentDelegateInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CurrentDelegateInfo) ProtoMessage() {}
+
+func (x *CurrentDelegateInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_api_voting_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CurrentDelegateInfo.ProtoReflect.Descriptor instead.
+func (*CurrentDelegateInfo) Descriptor() ([]byte, []int) {
+	return file_api_voting_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CurrentDelegateInfo) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *CurrentDelegateInfo) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CurrentDelegateInfo) GetVoteWeight() string {
+	if x != nil {
+		return x.VoteWeight
+	}
+	return ""
+}
+
+func (x *CurrentDelegateInfo) GetProductivity() float64 {
+	if x != nil {
+		return x.Productivity
+	}
+	return 0
+}
+
+func (x *CurrentDelegateInfo) GetCandidate() string {
+	if x != nil {
+		return x.Candidate
+	}
+	return ""
+}
+
+func (x *CurrentDelegateInfo) GetOperatorAddress() string {
+	if x != nil {
+		return x.OperatorAddress
+	}
+	return ""
+}
+
+func (x *CurrentDelegateInfo) GetActive() bool {
+	if x != nil {
+		return x.Active
+	}
+	return false
+}
+
+func (x *CurrentDelegateInfo) GetBlockHeight() uint64 {
+	if x != nil {
+		return x.BlockHeight
+	}
+	return 0
+}
+
 type CandidateInfoResponse_Candidates struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Name               string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`                             // candidate name
@@ -349,7 +537,7 @@ type CandidateInfoResponse_Candidates struct {
 
 func (x *CandidateInfoResponse_Candidates) Reset() {
 	*x = CandidateInfoResponse_Candidates{}
-	mi := &file_api_voting_proto_msgTypes[6]
+	mi := &file_api_voting_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -361,7 +549,7 @@ func (x *CandidateInfoResponse_Candidates) String() string {
 func (*CandidateInfoResponse_Candidates) ProtoMessage() {}
 
 func (x *CandidateInfoResponse_Candidates) ProtoReflect() protoreflect.Message {
-	mi := &file_api_voting_proto_msgTypes[6]
+	mi := &file_api_voting_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -429,7 +617,7 @@ type CandidateInfoResponse_CandidateInfo struct {
 
 func (x *CandidateInfoResponse_CandidateInfo) Reset() {
 	*x = CandidateInfoResponse_CandidateInfo{}
-	mi := &file_api_voting_proto_msgTypes[7]
+	mi := &file_api_voting_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -441,7 +629,7 @@ func (x *CandidateInfoResponse_CandidateInfo) String() string {
 func (*CandidateInfoResponse_CandidateInfo) ProtoMessage() {}
 
 func (x *CandidateInfoResponse_CandidateInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_api_voting_proto_msgTypes[7]
+	mi := &file_api_voting_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -481,7 +669,7 @@ type RewardSourcesResponse_DelegateDistributions struct {
 
 func (x *RewardSourcesResponse_DelegateDistributions) Reset() {
 	*x = RewardSourcesResponse_DelegateDistributions{}
-	mi := &file_api_voting_proto_msgTypes[8]
+	mi := &file_api_voting_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -493,7 +681,7 @@ func (x *RewardSourcesResponse_DelegateDistributions) String() string {
 func (*RewardSourcesResponse_DelegateDistributions) ProtoMessage() {}
 
 func (x *RewardSourcesResponse_DelegateDistributions) ProtoReflect() protoreflect.Message {
-	mi := &file_api_voting_proto_msgTypes[8]
+	mi := &file_api_voting_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -536,7 +724,7 @@ type VotingMetaResponse_CandidateMeta struct {
 
 func (x *VotingMetaResponse_CandidateMeta) Reset() {
 	*x = VotingMetaResponse_CandidateMeta{}
-	mi := &file_api_voting_proto_msgTypes[9]
+	mi := &file_api_voting_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -548,7 +736,7 @@ func (x *VotingMetaResponse_CandidateMeta) String() string {
 func (*VotingMetaResponse_CandidateMeta) ProtoMessage() {}
 
 func (x *VotingMetaResponse_CandidateMeta) ProtoReflect() protoreflect.Message {
-	mi := &file_api_voting_proto_msgTypes[9]
+	mi := &file_api_voting_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -691,7 +879,32 @@ var file_api_voting_proto_rawDesc = string([]byte{
 	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x57, 0x65, 0x69, 0x67, 0x68, 0x74, 0x65, 0x64, 0x56, 0x6f, 0x74,
 	0x65, 0x73, 0x12, 0x20, 0x0a, 0x0b, 0x76, 0x6f, 0x74, 0x65, 0x64, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
 	0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x76, 0x6f, 0x74, 0x65, 0x64, 0x54, 0x6f,
-	0x6b, 0x65, 0x6e, 0x73, 0x32, 0x97, 0x03, 0x0a, 0x0d, 0x56, 0x6f, 0x74, 0x69, 0x6e, 0x67, 0x53,
+	0x6b, 0x65, 0x6e, 0x73, 0x22, 0x1c, 0x0a, 0x1a, 0x47, 0x65, 0x74, 0x43, 0x75, 0x72, 0x72, 0x65,
+	0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x22, 0x6b, 0x0a, 0x1b, 0x47, 0x65, 0x74, 0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74,
+	0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x78, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x05, 0x65, 0x78, 0x69, 0x73, 0x74, 0x12, 0x36, 0x0a, 0x09, 0x64, 0x65, 0x6c, 0x65, 0x67,
+	0x61, 0x74, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65,
+	0x49, 0x6e, 0x66, 0x6f, 0x52, 0x09, 0x64, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65, 0x73, 0x22,
+	0x82, 0x02, 0x0a, 0x13, 0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x67,
+	0x61, 0x74, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x76,
+	0x6f, 0x74, 0x65, 0x5f, 0x77, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0a, 0x76, 0x6f, 0x74, 0x65, 0x57, 0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x22, 0x0a, 0x0c,
+	0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x01, 0x52, 0x0c, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79,
+	0x12, 0x1c, 0x0a, 0x09, 0x63, 0x61, 0x6e, 0x64, 0x69, 0x64, 0x61, 0x74, 0x65, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x09, 0x63, 0x61, 0x6e, 0x64, 0x69, 0x64, 0x61, 0x74, 0x65, 0x12, 0x29,
+	0x0a, 0x10, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
+	0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x63, 0x74,
+	0x69, 0x76, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x61, 0x63, 0x74, 0x69, 0x76,
+	0x65, 0x12, 0x21, 0x0a, 0x0c, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x5f, 0x68, 0x65, 0x69, 0x67, 0x68,
+	0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x48, 0x65,
+	0x69, 0x67, 0x68, 0x74, 0x32, 0xbd, 0x04, 0x0a, 0x0d, 0x56, 0x6f, 0x74, 0x69, 0x6e, 0x67, 0x53,
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x85, 0x01, 0x0a, 0x0d, 0x43, 0x61, 0x6e, 0x64, 0x69,
 	0x64, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x19, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x43,
 	0x61, 0x6e, 0x64, 0x69, 0x64, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x65, 0x71, 0x75,
@@ -716,8 +929,19 @@ var file_api_voting_proto_rawDesc = string([]byte{
 	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x37, 0xba, 0x43, 0x0c, 0x12, 0x0a, 0x56, 0x6f, 0x74, 0x69,
 	0x6e, 0x67, 0x4d, 0x65, 0x74, 0x61, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x3a, 0x01, 0x2a, 0x22,
 	0x1d, 0x2f, 0x61, 0x70, 0x69, 0x2e, 0x56, 0x6f, 0x74, 0x69, 0x6e, 0x67, 0x53, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x2e, 0x56, 0x6f, 0x74, 0x69, 0x6e, 0x67, 0x4d, 0x65, 0x74, 0x61, 0x42, 0x07,
-	0x5a, 0x05, 0x2e, 0x2f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x69, 0x63, 0x65, 0x2e, 0x56, 0x6f, 0x74, 0x69, 0x6e, 0x67, 0x4d, 0x65, 0x74, 0x61, 0x12, 0xa3,
+	0x01, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c,
+	0x65, 0x67, 0x61, 0x74, 0x65, 0x73, 0x12, 0x1f, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74,
+	0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65,
+	0x74, 0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x49, 0xba, 0x43, 0x15, 0x12, 0x13,
+	0x47, 0x65, 0x74, 0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61,
+	0x74, 0x65, 0x73, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2b, 0x3a, 0x01, 0x2a, 0x22, 0x26, 0x2f, 0x61,
+	0x70, 0x69, 0x2e, 0x56, 0x6f, 0x74, 0x69, 0x6e, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x2e, 0x47, 0x65, 0x74, 0x43, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x67,
+	0x61, 0x74, 0x65, 0x73, 0x42, 0x07, 0x5a, 0x05, 0x2e, 0x2f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 })
 
 var (
@@ -732,7 +956,7 @@ func file_api_voting_proto_rawDescGZIP() []byte {
 	return file_api_voting_proto_rawDescData
 }
 
-var file_api_voting_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_api_voting_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_api_voting_proto_goTypes = []any{
 	(*CandidateInfoRequest)(nil),                        // 0: api.CandidateInfoRequest
 	(*CandidateInfoResponse)(nil),                       // 1: api.CandidateInfoResponse
@@ -740,27 +964,33 @@ var file_api_voting_proto_goTypes = []any{
 	(*RewardSourcesResponse)(nil),                       // 3: api.RewardSourcesResponse
 	(*VotingMetaRequest)(nil),                           // 4: api.VotingMetaRequest
 	(*VotingMetaResponse)(nil),                          // 5: api.VotingMetaResponse
-	(*CandidateInfoResponse_Candidates)(nil),            // 6: api.CandidateInfoResponse.Candidates
-	(*CandidateInfoResponse_CandidateInfo)(nil),         // 7: api.CandidateInfoResponse.CandidateInfo
-	(*RewardSourcesResponse_DelegateDistributions)(nil), // 8: api.RewardSourcesResponse.DelegateDistributions
-	(*VotingMetaResponse_CandidateMeta)(nil),            // 9: api.VotingMetaResponse.CandidateMeta
+	(*GetCurrentDelegatesRequest)(nil),                  // 6: api.GetCurrentDelegatesRequest
+	(*GetCurrentDelegatesResponse)(nil),                 // 7: api.GetCurrentDelegatesResponse
+	(*CurrentDelegateInfo)(nil),                         // 8: api.CurrentDelegateInfo
+	(*CandidateInfoResponse_Candidates)(nil),            // 9: api.CandidateInfoResponse.Candidates
+	(*CandidateInfoResponse_CandidateInfo)(nil),         // 10: api.CandidateInfoResponse.CandidateInfo
+	(*RewardSourcesResponse_DelegateDistributions)(nil), // 11: api.RewardSourcesResponse.DelegateDistributions
+	(*VotingMetaResponse_CandidateMeta)(nil),            // 12: api.VotingMetaResponse.CandidateMeta
 }
 var file_api_voting_proto_depIdxs = []int32{
-	7, // 0: api.CandidateInfoResponse.candidateInfo:type_name -> api.CandidateInfoResponse.CandidateInfo
-	8, // 1: api.RewardSourcesResponse.delegateDistributions:type_name -> api.RewardSourcesResponse.DelegateDistributions
-	9, // 2: api.VotingMetaResponse.candidateMeta:type_name -> api.VotingMetaResponse.CandidateMeta
-	6, // 3: api.CandidateInfoResponse.CandidateInfo.candidates:type_name -> api.CandidateInfoResponse.Candidates
-	0, // 4: api.VotingService.CandidateInfo:input_type -> api.CandidateInfoRequest
-	2, // 5: api.VotingService.RewardSources:input_type -> api.RewardSourcesRequest
-	4, // 6: api.VotingService.VotingMeta:input_type -> api.VotingMetaRequest
-	1, // 7: api.VotingService.CandidateInfo:output_type -> api.CandidateInfoResponse
-	3, // 8: api.VotingService.RewardSources:output_type -> api.RewardSourcesResponse
-	5, // 9: api.VotingService.VotingMeta:output_type -> api.VotingMetaResponse
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	10, // 0: api.CandidateInfoResponse.candidateInfo:type_name -> api.CandidateInfoResponse.CandidateInfo
+	11, // 1: api.RewardSourcesResponse.delegateDistributions:type_name -> api.RewardSourcesResponse.DelegateDistributions
+	12, // 2: api.VotingMetaResponse.candidateMeta:type_name -> api.VotingMetaResponse.CandidateMeta
+	8,  // 3: api.GetCurrentDelegatesResponse.delegates:type_name -> api.CurrentDelegateInfo
+	9,  // 4: api.CandidateInfoResponse.CandidateInfo.candidates:type_name -> api.CandidateInfoResponse.Candidates
+	0,  // 5: api.VotingService.CandidateInfo:input_type -> api.CandidateInfoRequest
+	2,  // 6: api.VotingService.RewardSources:input_type -> api.RewardSourcesRequest
+	4,  // 7: api.VotingService.VotingMeta:input_type -> api.VotingMetaRequest
+	6,  // 8: api.VotingService.GetCurrentDelegates:input_type -> api.GetCurrentDelegatesRequest
+	1,  // 9: api.VotingService.CandidateInfo:output_type -> api.CandidateInfoResponse
+	3,  // 10: api.VotingService.RewardSources:output_type -> api.RewardSourcesResponse
+	5,  // 11: api.VotingService.VotingMeta:output_type -> api.VotingMetaResponse
+	7,  // 12: api.VotingService.GetCurrentDelegates:output_type -> api.GetCurrentDelegatesResponse
+	9,  // [9:13] is the sub-list for method output_type
+	5,  // [5:9] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_api_voting_proto_init() }
@@ -774,7 +1004,7 @@ func file_api_voting_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_voting_proto_rawDesc), len(file_api_voting_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

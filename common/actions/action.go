@@ -156,7 +156,7 @@ func GetActionInfoByHash(actHash string) (*ActionInfo, error) {
 	var actionInfo *ActionInfo
 	db := db.DB()
 
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.gas_price gas_price,a.gas_limit gas_limit,r.gas_consumed gas_consumed,a.nonce,r.status,a.contract_address,COALESCE(r.execution_revert_msg,'') as execution_revert_msg,a.chain_id,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action_partition a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash where a.action_hash=?"
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.gas_price gas_price,a.gas_limit gas_limit,r.gas_consumed gas_consumed,a.nonce,r.status,a.contract_address,COALESCE(r.execution_revert_msg,'') as execution_revert_msg,a.chain_id,a.block_height blk_height,b.block_hash blk_hash,b.timestamp,COALESCE(m.\"methodName\",m.bytecode,substring(ae.data::text from 3 for 8),'') as method_name FROM block_action_partition a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash left join action_execution ae on ae.action_hash=a.action_hash left join method_bytes m on substring(ae.data::text from 3 for 8)=m.bytecode where a.action_hash=?"
 	if err := db.Raw(query, actHash).Scan(&actionInfo).Error; err != nil {
 		return nil, err
 	}
