@@ -394,10 +394,10 @@ func toBucketInfoEx(r bucketExRow) *api.BucketInfoEx {
 	return b
 }
 
-const tsExpr = `to_char(staking_buckets.timestamp AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
-const createTimeExpr = `to_char(staking_buckets.create_time AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
-const stakeStartExpr = `to_char(staking_buckets.stake_start_time AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
-const unstakeStartExpr = `to_char(staking_buckets.unstake_start_time AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
+const tsExpr = `to_char(to_timestamp(staking_buckets.timestamp), 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
+const createTimeExpr = `to_char(to_timestamp(staking_buckets.create_time), 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
+const stakeStartExpr = `to_char(to_timestamp(staking_buckets.stake_start_time), 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
+const unstakeStartExpr = `to_char(to_timestamp(staking_buckets.unstake_start_time), 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
 
 func nativeBucketListQuery(startTime int64, field, order string, limit, offset int64) (string, []interface{}) {
 	base := `SELECT staking_buckets.bucket_id, staking_buckets.action_hash,
@@ -607,10 +607,9 @@ func (s *StakingService) GetBucketsByBucketId(ctx context.Context, req *api.GetB
 			staking_buckets.amount, staking_buckets.staked_amount, staking_buckets.act_type,
 			staking_buckets.sender, staking_buckets.owner_address, staking_buckets.candidate,
 			staking_buckets.auto_stake, staking_buckets.duration::text AS duration,
-			block_action_partition.gas_price, block_action_partition.gas_limit, block_action_partition.recipient,
+			NULL AS gas_price, NULL AS gas_limit, NULL AS recipient,
 			'' AS delegate_name
 		FROM staking_buckets
-		LEFT JOIN block_action_partition ON staking_buckets.action_hash = block_action_partition.action_hash
 		WHERE staking_buckets.bucket_id = ?
 		ORDER BY staking_buckets.timestamp DESC LIMIT ? OFFSET ?`
 		if err := gormDB.WithContext(ctx).Raw(q, bucketID, limit, offset).Scan(&rows).Error; err != nil {
@@ -627,10 +626,9 @@ func (s *StakingService) GetBucketsByBucketId(ctx context.Context, req *api.GetB
 			staking_buckets.amount, staking_buckets.staked_amount, staking_buckets.event_type AS act_type,
 			staking_buckets.sender, staking_buckets.owner_address, d.candidate AS candidate,
 			staking_buckets.auto_stake, (staking_buckets.duration / 86400.0)::text AS duration,
-			block_action_partition.gas_price, block_action_partition.gas_limit, block_action_partition.recipient,
+			NULL AS gas_price, NULL AS gas_limit, NULL AS recipient,
 			'' AS delegate_name
 		FROM %s staking_buckets
-		LEFT JOIN block_action_partition ON staking_buckets.act_hash = block_action_partition.action_hash
 		LEFT JOIN delegate d ON staking_buckets.delegate_owner_address = d.owner_address
 		WHERE staking_buckets.bucket_id = ?
 		ORDER BY staking_buckets.timestamp DESC LIMIT ? OFFSET ?`, vc.table)
