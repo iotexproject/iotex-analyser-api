@@ -414,7 +414,7 @@ func nativeBucketListQuery(startTime int64, field, order string, limit, offset i
 	LEFT JOIN delegate ON delegate.candidate = staking_buckets.candidate`
 	var args []interface{}
 	if startTime > 0 {
-		base += " WHERE staking_buckets.timestamp > to_timestamp(?)"
+		base += " WHERE staking_buckets.timestamp > ?"
 		args = append(args, startTime)
 	}
 	base += fmt.Sprintf(" ORDER BY %s %s LIMIT ? OFFSET ?", field, order)
@@ -440,7 +440,7 @@ func nftBucketListQuery(table string, requireFinal bool, startTime int64, field,
 		conditions = append(conditions, "staking_buckets.final = true")
 	}
 	if startTime > 0 {
-		conditions = append(conditions, "staking_buckets.timestamp > to_timestamp(?)")
+		conditions = append(conditions, "staking_buckets.timestamp > ?")
 		args = append(args, startTime)
 	}
 	if len(conditions) > 0 {
@@ -462,7 +462,7 @@ func bucketCountQuery(table string, requireFinal bool, startTime int64) (string,
 		conditions = append(conditions, "staking_buckets.final = true")
 	}
 	if startTime > 0 {
-		conditions = append(conditions, "staking_buckets.timestamp > to_timestamp(?)")
+		conditions = append(conditions, "staking_buckets.timestamp > ?")
 		args = append(args, startTime)
 	}
 	if len(conditions) > 0 {
@@ -482,7 +482,7 @@ func bucketGroupCountQuery(table string, requireFinal bool, startTime int64) (st
 		conditions = append(conditions, "staking_buckets.final = true")
 	}
 	if startTime > 0 {
-		conditions = append(conditions, "staking_buckets.timestamp > to_timestamp(?)")
+		conditions = append(conditions, "staking_buckets.timestamp > ?")
 		args = append(args, startTime)
 	}
 	if len(conditions) > 0 {
@@ -539,7 +539,7 @@ func (s *StakingService) GetBucketList(ctx context.Context, req *api.GetBucketLi
 		cq := "SELECT COUNT(1) AS count FROM staking_buckets"
 		cargs := []interface{}{}
 		if startTime > 0 {
-			cq += " WHERE timestamp > to_timestamp(?)"
+			cq += " WHERE timestamp > ?"
 			cargs = append(cargs, startTime)
 		}
 		if err := gormDB.WithContext(ctx).Raw(cq, cargs...).Scan(&countRow).Error; err != nil {
@@ -548,7 +548,7 @@ func (s *StakingService) GetBucketList(ctx context.Context, req *api.GetBucketLi
 		gcq := "SELECT COUNT(DISTINCT bucket_id) AS count FROM staking_buckets"
 		gcargs := []interface{}{}
 		if startTime > 0 {
-			gcq += " WHERE timestamp > to_timestamp(?)"
+			gcq += " WHERE timestamp > ?"
 			gcargs = append(gcargs, startTime)
 		}
 		if err := gormDB.WithContext(ctx).Raw(gcq, gcargs...).Scan(&groupCountRow).Error; err != nil {
