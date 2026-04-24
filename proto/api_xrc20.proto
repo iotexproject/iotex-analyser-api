@@ -67,6 +67,54 @@ message XRC20TokenHolderAddressesResponse {
   uint64 count = 1; // total number of token holder addresses
   repeated string addresses = 2;
 }
+
+message XRC20TransferInfo {
+  uint64 id = 1;
+  uint64 block_height = 2;
+  string action_hash = 3;
+  string contract_address = 4;
+  string amount = 5;
+  string sender = 6;
+  string recipient = 7;
+  string timestamp = 8;
+}
+
+message GetXRC20TransfersByContractRequest {
+  string contract_address = 1;
+  string address = 2;          // optional sender/recipient filter
+  pagination.Pagination pagination = 3;
+}
+
+message GetXRC20TransfersByContractResponse {
+  bool exist = 1;
+  int64 count = 2;
+  repeated XRC20TransferInfo transfers = 3;
+}
+
+message XRC20HolderInfo {
+  string address = 1;
+  string balance = 2;
+}
+
+message GetXRC20HoldersByContractRequest {
+  string contract_address = 1;
+  pagination.Pagination pagination = 2;
+}
+
+message GetXRC20HoldersByContractResponse {
+  int64 count = 1;
+  repeated XRC20HolderInfo holders = 2;
+}
+
+message GetXRC20TokenBalanceRequest {
+  string contract_address = 1;
+  string address = 2;
+}
+
+message GetXRC20TokenBalanceResponse {
+  string balance = 1;
+}
+
 service XRC20Service {
   //XRC20ByAddress returns Xrc20 actions given the sender address or recipient address
   rpc XRC20ByAddress(XRC20ByAddressRequest) returns (XRC20ByAddressResponse) {
@@ -120,6 +168,27 @@ service XRC20Service {
     };
     option (google.api.http) = {
       post: "/api.XRC20Service.XRC20TokenHolderAddresses"
+      body: "*"
+    };
+  };
+  // GetXRC20TransfersByContract returns ERC20 transfers filtered by contract and optional sender/recipient
+  rpc GetXRC20TransfersByContract(GetXRC20TransfersByContractRequest) returns (GetXRC20TransfersByContractResponse) {
+    option (google.api.http) = {
+      post: "/api.XRC20Service.GetXRC20TransfersByContract"
+      body: "*"
+    };
+  };
+  // GetXRC20HoldersByContract returns all holders of a given ERC20 token with balances
+  rpc GetXRC20HoldersByContract(GetXRC20HoldersByContractRequest) returns (GetXRC20HoldersByContractResponse) {
+    option (google.api.http) = {
+      post: "/api.XRC20Service.GetXRC20HoldersByContract"
+      body: "*"
+    };
+  };
+  // GetXRC20TokenBalance returns the ERC20 token balance for a specific address
+  rpc GetXRC20TokenBalance(GetXRC20TokenBalanceRequest) returns (GetXRC20TokenBalanceResponse) {
+    option (google.api.http) = {
+      post: "/api.XRC20Service.GetXRC20TokenBalance"
       body: "*"
     };
   };

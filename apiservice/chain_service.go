@@ -233,19 +233,24 @@ func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest)
 
 	page := req.GetPage()
 	limit := req.GetLimit()
+	beforeHeight := req.GetBeforeHeight()
 
 	if page <= 0 {
 		page = 1
 	}
 
-	_, height, err := common.GetCurrentEpochAndHeight()
-	if err != nil {
-		return nil, err
+	var start uint64
+	if beforeHeight > 0 {
+		start = beforeHeight
+	} else {
+		_, height, err := common.GetCurrentEpochAndHeight()
+		if err != nil {
+			return nil, err
+		}
+		start = height - (page-1)*limit
 	}
 
-	start := height - (page-1)*limit
-
-	db := db.DB()
+	gormDB := db.DB()
 	query := `SELECT
 		m.base_fee,
 		m.priority_bonus,
@@ -279,7 +284,7 @@ func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest)
 	}
 
 	var results []BlockResult
-	if err := db.WithContext(ctx).Raw(query, start, limit).Scan(&results).Error; err != nil {
+	if err := gormDB.WithContext(ctx).Raw(query, start, limit).Scan(&results).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to get blocks")
 	}
 
@@ -310,5 +315,221 @@ func (s *ChainService) GetBlocks(ctx context.Context, req *api.GetBlocksRequest)
 		resp.Blocks = append(resp.Blocks, block)
 	}
 
+	return resp, nil
+}
+
+// GetEpochInfo returns the current epoch number and its starting block height
+func (s *ChainService) GetEpochInfo(ctx context.Context, req *api.GetEpochInfoRequest) (*api.GetEpochInfoResponse, error) {
+	resp := &api.GetEpochInfoResponse{}
+	gormDB := db.DB()
+	var row struct {
+		EpochHeight uint64
+		EpochNum    uint64
+	}
+	if err := gormDB.WithContext(ctx).Raw(
+		"SELECT epoch_height, epoch_num FROM block_meta ORDER BY block_height DESC LIMIT 1",
+	).Scan(&row).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get epoch info")
+	}
+	resp.EpochHeight = row.EpochHeight
+	resp.EpochNum = row.EpochNum
+	return resp, nil
+}
+
+// GetLatestStakingRecord returns the most recent staking statistics
+func (s *ChainService) GetLatestStakingRecord(ctx context.Context, req *api.GetLatestStakingRecordRequest) (*api.GetLatestStakingRecordResponse, error) {
+	resp := &api.GetLatestStakingRecordResponse{}
+	gormDB := db.DB()
+	var row struct {
+		TotalSupply  sql.NullString
+		AllStaking   sql.NullString
+		StakingRatio sql.NullString
+	}
+	if err := gormDB.WithContext(ctx).Raw(
+		"SELECT total_supply, all_staking, staking_ratio::text FROM staking_record ORDER BY date_time DESC LIMIT 1",
+	).Scan(&row).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get staking record")
+	}
+	if row.TotalSupply.Valid {
+		resp.TotalSupply = row.TotalSupply.String
+	}
+	if row.AllStaking.Valid {
+		resp.AllStaking = row.AllStaking.String
+	}
+	if row.StakingRatio.Valid {
+		resp.StakingRatio = row.StakingRatio.String
+	}
+	return resp, nil
+}
+
+// GetPeakTps returns the all-time peak TPS
+func (s *ChainService) GetPeakTps(ctx context.Context, req *api.GetPeakTpsRequest) (*api.GetPeakTpsResponse, error) {
+	resp := &api.GetPeakTpsResponse{}
+	gormDB := db.DB()
+	startBh := req.GetStartBlockHeight()
+	var row struct {
+		NumActions  sql.NullString
+		BlockHeight uint64
+	}
+	var err error
+	if startBh > 0 {
+		err = gormDB.WithContext(ctx).Raw(
+			"SELECT (SELECT max(block_height) FROM block) AS block_height, (SELECT round(max(num_actions)::NUMERIC/5,2)::text FROM block WHERE block_height > ?) AS num_actions",
+			startBh,
+		).Scan(&row).Error
+	} else {
+		err = gormDB.WithContext(ctx).Raw(
+			"SELECT (SELECT max(block_height) FROM block) AS block_height, (SELECT round(max(num_actions)::NUMERIC/5,2)::text FROM block) AS num_actions",
+		).Scan(&row).Error
+	}
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get peak TPS")
+	}
+	if row.NumActions.Valid {
+		resp.NumActions = row.NumActions.String
+	}
+	resp.BlockHeight = row.BlockHeight
+	return resp, nil
+}
+
+// GetActionHistory returns aggregated action counts over a time range
+func (s *ChainService) GetActionHistory(ctx context.Context, req *api.GetActionHistoryRequest) (*api.GetActionHistoryResponse, error) {
+	resp := &api.GetActionHistoryResponse{}
+	gormDB := db.DB()
+	interval := req.GetInterval()
+	if interval != "minute" && interval != "hour" && interval != "day" {
+		interval = "hour"
+	}
+	query := `SELECT sum(num_actions) as sum, to_char(date_time, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as date
+		FROM (
+			SELECT num_actions, date_trunc(?, timestamp) AT TIME ZONE 'UTC' as date_time
+			FROM block
+			WHERE "timestamp" > ? AND "timestamp" <= ?
+		) AS b
+		GROUP BY date_time`
+	var rows []struct {
+		Sum  uint64
+		Date string
+	}
+	if err := gormDB.WithContext(ctx).Raw(query, interval, req.GetStartTime(), req.GetEndTime()).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get action history")
+	}
+	for _, r := range rows {
+		resp.Data = append(resp.Data, &api.ActionHistoryPoint{
+			Date: r.Date,
+			Sum:  r.Sum,
+		})
+	}
+	return resp, nil
+}
+
+// GetBlockByHeight returns a single block by its height
+func (s *ChainService) GetBlockByHeight(ctx context.Context, req *api.GetBlockByHeightRequest) (*api.GetBlockByHeightResponse, error) {
+	resp := &api.GetBlockByHeightResponse{}
+
+	gormDB := db.DB()
+	query := `SELECT
+		m.base_fee,
+		m.priority_bonus,
+		b.block_height,
+		b.block_hash,
+		b.producer_address,
+		b.num_actions,
+		(EXTRACT(EPOCH FROM (b.timestamp AT TIME ZONE 'UTC')) * 1000)::bigint as timestamp,
+		m.epoch_num,
+		m.gas_consumed,
+		m.producer_name,
+		m.block_reward
+	FROM block b
+	LEFT JOIN block_meta m ON m.block_height = b.block_height
+	WHERE b.block_height = ?
+	LIMIT 1`
+
+	type BlockResult struct {
+		BaseFee         sql.NullString
+		PriorityBonus   sql.NullString
+		BlockHeight     uint64
+		BlockHash       string
+		ProducerAddress string
+		NumActions      uint64
+		Timestamp       int64
+		EpochNum        uint64
+		GasConsumed     uint64
+		ProducerName    sql.NullString
+		BlockReward     sql.NullString
+	}
+
+	var r BlockResult
+	if err := gormDB.WithContext(ctx).Raw(query, req.GetHeight()).Scan(&r).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get block by height")
+	}
+	if r.BlockHeight == 0 {
+		return resp, nil
+	}
+
+	resp.Exist = true
+	block := &api.BlockInfo{
+		BlockHeight:     r.BlockHeight,
+		BlockHash:       r.BlockHash,
+		ProducerAddress: r.ProducerAddress,
+		NumActions:      r.NumActions,
+		Timestamp:       r.Timestamp,
+		GasConsumed:     r.GasConsumed,
+		EpochNum:        r.EpochNum,
+	}
+	if r.BaseFee.Valid {
+		block.BaseFee = r.BaseFee.String
+	}
+	if r.PriorityBonus.Valid {
+		block.PriorityBonus = r.PriorityBonus.String
+	}
+	if r.ProducerName.Valid {
+		block.ProducerName = r.ProducerName.String
+	}
+	if r.BlockReward.Valid {
+		block.BlockReward = r.BlockReward.String
+	}
+	resp.Block = block
+
+	return resp, nil
+}
+
+// GetStakingRatioHistory returns staking ratio history over a time range
+func (s *ChainService) GetStakingRatioHistory(ctx context.Context, req *api.GetStakingRatioHistoryRequest) (*api.GetStakingRatioHistoryResponse, error) {
+	resp := &api.GetStakingRatioHistoryResponse{}
+	gormDB := db.DB()
+	startTime := req.GetStartTime()
+	endTime := req.GetEndTime()
+
+	var rows []struct {
+		DateTime string
+		Ratio    string
+	}
+	var err error
+	if startTime != "" && endTime != "" {
+		err = gormDB.WithContext(ctx).Raw(
+			`SELECT to_char(date_time AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as date_time,
+				staking_ratio::text as ratio
+			FROM staking_record
+			WHERE date_time::date >= ?::date AND date_time::date <= ?::date
+			ORDER BY id ASC`,
+			startTime, endTime,
+		).Scan(&rows).Error
+	} else {
+		err = gormDB.WithContext(ctx).Raw(
+			`SELECT to_char(date_time AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as date_time,
+				staking_ratio::text as ratio
+			FROM staking_record ORDER BY id ASC`,
+		).Scan(&rows).Error
+	}
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get staking ratio history")
+	}
+	for _, r := range rows {
+		resp.Data = append(resp.Data, &api.StakingRatioPoint{
+			DateTime: r.DateTime,
+			Ratio:    r.Ratio,
+		})
+	}
 	return resp, nil
 }

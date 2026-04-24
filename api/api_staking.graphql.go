@@ -14,15 +14,33 @@ var (
 	gql__type_VoteByHeightResponse           *graphql.Object      // message VoteByHeightResponse in api_staking.proto
 	gql__type_VoteByHeightRequest            *graphql.Object      // message VoteByHeightRequest in api_staking.proto
 	gql__type_StakingBucketInfo              *graphql.Object      // message StakingBucketInfo in api_staking.proto
+	gql__type_GetNativeBucketsResponse       *graphql.Object      // message GetNativeBucketsResponse in api_staking.proto
+	gql__type_GetNativeBucketsRequest        *graphql.Object      // message GetNativeBucketsRequest in api_staking.proto
+	gql__type_GetBucketsByBucketIdResponse   *graphql.Object      // message GetBucketsByBucketIdResponse in api_staking.proto
+	gql__type_GetBucketsByBucketIdRequest    *graphql.Object      // message GetBucketsByBucketIdRequest in api_staking.proto
+	gql__type_GetBucketListResponse          *graphql.Object      // message GetBucketListResponse in api_staking.proto
+	gql__type_GetBucketListRequest           *graphql.Object      // message GetBucketListRequest in api_staking.proto
+	gql__type_GetBucketByBucketIdResponse    *graphql.Object      // message GetBucketByBucketIdResponse in api_staking.proto
+	gql__type_GetBucketByBucketIdRequest     *graphql.Object      // message GetBucketByBucketIdRequest in api_staking.proto
 	gql__type_CandidateVoteByHeightResponse  *graphql.Object      // message CandidateVoteByHeightResponse in api_staking.proto
 	gql__type_CandidateVoteByHeightRequest   *graphql.Object      // message CandidateVoteByHeightRequest in api_staking.proto
+	gql__type_BucketInfoEx                   *graphql.Object      // message BucketInfoEx in api_staking.proto
 	gql__type_BucketByIDResponse             *graphql.Object      // message BucketByIDResponse in api_staking.proto
 	gql__type_BucketByIDRequest              *graphql.Object      // message BucketByIDRequest in api_staking.proto
 	gql__input_VoteByHeightResponse          *graphql.InputObject // message VoteByHeightResponse in api_staking.proto
 	gql__input_VoteByHeightRequest           *graphql.InputObject // message VoteByHeightRequest in api_staking.proto
 	gql__input_StakingBucketInfo             *graphql.InputObject // message StakingBucketInfo in api_staking.proto
+	gql__input_GetNativeBucketsResponse      *graphql.InputObject // message GetNativeBucketsResponse in api_staking.proto
+	gql__input_GetNativeBucketsRequest       *graphql.InputObject // message GetNativeBucketsRequest in api_staking.proto
+	gql__input_GetBucketsByBucketIdResponse  *graphql.InputObject // message GetBucketsByBucketIdResponse in api_staking.proto
+	gql__input_GetBucketsByBucketIdRequest   *graphql.InputObject // message GetBucketsByBucketIdRequest in api_staking.proto
+	gql__input_GetBucketListResponse         *graphql.InputObject // message GetBucketListResponse in api_staking.proto
+	gql__input_GetBucketListRequest          *graphql.InputObject // message GetBucketListRequest in api_staking.proto
+	gql__input_GetBucketByBucketIdResponse   *graphql.InputObject // message GetBucketByBucketIdResponse in api_staking.proto
+	gql__input_GetBucketByBucketIdRequest    *graphql.InputObject // message GetBucketByBucketIdRequest in api_staking.proto
 	gql__input_CandidateVoteByHeightResponse *graphql.InputObject // message CandidateVoteByHeightResponse in api_staking.proto
 	gql__input_CandidateVoteByHeightRequest  *graphql.InputObject // message CandidateVoteByHeightRequest in api_staking.proto
+	gql__input_BucketInfoEx                  *graphql.InputObject // message BucketInfoEx in api_staking.proto
 	gql__input_BucketByIDResponse            *graphql.InputObject // message BucketByIDResponse in api_staking.proto
 	gql__input_BucketByIDRequest             *graphql.InputObject // message BucketByIDRequest in api_staking.proto
 )
@@ -108,6 +126,160 @@ func Gql__type_StakingBucketInfo() *graphql.Object {
 	return gql__type_StakingBucketInfo
 }
 
+func Gql__type_GetNativeBucketsResponse() *graphql.Object {
+	if gql__type_GetNativeBucketsResponse == nil {
+		gql__type_GetNativeBucketsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetNativeBucketsResponse",
+			Fields: graphql.Fields{
+				"buckets": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BucketInfoEx()),
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetNativeBucketsResponse
+}
+
+func Gql__type_GetNativeBucketsRequest() *graphql.Object {
+	if gql__type_GetNativeBucketsRequest == nil {
+		gql__type_GetNativeBucketsRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetNativeBucketsRequest",
+			Fields: graphql.Fields{
+				"limit": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetNativeBucketsRequest
+}
+
+func Gql__type_GetBucketsByBucketIdResponse() *graphql.Object {
+	if gql__type_GetBucketsByBucketIdResponse == nil {
+		gql__type_GetBucketsByBucketIdResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketsByBucketIdResponse",
+			Fields: graphql.Fields{
+				"buckets": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BucketInfoEx()),
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketsByBucketIdResponse
+}
+
+func Gql__type_GetBucketsByBucketIdRequest() *graphql.Object {
+	if gql__type_GetBucketsByBucketIdRequest == nil {
+		gql__type_GetBucketsByBucketIdRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketsByBucketIdRequest",
+			Fields: graphql.Fields{
+				"bucket_id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"limit": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"version": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketsByBucketIdRequest
+}
+
+func Gql__type_GetBucketListResponse() *graphql.Object {
+	if gql__type_GetBucketListResponse == nil {
+		gql__type_GetBucketListResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketListResponse",
+			Fields: graphql.Fields{
+				"buckets": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BucketInfoEx()),
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"group_count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketListResponse
+}
+
+func Gql__type_GetBucketListRequest() *graphql.Object {
+	if gql__type_GetBucketListRequest == nil {
+		gql__type_GetBucketListRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketListRequest",
+			Fields: graphql.Fields{
+				"limit": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"sort": &graphql.Field{
+					Type: graphql.String,
+				},
+				"interval": &graphql.Field{
+					Type: graphql.String,
+				},
+				"version": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketListRequest
+}
+
+func Gql__type_GetBucketByBucketIdResponse() *graphql.Object {
+	if gql__type_GetBucketByBucketIdResponse == nil {
+		gql__type_GetBucketByBucketIdResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketByBucketIdResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"bucket": &graphql.Field{
+					Type: Gql__type_BucketInfoEx(),
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketByBucketIdResponse
+}
+
+func Gql__type_GetBucketByBucketIdRequest() *graphql.Object {
+	if gql__type_GetBucketByBucketIdRequest == nil {
+		gql__type_GetBucketByBucketIdRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketByBucketIdRequest",
+			Fields: graphql.Fields{
+				"bucket_id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"version": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketByBucketIdRequest
+}
+
 func Gql__type_CandidateVoteByHeightResponse() *graphql.Object {
 	if gql__type_CandidateVoteByHeightResponse == nil {
 		gql__type_CandidateVoteByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -146,6 +318,72 @@ func Gql__type_CandidateVoteByHeightRequest() *graphql.Object {
 		})
 	}
 	return gql__type_CandidateVoteByHeightRequest
+}
+
+func Gql__type_BucketInfoEx() *graphql.Object {
+	if gql__type_BucketInfoEx == nil {
+		gql__type_BucketInfoEx = graphql.NewObject(graphql.ObjectConfig{
+			Name:        "Api_Type_BucketInfoEx",
+			Description: `BucketInfoEx carries all fields for the bucket list/detail pages.`,
+			Fields: graphql.Fields{
+				"bucket_id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.String,
+				},
+				"create_time": &graphql.Field{
+					Type: graphql.String,
+				},
+				"stake_start_time": &graphql.Field{
+					Type: graphql.String,
+				},
+				"unstake_start_time": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"act_type": &graphql.Field{
+					Type: graphql.String,
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"owner_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"candidate": &graphql.Field{
+					Type: graphql.String,
+				},
+				"auto_stake": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"duration": &graphql.Field{
+					Type: graphql.String,
+				},
+				"gas_price": &graphql.Field{
+					Type: graphql.String,
+				},
+				"gas_limit": &graphql.Field{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.Field{
+					Type: graphql.String,
+				},
+				"delegate_name": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_BucketInfoEx
 }
 
 func Gql__type_BucketByIDResponse() *graphql.Object {
@@ -275,6 +513,160 @@ func Gql__input_StakingBucketInfo() *graphql.InputObject {
 	return gql__input_StakingBucketInfo
 }
 
+func Gql__input_GetNativeBucketsResponse() *graphql.InputObject {
+	if gql__input_GetNativeBucketsResponse == nil {
+		gql__input_GetNativeBucketsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetNativeBucketsResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"buckets": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BucketInfoEx()),
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetNativeBucketsResponse
+}
+
+func Gql__input_GetNativeBucketsRequest() *graphql.InputObject {
+	if gql__input_GetNativeBucketsRequest == nil {
+		gql__input_GetNativeBucketsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetNativeBucketsRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"limit": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetNativeBucketsRequest
+}
+
+func Gql__input_GetBucketsByBucketIdResponse() *graphql.InputObject {
+	if gql__input_GetBucketsByBucketIdResponse == nil {
+		gql__input_GetBucketsByBucketIdResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketsByBucketIdResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"buckets": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BucketInfoEx()),
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketsByBucketIdResponse
+}
+
+func Gql__input_GetBucketsByBucketIdRequest() *graphql.InputObject {
+	if gql__input_GetBucketsByBucketIdRequest == nil {
+		gql__input_GetBucketsByBucketIdRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketsByBucketIdRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"limit": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"version": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketsByBucketIdRequest
+}
+
+func Gql__input_GetBucketListResponse() *graphql.InputObject {
+	if gql__input_GetBucketListResponse == nil {
+		gql__input_GetBucketListResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketListResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"buckets": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BucketInfoEx()),
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"group_count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketListResponse
+}
+
+func Gql__input_GetBucketListRequest() *graphql.InputObject {
+	if gql__input_GetBucketListRequest == nil {
+		gql__input_GetBucketListRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketListRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"limit": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"sort": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"interval": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"version": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketListRequest
+}
+
+func Gql__input_GetBucketByBucketIdResponse() *graphql.InputObject {
+	if gql__input_GetBucketByBucketIdResponse == nil {
+		gql__input_GetBucketByBucketIdResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketByBucketIdResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"bucket": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_BucketInfoEx(),
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketByBucketIdResponse
+}
+
+func Gql__input_GetBucketByBucketIdRequest() *graphql.InputObject {
+	if gql__input_GetBucketByBucketIdRequest == nil {
+		gql__input_GetBucketByBucketIdRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketByBucketIdRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"version": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketByBucketIdRequest
+}
+
 func Gql__input_CandidateVoteByHeightResponse() *graphql.InputObject {
 	if gql__input_CandidateVoteByHeightResponse == nil {
 		gql__input_CandidateVoteByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -313,6 +705,71 @@ func Gql__input_CandidateVoteByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_CandidateVoteByHeightRequest
+}
+
+func Gql__input_BucketInfoEx() *graphql.InputObject {
+	if gql__input_BucketInfoEx == nil {
+		gql__input_BucketInfoEx = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BucketInfoEx",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"create_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"stake_start_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"unstake_start_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"act_type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"owner_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"candidate": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"auto_stake": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"duration": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"gas_price": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"gas_limit": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"recipient": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"delegate_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_BucketInfoEx
 }
 
 func Gql__input_BucketByIDResponse() *graphql.InputObject {
@@ -471,6 +928,113 @@ func (x *graphql__resolver_StakingService) GetQueries(conn *grpc.ClientConn) gra
 				resp, err := client.BucketByID(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC BucketByID")
+				}
+				return resp, nil
+			},
+		},
+		"GetBucketList": &graphql.Field{
+			Type: Gql__type_GetBucketListResponse(),
+			Args: graphql.FieldConfigArgument{
+				"limit": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"sort": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"interval": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"version": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetBucketListRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetBucketList")
+				}
+				client := NewStakingServiceClient(conn)
+				resp, err := client.GetBucketList(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetBucketList")
+				}
+				return resp, nil
+			},
+		},
+		"GetBucketsByBucketId": &graphql.Field{
+			Type: Gql__type_GetBucketsByBucketIdResponse(),
+			Args: graphql.FieldConfigArgument{
+				"bucket_id": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"limit": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"version": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetBucketsByBucketIdRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetBucketsByBucketId")
+				}
+				client := NewStakingServiceClient(conn)
+				resp, err := client.GetBucketsByBucketId(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetBucketsByBucketId")
+				}
+				return resp, nil
+			},
+		},
+		"GetBucketByBucketId": &graphql.Field{
+			Type: Gql__type_GetBucketByBucketIdResponse(),
+			Args: graphql.FieldConfigArgument{
+				"bucket_id": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"version": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetBucketByBucketIdRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetBucketByBucketId")
+				}
+				client := NewStakingServiceClient(conn)
+				resp, err := client.GetBucketByBucketId(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetBucketByBucketId")
+				}
+				return resp, nil
+			},
+		},
+		"GetNativeBuckets": &graphql.Field{
+			Type: Gql__type_GetNativeBucketsResponse(),
+			Args: graphql.FieldConfigArgument{
+				"limit": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+				"offset": &graphql.ArgumentConfig{
+					Type: graphql.Int,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetNativeBucketsRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for GetNativeBuckets")
+				}
+				client := NewStakingServiceClient(conn)
+				resp, err := client.GetNativeBuckets(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetNativeBuckets")
 				}
 				return resp, nil
 			},

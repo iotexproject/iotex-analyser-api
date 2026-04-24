@@ -3,6 +3,7 @@ iotex-analyser-api
 .build
 config_mainlive.yml
 config_local.yml
+config.local.yml
 .DS_Store
 v1_config.yml
 .vscode

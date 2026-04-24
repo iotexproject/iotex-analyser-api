@@ -90,12 +90,73 @@ message BlockInfo {
 }
 
 message GetBlocksRequest {
-  uint64 page = 1; // page number (starts from 1)
-  uint64 limit = 2; // number of blocks per page
+  uint64 page = 1;         // page number (starts from 1); ignored when before_height > 0
+  uint64 limit = 2;        // number of blocks per page
+  uint64 before_height = 3; // cursor: return blocks with height <= before_height (0 = use page)
 }
 
 message GetBlocksResponse {
   repeated BlockInfo blocks = 1; // list of blocks
+}
+
+message GetBlockByHeightRequest {
+  uint64 height = 1; // block height
+}
+
+message GetBlockByHeightResponse {
+  bool exist = 1;
+  BlockInfo block = 2;
+}
+
+message GetEpochInfoRequest {}
+
+message GetEpochInfoResponse {
+  uint64 epoch_height = 1; // first block height of the current epoch
+  uint64 epoch_num = 2;    // current epoch number
+}
+
+message GetLatestStakingRecordRequest {}
+
+message GetLatestStakingRecordResponse {
+  string total_supply = 1;   // total supply
+  string all_staking = 2;    // total staked IOTX (in rau)
+  string staking_ratio = 3;  // staking ratio (decimal string)
+}
+
+message GetPeakTpsRequest {
+  uint64 start_block_height = 1; // 0 = scan all blocks; > 0 = only look at blocks after this height
+}
+
+message GetPeakTpsResponse {
+  string num_actions = 1;    // max(num_actions)/5 rounded to 2 decimal places
+  uint64 block_height = 2;   // current max block height (cursor for next call)
+}
+
+message ActionHistoryPoint {
+  string date = 1; // UTC datetime string
+  uint64 sum = 2;  // total actions in bucket
+}
+
+message GetActionHistoryRequest {
+  string start_time = 1; // UTC datetime string (e.g. "2024-01-01 00:00:00")
+  string end_time = 2;   // UTC datetime string
+  string interval = 3;   // "minute", "hour", or "day"
+}
+
+message GetActionHistoryResponse {
+  repeated ActionHistoryPoint data = 1;
+}
+
+message GetStakingRatioHistoryRequest {
+  string start_time = 1; // optional start date (YYYY-MM-DD)
+  string end_time = 2;   // optional end date (YYYY-MM-DD)
+}
+message StakingRatioPoint {
+  string date_time = 1;
+  string ratio = 2;
+}
+message GetStakingRatioHistoryResponse {
+  repeated StakingRatioPoint data = 1;
 }
 
 service ChainService {
@@ -177,6 +238,57 @@ service ChainService {
     };
     option (google.api.http) = {
       post: "/api.ChainService.GetBlocks"
+      body: "*"
+    };
+  };
+
+  // GetBlockByHeight returns a single block by its height
+  rpc GetBlockByHeight(GetBlockByHeightRequest) returns (GetBlockByHeightResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetBlockByHeight"
+    };
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockByHeight"
+      body: "*"
+    };
+  };
+
+  // GetEpochInfo returns the current epoch number and its starting block height
+  rpc GetEpochInfo(GetEpochInfoRequest) returns (GetEpochInfoResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetEpochInfo"
+      body: "*"
+    };
+  };
+
+  // GetLatestStakingRecord returns the most recent staking statistics
+  rpc GetLatestStakingRecord(GetLatestStakingRecordRequest) returns (GetLatestStakingRecordResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetLatestStakingRecord"
+      body: "*"
+    };
+  };
+
+  // GetPeakTps returns the all-time peak TPS (max block actions / 5-second block time)
+  rpc GetPeakTps(GetPeakTpsRequest) returns (GetPeakTpsResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetPeakTps"
+      body: "*"
+    };
+  };
+
+  // GetActionHistory returns aggregated action counts over a time range
+  rpc GetActionHistory(GetActionHistoryRequest) returns (GetActionHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetActionHistory"
+      body: "*"
+    };
+  };
+  // GetStakingRatioHistory returns staking ratio history over a time range
+  rpc GetStakingRatioHistory(GetStakingRatioHistoryRequest) returns (GetStakingRatioHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetStakingRatioHistory"
       body: "*"
     };
   };

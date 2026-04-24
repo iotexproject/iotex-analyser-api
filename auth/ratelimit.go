@@ -12,6 +12,7 @@ import (
 var (
 	whitelistID = []string{
 		"io1k768lhjwwf89qd4fqt6gpheqvzqfz7mxept4tp",
+		"io149jw3s2uqk74txgnmvx09kuhva5jm0rj9sulnm", // iotexscan-v4 service key
 	}
 )
 

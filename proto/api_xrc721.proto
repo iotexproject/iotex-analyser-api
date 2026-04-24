@@ -67,6 +67,47 @@ message XRC721TokenHolderAddressesResponse {
   uint64 count = 1; // total number of token holder addresses
   repeated string addresses = 2;
 }
+
+message NFTTransferInfo {
+  uint64 id = 1;
+  string type = 2;            // "xrc721" or "xrc1155"
+  uint64 block_height = 3;
+  string action_hash = 4;
+  string contract_address = 5;
+  string token_id = 6;
+  string value = 7;
+  string sender = 8;
+  string recipient = 9;
+  string timestamp = 10;
+}
+
+message GetNFTTransferListRequest {
+  pagination.Pagination pagination = 1;
+  string contract_address = 2; // optional; leave empty to query all contracts
+  string address = 3;          // optional; sender/recipient or token_id filter
+}
+
+message GetNFTTransferListResponse {
+  bool exist = 1;
+  int64 count = 2;
+  repeated NFTTransferInfo transfers = 3;
+}
+
+message NFTHolderInfo {
+  string address = 1;
+  string balance = 2;
+}
+
+message GetNFTHoldersByContractRequest {
+  string contract_address = 1;
+  pagination.Pagination pagination = 2;
+}
+
+message GetNFTHoldersByContractResponse {
+  int64 count = 1;
+  repeated NFTHolderInfo holders = 2;
+}
+
 service XRC721Service {
   //XRC721ByAddress returns Xrc721 actions given the sender address or recipient address
   rpc XRC721ByAddress(XRC721ByAddressRequest) returns (XRC721ByAddressResponse) {
@@ -120,6 +161,20 @@ service XRC721Service {
     };
     option (google.api.http) = {
       post: "/api.XRC721Service.XRC721TokenHolderAddresses"
+      body: "*"
+    };
+  };
+  // GetNFTTransferList returns NFT transfers (xrc721 + xrc1155) with optional contract/address filters
+  rpc GetNFTTransferList(GetNFTTransferListRequest) returns (GetNFTTransferListResponse) {
+    option (google.api.http) = {
+      post: "/api.XRC721Service.GetNFTTransferList"
+      body: "*"
+    };
+  };
+  // GetNFTHoldersByContract returns NFT holders for a contract
+  rpc GetNFTHoldersByContract(GetNFTHoldersByContractRequest) returns (GetNFTHoldersByContractResponse) {
+    option (google.api.http) = {
+      post: "/api.XRC721Service.GetNFTHoldersByContract"
       body: "*"
     };
   };

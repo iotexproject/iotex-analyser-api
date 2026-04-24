@@ -156,7 +156,7 @@ func GetActionInfoByHash(actHash string) (*ActionInfo, error) {
 	var actionInfo *ActionInfo
 	db := db.DB()
 
-	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.gas_price gas_price,a.gas_limit gas_limit,r.gas_consumed gas_consumed,a.nonce,r.status,a.contract_address,COALESCE(r.execution_revert_msg,'') as execution_revert_msg,a.chain_id,a.block_height blk_height,b.block_hash blk_hash,b.timestamp FROM block_action_partition a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash where a.action_hash=?"
+	query := "SELECT a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price*r.gas_consumed as gas_fee,a.gas_price gas_price,a.gas_limit gas_limit,r.gas_consumed gas_consumed,a.nonce,r.status,a.contract_address,COALESCE(r.execution_revert_msg,'') as execution_revert_msg,a.chain_id,a.block_height blk_height,b.block_hash blk_hash,b.timestamp,COALESCE(m.\"methodName\",m.bytecode,substring(ae.data::text from 3 for 8),'') as method_name FROM block_action_partition a left join block b on b.block_height=a.block_height left join block_receipts r on r.action_hash=a.action_hash left join action_execution ae on ae.action_hash=a.action_hash left join method_bytes m on substring(ae.data::text from 3 for 8)=m.bytecode where a.action_hash=?"
 	if err := db.Raw(query, actHash).Scan(&actionInfo).Error; err != nil {
 		return nil, err
 	}
@@ -208,6 +208,25 @@ func GetActionCount() (int64, error) {
 		return 0, err
 	}
 	return count, nil
+}
+
+func GetActionCountFromHeight(startBh uint64) (int64, error) {
+	var count int64
+	db := db.DB()
+	if err := db.Table("block_action_partition").Where("block_height >= ?", startBh).Count(&count).Error; err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func GetActionInfoListFromHeight(startBh uint64, skip, first uint64) ([]*ActionInfo, error) {
+	var actionInfos []*ActionInfo
+	db := db.DB()
+	query := `SELECT b.act_hash,b.act_type,b.sender,b.recipient,b.amount,b.gas_price*r.gas_consumed as gas_fee,b.gas_price,b.gas_limit gas_limit,r.gas_consumed gas_consumed,b.nonce,r.status,b.contract_address,b.blk_height,blk.block_hash blk_hash,blk.timestamp,COALESCE(m."methodName",m.bytecode,substring(ae.data::text from 3 for 8),'') as method_name FROM (SELECT a.id,a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.gas_price,a.gas_limit,a.nonce,a.contract_address,a.block_height blk_height FROM block_action_partition a WHERE a.block_height >= ? ORDER BY a.id DESC LIMIT ? OFFSET ?) b LEFT JOIN block blk ON blk.block_height=b.blk_height LEFT JOIN block_receipts r ON r.action_hash=b.act_hash LEFT JOIN action_execution ae ON ae.action_hash=b.act_hash LEFT JOIN method_bytes m ON substring(ae.data::text from 3 for 8)=m.bytecode ORDER BY b.id DESC`
+	if err := db.Raw(query, startBh, first, skip).Scan(&actionInfos).Error; err != nil {
+		return nil, err
+	}
+	return actionInfos, nil
 }
 
 func GetActionCountByHeight(height uint64) (int64, error) {

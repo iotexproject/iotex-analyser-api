@@ -74,6 +74,7 @@ message ActionByDatesResponse {
 
 message ActionByHashRequest {
   string actHash = 1; // action hash
+  repeated string include_fields = 2; // optional subset: action_type, input_data, logs, token_transfers, base_fee, stake_action; empty = none
 }
 message ActionByHashResponse {
   bool exist = 1; // whether actions exist within the time frame
@@ -84,6 +85,57 @@ message ActionByHashResponse {
     string amount = 3; // amount transferred
   }
   repeated EvmTransfers evmTransfers = 3;
+
+  message ActionTypeInfo {
+    string type = 1;
+    string access_list = 2;
+    string gas_tip_cap = 3;
+    string gas_fee_cap = 4;
+    string blob_gas = 5;
+    string blob_fee_cap = 6;
+    string blob_hashes = 7;
+    string blob_gas_price = 8;
+  }
+  ActionTypeInfo action_type_info = 4;
+
+  string input_data = 5; // hex-encoded execution data
+
+  message ActionLog {
+    uint64 block_height = 1;
+    string address = 2;
+    string topic0 = 3;
+    string topic1 = 4;
+    string topic2 = 5;
+    string topic3 = 6;
+    bytes data = 7; // raw log data (base64 in JSON)
+    string action_hash = 8;
+    int64 index = 9;
+  }
+  repeated ActionLog logs = 6;
+
+  message TokenTransfer {
+    int64 id = 1;
+    string contract_address = 2;
+    string sender = 3;
+    string recipient = 4;
+    string amount = 5;
+    string type = 6; // "erc20" or "nft"
+  }
+  repeated TokenTransfer token_transfers = 7;
+
+  string block_base_fee = 8;
+
+  message StakeAction {
+    int64 bucket_id = 1;
+    string amount = 2;
+    string staked_amount = 3;
+    string duration = 4;
+    bool auto_stake = 5;
+    string candidate = 6;
+    string act_type = 7;
+    string owner_address = 8;
+  }
+  StakeAction stake_action = 9;
 }
 
 message ActionByAddressRequest {
@@ -133,6 +185,7 @@ message EvmTransfersByAddressResponse {
 
 message ActionListRequest {
   pagination.Pagination pagination = 1;
+  uint64 start_block_height = 2;
 }
 message ActionListResponse {
   bool exist = 1;
@@ -157,6 +210,43 @@ message ContractInteractorsRequest {
 message ContractInteractorsResponse {
   repeated string senders = 1;
 }
+
+message GetInternalTxnsRequest {
+  pagination.Pagination pagination = 1;
+}
+message InternalTxnInfo {
+  int64 id = 1;
+  uint64 block_height = 2;
+  string action_hash = 3;
+  string type = 4;
+  string amount = 5;
+  string sender = 6;
+  string recipient = 7;
+  string timestamp = 8;
+}
+message GetInternalTxnsResponse {
+  repeated InternalTxnInfo txns = 1;
+  uint64 count = 2;
+}
+
+message GetStakingActionsByAddressRequest {
+  string owner_address = 1;
+  pagination.Pagination pagination = 2;
+}
+message StakingActionInfo {
+  int64 id = 1;
+  uint64 block_height = 2;
+  string action_hash = 3;
+  string sender = 4;
+  string amount = 5;
+  string action_type = 6;
+  string timestamp = 7;
+}
+message GetStakingActionsByAddressResponse {
+  repeated StakingActionInfo actions = 1;
+  uint64 count = 2;
+}
+
 service ActionService {
   rpc ActionByVoter(ActionRequest) returns (ActionResponse) {
     option (graphql.schema) = {
@@ -266,5 +356,18 @@ service ActionService {
       body: "*"
     };
   };
-
+  // GetInternalTxns returns paginated EVM internal transactions (block_receipt_transactions type=execution)
+  rpc GetInternalTxns(GetInternalTxnsRequest) returns (GetInternalTxnsResponse) {
+    option (google.api.http) = {
+      post: "/api.ActionService.GetInternalTxns"
+      body: "*"
+    };
+  };
+  // GetStakingActionsByAddress returns paginated staking actions for an owner address
+  rpc GetStakingActionsByAddress(GetStakingActionsByAddressRequest) returns (GetStakingActionsByAddressResponse) {
+    option (google.api.http) = {
+      post: "/api.ActionService.GetStakingActionsByAddress"
+      body: "*"
+    };
+  };
 }
