@@ -74,6 +74,7 @@ message ActionByDatesResponse {
 
 message ActionByHashRequest {
   string actHash = 1; // action hash
+  repeated string include_fields = 2; // optional subset: action_type, input_data, logs, token_transfers, base_fee, stake_action; empty = none
 }
 message ActionByHashResponse {
   bool exist = 1; // whether actions exist within the time frame

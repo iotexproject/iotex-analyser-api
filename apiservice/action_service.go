@@ -140,10 +140,20 @@ func (s *ActionService) ActionByDates(ctx context.Context, req *api.ActionByDate
 	return resp, nil
 }
 
+func hasIncludeField(fields []string, field string) bool {
+	for _, f := range fields {
+		if f == field {
+			return true
+		}
+	}
+	return false
+}
+
 // ActionByHash finds actions by hash
 func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashRequest) (*api.ActionByHashResponse, error) {
 	resp := &api.ActionByHashResponse{}
 	actHash := req.GetActHash()
+	includeFields := req.GetIncludeFields()
 
 	actionInfo, err := actions.GetActionInfoByHash(actHash)
 	if err != nil {
@@ -186,6 +196,7 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 	gormDB := db.DB()
 
 	// EIP-1559 fields from action_type table
+	if hasIncludeField(includeFields, "action_type") {
 	var actionTypeRow struct {
 		Type        sql.NullString
 		AccessList  sql.NullString
@@ -229,8 +240,10 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 			resp.ActionTypeInfo.BlobGasPrice = actionTypeRow.BlobGasPrice.String
 		}
 	}
+	} // end action_type
 
 	// Input data from action_execution or block_action
+	if hasIncludeField(includeFields, "input_data") {
 	var inputDataRow struct {
 		Data []byte
 	}
@@ -246,8 +259,10 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 	if len(inputDataRow.Data) > 0 {
 		resp.InputData = hex.EncodeToString(inputDataRow.Data)
 	}
+	} // end input_data
 
 	// Logs from block_receipt_logs
+	if hasIncludeField(includeFields, "logs") {
 	var logRows []struct {
 		BlockHeight uint64
 		Address     string
@@ -287,8 +302,10 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 		}
 		resp.Logs = append(resp.Logs, logEntry)
 	}
+	} // end logs
 
 	// Token transfers: erc20 + erc721 union
+	if hasIncludeField(includeFields, "token_transfers") {
 	var transferRows []struct {
 		ID              int64
 		ContractAddress string
@@ -315,8 +332,10 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 			Type:            r.Type,
 		})
 	}
+	} // end token_transfers
 
 	// Block base fee from block_meta
+	if hasIncludeField(includeFields, "base_fee") {
 	var baseFeeRow struct {
 		BlockBaseFee sql.NullString
 	}
@@ -330,8 +349,10 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 	if baseFeeRow.BlockBaseFee.Valid {
 		resp.BlockBaseFee = baseFeeRow.BlockBaseFee.String
 	}
+	} // end base_fee
 
 	// Stake action from staking_buckets
+	if hasIncludeField(includeFields, "stake_action") {
 	var stakeRow struct {
 		BucketID     sql.NullInt64
 		Amount       sql.NullString
@@ -375,6 +396,7 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 			resp.StakeAction.OwnerAddress = stakeRow.OwnerAddress.String
 		}
 	}
+	} // end stake_action
 
 	return resp, nil
 }

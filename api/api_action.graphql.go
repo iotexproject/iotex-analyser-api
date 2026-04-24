@@ -801,6 +801,9 @@ func Gql__type_ActionByHashRequest() *graphql.Object {
 				"actHash": &graphql.Field{
 					Type: graphql.String,
 				},
+				"include_fields": &graphql.Field{
+					Type: graphql.NewList(graphql.String),
+				},
 			},
 		})
 	}
@@ -1620,6 +1623,9 @@ func Gql__input_ActionByHashRequest() *graphql.InputObject {
 				"actHash": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
+				"include_fields": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.String),
+				},
 			},
 		})
 	}
@@ -1843,6 +1849,9 @@ func (x *graphql__resolver_ActionService) GetQueries(conn *grpc.ClientConn) grap
 			Args: graphql.FieldConfigArgument{
 				"actHash": &graphql.ArgumentConfig{
 					Type: graphql.String,
+				},
+				"include_fields": &graphql.ArgumentConfig{
+					Type: graphql.NewList(graphql.String),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
