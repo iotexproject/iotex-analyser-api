@@ -108,6 +108,15 @@ after_build do
       File.write(File.join(JS_SRC, filename), content)
     end
   end
+
+  # asset_hash generates root-relative paths (/stylesheets/...) but the binary
+  # serves docs at /docs/, so convert to relative paths so assets resolve correctly.
+  index_out = File.join('../docs-html', 'index.html')
+  if File.exist?(index_out)
+    html = File.read(index_out)
+    html.gsub!(%r{(href|src)="/(stylesheets|javascripts|fonts|images)/}, '\1="\2/')
+    File.write(index_out, html)
+  end
 end
 
 helpers do
