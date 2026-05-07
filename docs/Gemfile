@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+gem 'middleman', '~> 4.4'
+gem 'middleman-syntax', '~> 3.4'
+gem 'middleman-autoprefixer', '~> 3.0'
+gem 'rouge', '~> 3.30'
+gem 'redcarpet', '~> 3.6'
+gem 'nokogiri', '>= 1.11.4'

@@ -25,7 +25,7 @@ meta:
 Analytics is an application built upon IoTeX core API which extracts data from IoTeX blockchain and reindexes them for applications to use via a GraphQL web interface. You can use the [playground here](https://analyser-api.iotex.io/graphql).
 
 ## API Token
-API token is required to access the API. You can get your API token from `ioctl` tools. Please refer to [ioctl documentation](https://docs.iotex.io/reference/ioctl-cli-reference/jwt-tokens#use-ioctl-to-issue-jwt) for more details.
+API token is required to access the API. You can generate a JWT token using the `ioctl` command-line tool — see [ioctl JWT Auth Tokens](https://docs.iotex.io/depin/builders/reference-docs/ioctl-client/jwt-auth-tokens) for details.
 
 ```shell
 ioctl jwt sign --with-arguments '{"exp":"1767024000","sub":"AnalyserAPI","scope":"Read"}' -s user
@@ -464,6 +464,491 @@ query{
 | ----- | ---- | ----- | ----------- |
 | blockSize | [double](#double) |  | size |
 | serverVersion | [string](#string) |  | version |
+
+
+## GetLatestBlockHeight
+
+GetLatestBlockHeight returns the latest block height.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetLatestBlockHeight \
+  --header 'Content-Type: application/json' \
+  --data '{}'
+```
+
+```graphql
+query {
+  GetLatestBlockHeight {
+    height
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetLatestBlockHeight": {
+      "height": 19000000
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetLatestBlockHeight`
+
+<a name="api-GetLatestBlockHeightRequest"></a>
+
+### GetLatestBlockHeightRequest
+
+(no fields)
+
+<a name="api-GetLatestBlockHeightResponse"></a>
+
+### GetLatestBlockHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | latest block height |
+
+## GetBlocks
+
+GetBlocks returns a paginated list of blocks. Use `before_height` as a cursor for client-controlled pagination.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetBlocks \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "page": 1,
+  "limit": 10
+}'
+```
+
+```graphql
+query {
+  GetBlocks(page: 1, limit: 10) {
+    blocks {
+      block_height
+      block_hash
+      producer_address
+      num_actions
+      timestamp
+      gas_consumed
+      producer_name
+      block_reward
+      epoch_num
+      priority_bonus
+      base_fee
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetBlocks": {
+      "blocks": [
+        {
+          "base_fee": "1000000000",
+          "block_hash": "abc123...",
+          "block_height": 19000000,
+          "block_reward": "900000000000000000",
+          "epoch_num": 28900,
+          "gas_consumed": 21000,
+          "num_actions": 3,
+          "priority_bonus": "0",
+          "producer_address": "io1...",
+          "producer_name": "iotexlab",
+          "timestamp": 1714000000
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetBlocks`
+
+<a name="api-GetBlocksRequest"></a>
+
+### GetBlocksRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page | [uint64](#uint64) |  | page number (starts from 1); ignored when before_height > 0 |
+| limit | [uint64](#uint64) |  | number of blocks per page |
+| before_height | [uint64](#uint64) |  | cursor: return blocks with height <= before_height (0 = use page) |
+
+<a name="api-GetBlocksResponse"></a>
+
+### GetBlocksResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| blocks | [BlockInfo](#api-BlockInfo) | repeated | list of blocks |
+
+<a name="api-BlockInfo"></a>
+
+### BlockInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| block_height | [uint64](#uint64) |  | block height |
+| block_hash | [string](#string) |  | block hash |
+| producer_address | [string](#string) |  | producer address |
+| num_actions | [uint64](#uint64) |  | number of actions |
+| timestamp | [int64](#int64) |  | block timestamp (unix) |
+| gas_consumed | [uint64](#uint64) |  | gas consumed |
+| producer_name | [string](#string) |  | producer name |
+| block_reward | [string](#string) |  | block reward |
+| epoch_num | [uint64](#uint64) |  | epoch number |
+| priority_bonus | [string](#string) |  | priority bonus |
+| base_fee | [string](#string) |  | base fee |
+
+## GetBlockByHeight
+
+GetBlockByHeight returns a single block by its height.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetBlockByHeight \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "height": 19000000
+}'
+```
+
+```graphql
+query {
+  GetBlockByHeight(height: 19000000) {
+    exist
+    block {
+      block_height
+      block_hash
+      producer_name
+      num_actions
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetBlockByHeight": {
+      "exist": true,
+      "block": {
+        "block_height": 19000000,
+        "block_hash": "abc123...",
+        "producer_name": "iotexlab",
+        "num_actions": 3,
+        "timestamp": 1714000000
+      }
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetBlockByHeight`
+
+<a name="api-GetBlockByHeightRequest"></a>
+
+### GetBlockByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+
+<a name="api-GetBlockByHeightResponse"></a>
+
+### GetBlockByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the block exists |
+| block | [BlockInfo](#api-BlockInfo) |  | block information |
+
+## GetEpochInfo
+
+GetEpochInfo returns the current epoch number and its starting block height.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetEpochInfo \
+  --header 'Content-Type: application/json' \
+  --data '{}'
+```
+
+> Example response:
+
+```json
+{
+  "epoch_height": 18980001,
+  "epoch_num": 28884
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetEpochInfo`
+
+<a name="api-GetEpochInfoRequest"></a>
+
+### GetEpochInfoRequest
+
+(no fields)
+
+<a name="api-GetEpochInfoResponse"></a>
+
+### GetEpochInfoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epoch_height | [uint64](#uint64) |  | first block height of the current epoch |
+| epoch_num | [uint64](#uint64) |  | current epoch number |
+
+## GetLatestStakingRecord
+
+GetLatestStakingRecord returns the most recent staking statistics.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetLatestStakingRecord \
+  --header 'Content-Type: application/json' \
+  --data '{}'
+```
+
+> Example response:
+
+```json
+{
+  "total_supply": "9457829326969999922855499899",
+  "all_staking": "3743652944403254009755212860",
+  "staking_ratio": "0.3959"
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetLatestStakingRecord`
+
+<a name="api-GetLatestStakingRecordRequest"></a>
+
+### GetLatestStakingRecordRequest
+
+(no fields)
+
+<a name="api-GetLatestStakingRecordResponse"></a>
+
+### GetLatestStakingRecordResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| total_supply | [string](#string) |  | total supply |
+| all_staking | [string](#string) |  | total staked IOTX (in rau) |
+| staking_ratio | [string](#string) |  | staking ratio (decimal string) |
+
+## GetPeakTps
+
+GetPeakTps returns the all-time peak TPS (max block action count / 5-second block time). Supports incremental cursor-based scanning.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetPeakTps \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "start_block_height": 0
+}'
+```
+
+> Example response:
+
+```json
+{
+  "num_actions": "42.60",
+  "block_height": 19000000
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetPeakTps`
+
+<a name="api-GetPeakTpsRequest"></a>
+
+### GetPeakTpsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start_block_height | [uint64](#uint64) |  | 0 = scan all blocks; > 0 = only look at blocks after this height (cursor for incremental updates) |
+
+<a name="api-GetPeakTpsResponse"></a>
+
+### GetPeakTpsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| num_actions | [string](#string) |  | peak TPS (max block actions / 5), rounded to 2 decimal places |
+| block_height | [uint64](#uint64) |  | current max block height (cursor for next call) |
+
+## GetActionHistory
+
+GetActionHistory returns aggregated action counts bucketed by time interval.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetActionHistory \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "start_time": "2024-01-01 00:00:00",
+  "end_time": "2024-01-02 00:00:00",
+  "interval": "hour"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "data": [
+    { "date": "2024-01-01 00:00:00", "sum": 1234 },
+    { "date": "2024-01-01 01:00:00", "sum": 987 }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetActionHistory`
+
+<a name="api-GetActionHistoryRequest"></a>
+
+### GetActionHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start_time | [string](#string) |  | UTC datetime string (e.g. "2024-01-01 00:00:00") |
+| end_time | [string](#string) |  | UTC datetime string |
+| interval | [string](#string) |  | bucket size: "minute", "hour", or "day" |
+
+<a name="api-GetActionHistoryResponse"></a>
+
+### GetActionHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [ActionHistoryPoint](#api-ActionHistoryPoint) | repeated | list of time-bucketed action counts |
+
+<a name="api-ActionHistoryPoint"></a>
+
+### ActionHistoryPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date | [string](#string) |  | UTC datetime string |
+| sum | [uint64](#uint64) |  | total actions in bucket |
+
+## GetStakingRatioHistory
+
+GetStakingRatioHistory returns the daily staking ratio over a time range.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetStakingRatioHistory \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "start_time": "2024-01-01",
+  "end_time": "2024-01-31"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "data": [
+    { "date_time": "2024-01-01", "ratio": "0.3959" },
+    { "date_time": "2024-01-02", "ratio": "0.3961" }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetStakingRatioHistory`
+
+<a name="api-GetStakingRatioHistoryRequest"></a>
+
+### GetStakingRatioHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start_time | [string](#string) |  | optional start date (YYYY-MM-DD) |
+| end_time | [string](#string) |  | optional end date (YYYY-MM-DD) |
+
+<a name="api-GetStakingRatioHistoryResponse"></a>
+
+### GetStakingRatioHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [StakingRatioPoint](#api-StakingRatioPoint) | repeated | list of daily staking ratio data points |
+
+<a name="api-StakingRatioPoint"></a>
+
+### StakingRatioPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date_time | [string](#string) |  | date |
+| ratio | [string](#string) |  | staking ratio (decimal string) |
 
 # Delegate Service API
 
@@ -1054,6 +1539,94 @@ query {
 
 
 
+
+## PaidToDelegates
+
+PaidToDelegates returns the total reward amounts paid to each delegate for a given schedule (daily or monthly) and date.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.DelegateService.PaidToDelegates \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "schedule": "DAILY",
+  "date": "2024-01-15"
+}'
+```
+
+```graphql
+query {
+  PaidToDelegates(schedule: DAILY, date: "2024-01-15") {
+    delegateInfo {
+      delegateName
+      amount
+      blockReward
+      epochReward
+      foundationBonus
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "PaidToDelegates": {
+      "delegateInfo": [
+        {
+          "delegateName": "iotexlab",
+          "amount": "12000000000000000000",
+          "blockReward": "4000000000000000000",
+          "epochReward": "6000000000000000000",
+          "foundationBonus": "2000000000000000000"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.DelegateService.PaidToDelegates`
+
+<a name="api-PaidToDelegatesRequest"></a>
+
+### PaidToDelegatesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| schedule | [PaidToDelegatesRequest.Schedule](#api-PaidToDelegatesRequest-Schedule) |  | MONTHLY (0) or DAILY (1) |
+| date | [string](#string) |  | date string (YYYY-MM-DD) |
+
+<a name="api-PaidToDelegatesResponse"></a>
+
+### PaidToDelegatesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateInfo | [PaidToDelegatesResponse.DelegateInfo](#api-PaidToDelegatesResponse-DelegateInfo) | repeated | list of delegate reward info |
+
+<a name="api-PaidToDelegatesResponse-DelegateInfo"></a>
+
+### PaidToDelegatesResponse.DelegateInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| amount | [string](#string) |  | total reward amount |
+| blockReward | [string](#string) |  | block reward portion |
+| epochReward | [string](#string) |  | epoch reward portion |
+| foundationBonus | [string](#string) |  | foundation bonus portion |
+
 # Account Service API
 
 ## IotexBalanceByHeight
@@ -1558,6 +2131,462 @@ query {
 
 
 
+
+## Erc20TokenBalanceByHeight
+
+Erc20TokenBalanceByHeight returns the ERC20 token balance of given addresses at a specific block height.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.Erc20TokenBalanceByHeight \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": ["io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"],
+  "height": 19000000,
+  "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw"
+}'
+```
+
+```graphql
+query {
+  Erc20TokenBalanceByHeight(
+    address: ["io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"]
+    height: 19000000
+    contract_address: "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw"
+  ) {
+    height
+    contract_address
+    balance
+    decimals
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "Erc20TokenBalanceByHeight": {
+      "height": 19000000,
+      "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+      "balance": ["1000000000000000000"],
+      "decimals": 18
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.Erc20TokenBalanceByHeight`
+
+<a name="api-Erc20TokenBalanceByHeightRequest"></a>
+
+### Erc20TokenBalanceByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) | repeated | list of addresses |
+| height | [uint64](#uint64) |  | block height |
+| contract_address | [string](#string) |  | ERC20 contract address |
+
+<a name="api-Erc20TokenBalanceByHeightResponse"></a>
+
+### Erc20TokenBalanceByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+| contract_address | [string](#string) |  | ERC20 contract address |
+| balance | [string](#string) | repeated | balance list (in token units) |
+| decimals | [uint64](#uint64) |  | token decimals |
+
+## GetAccountMeta
+
+GetAccountMeta returns account metadata including whether the address is a contract and its bytecode hash.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.GetAccountMeta \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "addresses": ["io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"]
+}'
+```
+
+> Example response:
+
+```json
+{
+  "accounts": [
+    {
+      "address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4",
+      "is_contract": false,
+      "block_height": 0,
+      "contract_bytecode_hash": ""
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.GetAccountMeta`
+
+<a name="api-GetAccountMetaRequest"></a>
+
+### GetAccountMetaRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| addresses | [string](#string) | repeated | list of addresses to query |
+
+<a name="api-GetAccountMetaResponse"></a>
+
+### GetAccountMetaResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| accounts | [AccountMetaInfo](#api-AccountMetaInfo) | repeated | list of account metadata |
+
+<a name="api-AccountMetaInfo"></a>
+
+### AccountMetaInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | account address |
+| is_contract | [bool](#bool) |  | whether the address is a contract |
+| block_height | [uint64](#uint64) |  | block height at contract creation (0 for non-contracts) |
+| contract_bytecode_hash | [string](#string) |  | SHA256 hash of contract bytecode |
+
+## GetContractCreateInfo
+
+GetContractCreateInfo returns the creation action hash and creator address for a given contract.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.GetContractCreateInfo \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "action_hash": "abc123...",
+  "creator": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.GetContractCreateInfo`
+
+<a name="api-GetContractCreateInfoRequest"></a>
+
+### GetContractCreateInfoRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | contract address |
+
+<a name="api-GetContractCreateInfoResponse"></a>
+
+### GetContractCreateInfoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| action_hash | [string](#string) |  | creation action hash |
+| creator | [string](#string) |  | creator address |
+
+## GetAddressNFTBalances
+
+GetAddressNFTBalances returns the NFT (XRC721/XRC1155) token balances held by an address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.GetAddressNFTBalances \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "balances": [
+    {
+      "contract_address": "io1nft...",
+      "type": "xrc721",
+      "balance": "3"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.GetAddressNFTBalances`
+
+<a name="api-GetAddressNFTBalancesRequest"></a>
+
+### GetAddressNFTBalancesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | wallet address |
+
+<a name="api-GetAddressNFTBalancesResponse"></a>
+
+### GetAddressNFTBalancesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| balances | [NFTBalanceInfo](#api-NFTBalanceInfo) | repeated | list of NFT balances per contract |
+
+<a name="api-NFTBalanceInfo"></a>
+
+### NFTBalanceInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contract_address | [string](#string) |  | NFT contract address |
+| type | [string](#string) |  | token standard: "xrc721" or "xrc1155" |
+| balance | [string](#string) |  | balance |
+
+## GetAddressTokenBalances
+
+GetAddressTokenBalances returns the ERC20 token balances held by an address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.GetAddressTokenBalances \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "balances": [
+    {
+      "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+      "balance": "1000000000000000000"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.GetAddressTokenBalances`
+
+<a name="api-GetAddressTokenBalancesRequest"></a>
+
+### GetAddressTokenBalancesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | wallet address |
+
+<a name="api-GetAddressTokenBalancesResponse"></a>
+
+### GetAddressTokenBalancesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| balances | [TokenBalanceInfo](#api-TokenBalanceInfo) | repeated | list of ERC20 token balances |
+
+<a name="api-TokenBalanceInfo"></a>
+
+### TokenBalanceInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contract_address | [string](#string) |  | ERC20 contract address |
+| balance | [string](#string) |  | balance (in raw units) |
+
+## GetTopAccounts
+
+GetTopAccounts returns top stakers filtered by stake amount, duration, and mf (momentum factor).
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.GetTopAccounts \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "pagination": { "skip": 0, "first": 10 },
+  "stake_amount": "more",
+  "stake_duration": "more"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "count": 1234,
+  "accounts": [
+    {
+      "owner_address": "io1...",
+      "bucket_id": 1001,
+      "staked_amount": "10000000000000000000000",
+      "duration": "91 days",
+      "mf": "1.00",
+      "last_update": "2024-01-15",
+      "balance": "50000000000000000000000"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.GetTopAccounts`
+
+<a name="api-GetTopAccountsRequest"></a>
+
+### GetTopAccountsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+| stake_amount | [string](#string) |  | "more" (>= 10000 IOTX) or "less" |
+| stake_duration | [string](#string) |  | "more" (>= 91 days) or "less" |
+| mf | [string](#string) |  | "hold" (mf > 0) or "" (mf = 0) |
+
+<a name="api-GetTopAccountsResponse"></a>
+
+### GetTopAccountsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [int64](#int64) |  | total number of matching accounts |
+| accounts | [TopAccountRow](#api-TopAccountRow) | repeated | list of top accounts |
+
+<a name="api-TopAccountRow"></a>
+
+### TopAccountRow
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| owner_address | [string](#string) |  | account address |
+| bucket_id | [uint64](#uint64) |  | staking bucket ID |
+| staked_amount | [string](#string) |  | staked amount |
+| duration | [string](#string) |  | stake duration |
+| mf | [string](#string) |  | momentum factor |
+| last_update | [string](#string) |  | last update time |
+| balance | [string](#string) |  | IOTX balance |
+
+## GetTopAccountsByBalance
+
+GetTopAccountsByBalance returns the top accounts ranked by IOTX net balance (inflow minus outflow).
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.AccountService.GetTopAccountsByBalance \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "limit": 10,
+  "offset": 0
+}'
+```
+
+> Example response:
+
+```json
+{
+  "count": 5000,
+  "accounts": [
+    {
+      "address": "io1...",
+      "balance": "123456789000000000000000",
+      "total_actions": 500
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.AccountService.GetTopAccountsByBalance`
+
+<a name="api-GetTopAccountsByBalanceRequest"></a>
+
+### GetTopAccountsByBalanceRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| limit | [int64](#int64) |  | number of records to return |
+| offset | [int64](#int64) |  | starting offset |
+
+<a name="api-GetTopAccountsByBalanceResponse"></a>
+
+### GetTopAccountsByBalanceResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [int64](#int64) |  | total number of accounts |
+| accounts | [AccountBalanceRow](#api-AccountBalanceRow) | repeated | list of accounts |
+
+<a name="api-AccountBalanceRow"></a>
+
+### AccountBalanceRow
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | account address |
+| balance | [string](#string) |  | net balance (inflow - outflow) in rau |
+| total_actions | [int64](#int64) |  | total number of actions |
+
 # Voting Service API
 
 ## CandidateInfo
@@ -1905,6 +2934,98 @@ query {
 | votedTokens | [string](#string) |  | total voted tokens in the epoch |
 
 
+
+## GetCurrentDelegates
+
+GetCurrentDelegates returns the current delegate list ordered by vote weight.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.VotingService.GetCurrentDelegates \
+  --header 'Content-Type: application/json' \
+  --data '{}'
+```
+
+```graphql
+query {
+  GetCurrentDelegates {
+    exist
+    delegates {
+      id
+      name
+      vote_weight
+      productivity
+      candidate
+      operator_address
+      active
+      block_height
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetCurrentDelegates": {
+      "exist": true,
+      "delegates": [
+        {
+          "id": 1,
+          "name": "iotexlab",
+          "vote_weight": "3079386720450377171762829252",
+          "productivity": 0.9998,
+          "candidate": "io1...",
+          "operator_address": "io1...",
+          "active": true,
+          "block_height": 19000000
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.VotingService.GetCurrentDelegates`
+
+<a name="api-GetCurrentDelegatesRequest"></a>
+
+### GetCurrentDelegatesRequest
+
+(no fields)
+
+<a name="api-GetCurrentDelegatesResponse"></a>
+
+### GetCurrentDelegatesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether delegates exist |
+| delegates | [CurrentDelegateInfo](#api-CurrentDelegateInfo) | repeated | list of current delegates |
+
+<a name="api-CurrentDelegateInfo"></a>
+
+### CurrentDelegateInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [uint64](#uint64) |  | internal id |
+| name | [string](#string) |  | delegate name |
+| vote_weight | [string](#string) |  | total vote weight |
+| productivity | [double](#double) |  | block production productivity |
+| candidate | [string](#string) |  | candidate address |
+| operator_address | [string](#string) |  | operator address |
+| active | [bool](#bool) |  | whether currently active |
+| block_height | [uint64](#uint64) |  | block height of last update |
+
 # Action Service API
 
 ## ActionByDates
@@ -2031,17 +3152,27 @@ query {
 | timestamp | [uint64](#uint64) |  | unix timestamp |
 | gasFee | [string](#string) |  | gas fee |
 | blkHeight | [uint64](#uint64) |  | block height |
+| gasPrice | [string](#string) |  | gas price |
+| gasLimit | [uint64](#uint64) |  | gas limit |
+| gasConsumed | [uint64](#uint64) |  | gas consumed |
+| nonce | [uint64](#uint64) |  | nonce |
+| status | [uint64](#uint64) |  | execution status |
+| contractAddress | [string](#string) |  | contract address |
+| executionRevertMsg | [string](#string) |  | execution revert message |
+| chainId | [uint64](#uint64) |  | chain id |
+| methodName | [string](#string) |  | method name |
 
 ## ActionByHash
 
-ActionByHash finds actions by hash
+ActionByHash finds actions by hash. Use the optional `include_fields` parameter to request additional data (each field triggers a separate DB query).
 
 ```shell
 curl --request POST \
   --url https://analyser-api.iotex.io/api.ActionService.ActionByHash \
   --header 'Content-Type: application/json' \
   --data '{
-    "actHash": "160a75d845c5ef35e6b2e697dc752066ee7a0dacf750c8c1a6a187090dd3df9f"
+    "actHash": "160a75d845c5ef35e6b2e697dc752066ee7a0dacf750c8c1a6a187090dd3df9f",
+    "include_fields": ["action_type", "logs", "token_transfers"]
 }'
 ```
 
@@ -2049,6 +3180,7 @@ curl --request POST \
 query {
   ActionByHash(
     actHash: "160a75d845c5ef35e6b2e697dc752066ee7a0dacf750c8c1a6a187090dd3df9f"
+    include_fields: ["action_type", "logs", "token_transfers"]
   ) {
     actionInfo {
       actHash
@@ -2060,11 +3192,37 @@ query {
       amount
       gasFee
       blkHeight
+      methodName
     }
     evmTransfers {
       sender
       recipient
       amount
+    }
+    action_type_info {
+      type
+      gas_tip_cap
+      gas_fee_cap
+    }
+    logs {
+      block_height
+      address
+      topic0
+      data
+    }
+    token_transfers {
+      contract_address
+      sender
+      recipient
+      amount
+      type
+    }
+    block_base_fee
+    stake_action {
+      bucket_id
+      amount
+      candidate
+      act_type
     }
   }
 }
@@ -2118,6 +3276,7 @@ query {
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | actHash | [string](#string) |  | action hash |
+| include_fields | [string](#string) | repeated | optional subset of extra fields to fetch: `action_type`, `input_data`, `logs`, `token_transfers`, `base_fee`, `stake_action`; empty = none |
 
 
 
@@ -2132,9 +3291,15 @@ query {
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| exist | [bool](#bool) |  | whether actions exist within the time frame |
+| exist | [bool](#bool) |  | whether action exists |
 | actionInfo | [ActionInfo](#api-ActionInfo) |  |  |
 | evmTransfers | [ActionByHashResponse.EvmTransfers](#api-ActionByHashResponse-EvmTransfers) | repeated |  |
+| action_type_info | [ActionByHashResponse.ActionTypeInfo](#api-ActionByHashResponse-ActionTypeInfo) |  | EIP-2930/1559/4844 type info (requires `action_type` in include_fields) |
+| input_data | [string](#string) |  | hex-encoded execution input data (requires `input_data` in include_fields) |
+| logs | [ActionByHashResponse.ActionLog](#api-ActionByHashResponse-ActionLog) | repeated | transaction logs (requires `logs` in include_fields) |
+| token_transfers | [ActionByHashResponse.TokenTransfer](#api-ActionByHashResponse-TokenTransfer) | repeated | ERC20/NFT token transfers (requires `token_transfers` in include_fields) |
+| block_base_fee | [string](#string) |  | block base fee in rau (requires `base_fee` in include_fields) |
+| stake_action | [ActionByHashResponse.StakeAction](#api-ActionByHashResponse-StakeAction) |  | staking action details (requires `stake_action` in include_fields) |
 
 
 
@@ -2152,6 +3317,73 @@ query {
 | sender | [string](#string) |  | sender address |
 | recipient | [string](#string) |  | recipient address |
 | amount | [string](#string) |  | amount transferred |
+
+<a name="api-ActionByHashResponse-ActionTypeInfo"></a>
+
+### ActionByHashResponse.ActionTypeInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [string](#string) |  | transaction type |
+| access_list | [string](#string) |  | EIP-2930 access list (JSON) |
+| gas_tip_cap | [string](#string) |  | EIP-1559 gas tip cap |
+| gas_fee_cap | [string](#string) |  | EIP-1559 gas fee cap |
+| blob_gas | [string](#string) |  | EIP-4844 blob gas |
+| blob_fee_cap | [string](#string) |  | EIP-4844 blob fee cap |
+| blob_hashes | [string](#string) |  | EIP-4844 blob hashes |
+| blob_gas_price | [string](#string) |  | EIP-4844 blob gas price |
+
+<a name="api-ActionByHashResponse-ActionLog"></a>
+
+### ActionByHashResponse.ActionLog
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| block_height | [uint64](#uint64) |  | block height |
+| address | [string](#string) |  | contract address emitting the log |
+| topic0 | [string](#string) |  | first log topic |
+| topic1 | [string](#string) |  | second log topic |
+| topic2 | [string](#string) |  | third log topic |
+| topic3 | [string](#string) |  | fourth log topic |
+| data | [bytes](#bytes) |  | raw log data (base64-encoded in JSON) |
+| action_hash | [string](#string) |  | action hash |
+| index | [int64](#int64) |  | log index in block |
+
+<a name="api-ActionByHashResponse-TokenTransfer"></a>
+
+### ActionByHashResponse.TokenTransfer
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  | record id |
+| contract_address | [string](#string) |  | token contract address |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| amount | [string](#string) |  | token amount |
+| type | [string](#string) |  | transfer type: "erc20" or "nft" |
+
+<a name="api-ActionByHashResponse-StakeAction"></a>
+
+### ActionByHashResponse.StakeAction
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucket_id | [int64](#int64) |  | staking bucket ID |
+| amount | [string](#string) |  | action amount |
+| staked_amount | [string](#string) |  | staked amount in bucket |
+| duration | [string](#string) |  | stake duration |
+| auto_stake | [bool](#bool) |  | whether auto-stake is enabled |
+| candidate | [string](#string) |  | candidate name |
+| act_type | [string](#string) |  | stake action type |
+| owner_address | [string](#string) |  | bucket owner address |
 
 ## ActionByAddress
 
@@ -2232,6 +3464,11 @@ query {
 | ----- | ---- | ----- | ----------- |
 | address | [string](#string) |  | sender address or recipient address |
 | pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+| sender | [string](#string) |  | optional: filter by sender address |
+| recipient | [string](#string) |  | optional: filter by recipient address |
+| actionType | [string](#string) |  | optional: filter by action type |
+| startTime | [string](#string) |  | optional: start time filter (ISO 8601) |
+| endTime | [string](#string) |  | optional: end time filter (ISO 8601) |
 
 
 
@@ -2464,6 +3701,547 @@ query {
 | blkHeight | [uint64](#uint64) |  | block height |
 | timestamp | [uint64](#uint64) |  | unix timestamp |
 
+
+## ActionByVoter
+
+ActionByVoter returns actions by voter address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ActionByVoter \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz",
+  "pagination": { "skip": 0, "first": 10 }
+}'
+```
+
+```graphql
+query {
+  ActionByVoter(
+    address: "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz"
+    pagination: { skip: 0, first: 10 }
+  ) {
+    exist
+    count
+    actionList {
+      actHash
+      actType
+      amount
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActionByVoter": {
+      "exist": true,
+      "count": 42,
+      "actionList": [
+        {
+          "actHash": "abc123...",
+          "actType": "stakeCreate",
+          "amount": "100000000000000000000",
+          "timestamp": 1714000000
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ActionByVoter`
+
+<a name="api-ActionByVoterRequest"></a>
+
+### ActionRequest (ActionByVoter)
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | voter address |
+| actHash | [string](#string) |  | action hash (optional) |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+
+<a name="api-ActionByVoterResponse"></a>
+
+### ActionResponse (ActionByVoter)
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist |
+| count | [uint64](#uint64) |  | total number of actions |
+| actionList | [ActionInfo](#api-ActionInfo) | repeated | list of actions |
+| evmTransferList | [EvmTransferInfo](#api-EvmTransferInfo) | repeated | list of EVM transfers |
+| xrcList | [XrcInfo](#api-XrcInfo) | repeated | list of XRC20 transfers |
+
+## GetXrc20ByAddress
+
+GetXrc20ByAddress returns XRC20 transfers by address (ActionService version).
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.GetXrc20ByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz",
+  "pagination": { "skip": 0, "first": 10 }
+}'
+```
+
+```graphql
+query {
+  GetXrc20ByAddress(
+    address: "io19msajm9hv4u793jvnwcy23plkwzffywjh257sz"
+    pagination: { skip: 0, first: 10 }
+  ) {
+    exist
+    count
+    xrcList {
+      actHash
+      from
+      to
+      quantity
+      timestamp
+      contract
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetXrc20ByAddress": {
+      "exist": true,
+      "count": 25,
+      "xrcList": [
+        {
+          "actHash": "abc123...",
+          "from": "io1...",
+          "to": "io1...",
+          "quantity": "1000000000000000000",
+          "timestamp": 1714000000,
+          "contract": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.GetXrc20ByAddress`
+
+<a name="api-XrcInfo"></a>
+
+### XrcInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| from | [string](#string) |  | sender address |
+| to | [string](#string) |  | recipient address |
+| quantity | [string](#string) |  | token amount |
+| blkHeight | [uint64](#uint64) |  | block height |
+| timestamp | [uint64](#uint64) |  | unix timestamp |
+| contract | [string](#string) |  | token contract address |
+
+## ActionList
+
+ActionList returns the latest actions with pagination. Use `start_block_height` to enable PostgreSQL partition pruning for faster queries.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ActionList \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "pagination": { "skip": 0, "first": 20 },
+  "start_block_height": 18000000
+}'
+```
+
+```graphql
+query {
+  ActionList(
+    pagination: { skip: 0, first: 20 }
+    start_block_height: 18000000
+  ) {
+    exist
+    count
+    actions {
+      actHash
+      actType
+      sender
+      recipient
+      amount
+      blkHeight
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActionList": {
+      "exist": true,
+      "count": 1000000,
+      "actions": [
+        {
+          "actHash": "abc123...",
+          "actType": "transfer",
+          "sender": "io1...",
+          "recipient": "io1...",
+          "amount": "1000000000000000000",
+          "blkHeight": 19000000,
+          "timestamp": 1714000000
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ActionList`
+
+<a name="api-ActionListRequest"></a>
+
+### ActionListRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+| start_block_height | [uint64](#uint64) |  | optional: enables partition pruning for queries starting at this block height |
+
+<a name="api-ActionListResponse"></a>
+
+### ActionListResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist |
+| count | [uint64](#uint64) |  | total number of actions |
+| actions | [ActionInfo](#api-ActionInfo) | repeated | list of actions |
+
+## ActionByHeight
+
+ActionByHeight returns actions at a specific block height.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ActionByHeight \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "height": 19000000,
+  "pagination": { "skip": 0, "first": 50 }
+}'
+```
+
+```graphql
+query {
+  ActionByHeight(height: 19000000, pagination: { skip: 0, first: 50 }) {
+    exist
+    count
+    actions {
+      actHash
+      actType
+      sender
+      recipient
+      amount
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ActionByHeight": {
+      "exist": true,
+      "count": 3,
+      "actions": [
+        {
+          "actHash": "abc123...",
+          "actType": "transfer",
+          "sender": "io1...",
+          "recipient": "io1...",
+          "amount": "1000000000000000000"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ActionByHeight`
+
+<a name="api-ActionByHeightRequest"></a>
+
+### ActionByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+
+<a name="api-ActionByHeightResponse"></a>
+
+### ActionByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether actions exist at this height |
+| count | [uint64](#uint64) |  | total number of actions |
+| actions | [ActionInfo](#api-ActionInfo) | repeated | list of actions |
+
+## ContractInteractors
+
+ContractInteractors returns the distinct sender addresses that have interacted with a given contract, optionally filtered by start time.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.ContractInteractors \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+  "startTime": "2024-01-01T00:00:00Z"
+}'
+```
+
+```graphql
+query {
+  ContractInteractors(
+    address: "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw"
+    startTime: "2024-01-01T00:00:00Z"
+  ) {
+    senders
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "ContractInteractors": {
+      "senders": [
+        "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4",
+        "io1..."
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.ContractInteractors`
+
+<a name="api-ContractInteractorsRequest"></a>
+
+### ContractInteractorsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | contract address |
+| startTime | [string](#string) |  | optional: filter interactions after this time (ISO 8601) |
+
+<a name="api-ContractInteractorsResponse"></a>
+
+### ContractInteractorsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| senders | [string](#string) | repeated | list of distinct sender addresses |
+
+## GetInternalTxns
+
+GetInternalTxns returns a paginated list of EVM internal transactions.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.GetInternalTxns \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "pagination": { "skip": 0, "first": 20 }
+}'
+```
+
+> Example response:
+
+```json
+{
+  "txns": [
+    {
+      "id": 1001,
+      "block_height": 19000000,
+      "action_hash": "abc123...",
+      "type": "execution",
+      "amount": "1000000000000000000",
+      "sender": "io1...",
+      "recipient": "io1...",
+      "timestamp": "2024-01-15T10:00:00Z"
+    }
+  ],
+  "count": 5000000
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.GetInternalTxns`
+
+<a name="api-GetInternalTxnsRequest"></a>
+
+### GetInternalTxnsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+
+<a name="api-GetInternalTxnsResponse"></a>
+
+### GetInternalTxnsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| txns | [InternalTxnInfo](#api-InternalTxnInfo) | repeated | list of internal transactions |
+| count | [uint64](#uint64) |  | total number of internal transactions |
+
+<a name="api-InternalTxnInfo"></a>
+
+### InternalTxnInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  | record id |
+| block_height | [uint64](#uint64) |  | block height |
+| action_hash | [string](#string) |  | action hash |
+| type | [string](#string) |  | transaction type |
+| amount | [string](#string) |  | transfer amount |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| timestamp | [string](#string) |  | timestamp |
+
+## GetStakingActionsByAddress
+
+GetStakingActionsByAddress returns paginated staking actions for a given owner address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionService.GetStakingActionsByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "owner_address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4",
+  "pagination": { "skip": 0, "first": 20 }
+}'
+```
+
+> Example response:
+
+```json
+{
+  "actions": [
+    {
+      "id": 1,
+      "block_height": 19000000,
+      "action_hash": "abc123...",
+      "sender": "io1...",
+      "amount": "10000000000000000000000",
+      "action_type": "stakeCreate",
+      "timestamp": "2024-01-15T10:00:00Z"
+    }
+  ],
+  "count": 50
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionService.GetStakingActionsByAddress`
+
+<a name="api-GetStakingActionsByAddressRequest"></a>
+
+### GetStakingActionsByAddressRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| owner_address | [string](#string) |  | bucket owner address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+
+<a name="api-GetStakingActionsByAddressResponse"></a>
+
+### GetStakingActionsByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actions | [StakingActionInfo](#api-StakingActionInfo) | repeated | list of staking actions |
+| count | [uint64](#uint64) |  | total number of staking actions |
+
+<a name="api-StakingActionInfo"></a>
+
+### StakingActionInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  | record id |
+| block_height | [uint64](#uint64) |  | block height |
+| action_hash | [string](#string) |  | action hash |
+| sender | [string](#string) |  | sender address |
+| amount | [string](#string) |  | action amount |
+| action_type | [string](#string) |  | staking action type |
+| timestamp | [string](#string) |  | timestamp |
+
 # Staking Service API
 
 ## VoteByHeight
@@ -2655,6 +4433,423 @@ query {
 | stakeStartTime | [uint32](#uint32) |  | staking start time (unix timestamp) |
 | unstakeStartTime | [uint32](#uint32) |  | unstaking start time (unix timestamp, 0 if not unstaking) |
 | blockHeight | [uint64](#uint64) |  | block height of this bucket state |
+
+
+## CandidateVoteByHeight
+
+CandidateVoteByHeight returns the stake amount and voting weight for candidate addresses at a given block height.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.StakingService.CandidateVoteByHeight \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": ["io1..."],
+  "height": 19000000
+}'
+```
+
+```graphql
+query {
+  CandidateVoteByHeight(address: ["io1..."], height: 19000000) {
+    height
+    stakeAmount
+    voteWeight
+    address
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "CandidateVoteByHeight": {
+      "height": 19000000,
+      "stakeAmount": ["10000000000000000000000"],
+      "voteWeight": ["12000000000000000000000"],
+      "address": ["io1..."]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.StakingService.CandidateVoteByHeight`
+
+<a name="api-CandidateVoteByHeightRequest"></a>
+
+### CandidateVoteByHeightRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) | repeated | candidate address list |
+| height | [uint64](#uint64) |  | block height |
+
+<a name="api-CandidateVoteByHeightResponse"></a>
+
+### CandidateVoteByHeightResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| height | [uint64](#uint64) |  | block height |
+| stakeAmount | [string](#string) | repeated | stake amount list |
+| voteWeight | [string](#string) | repeated | vote weight list |
+| address | [string](#string) | repeated | address list |
+
+## GetBucketList
+
+GetBucketList returns a paginated list of staking buckets with sorting and interval filters. Supports multiple bucket versions.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.StakingService.GetBucketList \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "limit": 20,
+  "offset": 0,
+  "sort": "timestamp:desc",
+  "interval": "7D",
+  "version": "native"
+}'
+```
+
+```graphql
+query {
+  GetBucketList(limit: 20, offset: 0, sort: "timestamp:desc", interval: "7D", version: "native") {
+    buckets {
+      bucket_id
+      owner_address
+      candidate
+      staked_amount
+      duration
+      auto_stake
+      timestamp
+    }
+    count
+    group_count
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetBucketList": {
+      "buckets": [
+        {
+          "bucket_id": 1001,
+          "owner_address": "io1...",
+          "candidate": "iotexlab",
+          "staked_amount": "10000000000000000000000",
+          "duration": "91 days",
+          "auto_stake": true,
+          "timestamp": "2024-01-15T10:00:00Z"
+        }
+      ],
+      "count": 5000,
+      "group_count": 5000
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.StakingService.GetBucketList`
+
+<a name="api-GetBucketListRequest"></a>
+
+### GetBucketListRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| limit | [int64](#int64) |  | number of records per page |
+| offset | [int64](#int64) |  | starting offset |
+| sort | [string](#string) |  | sort field and direction (e.g. "timestamp:desc") |
+| interval | [string](#string) |  | time interval filter: "1D", "7D", "30D", "1Y", "ALL" |
+| version | [string](#string) |  | bucket version: "native", "nft_v1", "nft_v2", "nft_v3" |
+
+<a name="api-GetBucketListResponse"></a>
+
+### GetBucketListResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| buckets | [BucketInfoEx](#api-BucketInfoEx) | repeated | list of buckets |
+| count | [int64](#int64) |  | total number of matching buckets |
+| group_count | [int64](#int64) |  | total group count |
+
+<a name="api-BucketInfoEx"></a>
+
+### BucketInfoEx
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucket_id | [int64](#int64) |  | bucket ID |
+| action_hash | [string](#string) |  | creation action hash |
+| timestamp | [string](#string) |  | creation timestamp |
+| create_time | [string](#string) |  | create time |
+| stake_start_time | [string](#string) |  | stake start time |
+| unstake_start_time | [string](#string) |  | unstake start time |
+| amount | [string](#string) |  | action amount |
+| staked_amount | [string](#string) |  | staked amount |
+| act_type | [string](#string) |  | action type |
+| sender | [string](#string) |  | sender address |
+| owner_address | [string](#string) |  | bucket owner address |
+| candidate | [string](#string) |  | candidate name |
+| auto_stake | [bool](#bool) |  | whether auto-stake is enabled |
+| duration | [string](#string) |  | stake duration |
+| gas_price | [string](#string) |  | gas price |
+| gas_limit | [string](#string) |  | gas limit |
+| recipient | [string](#string) |  | recipient address |
+| delegate_name | [string](#string) |  | delegate name |
+
+## GetBucketsByBucketId
+
+GetBucketsByBucketId returns the history of actions for a specific staking bucket ID.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.StakingService.GetBucketsByBucketId \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "bucket_id": 1001,
+  "limit": 20,
+  "offset": 0,
+  "version": "native"
+}'
+```
+
+```graphql
+query {
+  GetBucketsByBucketId(bucket_id: 1001, limit: 20, offset: 0, version: "native") {
+    buckets {
+      bucket_id
+      act_type
+      staked_amount
+      timestamp
+    }
+    count
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetBucketsByBucketId": {
+      "buckets": [
+        {
+          "bucket_id": 1001,
+          "act_type": "stakeCreate",
+          "staked_amount": "10000000000000000000000",
+          "timestamp": "2024-01-15T10:00:00Z"
+        }
+      ],
+      "count": 5
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.StakingService.GetBucketsByBucketId`
+
+<a name="api-GetBucketsByBucketIdRequest"></a>
+
+### GetBucketsByBucketIdRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucket_id | [int64](#int64) |  | staking bucket ID |
+| limit | [int64](#int64) |  | number of records per page |
+| offset | [int64](#int64) |  | starting offset |
+| version | [string](#string) |  | bucket version: "native", "nft_v1", "nft_v2", "nft_v3" |
+
+<a name="api-GetBucketsByBucketIdResponse"></a>
+
+### GetBucketsByBucketIdResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| buckets | [BucketInfoEx](#api-BucketInfoEx) | repeated | list of bucket history records |
+| count | [int64](#int64) |  | total number of records |
+
+## GetBucketByBucketId
+
+GetBucketByBucketId returns the details of a single staking bucket.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.StakingService.GetBucketByBucketId \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "bucket_id": 1001,
+  "version": "native"
+}'
+```
+
+```graphql
+query {
+  GetBucketByBucketId(bucket_id: 1001, version: "native") {
+    exist
+    bucket {
+      bucket_id
+      owner_address
+      candidate
+      staked_amount
+      duration
+      auto_stake
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetBucketByBucketId": {
+      "exist": true,
+      "bucket": {
+        "bucket_id": 1001,
+        "owner_address": "io1...",
+        "candidate": "iotexlab",
+        "staked_amount": "10000000000000000000000",
+        "duration": "91 days",
+        "auto_stake": true
+      }
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.StakingService.GetBucketByBucketId`
+
+<a name="api-GetBucketByBucketIdRequest"></a>
+
+### GetBucketByBucketIdRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bucket_id | [int64](#int64) |  | staking bucket ID |
+| version | [string](#string) |  | bucket version: "native", "nft_v1", "nft_v2", "nft_v3" |
+
+<a name="api-GetBucketByBucketIdResponse"></a>
+
+### GetBucketByBucketIdResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether the bucket exists |
+| bucket | [BucketInfoEx](#api-BucketInfoEx) |  | bucket details |
+
+## GetNativeBuckets
+
+GetNativeBuckets returns a paginated list of native staking buckets.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.StakingService.GetNativeBuckets \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "limit": 20,
+  "offset": 0
+}'
+```
+
+```graphql
+query {
+  GetNativeBuckets(limit: 20, offset: 0) {
+    buckets {
+      bucket_id
+      owner_address
+      candidate
+      staked_amount
+      duration
+      auto_stake
+    }
+    count
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetNativeBuckets": {
+      "buckets": [
+        {
+          "bucket_id": 1001,
+          "owner_address": "io1...",
+          "candidate": "iotexlab",
+          "staked_amount": "10000000000000000000000",
+          "duration": "91 days",
+          "auto_stake": true
+        }
+      ],
+      "count": 50000
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.StakingService.GetNativeBuckets`
+
+<a name="api-GetNativeBucketsRequest"></a>
+
+### GetNativeBucketsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| limit | [int64](#int64) |  | number of records per page |
+| offset | [int64](#int64) |  | starting offset |
+
+<a name="api-GetNativeBucketsResponse"></a>
+
+### GetNativeBucketsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| buckets | [BucketInfoEx](#api-BucketInfoEx) | repeated | list of native buckets |
+| count | [int64](#int64) |  | total number of native buckets |
 
 # XRC20 Service API
 
@@ -3109,6 +5304,199 @@ query {
 | count | [uint64](#uint64) |  | total number of token holder addresses |
 | addresses | [string](#string) | repeated |  |
 
+
+## GetXRC20TransfersByContract
+
+GetXRC20TransfersByContract returns ERC20 transfers for a given contract, with optional sender/recipient filter.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.GetXRC20TransfersByContract \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+  "pagination": { "skip": 0, "first": 20 }
+}'
+```
+
+> Example response:
+
+```json
+{
+  "exist": true,
+  "count": 1000,
+  "transfers": [
+    {
+      "id": 1,
+      "block_height": 19000000,
+      "action_hash": "abc123...",
+      "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+      "amount": "1000000000000000000",
+      "sender": "io1...",
+      "recipient": "io1...",
+      "timestamp": "2024-01-15T10:00:00Z"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.GetXRC20TransfersByContract`
+
+<a name="api-GetXRC20TransfersByContractRequest"></a>
+
+### GetXRC20TransfersByContractRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contract_address | [string](#string) |  | ERC20 contract address |
+| address | [string](#string) |  | optional: filter by sender or recipient address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+
+<a name="api-GetXRC20TransfersByContractResponse"></a>
+
+### GetXRC20TransfersByContractResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether transfers exist |
+| count | [int64](#int64) |  | total number of transfers |
+| transfers | [XRC20TransferInfo](#api-XRC20TransferInfo) | repeated | list of transfers |
+
+<a name="api-XRC20TransferInfo"></a>
+
+### XRC20TransferInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [uint64](#uint64) |  | record id |
+| block_height | [uint64](#uint64) |  | block height |
+| action_hash | [string](#string) |  | action hash |
+| contract_address | [string](#string) |  | token contract address |
+| amount | [string](#string) |  | transfer amount |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| timestamp | [string](#string) |  | timestamp |
+
+## GetXRC20HoldersByContract
+
+GetXRC20HoldersByContract returns all holders of a given ERC20 token with their balances.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.GetXRC20HoldersByContract \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+  "pagination": { "skip": 0, "first": 20 }
+}'
+```
+
+> Example response:
+
+```json
+{
+  "count": 5000,
+  "holders": [
+    {
+      "address": "io1...",
+      "balance": "1000000000000000000"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.GetXRC20HoldersByContract`
+
+<a name="api-GetXRC20HoldersByContractRequest"></a>
+
+### GetXRC20HoldersByContractRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contract_address | [string](#string) |  | ERC20 contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+
+<a name="api-GetXRC20HoldersByContractResponse"></a>
+
+### GetXRC20HoldersByContractResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [int64](#int64) |  | total number of holders |
+| holders | [XRC20HolderInfo](#api-XRC20HolderInfo) | repeated | list of holders with balances |
+
+<a name="api-XRC20HolderInfo"></a>
+
+### XRC20HolderInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | holder address |
+| balance | [string](#string) |  | token balance |
+
+## GetXRC20TokenBalance
+
+GetXRC20TokenBalance returns the ERC20 token balance for a specific address and contract.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.GetXRC20TokenBalance \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+  "address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "balance": "1000000000000000000"
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.GetXRC20TokenBalance`
+
+<a name="api-GetXRC20TokenBalanceRequest"></a>
+
+### GetXRC20TokenBalanceRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contract_address | [string](#string) |  | ERC20 contract address |
+| address | [string](#string) |  | holder address |
+
+<a name="api-GetXRC20TokenBalanceResponse"></a>
+
+### GetXRC20TokenBalanceResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| balance | [string](#string) |  | token balance (raw units) |
+
 # XRC721 Service API
 
 ## XRC721ByAddress
@@ -3554,6 +5942,156 @@ query {
 | ----- | ---- | ----- | ----------- |
 | count | [uint64](#uint64) |  | total number of token holder addresses |
 | addresses | [string](#string) | repeated |  |
+
+
+## GetNFTTransferList
+
+GetNFTTransferList returns NFT transfers (XRC721 + XRC1155) with optional contract and address filters.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC721Service.GetNFTTransferList \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "pagination": { "skip": 0, "first": 20 },
+  "contract_address": "io1nft..."
+}'
+```
+
+> Example response:
+
+```json
+{
+  "exist": true,
+  "count": 10000,
+  "transfers": [
+    {
+      "id": 1,
+      "type": "xrc721",
+      "block_height": 19000000,
+      "action_hash": "abc123...",
+      "contract_address": "io1nft...",
+      "token_id": "42",
+      "value": "1",
+      "sender": "io1...",
+      "recipient": "io1...",
+      "timestamp": "2024-01-15T10:00:00Z"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC721Service.GetNFTTransferList`
+
+<a name="api-GetNFTTransferListRequest"></a>
+
+### GetNFTTransferListRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+| contract_address | [string](#string) |  | optional: filter by contract address |
+| address | [string](#string) |  | optional: filter by sender, recipient, or token ID |
+
+<a name="api-GetNFTTransferListResponse"></a>
+
+### GetNFTTransferListResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exist | [bool](#bool) |  | whether transfers exist |
+| count | [int64](#int64) |  | total number of transfers |
+| transfers | [NFTTransferInfo](#api-NFTTransferInfo) | repeated | list of NFT transfers |
+
+<a name="api-NFTTransferInfo"></a>
+
+### NFTTransferInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [uint64](#uint64) |  | record id |
+| type | [string](#string) |  | token standard: "xrc721" or "xrc1155" |
+| block_height | [uint64](#uint64) |  | block height |
+| action_hash | [string](#string) |  | action hash |
+| contract_address | [string](#string) |  | NFT contract address |
+| token_id | [string](#string) |  | token ID |
+| value | [string](#string) |  | transfer value (amount for xrc1155) |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| timestamp | [string](#string) |  | timestamp |
+
+## GetNFTHoldersByContract
+
+GetNFTHoldersByContract returns NFT holders for a given contract with their balances.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC721Service.GetNFTHoldersByContract \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "contract_address": "io1nft...",
+  "pagination": { "skip": 0, "first": 20 }
+}'
+```
+
+> Example response:
+
+```json
+{
+  "count": 500,
+  "holders": [
+    {
+      "address": "io1...",
+      "balance": "3"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC721Service.GetNFTHoldersByContract`
+
+<a name="api-GetNFTHoldersByContractRequest"></a>
+
+### GetNFTHoldersByContractRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| contract_address | [string](#string) |  | NFT contract address |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  | pagination info |
+
+<a name="api-GetNFTHoldersByContractResponse"></a>
+
+### GetNFTHoldersByContractResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [int64](#int64) |  | total number of holders |
+| holders | [NFTHolderInfo](#api-NFTHolderInfo) | repeated | list of holders |
+
+<a name="api-NFTHolderInfo"></a>
+
+### NFTHolderInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | holder address |
+| balance | [string](#string) |  | number of NFTs held |
 
 # Hermes Service API
 
@@ -4097,3 +6635,546 @@ query {
 | delegateName | [string](#string) |  | delegate name |
 | rewardDistribution | [string](#string) |  | reward distribution amount on average |
 | totalWeightedVotes | [string](#string) |  | total weighted votes on average |
+
+## HermesBucket
+
+HermesBucket returns bucket-level reward distributions for Hermes delegates, showing per-bucket breakdown.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.HermesService.HermesBucket \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "startEpoch": 20000,
+  "epochCount": 24,
+  "rewardAddress": ["io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"]
+}'
+```
+
+```graphql
+query {
+  HermesBucket(
+    startEpoch: 20000
+    epochCount: 24
+    rewardAddress: ["io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85"]
+  ) {
+    hermesBucketDistribution {
+      delegateName
+      stakingIotexAddress
+      voterCount
+      waiveServiceFee
+      refund
+      bucketRewardDistribution {
+        voterEthAddress
+        voterIotexAddress
+        bucketID
+        amount
+      }
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "HermesBucket": {
+      "hermesBucketDistribution": [
+        {
+          "delegateName": "iotexlab",
+          "stakingIotexAddress": "io1...",
+          "voterCount": 150,
+          "waiveServiceFee": true,
+          "refund": "0",
+          "bucketRewardDistribution": [
+            {
+              "voterEthAddress": "0x...",
+              "voterIotexAddress": "io1...",
+              "bucketID": 1001,
+              "amount": "1000000000000000000"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.HermesService.HermesBucket`
+
+<a name="api-HermesBucketResponse"></a>
+
+### HermesBucketResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| hermesBucketDistribution | [HermesBucketDistribution](#api-HermesBucketDistribution) | repeated | list of bucket reward distributions by delegate |
+
+<a name="api-HermesBucketDistribution"></a>
+
+### HermesBucketDistribution
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| delegateName | [string](#string) |  | delegate name |
+| bucketRewardDistribution | [BucketRewardDistribution](#api-BucketRewardDistribution) | repeated | list of per-bucket reward distributions |
+| stakingIotexAddress | [string](#string) |  | delegate IoTeX staking address |
+| voterCount | [uint64](#uint64) |  | number of voters |
+| waiveServiceFee | [bool](#bool) |  | whether the delegate waives the service fee |
+| refund | [string](#string) |  | refund amount |
+
+<a name="api-BucketRewardDistribution"></a>
+
+### BucketRewardDistribution
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| voterEthAddress | [string](#string) |  | voter's ERC20 address |
+| voterIotexAddress | [string](#string) |  | voter's IoTeX address |
+| bucketID | [uint64](#uint64) |  | staking bucket ID |
+| amount | [string](#string) |  | reward amount |
+
+## HermesDropRecords
+
+HermesDropRecords inserts Hermes drop records for a delegate and epoch.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.HermesService.HermesDropRecords \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "epochNumber": 28884,
+  "delegateName": "iotexlab",
+  "voterAddress": "io1...",
+  "actHash": "abc123...",
+  "bucketID": 1001,
+  "amount": "1000000000000000000"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "success": true
+}
+```
+
+### HTTP Request
+
+`POST /api.HermesService.HermesDropRecords`
+
+<a name="api-HermesDropRecordsRequest"></a>
+
+### HermesDropRecordsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| epochNumber | [uint64](#uint64) |  | end epoch number |
+| delegateName | [string](#string) |  | delegate name |
+| voterAddress | [string](#string) |  | voter address |
+| actHash | [string](#string) |  | action hash |
+| bucketID | [uint64](#uint64) |  | bucket ID |
+| amount | [string](#string) |  | reward amount |
+
+<a name="api-HermesDropRecordsResponse"></a>
+
+### HermesDropRecordsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| success | [bool](#bool) |  | whether drop records were successfully inserted |
+
+# Approval Service API
+
+## GetXRC20Approvals
+
+GetXRC20Approvals returns the ERC20 token approvals made by a given owner address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ApprovalService.GetXRC20Approvals \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "owner_address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+}'
+```
+
+```graphql
+query {
+  GetXRC20Approvals(owner_address: "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4") {
+    approvals {
+      action_hash
+      contract_address
+      owner
+      spender
+      amount
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetXRC20Approvals": {
+      "approvals": [
+        {
+          "action_hash": "abc123...",
+          "contract_address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+          "owner": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4",
+          "spender": "io1...",
+          "amount": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "timestamp": "2024-01-15T10:00:00Z"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ApprovalService.GetXRC20Approvals`
+
+<a name="api-GetXRC20ApprovalsRequest"></a>
+
+### GetXRC20ApprovalsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| owner_address | [string](#string) |  | owner address |
+
+<a name="api-GetXRC20ApprovalsResponse"></a>
+
+### GetXRC20ApprovalsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| approvals | [XRC20ApprovalInfo](#api-XRC20ApprovalInfo) | repeated | list of ERC20 approvals |
+
+<a name="api-XRC20ApprovalInfo"></a>
+
+### XRC20ApprovalInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| action_hash | [string](#string) |  | approval action hash |
+| contract_address | [string](#string) |  | ERC20 contract address |
+| owner | [string](#string) |  | token owner address |
+| spender | [string](#string) |  | approved spender address |
+| amount | [string](#string) |  | approved amount |
+| timestamp | [string](#string) |  | approval timestamp |
+
+## GetXRC721Approvals
+
+GetXRC721Approvals returns the NFT approvals made by a given owner address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ApprovalService.GetXRC721Approvals \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "owner_address": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4"
+}'
+```
+
+```graphql
+query {
+  GetXRC721Approvals(owner_address: "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4") {
+    approvals {
+      action_hash
+      contract_address
+      owner
+      approved
+      token_id
+      timestamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetXRC721Approvals": {
+      "approvals": [
+        {
+          "action_hash": "abc123...",
+          "contract_address": "io1nft...",
+          "owner": "io1x58dug5237g40hrtme7qx4nva9x98ehk4wchz4",
+          "approved": "io1...",
+          "token_id": "42",
+          "timestamp": "2024-01-15T10:00:00Z"
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ApprovalService.GetXRC721Approvals`
+
+<a name="api-GetXRC721ApprovalsRequest"></a>
+
+### GetXRC721ApprovalsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| owner_address | [string](#string) |  | owner address |
+
+<a name="api-GetXRC721ApprovalsResponse"></a>
+
+### GetXRC721ApprovalsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| approvals | [XRC721ApprovalInfo](#api-XRC721ApprovalInfo) | repeated | list of NFT approvals |
+
+<a name="api-XRC721ApprovalInfo"></a>
+
+### XRC721ApprovalInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| action_hash | [string](#string) |  | approval action hash |
+| contract_address | [string](#string) |  | NFT contract address |
+| owner | [string](#string) |  | token owner address |
+| approved | [string](#string) |  | approved operator address |
+| token_id | [string](#string) |  | token ID |
+| timestamp | [string](#string) |  | approval timestamp |
+
+# Actions Service API
+
+## GetEvmTransferDetailListByAddress
+
+GetEvmTransferDetailListByAddress returns a paginated list of EVM transfer details for an address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionsService.GetEvmTransferDetailListByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io14u5d66rt465ykm7t2847qllj0reml27q30kr75",
+  "offset": 0,
+  "size": 10
+}'
+```
+
+```graphql
+query {
+  GetEvmTransferDetailListByAddress(
+    address: "io14u5d66rt465ykm7t2847qllj0reml27q30kr75"
+    offset: 0
+    size: 10
+  ) {
+    count
+    results {
+      actHash
+      blkHeight
+      sender
+      recipient
+      blkHash
+      amount
+      timeStamp
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetEvmTransferDetailListByAddress": {
+      "count": 250,
+      "results": [
+        {
+          "actHash": "abc123...",
+          "blkHeight": 19000000,
+          "sender": "io1...",
+          "recipient": "io1...",
+          "blkHash": "def456...",
+          "amount": "1000000000000000000",
+          "timeStamp": 1714000000
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionsService.GetEvmTransferDetailListByAddress`
+
+<a name="api-ActionsRequest"></a>
+
+### ActionsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | wallet address |
+| height | [uint64](#uint64) |  | optional: filter by block height |
+| offset | [uint64](#uint64) |  | starting offset |
+| size | [uint64](#uint64) |  | number of records to return |
+| sort | [string](#string) |  | sort direction (e.g. "desc") |
+
+<a name="api-EvmTransferDetailListByAddressResponse"></a>
+
+### EvmTransferDetailListByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of EVM transfers |
+| results | [EvmTransferDetailResult](#api-EvmTransferDetailResult) | repeated | list of EVM transfers |
+
+<a name="api-EvmTransferDetailResult"></a>
+
+### EvmTransferDetailResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| blkHeight | [uint64](#uint64) |  | block height |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| blkHash | [string](#string) |  | block hash |
+| amount | [string](#string) |  | transfer amount |
+| timeStamp | [uint64](#uint64) |  | unix timestamp |
+
+## GetAllActionsByAddress
+
+GetAllActionsByAddress returns a combined paginated list of all action types (native, XRC20, XRC721, EVM transfer) for an address.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ActionsService.GetAllActionsByAddress \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "address": "io14u5d66rt465ykm7t2847qllj0reml27q30kr75",
+  "offset": 0,
+  "size": 10,
+  "sort": "desc"
+}'
+```
+
+```graphql
+query {
+  GetAllActionsByAddress(
+    address: "io14u5d66rt465ykm7t2847qllj0reml27q30kr75"
+    offset: 0
+    size: 10
+    sort: "desc"
+  ) {
+    count
+    results {
+      actHash
+      blkHeight
+      sender
+      recipient
+      actType
+      amount
+      timeStamp
+      recordType
+    }
+  }
+}
+```
+
+> Example response:
+
+```json
+{
+  "data": {
+    "GetAllActionsByAddress": {
+      "count": 5000,
+      "results": [
+        {
+          "actHash": "abc123...",
+          "blkHeight": 19000000,
+          "sender": "io1...",
+          "recipient": "io1...",
+          "actType": "transfer",
+          "amount": "1000000000000000000",
+          "timeStamp": 1714000000,
+          "recordType": 0
+        }
+      ]
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`POST /api.ActionsService.GetAllActionsByAddress`
+
+<a name="api-AllActionsByAddressResponse"></a>
+
+### AllActionsByAddressResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of actions |
+| results | [AllActionsByAddressResult](#api-AllActionsByAddressResult) | repeated | list of all actions |
+
+<a name="api-AllActionsByAddressResult"></a>
+
+### AllActionsByAddressResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actHash | [string](#string) |  | action hash |
+| blkHeight | [uint64](#uint64) |  | block height |
+| sender | [string](#string) |  | sender address |
+| recipient | [string](#string) |  | recipient address |
+| actType | [string](#string) |  | action type |
+| amount | [string](#string) |  | amount |
+| timeStamp | [uint64](#uint64) |  | unix timestamp |
+| recordType | [AllActionsByAddressResult.RecordType](#api-AllActionsByAddressResult-RecordType) |  | record type: NATIVE(0), XRC20(1), XRC721(2), EVMTRANSFER(3) |
