@@ -8,3 +8,4 @@ config.local.yml
 v1_config.yml
 .vscode
 proto/google/protobuf
+docs/vendor/
