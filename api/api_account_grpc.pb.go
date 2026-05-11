@@ -19,20 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AccountService_IotexBalanceByHeight_FullMethodName      = "/api.AccountService/IotexBalanceByHeight"
-	AccountService_Erc20TokenBalanceByHeight_FullMethodName = "/api.AccountService/Erc20TokenBalanceByHeight"
-	AccountService_ActiveAccounts_FullMethodName            = "/api.AccountService/ActiveAccounts"
-	AccountService_OperatorAddress_FullMethodName           = "/api.AccountService/OperatorAddress"
-	AccountService_Alias_FullMethodName                     = "/api.AccountService/Alias"
-	AccountService_TotalNumberOfHolders_FullMethodName      = "/api.AccountService/TotalNumberOfHolders"
-	AccountService_TotalAccountSupply_FullMethodName        = "/api.AccountService/TotalAccountSupply"
-	AccountService_ContractInfo_FullMethodName              = "/api.AccountService/ContractInfo"
-	AccountService_GetAccountMeta_FullMethodName            = "/api.AccountService/GetAccountMeta"
-	AccountService_GetContractCreateInfo_FullMethodName     = "/api.AccountService/GetContractCreateInfo"
-	AccountService_GetAddressNFTBalances_FullMethodName     = "/api.AccountService/GetAddressNFTBalances"
-	AccountService_GetAddressTokenBalances_FullMethodName   = "/api.AccountService/GetAddressTokenBalances"
-	AccountService_GetTopAccounts_FullMethodName            = "/api.AccountService/GetTopAccounts"
-	AccountService_GetTopAccountsByBalance_FullMethodName   = "/api.AccountService/GetTopAccountsByBalance"
+	AccountService_IotexBalanceByHeight_FullMethodName         = "/api.AccountService/IotexBalanceByHeight"
+	AccountService_Erc20TokenBalanceByHeight_FullMethodName    = "/api.AccountService/Erc20TokenBalanceByHeight"
+	AccountService_ActiveAccounts_FullMethodName               = "/api.AccountService/ActiveAccounts"
+	AccountService_OperatorAddress_FullMethodName              = "/api.AccountService/OperatorAddress"
+	AccountService_Alias_FullMethodName                        = "/api.AccountService/Alias"
+	AccountService_TotalNumberOfHolders_FullMethodName         = "/api.AccountService/TotalNumberOfHolders"
+	AccountService_TotalAccountSupply_FullMethodName           = "/api.AccountService/TotalAccountSupply"
+	AccountService_ContractInfo_FullMethodName                 = "/api.AccountService/ContractInfo"
+	AccountService_GetAccountMeta_FullMethodName               = "/api.AccountService/GetAccountMeta"
+	AccountService_GetContractCreateInfo_FullMethodName        = "/api.AccountService/GetContractCreateInfo"
+	AccountService_GetAddressNFTBalances_FullMethodName        = "/api.AccountService/GetAddressNFTBalances"
+	AccountService_GetAddressTokenBalances_FullMethodName      = "/api.AccountService/GetAddressTokenBalances"
+	AccountService_GetTopAccounts_FullMethodName               = "/api.AccountService/GetTopAccounts"
+	AccountService_GetTopAccountsByBalance_FullMethodName      = "/api.AccountService/GetTopAccountsByBalance"
+	AccountService_GetAuthorizationsByAuthority_FullMethodName = "/api.AccountService/GetAuthorizationsByAuthority"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -66,6 +67,8 @@ type AccountServiceClient interface {
 	GetTopAccounts(ctx context.Context, in *GetTopAccountsRequest, opts ...grpc.CallOption) (*GetTopAccountsResponse, error)
 	// GetTopAccountsByBalance returns top accounts by IOTX balance from account_income_count
 	GetTopAccountsByBalance(ctx context.Context, in *GetTopAccountsByBalanceRequest, opts ...grpc.CallOption) (*GetTopAccountsByBalanceResponse, error)
+	// GetAuthorizationsByAuthority returns EIP-7702 authorization history for an authority address
+	GetAuthorizationsByAuthority(ctx context.Context, in *GetAuthorizationsByAuthorityRequest, opts ...grpc.CallOption) (*GetAuthorizationsByAuthorityResponse, error)
 }
 
 type accountServiceClient struct {
@@ -202,6 +205,15 @@ func (c *accountServiceClient) GetTopAccountsByBalance(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *accountServiceClient) GetAuthorizationsByAuthority(ctx context.Context, in *GetAuthorizationsByAuthorityRequest, opts ...grpc.CallOption) (*GetAuthorizationsByAuthorityResponse, error) {
+	out := new(GetAuthorizationsByAuthorityResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetAuthorizationsByAuthority_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -233,6 +245,8 @@ type AccountServiceServer interface {
 	GetTopAccounts(context.Context, *GetTopAccountsRequest) (*GetTopAccountsResponse, error)
 	// GetTopAccountsByBalance returns top accounts by IOTX balance from account_income_count
 	GetTopAccountsByBalance(context.Context, *GetTopAccountsByBalanceRequest) (*GetTopAccountsByBalanceResponse, error)
+	// GetAuthorizationsByAuthority returns EIP-7702 authorization history for an authority address
+	GetAuthorizationsByAuthority(context.Context, *GetAuthorizationsByAuthorityRequest) (*GetAuthorizationsByAuthorityResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -281,6 +295,9 @@ func (UnimplementedAccountServiceServer) GetTopAccounts(context.Context, *GetTop
 }
 func (UnimplementedAccountServiceServer) GetTopAccountsByBalance(context.Context, *GetTopAccountsByBalanceRequest) (*GetTopAccountsByBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopAccountsByBalance not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAuthorizationsByAuthority(context.Context, *GetAuthorizationsByAuthorityRequest) (*GetAuthorizationsByAuthorityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuthorizationsByAuthority not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -547,6 +564,24 @@ func _AccountService_GetTopAccountsByBalance_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetAuthorizationsByAuthority_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAuthorizationsByAuthorityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAuthorizationsByAuthority(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetAuthorizationsByAuthority_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAuthorizationsByAuthority(ctx, req.(*GetAuthorizationsByAuthorityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -609,6 +644,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTopAccountsByBalance",
 			Handler:    _AccountService_GetTopAccountsByBalance_Handler,
+		},
+		{
+			MethodName: "GetAuthorizationsByAuthority",
+			Handler:    _AccountService_GetAuthorizationsByAuthority_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

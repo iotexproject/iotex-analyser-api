@@ -198,13 +198,13 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 	// EIP-1559 fields from action_type table
 	if hasIncludeField(includeFields, "action_type") {
 	var actionTypeRow struct {
-		Type        sql.NullString
-		AccessList  sql.NullString
-		GasTipCap   sql.NullString
-		GasFeeCap   sql.NullString
-		BlobGas     sql.NullString
-		BlobFeeCap  sql.NullString
-		BlobHashes  sql.NullString
+		Type         sql.NullString
+		AccessList   sql.NullString
+		GasTipCap    sql.NullString
+		GasFeeCap    sql.NullString
+		BlobGas      sql.NullString
+		BlobFeeCap   sql.NullString
+		BlobHashes   sql.NullString
 		BlobGasPrice sql.NullString
 	}
 	if err := gormDB.WithContext(ctx).Raw(
@@ -238,6 +238,43 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 		}
 		if actionTypeRow.BlobGasPrice.Valid {
 			resp.ActionTypeInfo.BlobGasPrice = actionTypeRow.BlobGasPrice.String
+		}
+	}
+	// EIP-7702 authorization list from authorization table
+	var authRows []struct {
+		ChainID   string
+		Address   string
+		Nonce     string
+		YParity   string
+		R         string
+		S         string
+		Authority string
+		Valid     *bool
+	}
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT chain_id, address, nonce, y_parity, r, s, authority, valid FROM "authorization" WHERE action_hash = ? ORDER BY "index" ASC`,
+		actHash,
+	).Scan(&authRows).Error; err != nil && !errors.Is(err, sql.ErrNoRows) {
+		return nil, errors.Wrap(err, "failed to get authorization list")
+	}
+	if len(authRows) > 0 {
+		if resp.ActionTypeInfo == nil {
+			resp.ActionTypeInfo = &api.ActionByHashResponse_ActionTypeInfo{}
+		}
+		for _, row := range authRows {
+			entry := &api.ActionByHashResponse_AuthorizationEntry{
+				ChainId:   row.ChainID,
+				Address:   row.Address,
+				Nonce:     row.Nonce,
+				YParity:   row.YParity,
+				R:         row.R,
+				S:         row.S,
+				Authority: row.Authority,
+			}
+			if row.Valid != nil {
+				entry.Valid = *row.Valid
+			}
+			resp.ActionTypeInfo.AuthorizationList = append(resp.ActionTypeInfo.AuthorizationList, entry)
 		}
 	}
 	} // end action_type

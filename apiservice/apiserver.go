@@ -54,6 +54,7 @@ func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterHermesServiceServer(grpcServer, &HermesService{})
 	api.RegisterStreamServiceServer(grpcServer, &StreamService{})
 	api.RegisterApprovalServiceServer(grpcServer, &ApprovalService{})
+	api.RegisterExitQueueServiceServer(grpcServer, &ExitQueueService{})
 }
 
 func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
@@ -88,6 +89,9 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 		return err
 	}
 	if err := api.RegisterApprovalServiceHandlerServer(ctx, mux, &ApprovalService{}); err != nil {
+		return err
+	}
+	if err := api.RegisterExitQueueServiceHandlerServer(ctx, mux, &ExitQueueService{}); err != nil {
 		return err
 	}
 	return nil
@@ -130,6 +134,9 @@ func registerGraphQLAPIService(ctx context.Context, mux *graphqlruntime.ServeMux
 		return err
 	}
 	if err := api.RegisterApprovalServiceGraphqlHandler(mux, conn); err != nil {
+		return err
+	}
+	if err := api.RegisterExitQueueServiceGraphqlHandler(mux, conn); err != nil {
 		return err
 	}
 	return nil

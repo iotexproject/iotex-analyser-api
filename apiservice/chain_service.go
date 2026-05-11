@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"math/big"
+	"strings"
 	"time"
 
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -15,6 +16,14 @@ import (
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 	"github.com/pkg/errors"
 )
+
+// isUndefinedTableErr reports whether err is a PostgreSQL "undefined_table"
+// error (SQLSTATE 42P01). Some tables — like staking_record — are populated
+// by external Windmill jobs in production and may simply not exist in
+// local-dev. Handlers should treat that as an empty result, not a 500.
+func isUndefinedTableErr(err error) bool {
+	return err != nil && strings.Contains(err.Error(), "SQLSTATE 42P01")
+}
 
 // ChainService is the service to handle chain related requests
 type ChainService struct {
@@ -348,6 +357,11 @@ func (s *ChainService) GetLatestStakingRecord(ctx context.Context, req *api.GetL
 	if err := gormDB.WithContext(ctx).Raw(
 		"SELECT total_supply, all_staking, staking_ratio::text FROM staking_record ORDER BY date_time DESC LIMIT 1",
 	).Scan(&row).Error; err != nil {
+		if isUndefinedTableErr(err) {
+			// Table is populated by an external job in production; not yet
+			// present in this environment. Return empty response.
+			return resp, nil
+		}
 		return nil, errors.Wrap(err, "failed to get staking record")
 	}
 	if row.TotalSupply.Valid {
@@ -523,6 +537,9 @@ func (s *ChainService) GetStakingRatioHistory(ctx context.Context, req *api.GetS
 		).Scan(&rows).Error
 	}
 	if err != nil {
+		if isUndefinedTableErr(err) {
+			return resp, nil
+		}
 		return nil, errors.Wrap(err, "failed to get staking ratio history")
 	}
 	for _, r := range rows {
