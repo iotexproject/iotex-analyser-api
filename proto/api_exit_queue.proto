@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package api;
+import "google/api/annotations.proto";
+import "include/graphql.proto";
+option go_package = "./api";
+
+message ExitQueueEntry {
+  string candidate_name     = 1;
+  string candidate_identity = 2;
+  string status             = 3; // "requested", "scheduled", "confirmed"
+  uint64 request_height     = 4;
+  string request_hash       = 5;
+  uint64 schedule_height    = 6;
+  string schedule_hash      = 7;
+  uint64 confirm_height     = 8;
+  string confirm_hash       = 9;
+  uint64 scheduled_at       = 10; // block height when exit will execute
+}
+
+message GetExitQueueRequest {
+  int64  skip  = 1;
+  int64  first = 2;
+  // optional filter; if empty, returns all statuses. Each value must be one of
+  // "requested", "scheduled", or "confirmed". Multiple values are OR-ed.
+  repeated string statuses = 3;
+}
+
+message GetExitQueueResponse {
+  repeated ExitQueueEntry exits = 1;
+  int64                   count = 2; // total matching rows
+}
+
+service ExitQueueService {
+  rpc GetExitQueue(GetExitQueueRequest) returns (GetExitQueueResponse) {
+    option (graphql.schema) = {
+      type: QUERY
+      name: "GetExitQueue"
+    };
+    option (google.api.http) = {
+      post: "/api.ExitQueueService.GetExitQueue"
+      body: "*"
+    };
+  };
+}

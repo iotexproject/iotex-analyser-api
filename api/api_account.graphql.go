@@ -12,70 +12,76 @@ import (
 )
 
 var (
-	gql__type_TotalNumberOfHoldersResponse       *graphql.Object      // message TotalNumberOfHoldersResponse in api_account.proto
-	gql__type_TotalAccountSupplyResponse         *graphql.Object      // message TotalAccountSupplyResponse in api_account.proto
-	gql__type_TopAccountRow                      *graphql.Object      // message TopAccountRow in api_account.proto
-	gql__type_TokenBalanceInfo                   *graphql.Object      // message TokenBalanceInfo in api_account.proto
-	gql__type_OperatorAddressResponse            *graphql.Object      // message OperatorAddressResponse in api_account.proto
-	gql__type_OperatorAddressRequest             *graphql.Object      // message OperatorAddressRequest in api_account.proto
-	gql__type_NFTBalanceInfo                     *graphql.Object      // message NFTBalanceInfo in api_account.proto
-	gql__type_IotexBalanceByHeightResponse       *graphql.Object      // message IotexBalanceByHeightResponse in api_account.proto
-	gql__type_IotexBalanceByHeightRequest        *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
-	gql__type_GetTopAccountsResponse             *graphql.Object      // message GetTopAccountsResponse in api_account.proto
-	gql__type_GetTopAccountsRequest              *graphql.Object      // message GetTopAccountsRequest in api_account.proto
-	gql__type_GetTopAccountsByBalanceResponse    *graphql.Object      // message GetTopAccountsByBalanceResponse in api_account.proto
-	gql__type_GetTopAccountsByBalanceRequest     *graphql.Object      // message GetTopAccountsByBalanceRequest in api_account.proto
-	gql__type_GetContractCreateInfoResponse      *graphql.Object      // message GetContractCreateInfoResponse in api_account.proto
-	gql__type_GetContractCreateInfoRequest       *graphql.Object      // message GetContractCreateInfoRequest in api_account.proto
-	gql__type_GetAddressTokenBalancesResponse    *graphql.Object      // message GetAddressTokenBalancesResponse in api_account.proto
-	gql__type_GetAddressTokenBalancesRequest     *graphql.Object      // message GetAddressTokenBalancesRequest in api_account.proto
-	gql__type_GetAddressNFTBalancesResponse      *graphql.Object      // message GetAddressNFTBalancesResponse in api_account.proto
-	gql__type_GetAddressNFTBalancesRequest       *graphql.Object      // message GetAddressNFTBalancesRequest in api_account.proto
-	gql__type_GetAccountMetaResponse             *graphql.Object      // message GetAccountMetaResponse in api_account.proto
-	gql__type_GetAccountMetaRequest              *graphql.Object      // message GetAccountMetaRequest in api_account.proto
-	gql__type_Erc20TokenBalanceByHeightResponse  *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
-	gql__type_Erc20TokenBalanceByHeightRequest   *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
-	gql__type_ContractInfoResponse_Contract      *graphql.Object      // message ContractInfoResponse.Contract in api_account.proto
-	gql__type_ContractInfoResponse               *graphql.Object      // message ContractInfoResponse in api_account.proto
-	gql__type_ContractInfoRequest                *graphql.Object      // message ContractInfoRequest in api_account.proto
-	gql__type_AliasResponse                      *graphql.Object      // message AliasResponse in api_account.proto
-	gql__type_AliasRequest                       *graphql.Object      // message AliasRequest in api_account.proto
-	gql__type_ActiveAccountsResponse             *graphql.Object      // message ActiveAccountsResponse in api_account.proto
-	gql__type_ActiveAccountsRequest              *graphql.Object      // message ActiveAccountsRequest in api_account.proto
-	gql__type_AccountMetaInfo                    *graphql.Object      // message AccountMetaInfo in api_account.proto
-	gql__type_AccountBalanceRow                  *graphql.Object      // message AccountBalanceRow in api_account.proto
-	gql__input_TotalNumberOfHoldersResponse      *graphql.InputObject // message TotalNumberOfHoldersResponse in api_account.proto
-	gql__input_TotalAccountSupplyResponse        *graphql.InputObject // message TotalAccountSupplyResponse in api_account.proto
-	gql__input_TopAccountRow                     *graphql.InputObject // message TopAccountRow in api_account.proto
-	gql__input_TokenBalanceInfo                  *graphql.InputObject // message TokenBalanceInfo in api_account.proto
-	gql__input_OperatorAddressResponse           *graphql.InputObject // message OperatorAddressResponse in api_account.proto
-	gql__input_OperatorAddressRequest            *graphql.InputObject // message OperatorAddressRequest in api_account.proto
-	gql__input_NFTBalanceInfo                    *graphql.InputObject // message NFTBalanceInfo in api_account.proto
-	gql__input_IotexBalanceByHeightResponse      *graphql.InputObject // message IotexBalanceByHeightResponse in api_account.proto
-	gql__input_IotexBalanceByHeightRequest       *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
-	gql__input_GetTopAccountsResponse            *graphql.InputObject // message GetTopAccountsResponse in api_account.proto
-	gql__input_GetTopAccountsRequest             *graphql.InputObject // message GetTopAccountsRequest in api_account.proto
-	gql__input_GetTopAccountsByBalanceResponse   *graphql.InputObject // message GetTopAccountsByBalanceResponse in api_account.proto
-	gql__input_GetTopAccountsByBalanceRequest    *graphql.InputObject // message GetTopAccountsByBalanceRequest in api_account.proto
-	gql__input_GetContractCreateInfoResponse     *graphql.InputObject // message GetContractCreateInfoResponse in api_account.proto
-	gql__input_GetContractCreateInfoRequest      *graphql.InputObject // message GetContractCreateInfoRequest in api_account.proto
-	gql__input_GetAddressTokenBalancesResponse   *graphql.InputObject // message GetAddressTokenBalancesResponse in api_account.proto
-	gql__input_GetAddressTokenBalancesRequest    *graphql.InputObject // message GetAddressTokenBalancesRequest in api_account.proto
-	gql__input_GetAddressNFTBalancesResponse     *graphql.InputObject // message GetAddressNFTBalancesResponse in api_account.proto
-	gql__input_GetAddressNFTBalancesRequest      *graphql.InputObject // message GetAddressNFTBalancesRequest in api_account.proto
-	gql__input_GetAccountMetaResponse            *graphql.InputObject // message GetAccountMetaResponse in api_account.proto
-	gql__input_GetAccountMetaRequest             *graphql.InputObject // message GetAccountMetaRequest in api_account.proto
-	gql__input_Erc20TokenBalanceByHeightResponse *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
-	gql__input_Erc20TokenBalanceByHeightRequest  *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
-	gql__input_ContractInfoResponse_Contract     *graphql.InputObject // message ContractInfoResponse.Contract in api_account.proto
-	gql__input_ContractInfoResponse              *graphql.InputObject // message ContractInfoResponse in api_account.proto
-	gql__input_ContractInfoRequest               *graphql.InputObject // message ContractInfoRequest in api_account.proto
-	gql__input_AliasResponse                     *graphql.InputObject // message AliasResponse in api_account.proto
-	gql__input_AliasRequest                      *graphql.InputObject // message AliasRequest in api_account.proto
-	gql__input_ActiveAccountsResponse            *graphql.InputObject // message ActiveAccountsResponse in api_account.proto
-	gql__input_ActiveAccountsRequest             *graphql.InputObject // message ActiveAccountsRequest in api_account.proto
-	gql__input_AccountMetaInfo                   *graphql.InputObject // message AccountMetaInfo in api_account.proto
-	gql__input_AccountBalanceRow                 *graphql.InputObject // message AccountBalanceRow in api_account.proto
+	gql__type_TotalNumberOfHoldersResponse          *graphql.Object      // message TotalNumberOfHoldersResponse in api_account.proto
+	gql__type_TotalAccountSupplyResponse            *graphql.Object      // message TotalAccountSupplyResponse in api_account.proto
+	gql__type_TopAccountRow                         *graphql.Object      // message TopAccountRow in api_account.proto
+	gql__type_TokenBalanceInfo                      *graphql.Object      // message TokenBalanceInfo in api_account.proto
+	gql__type_OperatorAddressResponse               *graphql.Object      // message OperatorAddressResponse in api_account.proto
+	gql__type_OperatorAddressRequest                *graphql.Object      // message OperatorAddressRequest in api_account.proto
+	gql__type_NFTBalanceInfo                        *graphql.Object      // message NFTBalanceInfo in api_account.proto
+	gql__type_IotexBalanceByHeightResponse          *graphql.Object      // message IotexBalanceByHeightResponse in api_account.proto
+	gql__type_IotexBalanceByHeightRequest           *graphql.Object      // message IotexBalanceByHeightRequest in api_account.proto
+	gql__type_GetTopAccountsResponse                *graphql.Object      // message GetTopAccountsResponse in api_account.proto
+	gql__type_GetTopAccountsRequest                 *graphql.Object      // message GetTopAccountsRequest in api_account.proto
+	gql__type_GetTopAccountsByBalanceResponse       *graphql.Object      // message GetTopAccountsByBalanceResponse in api_account.proto
+	gql__type_GetTopAccountsByBalanceRequest        *graphql.Object      // message GetTopAccountsByBalanceRequest in api_account.proto
+	gql__type_GetContractCreateInfoResponse         *graphql.Object      // message GetContractCreateInfoResponse in api_account.proto
+	gql__type_GetContractCreateInfoRequest          *graphql.Object      // message GetContractCreateInfoRequest in api_account.proto
+	gql__type_GetAuthorizationsByAuthorityResponse  *graphql.Object      // message GetAuthorizationsByAuthorityResponse in api_account.proto
+	gql__type_GetAuthorizationsByAuthorityRequest   *graphql.Object      // message GetAuthorizationsByAuthorityRequest in api_account.proto
+	gql__type_GetAddressTokenBalancesResponse       *graphql.Object      // message GetAddressTokenBalancesResponse in api_account.proto
+	gql__type_GetAddressTokenBalancesRequest        *graphql.Object      // message GetAddressTokenBalancesRequest in api_account.proto
+	gql__type_GetAddressNFTBalancesResponse         *graphql.Object      // message GetAddressNFTBalancesResponse in api_account.proto
+	gql__type_GetAddressNFTBalancesRequest          *graphql.Object      // message GetAddressNFTBalancesRequest in api_account.proto
+	gql__type_GetAccountMetaResponse                *graphql.Object      // message GetAccountMetaResponse in api_account.proto
+	gql__type_GetAccountMetaRequest                 *graphql.Object      // message GetAccountMetaRequest in api_account.proto
+	gql__type_Erc20TokenBalanceByHeightResponse     *graphql.Object      // message Erc20TokenBalanceByHeightResponse in api_account.proto
+	gql__type_Erc20TokenBalanceByHeightRequest      *graphql.Object      // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__type_ContractInfoResponse_Contract         *graphql.Object      // message ContractInfoResponse.Contract in api_account.proto
+	gql__type_ContractInfoResponse                  *graphql.Object      // message ContractInfoResponse in api_account.proto
+	gql__type_ContractInfoRequest                   *graphql.Object      // message ContractInfoRequest in api_account.proto
+	gql__type_AuthorizationHistoryEntry             *graphql.Object      // message AuthorizationHistoryEntry in api_account.proto
+	gql__type_AliasResponse                         *graphql.Object      // message AliasResponse in api_account.proto
+	gql__type_AliasRequest                          *graphql.Object      // message AliasRequest in api_account.proto
+	gql__type_ActiveAccountsResponse                *graphql.Object      // message ActiveAccountsResponse in api_account.proto
+	gql__type_ActiveAccountsRequest                 *graphql.Object      // message ActiveAccountsRequest in api_account.proto
+	gql__type_AccountMetaInfo                       *graphql.Object      // message AccountMetaInfo in api_account.proto
+	gql__type_AccountBalanceRow                     *graphql.Object      // message AccountBalanceRow in api_account.proto
+	gql__input_TotalNumberOfHoldersResponse         *graphql.InputObject // message TotalNumberOfHoldersResponse in api_account.proto
+	gql__input_TotalAccountSupplyResponse           *graphql.InputObject // message TotalAccountSupplyResponse in api_account.proto
+	gql__input_TopAccountRow                        *graphql.InputObject // message TopAccountRow in api_account.proto
+	gql__input_TokenBalanceInfo                     *graphql.InputObject // message TokenBalanceInfo in api_account.proto
+	gql__input_OperatorAddressResponse              *graphql.InputObject // message OperatorAddressResponse in api_account.proto
+	gql__input_OperatorAddressRequest               *graphql.InputObject // message OperatorAddressRequest in api_account.proto
+	gql__input_NFTBalanceInfo                       *graphql.InputObject // message NFTBalanceInfo in api_account.proto
+	gql__input_IotexBalanceByHeightResponse         *graphql.InputObject // message IotexBalanceByHeightResponse in api_account.proto
+	gql__input_IotexBalanceByHeightRequest          *graphql.InputObject // message IotexBalanceByHeightRequest in api_account.proto
+	gql__input_GetTopAccountsResponse               *graphql.InputObject // message GetTopAccountsResponse in api_account.proto
+	gql__input_GetTopAccountsRequest                *graphql.InputObject // message GetTopAccountsRequest in api_account.proto
+	gql__input_GetTopAccountsByBalanceResponse      *graphql.InputObject // message GetTopAccountsByBalanceResponse in api_account.proto
+	gql__input_GetTopAccountsByBalanceRequest       *graphql.InputObject // message GetTopAccountsByBalanceRequest in api_account.proto
+	gql__input_GetContractCreateInfoResponse        *graphql.InputObject // message GetContractCreateInfoResponse in api_account.proto
+	gql__input_GetContractCreateInfoRequest         *graphql.InputObject // message GetContractCreateInfoRequest in api_account.proto
+	gql__input_GetAuthorizationsByAuthorityResponse *graphql.InputObject // message GetAuthorizationsByAuthorityResponse in api_account.proto
+	gql__input_GetAuthorizationsByAuthorityRequest  *graphql.InputObject // message GetAuthorizationsByAuthorityRequest in api_account.proto
+	gql__input_GetAddressTokenBalancesResponse      *graphql.InputObject // message GetAddressTokenBalancesResponse in api_account.proto
+	gql__input_GetAddressTokenBalancesRequest       *graphql.InputObject // message GetAddressTokenBalancesRequest in api_account.proto
+	gql__input_GetAddressNFTBalancesResponse        *graphql.InputObject // message GetAddressNFTBalancesResponse in api_account.proto
+	gql__input_GetAddressNFTBalancesRequest         *graphql.InputObject // message GetAddressNFTBalancesRequest in api_account.proto
+	gql__input_GetAccountMetaResponse               *graphql.InputObject // message GetAccountMetaResponse in api_account.proto
+	gql__input_GetAccountMetaRequest                *graphql.InputObject // message GetAccountMetaRequest in api_account.proto
+	gql__input_Erc20TokenBalanceByHeightResponse    *graphql.InputObject // message Erc20TokenBalanceByHeightResponse in api_account.proto
+	gql__input_Erc20TokenBalanceByHeightRequest     *graphql.InputObject // message Erc20TokenBalanceByHeightRequest in api_account.proto
+	gql__input_ContractInfoResponse_Contract        *graphql.InputObject // message ContractInfoResponse.Contract in api_account.proto
+	gql__input_ContractInfoResponse                 *graphql.InputObject // message ContractInfoResponse in api_account.proto
+	gql__input_ContractInfoRequest                  *graphql.InputObject // message ContractInfoRequest in api_account.proto
+	gql__input_AuthorizationHistoryEntry            *graphql.InputObject // message AuthorizationHistoryEntry in api_account.proto
+	gql__input_AliasResponse                        *graphql.InputObject // message AliasResponse in api_account.proto
+	gql__input_AliasRequest                         *graphql.InputObject // message AliasRequest in api_account.proto
+	gql__input_ActiveAccountsResponse               *graphql.InputObject // message ActiveAccountsResponse in api_account.proto
+	gql__input_ActiveAccountsRequest                *graphql.InputObject // message ActiveAccountsRequest in api_account.proto
+	gql__input_AccountMetaInfo                      *graphql.InputObject // message AccountMetaInfo in api_account.proto
+	gql__input_AccountBalanceRow                    *graphql.InputObject // message AccountBalanceRow in api_account.proto
 )
 
 func Gql__type_TotalNumberOfHoldersResponse() *graphql.Object {
@@ -345,6 +351,43 @@ func Gql__type_GetContractCreateInfoRequest() *graphql.Object {
 	return gql__type_GetContractCreateInfoRequest
 }
 
+func Gql__type_GetAuthorizationsByAuthorityResponse() *graphql.Object {
+	if gql__type_GetAuthorizationsByAuthorityResponse == nil {
+		gql__type_GetAuthorizationsByAuthorityResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetAuthorizationsByAuthorityResponse",
+			Fields: graphql.Fields{
+				"authorizations": &graphql.Field{
+					Type: graphql.NewList(Gql__type_AuthorizationHistoryEntry()),
+				},
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetAuthorizationsByAuthorityResponse
+}
+
+func Gql__type_GetAuthorizationsByAuthorityRequest() *graphql.Object {
+	if gql__type_GetAuthorizationsByAuthorityRequest == nil {
+		gql__type_GetAuthorizationsByAuthorityRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetAuthorizationsByAuthorityRequest",
+			Fields: graphql.Fields{
+				"authority": &graphql.Field{
+					Type: graphql.String,
+				},
+				"skip": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"first": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetAuthorizationsByAuthorityRequest
+}
+
 func Gql__type_GetAddressTokenBalancesResponse() *graphql.Object {
 	if gql__type_GetAddressTokenBalancesResponse == nil {
 		gql__type_GetAddressTokenBalancesResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -527,6 +570,41 @@ func Gql__type_ContractInfoRequest() *graphql.Object {
 		})
 	}
 	return gql__type_ContractInfoRequest
+}
+
+func Gql__type_AuthorizationHistoryEntry() *graphql.Object {
+	if gql__type_AuthorizationHistoryEntry == nil {
+		gql__type_AuthorizationHistoryEntry = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_AuthorizationHistoryEntry",
+			Fields: graphql.Fields{
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"chain_id": &graphql.Field{
+					Type: graphql.String,
+				},
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"nonce": &graphql.Field{
+					Type: graphql.String,
+				},
+				"y_parity": &graphql.Field{
+					Type: graphql.String,
+				},
+				"authority": &graphql.Field{
+					Type: graphql.String,
+				},
+				"valid": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__type_AuthorizationHistoryEntry
 }
 
 func Gql__type_AliasResponse() *graphql.Object {
@@ -898,6 +976,43 @@ func Gql__input_GetContractCreateInfoRequest() *graphql.InputObject {
 	return gql__input_GetContractCreateInfoRequest
 }
 
+func Gql__input_GetAuthorizationsByAuthorityResponse() *graphql.InputObject {
+	if gql__input_GetAuthorizationsByAuthorityResponse == nil {
+		gql__input_GetAuthorizationsByAuthorityResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetAuthorizationsByAuthorityResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"authorizations": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_AuthorizationHistoryEntry()),
+				},
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetAuthorizationsByAuthorityResponse
+}
+
+func Gql__input_GetAuthorizationsByAuthorityRequest() *graphql.InputObject {
+	if gql__input_GetAuthorizationsByAuthorityRequest == nil {
+		gql__input_GetAuthorizationsByAuthorityRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetAuthorizationsByAuthorityRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"authority": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"skip": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"first": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetAuthorizationsByAuthorityRequest
+}
+
 func Gql__input_GetAddressTokenBalancesResponse() *graphql.InputObject {
 	if gql__input_GetAddressTokenBalancesResponse == nil {
 		gql__input_GetAddressTokenBalancesResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -1080,6 +1195,41 @@ func Gql__input_ContractInfoRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_ContractInfoRequest
+}
+
+func Gql__input_AuthorizationHistoryEntry() *graphql.InputObject {
+	if gql__input_AuthorizationHistoryEntry == nil {
+		gql__input_AuthorizationHistoryEntry = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_AuthorizationHistoryEntry",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"chain_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"nonce": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"y_parity": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"authority": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"valid": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__input_AuthorizationHistoryEntry
 }
 
 func Gql__input_AliasResponse() *graphql.InputObject {

@@ -301,4 +301,33 @@ service AccountService {
       body: "*"
     };
   };
+  // GetAuthorizationsByAuthority returns EIP-7702 authorization history for an authority address
+  rpc GetAuthorizationsByAuthority(GetAuthorizationsByAuthorityRequest) returns (GetAuthorizationsByAuthorityResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetAuthorizationsByAuthority"
+      body: "*"
+    };
+  };
+}
+
+message AuthorizationHistoryEntry {
+  string action_hash  = 1;
+  uint64 block_height = 2;
+  string chain_id     = 3;
+  string address      = 4; // delegated contract
+  string nonce        = 5;
+  string y_parity     = 6;
+  string authority    = 7; // recovered signer (= the account queried)
+  bool   valid        = 8; // whether this authorization was accepted by the chain at inclusion time
+}
+
+message GetAuthorizationsByAuthorityRequest {
+  string authority = 1;
+  int32  skip      = 2;
+  int32  first     = 3;
+}
+
+message GetAuthorizationsByAuthorityResponse {
+  repeated AuthorizationHistoryEntry authorizations = 1;
+  int64 count = 2;
 }

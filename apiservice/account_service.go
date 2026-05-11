@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"math/big"
+	"strings"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -13,7 +14,13 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/v2/ioctl/util"
 	"github.com/pkg/errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
+
+// maxAuthorizationListLimit caps GetAuthorizationsByAuthority's first parameter
+// to keep the result set bounded.
+const maxAuthorizationListLimit = 100
 
 type AccountService struct {
 	api.UnimplementedAccountServiceServer
@@ -457,4 +464,81 @@ func (s *AccountService) GetContractCreateInfo(ctx context.Context, req *api.Get
 		resp.Creator = row.Creator.String
 	}
 	return resp, nil
+}
+
+func (s *AccountService) GetAuthorizationsByAuthority(ctx context.Context, req *api.GetAuthorizationsByAuthorityRequest) (*api.GetAuthorizationsByAuthorityResponse, error) {
+	authority := strings.ToLower(req.GetAuthority())
+	if authority == "" {
+		return nil, status.Error(codes.InvalidArgument, "authority is required")
+	}
+	if req.GetSkip() < 0 {
+		return nil, status.Error(codes.InvalidArgument, "skip must be >= 0")
+	}
+	if req.GetFirst() < 0 {
+		return nil, status.Error(codes.InvalidArgument, "first must be >= 0")
+	}
+
+	skip := int(req.GetSkip())
+	first := int(req.GetFirst())
+	if first <= 0 {
+		first = 20
+	}
+	if first > maxAuthorizationListLimit {
+		first = maxAuthorizationListLimit
+	}
+
+	// Use the package-level DB handle (initialized once at startup) rather
+	// than calling db.Connect() per request, which would re-init the global
+	// pool and race with other handlers.
+	gormDB := db.DB()
+
+	var count int64
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT COUNT(*) FROM "authorization" WHERE authority = ?`, authority,
+	).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count authorizations")
+	}
+
+	type authRow struct {
+		ActionHash  string
+		BlockHeight uint64
+		ChainID     string
+		Address     string
+		Nonce       string
+		YParity     string
+		Authority   string
+		Valid       *bool
+	}
+	var rows []authRow
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT action_hash, block_height, chain_id, address, nonce, y_parity, authority, valid
+		 FROM "authorization" WHERE authority = ?
+		 ORDER BY block_height DESC, "index" DESC
+		 LIMIT ? OFFSET ?`,
+		authority, first, skip,
+	).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to query authorizations")
+	}
+
+	entries := make([]*api.AuthorizationHistoryEntry, 0, len(rows))
+	for _, r := range rows {
+		entry := &api.AuthorizationHistoryEntry{
+			ActionHash:  r.ActionHash,
+			BlockHeight: r.BlockHeight,
+			ChainId:     r.ChainID,
+			Address:     r.Address,
+			Nonce:       r.Nonce,
+			YParity:     r.YParity,
+			Authority:   r.Authority,
+		}
+		if r.Valid != nil {
+			entry.Valid = *r.Valid
+		}
+		entries = append(entries, entry)
+	}
+
+	return &api.GetAuthorizationsByAuthorityResponse{
+		Authorizations: entries,
+		Count:          count,
+	}, nil
 }
