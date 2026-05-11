@@ -52,6 +52,12 @@ func Gql__type_GetExitQueueRequest() *graphql.Object {
 					Description: `optional filter; if empty, returns all statuses. Each value must be one of
  "requested", "scheduled", or "confirmed". Multiple values are OR-ed.`,
 				},
+				"candidate_identity": &graphql.Field{
+					Type: graphql.String,
+					Description: `optional filter; if empty, returns entries for all candidates. When set,
+ matches the candidate_identity column exactly (0x... lowercased hex,
+ matching how the indexer writes it).`,
+				},
 			},
 		})
 	}
@@ -131,6 +137,12 @@ func Gql__input_GetExitQueueRequest() *graphql.InputObject {
 					Description: `optional filter; if empty, returns all statuses. Each value must be one of
  "requested", "scheduled", or "confirmed". Multiple values are OR-ed.`,
 					Type: graphql.NewList(graphql.String),
+				},
+				"candidate_identity": &graphql.InputObjectFieldConfig{
+					Description: `optional filter; if empty, returns entries for all candidates. When set,
+ matches the candidate_identity column exactly (0x... lowercased hex,
+ matching how the indexer writes it).`,
+					Type: graphql.String,
 				},
 			},
 		})
@@ -234,6 +246,12 @@ func (x *graphql__resolver_ExitQueueService) GetQueries(conn *grpc.ClientConn) g
 					Type: graphql.NewList(graphql.String),
 					Description: `optional filter; if empty, returns all statuses. Each value must be one of
  "requested", "scheduled", or "confirmed". Multiple values are OR-ed.`,
+				},
+				"candidate_identity": &graphql.ArgumentConfig{
+					Type: graphql.String,
+					Description: `optional filter; if empty, returns entries for all candidates. When set,
+ matches the candidate_identity column exactly (0x... lowercased hex,
+ matching how the indexer writes it).`,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

@@ -129,6 +129,45 @@ func TestExitQueueService_Pagination(t *testing.T) {
 	require.Len(t, resp2.Exits, 2)
 }
 
+func TestExitQueueService_CandidateIdentityFilter(t *testing.T) {
+	setupExitQueueDB(t)
+	seedExitQueue(t, []model.CandidateExitQueue{
+		{CandidateIdentity: "io1aaa", Status: "requested"},
+		{CandidateIdentity: "io1aaa", Status: "scheduled"},
+		{CandidateIdentity: "io1bbb", Status: "requested"},
+		{CandidateIdentity: "io1ccc", Status: "confirmed"},
+	})
+	svc := &ExitQueueService{}
+
+	// only io1aaa rows
+	resp, err := svc.GetExitQueue(context.Background(), &api.GetExitQueueRequest{CandidateIdentity: "io1aaa"})
+	require.NoError(t, err)
+	require.Equal(t, int64(2), resp.Count)
+	for _, e := range resp.Exits {
+		require.Equal(t, "io1aaa", e.CandidateIdentity)
+	}
+
+	// candidate_identity combined with statuses
+	resp2, err := svc.GetExitQueue(context.Background(), &api.GetExitQueueRequest{
+		CandidateIdentity: "io1aaa",
+		Statuses:          []string{"requested"},
+	})
+	require.NoError(t, err)
+	require.Equal(t, int64(1), resp2.Count)
+	require.Equal(t, "requested", resp2.Exits[0].Status)
+
+	// non-existent candidate yields empty
+	resp3, err := svc.GetExitQueue(context.Background(), &api.GetExitQueueRequest{CandidateIdentity: "io1zzz"})
+	require.NoError(t, err)
+	require.Equal(t, int64(0), resp3.Count)
+	require.Empty(t, resp3.Exits)
+
+	// empty candidate_identity = no filter (backward compatible)
+	resp4, err := svc.GetExitQueue(context.Background(), &api.GetExitQueueRequest{CandidateIdentity: ""})
+	require.NoError(t, err)
+	require.Equal(t, int64(4), resp4.Count)
+}
+
 func TestExitQueueService_FirstCappedAt100(t *testing.T) {
 	setupExitQueueDB(t)
 	svc := &ExitQueueService{}
