@@ -25,13 +25,13 @@ func (s *ExitQueueService) GetExitQueue(ctx context.Context, req *api.GetExitQue
 		first = 100
 	}
 
-	query := db.DB().Model(&model.CandidateExitQueue{})
+	query := db.DB().WithContext(ctx).Model(&model.CandidateExitQueue{})
 	if statuses := req.GetStatuses(); len(statuses) > 0 {
-		for _, s := range statuses {
-			switch s {
+		for _, st := range statuses {
+			switch st {
 			case "requested", "scheduled", "confirmed":
 			default:
-				return nil, status.Errorf(codes.InvalidArgument, "invalid status filter %q: must be requested, scheduled, or confirmed", s)
+				return nil, status.Errorf(codes.InvalidArgument, "invalid status filter %q: must be requested, scheduled, or confirmed", st)
 			}
 		}
 		query = query.Where("status IN ?", statuses)

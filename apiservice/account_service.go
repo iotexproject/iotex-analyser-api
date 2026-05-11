@@ -14,7 +14,13 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-core/v2/ioctl/util"
 	"github.com/pkg/errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
+
+// maxAuthorizationListLimit caps GetAuthorizationsByAuthority's first parameter
+// to keep the result set bounded.
+const maxAuthorizationListLimit = 100
 
 type AccountService struct {
 	api.UnimplementedAccountServiceServer
@@ -461,24 +467,36 @@ func (s *AccountService) GetContractCreateInfo(ctx context.Context, req *api.Get
 }
 
 func (s *AccountService) GetAuthorizationsByAuthority(ctx context.Context, req *api.GetAuthorizationsByAuthorityRequest) (*api.GetAuthorizationsByAuthorityResponse, error) {
-	gormDB, err := db.Connect()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to connect db")
-	}
-
 	authority := strings.ToLower(req.GetAuthority())
-
-	var count int64
-	if err := gormDB.WithContext(ctx).Raw(
-		`SELECT COUNT(*) FROM "authorization" WHERE authority = ?`, authority,
-	).Scan(&count).Error; err != nil {
-		return nil, errors.Wrap(err, "failed to count authorizations")
+	if authority == "" {
+		return nil, status.Error(codes.InvalidArgument, "authority is required")
+	}
+	if req.GetSkip() < 0 {
+		return nil, status.Error(codes.InvalidArgument, "skip must be >= 0")
+	}
+	if req.GetFirst() < 0 {
+		return nil, status.Error(codes.InvalidArgument, "first must be >= 0")
 	}
 
 	skip := int(req.GetSkip())
 	first := int(req.GetFirst())
 	if first <= 0 {
 		first = 20
+	}
+	if first > maxAuthorizationListLimit {
+		first = maxAuthorizationListLimit
+	}
+
+	// Use the package-level DB handle (initialized once at startup) rather
+	// than calling db.Connect() per request, which would re-init the global
+	// pool and race with other handlers.
+	gormDB := db.DB()
+
+	var count int64
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT COUNT(*) FROM "authorization" WHERE authority = ?`, authority,
+	).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count authorizations")
 	}
 
 	type authRow struct {
