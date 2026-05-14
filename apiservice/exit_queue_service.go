@@ -36,6 +36,9 @@ func (s *ExitQueueService) GetExitQueue(ctx context.Context, req *api.GetExitQue
 		}
 		query = query.Where("status IN ?", statuses)
 	}
+	if id := req.GetCandidateIdentity(); id != "" {
+		query = query.Where("candidate_identity = ?", id)
+	}
 
 	var total int64
 	if err := query.Count(&total).Error; err != nil {
