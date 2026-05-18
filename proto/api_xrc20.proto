@@ -115,6 +115,22 @@ message GetXRC20TokenBalanceResponse {
   string balance = 1;
 }
 
+message GetXRC20StatsRequest {
+  pagination.Pagination pagination = 1;
+}
+
+message XRC20StatsItem {
+  string address = 1;
+  uint64 holders = 2;
+  uint64 transfer = 3;
+  uint64 daily_transfer = 4;
+}
+
+message GetXRC20StatsResponse {
+  uint64 count = 1; // total number of xrc20 tokens
+  repeated XRC20StatsItem items = 2;
+}
+
 service XRC20Service {
   //XRC20ByAddress returns Xrc20 actions given the sender address or recipient address
   rpc XRC20ByAddress(XRC20ByAddressRequest) returns (XRC20ByAddressResponse) {
@@ -189,6 +205,14 @@ service XRC20Service {
   rpc GetXRC20TokenBalance(GetXRC20TokenBalanceRequest) returns (GetXRC20TokenBalanceResponse) {
     option (google.api.http) = {
       post: "/api.XRC20Service.GetXRC20TokenBalance"
+      body: "*"
+    };
+  };
+
+  // GetXRC20Stats returns per-token holder/transfer counts, ordered by holders DESC
+  rpc GetXRC20Stats(GetXRC20StatsRequest) returns (GetXRC20StatsResponse) {
+    option (google.api.http) = {
+      post: "/api.XRC20Service.GetXRC20Stats"
       body: "*"
     };
   };

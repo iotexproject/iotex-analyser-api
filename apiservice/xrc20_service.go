@@ -311,6 +311,86 @@ func (s *XRC20Service) GetXRC20HoldersByContract(ctx context.Context, req *api.G
 	return resp, nil
 }
 
+// xrc20StatsMaxPageSize caps the per-request page size. The per-contract
+// transfer COUNT(*) subqueries cost ~0.4 s each on mainnet (some contracts
+// have 12M+ rows), so allowing the global common.MaximumPageSize would push
+// requests into 60-second territory. 50 is enough for the iotexscan token
+// list page; bigger pulls should switch to a pre-aggregated source.
+const xrc20StatsMaxPageSize = 50
+
+// GetXRC20Stats returns per-token holder + transfer counts, ordered by holders
+// DESC. Data is aggregated live:
+//   - holders:        COUNT(*) over erc20_holder_agg WHERE balance > 0
+//   - transfer:       COUNT(*) over erc20_transfers, all-time
+//   - daily_transfer: COUNT(*) over erc20_transfers in the prior UTC day
+//
+// LIMIT/OFFSET applies to the top-K contracts by holders, so the heavy
+// transfer subqueries only run for that page's contracts (~K * 2 lookups).
+// Still O(table-scan-for-holders) per call; if the page count grows, consider
+// caching the holders ranking.
+func (s *XRC20Service) GetXRC20Stats(ctx context.Context, req *api.GetXRC20StatsRequest) (*api.GetXRC20StatsResponse, error) {
+	resp := &api.GetXRC20StatsResponse{}
+	gormDB := db.DB()
+
+	var count int64
+	if err := gormDB.WithContext(ctx).Raw(
+		`SELECT COUNT(*) FROM (SELECT 1 FROM erc20_holder_agg WHERE balance > 0 GROUP BY contract_address) c`,
+	).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count xrc20 tokens")
+	}
+	resp.Count = uint64(count)
+	if count == 0 {
+		return resp, nil
+	}
+
+	skip := common.PageOffset(req.GetPagination())
+	// common.PageSize only applies its default (200) when req.Pagination is nil
+	// — a caller passing &Pagination{First: 0} would otherwise get LIMIT 0 and
+	// a confusing Count>0/Items=[] response. Treat First=0 as "use the page
+	// cap" so the homepage call works with an empty Pagination block.
+	first := common.PageSize(req.GetPagination())
+	if first == 0 || first > xrc20StatsMaxPageSize {
+		first = xrc20StatsMaxPageSize
+	}
+
+	var rows []struct {
+		Address       string
+		Holders       uint64
+		Transfer      uint64
+		DailyTransfer uint64
+	}
+	q := `WITH top_contracts AS (
+		SELECT contract_address, COUNT(*) AS holders
+		FROM erc20_holder_agg
+		WHERE balance > 0
+		GROUP BY contract_address
+		ORDER BY holders DESC
+		LIMIT ? OFFSET ?
+	)
+	SELECT tc.contract_address AS address,
+	       tc.holders          AS holders,
+	       (SELECT COUNT(*) FROM erc20_transfers t
+	        WHERE t.contract_address = tc.contract_address) AS transfer,
+	       (SELECT COUNT(*) FROM erc20_transfers t
+	        WHERE t.contract_address = tc.contract_address
+	          AND t.timestamp >= (CURRENT_DATE - INTERVAL '1 day')
+	          AND t.timestamp <  CURRENT_DATE) AS daily_transfer
+	FROM top_contracts tc
+	ORDER BY tc.holders DESC`
+	if err := gormDB.WithContext(ctx).Raw(q, first, skip).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get xrc20 stats")
+	}
+	for _, r := range rows {
+		resp.Items = append(resp.Items, &api.XRC20StatsItem{
+			Address:       r.Address,
+			Holders:       r.Holders,
+			Transfer:      r.Transfer,
+			DailyTransfer: r.DailyTransfer,
+		})
+	}
+	return resp, nil
+}
+
 // GetXRC20TokenBalance returns the ERC20 token balance for a specific address.
 func (s *XRC20Service) GetXRC20TokenBalance(ctx context.Context, req *api.GetXRC20TokenBalanceRequest) (*api.GetXRC20TokenBalanceResponse, error) {
 	resp := &api.GetXRC20TokenBalanceResponse{}

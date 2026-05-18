@@ -12,26 +12,36 @@ import (
 
 var (
 	gql__type_VotingResultMeta                *graphql.Object      // message VotingResultMeta in api_chain.proto
+	gql__type_TpsHistoryPoint                 *graphql.Object      // message TpsHistoryPoint in api_chain.proto
 	gql__type_TotalTransferredTokensResponse  *graphql.Object      // message TotalTransferredTokensResponse in api_chain.proto
 	gql__type_TotalTransferredTokensRequest   *graphql.Object      // message TotalTransferredTokensRequest in api_chain.proto
+	gql__type_SupplyHistoryPoint              *graphql.Object      // message SupplyHistoryPoint in api_chain.proto
 	gql__type_StakingRatioPoint               *graphql.Object      // message StakingRatioPoint in api_chain.proto
 	gql__type_NumberOfActionsResponse         *graphql.Object      // message NumberOfActionsResponse in api_chain.proto
 	gql__type_NumberOfActionsRequest          *graphql.Object      // message NumberOfActionsRequest in api_chain.proto
 	gql__type_MostRecentTPSResponse           *graphql.Object      // message MostRecentTPSResponse in api_chain.proto
 	gql__type_MostRecentTPSRequest            *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
+	gql__type_GetTpsHistoryResponse           *graphql.Object      // message GetTpsHistoryResponse in api_chain.proto
+	gql__type_GetTpsHistoryRequest            *graphql.Object      // message GetTpsHistoryRequest in api_chain.proto
+	gql__type_GetSupplyHistoryResponse        *graphql.Object      // message GetSupplyHistoryResponse in api_chain.proto
+	gql__type_GetSupplyHistoryRequest         *graphql.Object      // message GetSupplyHistoryRequest in api_chain.proto
 	gql__type_GetStakingRatioHistoryResponse  *graphql.Object      // message GetStakingRatioHistoryResponse in api_chain.proto
 	gql__type_GetStakingRatioHistoryRequest   *graphql.Object      // message GetStakingRatioHistoryRequest in api_chain.proto
 	gql__type_GetPeakTpsResponse              *graphql.Object      // message GetPeakTpsResponse in api_chain.proto
 	gql__type_GetPeakTpsRequest               *graphql.Object      // message GetPeakTpsRequest in api_chain.proto
 	gql__type_GetLatestStakingRecordResponse  *graphql.Object      // message GetLatestStakingRecordResponse in api_chain.proto
 	gql__type_GetLatestBlockHeightResponse    *graphql.Object      // message GetLatestBlockHeightResponse in api_chain.proto
+	gql__type_GetGasHistoryResponse           *graphql.Object      // message GetGasHistoryResponse in api_chain.proto
+	gql__type_GetGasHistoryRequest            *graphql.Object      // message GetGasHistoryRequest in api_chain.proto
 	gql__type_GetEpochInfoResponse            *graphql.Object      // message GetEpochInfoResponse in api_chain.proto
+	gql__type_GetChainStatsResponse           *graphql.Object      // message GetChainStatsResponse in api_chain.proto
 	gql__type_GetBlocksResponse               *graphql.Object      // message GetBlocksResponse in api_chain.proto
 	gql__type_GetBlocksRequest                *graphql.Object      // message GetBlocksRequest in api_chain.proto
 	gql__type_GetBlockByHeightResponse        *graphql.Object      // message GetBlockByHeightResponse in api_chain.proto
 	gql__type_GetBlockByHeightRequest         *graphql.Object      // message GetBlockByHeightRequest in api_chain.proto
 	gql__type_GetActionHistoryResponse        *graphql.Object      // message GetActionHistoryResponse in api_chain.proto
 	gql__type_GetActionHistoryRequest         *graphql.Object      // message GetActionHistoryRequest in api_chain.proto
+	gql__type_GasHistoryPoint                 *graphql.Object      // message GasHistoryPoint in api_chain.proto
 	gql__type_ChainResponse_Rewards           *graphql.Object      // message ChainResponse.Rewards in api_chain.proto
 	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
 	gql__type_BlockSizeByHeightResponse       *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
@@ -39,26 +49,36 @@ var (
 	gql__type_BlockInfo                       *graphql.Object      // message BlockInfo in api_chain.proto
 	gql__type_ActionHistoryPoint              *graphql.Object      // message ActionHistoryPoint in api_chain.proto
 	gql__input_VotingResultMeta               *graphql.InputObject // message VotingResultMeta in api_chain.proto
+	gql__input_TpsHistoryPoint                *graphql.InputObject // message TpsHistoryPoint in api_chain.proto
 	gql__input_TotalTransferredTokensResponse *graphql.InputObject // message TotalTransferredTokensResponse in api_chain.proto
 	gql__input_TotalTransferredTokensRequest  *graphql.InputObject // message TotalTransferredTokensRequest in api_chain.proto
+	gql__input_SupplyHistoryPoint             *graphql.InputObject // message SupplyHistoryPoint in api_chain.proto
 	gql__input_StakingRatioPoint              *graphql.InputObject // message StakingRatioPoint in api_chain.proto
 	gql__input_NumberOfActionsResponse        *graphql.InputObject // message NumberOfActionsResponse in api_chain.proto
 	gql__input_NumberOfActionsRequest         *graphql.InputObject // message NumberOfActionsRequest in api_chain.proto
 	gql__input_MostRecentTPSResponse          *graphql.InputObject // message MostRecentTPSResponse in api_chain.proto
 	gql__input_MostRecentTPSRequest           *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
+	gql__input_GetTpsHistoryResponse          *graphql.InputObject // message GetTpsHistoryResponse in api_chain.proto
+	gql__input_GetTpsHistoryRequest           *graphql.InputObject // message GetTpsHistoryRequest in api_chain.proto
+	gql__input_GetSupplyHistoryResponse       *graphql.InputObject // message GetSupplyHistoryResponse in api_chain.proto
+	gql__input_GetSupplyHistoryRequest        *graphql.InputObject // message GetSupplyHistoryRequest in api_chain.proto
 	gql__input_GetStakingRatioHistoryResponse *graphql.InputObject // message GetStakingRatioHistoryResponse in api_chain.proto
 	gql__input_GetStakingRatioHistoryRequest  *graphql.InputObject // message GetStakingRatioHistoryRequest in api_chain.proto
 	gql__input_GetPeakTpsResponse             *graphql.InputObject // message GetPeakTpsResponse in api_chain.proto
 	gql__input_GetPeakTpsRequest              *graphql.InputObject // message GetPeakTpsRequest in api_chain.proto
 	gql__input_GetLatestStakingRecordResponse *graphql.InputObject // message GetLatestStakingRecordResponse in api_chain.proto
 	gql__input_GetLatestBlockHeightResponse   *graphql.InputObject // message GetLatestBlockHeightResponse in api_chain.proto
+	gql__input_GetGasHistoryResponse          *graphql.InputObject // message GetGasHistoryResponse in api_chain.proto
+	gql__input_GetGasHistoryRequest           *graphql.InputObject // message GetGasHistoryRequest in api_chain.proto
 	gql__input_GetEpochInfoResponse           *graphql.InputObject // message GetEpochInfoResponse in api_chain.proto
+	gql__input_GetChainStatsResponse          *graphql.InputObject // message GetChainStatsResponse in api_chain.proto
 	gql__input_GetBlocksResponse              *graphql.InputObject // message GetBlocksResponse in api_chain.proto
 	gql__input_GetBlocksRequest               *graphql.InputObject // message GetBlocksRequest in api_chain.proto
 	gql__input_GetBlockByHeightResponse       *graphql.InputObject // message GetBlockByHeightResponse in api_chain.proto
 	gql__input_GetBlockByHeightRequest        *graphql.InputObject // message GetBlockByHeightRequest in api_chain.proto
 	gql__input_GetActionHistoryResponse       *graphql.InputObject // message GetActionHistoryResponse in api_chain.proto
 	gql__input_GetActionHistoryRequest        *graphql.InputObject // message GetActionHistoryRequest in api_chain.proto
+	gql__input_GasHistoryPoint                *graphql.InputObject // message GasHistoryPoint in api_chain.proto
 	gql__input_ChainResponse_Rewards          *graphql.InputObject // message ChainResponse.Rewards in api_chain.proto
 	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
 	gql__input_BlockSizeByHeightResponse      *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
@@ -85,6 +105,26 @@ func Gql__type_VotingResultMeta() *graphql.Object {
 		})
 	}
 	return gql__type_VotingResultMeta
+}
+
+func Gql__type_TpsHistoryPoint() *graphql.Object {
+	if gql__type_TpsHistoryPoint == nil {
+		gql__type_TpsHistoryPoint = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_TpsHistoryPoint",
+			Fields: graphql.Fields{
+				"date": &graphql.Field{
+					Type: graphql.String,
+				},
+				"avg_tps": &graphql.Field{
+					Type: graphql.Float,
+				},
+				"max_tps": &graphql.Field{
+					Type: graphql.Float,
+				},
+			},
+		})
+	}
+	return gql__type_TpsHistoryPoint
 }
 
 func Gql__type_TotalTransferredTokensResponse() *graphql.Object {
@@ -116,6 +156,32 @@ func Gql__type_TotalTransferredTokensRequest() *graphql.Object {
 		})
 	}
 	return gql__type_TotalTransferredTokensRequest
+}
+
+func Gql__type_SupplyHistoryPoint() *graphql.Object {
+	if gql__type_SupplyHistoryPoint == nil {
+		gql__type_SupplyHistoryPoint = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_SupplyHistoryPoint",
+			Fields: graphql.Fields{
+				"date": &graphql.Field{
+					Type: graphql.String,
+				},
+				"total_supply": &graphql.Field{
+					Type: graphql.String,
+				},
+				"circulating_supply": &graphql.Field{
+					Type: graphql.String,
+				},
+				"burn": &graphql.Field{
+					Type: graphql.String,
+				},
+				"issue": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_SupplyHistoryPoint
 }
 
 func Gql__type_StakingRatioPoint() *graphql.Object {
@@ -195,6 +261,68 @@ func Gql__type_MostRecentTPSRequest() *graphql.Object {
 		})
 	}
 	return gql__type_MostRecentTPSRequest
+}
+
+func Gql__type_GetTpsHistoryResponse() *graphql.Object {
+	if gql__type_GetTpsHistoryResponse == nil {
+		gql__type_GetTpsHistoryResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetTpsHistoryResponse",
+			Fields: graphql.Fields{
+				"data": &graphql.Field{
+					Type: graphql.NewList(Gql__type_TpsHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__type_GetTpsHistoryResponse
+}
+
+func Gql__type_GetTpsHistoryRequest() *graphql.Object {
+	if gql__type_GetTpsHistoryRequest == nil {
+		gql__type_GetTpsHistoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetTpsHistoryRequest",
+			Fields: graphql.Fields{
+				"start": &graphql.Field{
+					Type: graphql.String,
+				},
+				"end": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetTpsHistoryRequest
+}
+
+func Gql__type_GetSupplyHistoryResponse() *graphql.Object {
+	if gql__type_GetSupplyHistoryResponse == nil {
+		gql__type_GetSupplyHistoryResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetSupplyHistoryResponse",
+			Fields: graphql.Fields{
+				"data": &graphql.Field{
+					Type: graphql.NewList(Gql__type_SupplyHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__type_GetSupplyHistoryResponse
+}
+
+func Gql__type_GetSupplyHistoryRequest() *graphql.Object {
+	if gql__type_GetSupplyHistoryRequest == nil {
+		gql__type_GetSupplyHistoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetSupplyHistoryRequest",
+			Fields: graphql.Fields{
+				"start": &graphql.Field{
+					Type: graphql.String,
+				},
+				"end": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetSupplyHistoryRequest
 }
 
 func Gql__type_GetStakingRatioHistoryResponse() *graphql.Object {
@@ -293,6 +421,37 @@ func Gql__type_GetLatestBlockHeightResponse() *graphql.Object {
 	return gql__type_GetLatestBlockHeightResponse
 }
 
+func Gql__type_GetGasHistoryResponse() *graphql.Object {
+	if gql__type_GetGasHistoryResponse == nil {
+		gql__type_GetGasHistoryResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetGasHistoryResponse",
+			Fields: graphql.Fields{
+				"data": &graphql.Field{
+					Type: graphql.NewList(Gql__type_GasHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__type_GetGasHistoryResponse
+}
+
+func Gql__type_GetGasHistoryRequest() *graphql.Object {
+	if gql__type_GetGasHistoryRequest == nil {
+		gql__type_GetGasHistoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetGasHistoryRequest",
+			Fields: graphql.Fields{
+				"start": &graphql.Field{
+					Type: graphql.String,
+				},
+				"end": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetGasHistoryRequest
+}
+
 func Gql__type_GetEpochInfoResponse() *graphql.Object {
 	if gql__type_GetEpochInfoResponse == nil {
 		gql__type_GetEpochInfoResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -308,6 +467,26 @@ func Gql__type_GetEpochInfoResponse() *graphql.Object {
 		})
 	}
 	return gql__type_GetEpochInfoResponse
+}
+
+func Gql__type_GetChainStatsResponse() *graphql.Object {
+	if gql__type_GetChainStatsResponse == nil {
+		gql__type_GetChainStatsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetChainStatsResponse",
+			Fields: graphql.Fields{
+				"actions_num": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"total_supply": &graphql.Field{
+					Type: graphql.String,
+				},
+				"circulating_supply": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetChainStatsResponse
 }
 
 func Gql__type_GetBlocksResponse() *graphql.Object {
@@ -407,6 +586,32 @@ func Gql__type_GetActionHistoryRequest() *graphql.Object {
 		})
 	}
 	return gql__type_GetActionHistoryRequest
+}
+
+func Gql__type_GasHistoryPoint() *graphql.Object {
+	if gql__type_GasHistoryPoint == nil {
+		gql__type_GasHistoryPoint = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GasHistoryPoint",
+			Fields: graphql.Fields{
+				"date": &graphql.Field{
+					Type: graphql.String,
+				},
+				"max_gas_price": &graphql.Field{
+					Type: graphql.String,
+				},
+				"min_gas_price": &graphql.Field{
+					Type: graphql.String,
+				},
+				"avg_gas_price": &graphql.Field{
+					Type: graphql.String,
+				},
+				"total_gas_fee": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GasHistoryPoint
 }
 
 func Gql__type_ChainResponse_Rewards() *graphql.Object {
@@ -576,6 +781,26 @@ func Gql__input_VotingResultMeta() *graphql.InputObject {
 	return gql__input_VotingResultMeta
 }
 
+func Gql__input_TpsHistoryPoint() *graphql.InputObject {
+	if gql__input_TpsHistoryPoint == nil {
+		gql__input_TpsHistoryPoint = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_TpsHistoryPoint",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"date": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"avg_tps": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+				"max_tps": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+			},
+		})
+	}
+	return gql__input_TpsHistoryPoint
+}
+
 func Gql__input_TotalTransferredTokensResponse() *graphql.InputObject {
 	if gql__input_TotalTransferredTokensResponse == nil {
 		gql__input_TotalTransferredTokensResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -605,6 +830,32 @@ func Gql__input_TotalTransferredTokensRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_TotalTransferredTokensRequest
+}
+
+func Gql__input_SupplyHistoryPoint() *graphql.InputObject {
+	if gql__input_SupplyHistoryPoint == nil {
+		gql__input_SupplyHistoryPoint = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_SupplyHistoryPoint",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"date": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"total_supply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"circulating_supply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"burn": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"issue": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_SupplyHistoryPoint
 }
 
 func Gql__input_StakingRatioPoint() *graphql.InputObject {
@@ -684,6 +935,68 @@ func Gql__input_MostRecentTPSRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_MostRecentTPSRequest
+}
+
+func Gql__input_GetTpsHistoryResponse() *graphql.InputObject {
+	if gql__input_GetTpsHistoryResponse == nil {
+		gql__input_GetTpsHistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetTpsHistoryResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"data": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_TpsHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__input_GetTpsHistoryResponse
+}
+
+func Gql__input_GetTpsHistoryRequest() *graphql.InputObject {
+	if gql__input_GetTpsHistoryRequest == nil {
+		gql__input_GetTpsHistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetTpsHistoryRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"start": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"end": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetTpsHistoryRequest
+}
+
+func Gql__input_GetSupplyHistoryResponse() *graphql.InputObject {
+	if gql__input_GetSupplyHistoryResponse == nil {
+		gql__input_GetSupplyHistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetSupplyHistoryResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"data": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_SupplyHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__input_GetSupplyHistoryResponse
+}
+
+func Gql__input_GetSupplyHistoryRequest() *graphql.InputObject {
+	if gql__input_GetSupplyHistoryRequest == nil {
+		gql__input_GetSupplyHistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetSupplyHistoryRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"start": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"end": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetSupplyHistoryRequest
 }
 
 func Gql__input_GetStakingRatioHistoryResponse() *graphql.InputObject {
@@ -782,6 +1095,37 @@ func Gql__input_GetLatestBlockHeightResponse() *graphql.InputObject {
 	return gql__input_GetLatestBlockHeightResponse
 }
 
+func Gql__input_GetGasHistoryResponse() *graphql.InputObject {
+	if gql__input_GetGasHistoryResponse == nil {
+		gql__input_GetGasHistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetGasHistoryResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"data": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_GasHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__input_GetGasHistoryResponse
+}
+
+func Gql__input_GetGasHistoryRequest() *graphql.InputObject {
+	if gql__input_GetGasHistoryRequest == nil {
+		gql__input_GetGasHistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetGasHistoryRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"start": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"end": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetGasHistoryRequest
+}
+
 func Gql__input_GetEpochInfoResponse() *graphql.InputObject {
 	if gql__input_GetEpochInfoResponse == nil {
 		gql__input_GetEpochInfoResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -797,6 +1141,26 @@ func Gql__input_GetEpochInfoResponse() *graphql.InputObject {
 		})
 	}
 	return gql__input_GetEpochInfoResponse
+}
+
+func Gql__input_GetChainStatsResponse() *graphql.InputObject {
+	if gql__input_GetChainStatsResponse == nil {
+		gql__input_GetChainStatsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetChainStatsResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"actions_num": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"total_supply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"circulating_supply": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetChainStatsResponse
 }
 
 func Gql__input_GetBlocksResponse() *graphql.InputObject {
@@ -896,6 +1260,32 @@ func Gql__input_GetActionHistoryRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_GetActionHistoryRequest
+}
+
+func Gql__input_GasHistoryPoint() *graphql.InputObject {
+	if gql__input_GasHistoryPoint == nil {
+		gql__input_GasHistoryPoint = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GasHistoryPoint",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"date": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"max_gas_price": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"min_gas_price": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"avg_gas_price": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"total_gas_fee": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GasHistoryPoint
 }
 
 func Gql__input_ChainResponse_Rewards() *graphql.InputObject {

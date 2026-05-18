@@ -3,7 +3,9 @@ package apiservice
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"math/big"
+	"strconv"
 	"strings"
 	"time"
 
@@ -15,7 +17,39 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 	"github.com/pkg/errors"
+	"github.com/shopspring/decimal"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
+
+const dateLayout = "2006-01-02"
+
+// parseDateRange validates that start and end are YYYY-MM-DD dates with
+// start <= end. Returns parsed times plus a gRPC InvalidArgument error on
+// failure. Without this, malformed input leaks raw PostgreSQL errors
+// ("invalid input syntax for type date") to the caller as a 500.
+func parseDateRange(start, end string) (time.Time, time.Time, error) {
+	s, err := time.Parse(dateLayout, start)
+	if err != nil {
+		return time.Time{}, time.Time{}, status.Errorf(codes.InvalidArgument,
+			"invalid start date %q: expected YYYY-MM-DD", start)
+	}
+	e, err := time.Parse(dateLayout, end)
+	if err != nil {
+		return time.Time{}, time.Time{}, status.Errorf(codes.InvalidArgument,
+			"invalid end date %q: expected YYYY-MM-DD", end)
+	}
+	if s.After(e) {
+		return time.Time{}, time.Time{}, status.Errorf(codes.InvalidArgument,
+			"start date %q is after end date %q", start, end)
+	}
+	return s, e, nil
+}
+
+// blockIntervalSecs is the chain's post-hardfork block interval, used as the
+// TPS denominator. Pre-hardfork blocks were 5 s; the homepage chart shows the
+// current state, so a single value is fine.
+const blockIntervalSecs = 2.5
 
 // isUndefinedTableErr reports whether err is a PostgreSQL "undefined_table"
 // error (SQLSTATE 42P01). Some tables — like staking_record — are populated
@@ -506,6 +540,271 @@ func (s *ChainService) GetBlockByHeight(ctx context.Context, req *api.GetBlockBy
 	resp.Block = block
 
 	return resp, nil
+}
+
+// GetChainStats returns the homepage chain stats by reading three pre-computed
+// keys from iotexscanv3_kv (maintained by the iotex-statistics Windmill job).
+// Supply values are already in IOTX units.
+func (s *ChainService) GetChainStats(ctx context.Context, req *api.GetChainStatsRequest) (*api.GetChainStatsResponse, error) {
+	resp := &api.GetChainStatsResponse{}
+
+	var rows []struct {
+		Key   string
+		Value sql.NullString
+	}
+	if err := db.DB().WithContext(ctx).Raw(
+		`SELECT key, value FROM iotexscanv3_kv WHERE key IN (?, ?, ?)`,
+		"actions_num", "total_supply", "total_circulating_supply",
+	).Scan(&rows).Error; err != nil {
+		if isUndefinedTableErr(err) {
+			return resp, nil
+		}
+		return nil, errors.Wrap(err, "failed to read iotexscanv3_kv")
+	}
+
+	for _, r := range rows {
+		if !r.Value.Valid || r.Value.String == "" {
+			continue
+		}
+		switch r.Key {
+		case "actions_num":
+			n, err := strconv.ParseUint(r.Value.String, 10, 64)
+			if err != nil {
+				return nil, errors.Wrapf(err, "actions_num is not a uint64: %q", r.Value.String)
+			}
+			resp.ActionsNum = n
+		case "total_supply":
+			resp.TotalSupply = r.Value.String
+		case "total_circulating_supply":
+			resp.CirculatingSupply = r.Value.String
+		}
+	}
+	return resp, nil
+}
+
+// GetTpsHistory returns daily avg/max TPS over a date range. avg_tps and
+// max_tps are computed from block.num_actions divided by the block interval.
+func (s *ChainService) GetTpsHistory(ctx context.Context, req *api.GetTpsHistoryRequest) (*api.GetTpsHistoryResponse, error) {
+	if _, _, err := parseDateRange(req.GetStart(), req.GetEnd()); err != nil {
+		return nil, err
+	}
+	resp := &api.GetTpsHistoryResponse{}
+	gormDB := db.DB()
+	q := fmt.Sprintf(`SELECT to_char(date_trunc('day', timestamp AT TIME ZONE 'UTC'), 'YYYY-MM-DD') AS date,
+		ROUND(AVG(num_actions)::numeric / %g, 2)::float8 AS avg_tps,
+		ROUND(MAX(num_actions)::numeric / %g, 2)::float8 AS max_tps
+		FROM block
+		WHERE timestamp >= ?::date AND timestamp < (?::date + INTERVAL '1 day')
+		GROUP BY 1
+		ORDER BY 1 ASC`, blockIntervalSecs, blockIntervalSecs)
+	var rows []struct {
+		Date   string
+		AvgTps float64
+		MaxTps float64
+	}
+	if err := gormDB.WithContext(ctx).Raw(q, req.GetStart(), req.GetEnd()).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get tps history")
+	}
+	for _, r := range rows {
+		resp.Data = append(resp.Data, &api.TpsHistoryPoint{
+			Date:   r.Date,
+			AvgTps: r.AvgTps,
+			MaxTps: r.MaxTps,
+		})
+	}
+	return resp, nil
+}
+
+// GetGasHistory returns daily gas price stats and total gas fee, aggregated
+// live from block_action joined with block. Rows with gas_price = 0 (e.g.
+// system actions) are excluded.
+//
+// Implementation note: we resolve the block_height bounds in a cheap
+// timestamp-indexed query first, then pass them as literal integers into the
+// main aggregation. Without this, the planner picks block_pkey + filter and
+// loses block_action partition pruning, causing a 10×+ slowdown (17 s → 2 s
+// for a 7-day window).
+func (s *ChainService) GetGasHistory(ctx context.Context, req *api.GetGasHistoryRequest) (*api.GetGasHistoryResponse, error) {
+	if _, _, err := parseDateRange(req.GetStart(), req.GetEnd()); err != nil {
+		return nil, err
+	}
+	resp := &api.GetGasHistoryResponse{}
+	gormDB := db.DB().WithContext(ctx)
+
+	var bounds struct {
+		Lo sql.NullInt64
+		Hi sql.NullInt64
+	}
+	// MIN/MAX with WHERE on a different indexed column tricks PG into scanning
+	// block_pkey backwards filtering by timestamp — 47 s on a 7-day window.
+	// ORDER BY timestamp ... LIMIT 1 forces use of idx_block_timestamp (~1 ms).
+	if err := gormDB.Raw(
+		`SELECT
+			(SELECT block_height FROM block
+			 WHERE timestamp >= ?::date AND timestamp < (?::date + INTERVAL '1 day')
+			 ORDER BY timestamp ASC LIMIT 1) AS lo,
+			(SELECT block_height FROM block
+			 WHERE timestamp >= ?::date AND timestamp < (?::date + INTERVAL '1 day')
+			 ORDER BY timestamp DESC LIMIT 1) AS hi`,
+		req.GetStart(), req.GetEnd(),
+		req.GetStart(), req.GetEnd(),
+	).Scan(&bounds).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to resolve block_height bounds")
+	}
+	if !bounds.Lo.Valid || !bounds.Hi.Valid {
+		return resp, nil // no blocks in window
+	}
+
+	var rows []struct {
+		Date        string
+		MaxGasPrice sql.NullString
+		MinGasPrice sql.NullString
+		AvgGasPrice sql.NullString
+		TotalGasFee sql.NullString
+	}
+	// Inline the block_height bounds as literals (not parameters) so PG's
+	// planner sees concrete values at plan time and can prune block_action's
+	// 49 partitions. With prepared-statement parameters the planner falls
+	// back to a generic plan over all partitions, costing ~14× more.
+	// Safe to inline: bounds are int64 derived from a DB lookup, never user
+	// input.
+	q := fmt.Sprintf(`SELECT to_char(b.timestamp::date, 'YYYY-MM-DD') AS date,
+		MAX(ba.gas_price)::text                       AS max_gas_price,
+		MIN(ba.gas_price)::text                       AS min_gas_price,
+		ROUND(AVG(ba.gas_price))::text                AS avg_gas_price,
+		SUM(ba.gas_price * ba.gas_consumed)::text     AS total_gas_fee
+		FROM block_action ba
+		JOIN block b ON b.block_height = ba.block_height
+		WHERE ba.block_height BETWEEN %d AND %d
+		  AND ba.gas_price > 0
+		GROUP BY 1
+		ORDER BY 1 ASC`, bounds.Lo.Int64, bounds.Hi.Int64)
+	if err := gormDB.Raw(q).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get gas history")
+	}
+	for _, r := range rows {
+		resp.Data = append(resp.Data, &api.GasHistoryPoint{
+			Date:        r.Date,
+			MaxGasPrice: r.MaxGasPrice.String,
+			MinGasPrice: r.MinGasPrice.String,
+			AvgGasPrice: r.AvgGasPrice.String,
+			TotalGasFee: r.TotalGasFee.String,
+		})
+	}
+	return resp, nil
+}
+
+// GetSupplyHistory returns daily total/circulating supply (IOTX) plus daily
+// burn/issue derived from the supply deltas.
+//
+// Source: block_supply (1 row per block) joined with block (for the timestamp).
+// For each day we pick the last block of the day and read its supply snapshot.
+// We fetch one extra day before [start, end] so we have a baseline to diff
+// against for the first user-requested day.
+//
+//	burn(t)  = total_supply(t-1) - total_supply(t)             (zero address only receives)
+//	issue(t) = (circ(t) - circ(t-1)) + burn(t)                 (lock address only sends)
+//
+// All output amounts are IOTX (rau / 1e18) with 2 decimals.
+func (s *ChainService) GetSupplyHistory(ctx context.Context, req *api.GetSupplyHistoryRequest) (*api.GetSupplyHistoryResponse, error) {
+	if _, _, err := parseDateRange(req.GetStart(), req.GetEnd()); err != nil {
+		return nil, err
+	}
+	resp := &api.GetSupplyHistoryResponse{}
+
+	q := `WITH daily AS (
+		SELECT b.timestamp::date AS day, MAX(b.block_height) AS max_height
+		FROM block b
+		WHERE b.timestamp >= ?::date - INTERVAL '1 day'
+		  AND b.timestamp <  (?::date + INTERVAL '1 day')
+		GROUP BY 1
+	)
+	SELECT to_char(d.day, 'YYYY-MM-DD') AS date,
+	       bs.total_supply::text             AS total_supply,
+	       bs.total_circulating_supply::text AS circulating_supply
+	FROM daily d
+	JOIN block_supply bs ON bs.block_height = d.max_height
+	ORDER BY d.day ASC`
+
+	var rows []struct {
+		Date              string
+		TotalSupply       sql.NullString
+		CirculatingSupply sql.NullString
+	}
+	if err := db.DB().WithContext(ctx).Raw(q, req.GetStart(), req.GetEnd()).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to get supply history")
+	}
+	if len(rows) == 0 {
+		return resp, nil
+	}
+
+	// Parse rau strings into decimals once. Skip rows with NULL/invalid values.
+	type day struct {
+		date  string
+		t     time.Time       // parsed date, used for gap detection
+		ts    decimal.Decimal // total_supply (rau)
+		cs    decimal.Decimal // circulating_supply (rau)
+		hasTS bool
+		hasCS bool
+	}
+	parsed := make([]day, 0, len(rows))
+	for _, r := range rows {
+		d := day{date: r.Date}
+		if t, err := time.Parse(dateLayout, r.Date); err == nil {
+			d.t = t
+		}
+		if r.TotalSupply.Valid {
+			if v, err := decimal.NewFromString(r.TotalSupply.String); err == nil {
+				d.ts, d.hasTS = v, true
+			}
+		}
+		if r.CirculatingSupply.Valid {
+			if v, err := decimal.NewFromString(r.CirculatingSupply.String); err == nil {
+				d.cs, d.hasCS = v, true
+			}
+		}
+		parsed = append(parsed, d)
+	}
+
+	startDate := req.GetStart()
+	for i, d := range parsed {
+		if d.date < startDate {
+			continue // baseline row used only for diff
+		}
+		point := &api.SupplyHistoryPoint{Date: d.date}
+		if d.hasTS {
+			point.TotalSupply = rauDecimalToIOTX(d.ts)
+		}
+		if d.hasCS {
+			point.CirculatingSupply = rauDecimalToIOTX(d.cs)
+		}
+		if i == 0 {
+			// No baseline available — leave burn/issue empty.
+			resp.Data = append(resp.Data, point)
+			continue
+		}
+		prev := parsed[i-1]
+		// SQL GROUP BY drops empty days (chain halts / missing block data); a
+		// multi-day delta would silently misattribute those days' burns to
+		// today. Only emit burn/issue when the previous row is exactly one
+		// day earlier.
+		if d.hasTS && prev.hasTS && d.t.Sub(prev.t) == 24*time.Hour {
+			burn := prev.ts.Sub(d.ts)
+			point.Burn = rauDecimalToIOTX(burn)
+			if d.hasCS && prev.hasCS {
+				issue := d.cs.Sub(prev.cs).Add(burn)
+				point.Issue = rauDecimalToIOTX(issue)
+			}
+		}
+		resp.Data = append(resp.Data, point)
+	}
+	return resp, nil
+}
+
+// rauDecimalToIOTX divides a rau-denominated decimal by 1e18 and formats with
+// 2 decimal places.
+func rauDecimalToIOTX(rau decimal.Decimal) string {
+	return rau.Shift(-18).StringFixed(2)
 }
 
 // GetStakingRatioHistory returns staking ratio history over a time range

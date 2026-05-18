@@ -27,6 +27,7 @@ const (
 	XRC20Service_GetXRC20TransfersByContract_FullMethodName = "/api.XRC20Service/GetXRC20TransfersByContract"
 	XRC20Service_GetXRC20HoldersByContract_FullMethodName   = "/api.XRC20Service/GetXRC20HoldersByContract"
 	XRC20Service_GetXRC20TokenBalance_FullMethodName        = "/api.XRC20Service/GetXRC20TokenBalance"
+	XRC20Service_GetXRC20Stats_FullMethodName               = "/api.XRC20Service/GetXRC20Stats"
 )
 
 // XRC20ServiceClient is the client API for XRC20Service service.
@@ -49,6 +50,8 @@ type XRC20ServiceClient interface {
 	GetXRC20HoldersByContract(ctx context.Context, in *GetXRC20HoldersByContractRequest, opts ...grpc.CallOption) (*GetXRC20HoldersByContractResponse, error)
 	// GetXRC20TokenBalance returns the ERC20 token balance for a specific address
 	GetXRC20TokenBalance(ctx context.Context, in *GetXRC20TokenBalanceRequest, opts ...grpc.CallOption) (*GetXRC20TokenBalanceResponse, error)
+	// GetXRC20Stats returns per-token holder/transfer counts, ordered by holders DESC
+	GetXRC20Stats(ctx context.Context, in *GetXRC20StatsRequest, opts ...grpc.CallOption) (*GetXRC20StatsResponse, error)
 }
 
 type xRC20ServiceClient struct {
@@ -131,6 +134,15 @@ func (c *xRC20ServiceClient) GetXRC20TokenBalance(ctx context.Context, in *GetXR
 	return out, nil
 }
 
+func (c *xRC20ServiceClient) GetXRC20Stats(ctx context.Context, in *GetXRC20StatsRequest, opts ...grpc.CallOption) (*GetXRC20StatsResponse, error) {
+	out := new(GetXRC20StatsResponse)
+	err := c.cc.Invoke(ctx, XRC20Service_GetXRC20Stats_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // XRC20ServiceServer is the server API for XRC20Service service.
 // All implementations must embed UnimplementedXRC20ServiceServer
 // for forward compatibility
@@ -151,6 +163,8 @@ type XRC20ServiceServer interface {
 	GetXRC20HoldersByContract(context.Context, *GetXRC20HoldersByContractRequest) (*GetXRC20HoldersByContractResponse, error)
 	// GetXRC20TokenBalance returns the ERC20 token balance for a specific address
 	GetXRC20TokenBalance(context.Context, *GetXRC20TokenBalanceRequest) (*GetXRC20TokenBalanceResponse, error)
+	// GetXRC20Stats returns per-token holder/transfer counts, ordered by holders DESC
+	GetXRC20Stats(context.Context, *GetXRC20StatsRequest) (*GetXRC20StatsResponse, error)
 	mustEmbedUnimplementedXRC20ServiceServer()
 }
 
@@ -181,6 +195,9 @@ func (UnimplementedXRC20ServiceServer) GetXRC20HoldersByContract(context.Context
 }
 func (UnimplementedXRC20ServiceServer) GetXRC20TokenBalance(context.Context, *GetXRC20TokenBalanceRequest) (*GetXRC20TokenBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetXRC20TokenBalance not implemented")
+}
+func (UnimplementedXRC20ServiceServer) GetXRC20Stats(context.Context, *GetXRC20StatsRequest) (*GetXRC20StatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetXRC20Stats not implemented")
 }
 func (UnimplementedXRC20ServiceServer) mustEmbedUnimplementedXRC20ServiceServer() {}
 
@@ -339,6 +356,24 @@ func _XRC20Service_GetXRC20TokenBalance_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _XRC20Service_GetXRC20Stats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetXRC20StatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(XRC20ServiceServer).GetXRC20Stats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: XRC20Service_GetXRC20Stats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(XRC20ServiceServer).GetXRC20Stats(ctx, req.(*GetXRC20StatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // XRC20Service_ServiceDesc is the grpc.ServiceDesc for XRC20Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -377,6 +412,10 @@ var XRC20Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetXRC20TokenBalance",
 			Handler:    _XRC20Service_GetXRC20TokenBalance_Handler,
+		},
+		{
+			MethodName: "GetXRC20Stats",
+			Handler:    _XRC20Service_GetXRC20Stats_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

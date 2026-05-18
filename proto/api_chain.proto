@@ -159,6 +159,56 @@ message GetStakingRatioHistoryResponse {
   repeated StakingRatioPoint data = 1;
 }
 
+message GetChainStatsRequest {}
+message GetChainStatsResponse {
+  uint64 actions_num = 1;        // total number of actions, from kv table
+  string total_supply = 2;       // IOTX (rau / 1e18), decimal string
+  string circulating_supply = 3; // IOTX (rau / 1e18), decimal string
+}
+
+message GetTpsHistoryRequest {
+  string start = 1; // start date, YYYY-MM-DD (UTC)
+  string end = 2;   // end date, YYYY-MM-DD (UTC, inclusive)
+}
+message TpsHistoryPoint {
+  string date = 1;    // YYYY-MM-DD
+  double avg_tps = 2; // avg(num_actions)/2.5
+  double max_tps = 3; // max(num_actions)/2.5
+}
+message GetTpsHistoryResponse {
+  repeated TpsHistoryPoint data = 1;
+}
+
+message GetGasHistoryRequest {
+  string start = 1; // YYYY-MM-DD
+  string end = 2;   // YYYY-MM-DD (inclusive)
+}
+message GasHistoryPoint {
+  string date = 1;
+  string max_gas_price = 2;
+  string min_gas_price = 3;
+  string avg_gas_price = 4;
+  string total_gas_fee = 5;
+}
+message GetGasHistoryResponse {
+  repeated GasHistoryPoint data = 1;
+}
+
+message GetSupplyHistoryRequest {
+  string start = 1; // YYYY-MM-DD
+  string end = 2;   // YYYY-MM-DD (inclusive)
+}
+message SupplyHistoryPoint {
+  string date = 1;
+  string total_supply = 2;       // IOTX
+  string circulating_supply = 3; // IOTX
+  string burn = 4;               // IOTX, daily
+  string issue = 5;              // IOTX, daily
+}
+message GetSupplyHistoryResponse {
+  repeated SupplyHistoryPoint data = 1;
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -289,6 +339,38 @@ service ChainService {
   rpc GetStakingRatioHistory(GetStakingRatioHistoryRequest) returns (GetStakingRatioHistoryResponse) {
     option (google.api.http) = {
       post: "/api.ChainService.GetStakingRatioHistory"
+      body: "*"
+    };
+  };
+
+  // GetChainStats returns total action count + total/circulating supply (IOTX units)
+  rpc GetChainStats(GetChainStatsRequest) returns (GetChainStatsResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetChainStats"
+      body: "*"
+    };
+  };
+
+  // GetTpsHistory returns daily avg/max TPS over a date range
+  rpc GetTpsHistory(GetTpsHistoryRequest) returns (GetTpsHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetTpsHistory"
+      body: "*"
+    };
+  };
+
+  // GetGasHistory returns daily gas price stats and total gas fee over a date range
+  rpc GetGasHistory(GetGasHistoryRequest) returns (GetGasHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetGasHistory"
+      body: "*"
+    };
+  };
+
+  // GetSupplyHistory returns daily total/circulating supply (IOTX) and daily burn/issue over a date range
+  rpc GetSupplyHistory(GetSupplyHistoryRequest) returns (GetSupplyHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetSupplyHistory"
       body: "*"
     };
   };
