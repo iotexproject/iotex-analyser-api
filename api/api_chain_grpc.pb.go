@@ -32,6 +32,10 @@ const (
 	ChainService_GetPeakTps_FullMethodName             = "/api.ChainService/GetPeakTps"
 	ChainService_GetActionHistory_FullMethodName       = "/api.ChainService/GetActionHistory"
 	ChainService_GetStakingRatioHistory_FullMethodName = "/api.ChainService/GetStakingRatioHistory"
+	ChainService_GetChainStats_FullMethodName          = "/api.ChainService/GetChainStats"
+	ChainService_GetTpsHistory_FullMethodName          = "/api.ChainService/GetTpsHistory"
+	ChainService_GetGasHistory_FullMethodName          = "/api.ChainService/GetGasHistory"
+	ChainService_GetSupplyHistory_FullMethodName       = "/api.ChainService/GetSupplyHistory"
 )
 
 // ChainServiceClient is the client API for ChainService service.
@@ -63,6 +67,14 @@ type ChainServiceClient interface {
 	GetActionHistory(ctx context.Context, in *GetActionHistoryRequest, opts ...grpc.CallOption) (*GetActionHistoryResponse, error)
 	// GetStakingRatioHistory returns staking ratio history over a time range
 	GetStakingRatioHistory(ctx context.Context, in *GetStakingRatioHistoryRequest, opts ...grpc.CallOption) (*GetStakingRatioHistoryResponse, error)
+	// GetChainStats returns total action count + total/circulating supply (IOTX units)
+	GetChainStats(ctx context.Context, in *GetChainStatsRequest, opts ...grpc.CallOption) (*GetChainStatsResponse, error)
+	// GetTpsHistory returns daily avg/max TPS over a date range
+	GetTpsHistory(ctx context.Context, in *GetTpsHistoryRequest, opts ...grpc.CallOption) (*GetTpsHistoryResponse, error)
+	// GetGasHistory returns daily gas price stats and total gas fee over a date range
+	GetGasHistory(ctx context.Context, in *GetGasHistoryRequest, opts ...grpc.CallOption) (*GetGasHistoryResponse, error)
+	// GetSupplyHistory returns daily total/circulating supply (IOTX) and daily burn/issue over a date range
+	GetSupplyHistory(ctx context.Context, in *GetSupplyHistoryRequest, opts ...grpc.CallOption) (*GetSupplyHistoryResponse, error)
 }
 
 type chainServiceClient struct {
@@ -190,6 +202,42 @@ func (c *chainServiceClient) GetStakingRatioHistory(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *chainServiceClient) GetChainStats(ctx context.Context, in *GetChainStatsRequest, opts ...grpc.CallOption) (*GetChainStatsResponse, error) {
+	out := new(GetChainStatsResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetChainStats_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetTpsHistory(ctx context.Context, in *GetTpsHistoryRequest, opts ...grpc.CallOption) (*GetTpsHistoryResponse, error) {
+	out := new(GetTpsHistoryResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetTpsHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetGasHistory(ctx context.Context, in *GetGasHistoryRequest, opts ...grpc.CallOption) (*GetGasHistoryResponse, error) {
+	out := new(GetGasHistoryResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetGasHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetSupplyHistory(ctx context.Context, in *GetSupplyHistoryRequest, opts ...grpc.CallOption) (*GetSupplyHistoryResponse, error) {
+	out := new(GetSupplyHistoryResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetSupplyHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility
@@ -219,6 +267,14 @@ type ChainServiceServer interface {
 	GetActionHistory(context.Context, *GetActionHistoryRequest) (*GetActionHistoryResponse, error)
 	// GetStakingRatioHistory returns staking ratio history over a time range
 	GetStakingRatioHistory(context.Context, *GetStakingRatioHistoryRequest) (*GetStakingRatioHistoryResponse, error)
+	// GetChainStats returns total action count + total/circulating supply (IOTX units)
+	GetChainStats(context.Context, *GetChainStatsRequest) (*GetChainStatsResponse, error)
+	// GetTpsHistory returns daily avg/max TPS over a date range
+	GetTpsHistory(context.Context, *GetTpsHistoryRequest) (*GetTpsHistoryResponse, error)
+	// GetGasHistory returns daily gas price stats and total gas fee over a date range
+	GetGasHistory(context.Context, *GetGasHistoryRequest) (*GetGasHistoryResponse, error)
+	// GetSupplyHistory returns daily total/circulating supply (IOTX) and daily burn/issue over a date range
+	GetSupplyHistory(context.Context, *GetSupplyHistoryRequest) (*GetSupplyHistoryResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -264,6 +320,18 @@ func (UnimplementedChainServiceServer) GetActionHistory(context.Context, *GetAct
 }
 func (UnimplementedChainServiceServer) GetStakingRatioHistory(context.Context, *GetStakingRatioHistoryRequest) (*GetStakingRatioHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStakingRatioHistory not implemented")
+}
+func (UnimplementedChainServiceServer) GetChainStats(context.Context, *GetChainStatsRequest) (*GetChainStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetChainStats not implemented")
+}
+func (UnimplementedChainServiceServer) GetTpsHistory(context.Context, *GetTpsHistoryRequest) (*GetTpsHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTpsHistory not implemented")
+}
+func (UnimplementedChainServiceServer) GetGasHistory(context.Context, *GetGasHistoryRequest) (*GetGasHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGasHistory not implemented")
+}
+func (UnimplementedChainServiceServer) GetSupplyHistory(context.Context, *GetSupplyHistoryRequest) (*GetSupplyHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSupplyHistory not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 
@@ -512,6 +580,78 @@ func _ChainService_GetStakingRatioHistory_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_GetChainStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetChainStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetChainStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetChainStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetChainStats(ctx, req.(*GetChainStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetTpsHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTpsHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetTpsHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetTpsHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetTpsHistory(ctx, req.(*GetTpsHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetGasHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGasHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetGasHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetGasHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetGasHistory(ctx, req.(*GetGasHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetSupplyHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSupplyHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetSupplyHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetSupplyHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetSupplyHistory(ctx, req.(*GetSupplyHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -570,6 +710,22 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStakingRatioHistory",
 			Handler:    _ChainService_GetStakingRatioHistory_Handler,
+		},
+		{
+			MethodName: "GetChainStats",
+			Handler:    _ChainService_GetChainStats_Handler,
+		},
+		{
+			MethodName: "GetTpsHistory",
+			Handler:    _ChainService_GetTpsHistory_Handler,
+		},
+		{
+			MethodName: "GetGasHistory",
+			Handler:    _ChainService_GetGasHistory_Handler,
+		},
+		{
+			MethodName: "GetSupplyHistory",
+			Handler:    _ChainService_GetSupplyHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
