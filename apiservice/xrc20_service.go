@@ -344,7 +344,14 @@ func (s *XRC20Service) GetXRC20Stats(ctx context.Context, req *api.GetXRC20Stats
 	}
 
 	skip := common.PageOffset(req.GetPagination())
-	first := min(common.PageSize(req.GetPagination()), uint64(xrc20StatsMaxPageSize))
+	// common.PageSize only applies its default (200) when req.Pagination is nil
+	// — a caller passing &Pagination{First: 0} would otherwise get LIMIT 0 and
+	// a confusing Count>0/Items=[] response. Treat First=0 as "use the page
+	// cap" so the homepage call works with an empty Pagination block.
+	first := common.PageSize(req.GetPagination())
+	if first == 0 || first > xrc20StatsMaxPageSize {
+		first = xrc20StatsMaxPageSize
+	}
 
 	var rows []struct {
 		Address       string

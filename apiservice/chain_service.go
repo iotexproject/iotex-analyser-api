@@ -18,7 +18,33 @@ import (
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 	"github.com/pkg/errors"
 	"github.com/shopspring/decimal"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
+
+const dateLayout = "2006-01-02"
+
+// parseDateRange validates that start and end are YYYY-MM-DD dates with
+// start <= end. Returns parsed times plus a gRPC InvalidArgument error on
+// failure. Without this, malformed input leaks raw PostgreSQL errors
+// ("invalid input syntax for type date") to the caller as a 500.
+func parseDateRange(start, end string) (time.Time, time.Time, error) {
+	s, err := time.Parse(dateLayout, start)
+	if err != nil {
+		return time.Time{}, time.Time{}, status.Errorf(codes.InvalidArgument,
+			"invalid start date %q: expected YYYY-MM-DD", start)
+	}
+	e, err := time.Parse(dateLayout, end)
+	if err != nil {
+		return time.Time{}, time.Time{}, status.Errorf(codes.InvalidArgument,
+			"invalid end date %q: expected YYYY-MM-DD", end)
+	}
+	if s.After(e) {
+		return time.Time{}, time.Time{}, status.Errorf(codes.InvalidArgument,
+			"start date %q is after end date %q", start, end)
+	}
+	return s, e, nil
+}
 
 // blockIntervalSecs is the chain's post-hardfork block interval, used as the
 // TPS denominator. Pre-hardfork blocks were 5 s; the homepage chart shows the
@@ -559,6 +585,9 @@ func (s *ChainService) GetChainStats(ctx context.Context, req *api.GetChainStats
 // GetTpsHistory returns daily avg/max TPS over a date range. avg_tps and
 // max_tps are computed from block.num_actions divided by the block interval.
 func (s *ChainService) GetTpsHistory(ctx context.Context, req *api.GetTpsHistoryRequest) (*api.GetTpsHistoryResponse, error) {
+	if _, _, err := parseDateRange(req.GetStart(), req.GetEnd()); err != nil {
+		return nil, err
+	}
 	resp := &api.GetTpsHistoryResponse{}
 	gormDB := db.DB()
 	q := fmt.Sprintf(`SELECT to_char(date_trunc('day', timestamp AT TIME ZONE 'UTC'), 'YYYY-MM-DD') AS date,
@@ -596,6 +625,9 @@ func (s *ChainService) GetTpsHistory(ctx context.Context, req *api.GetTpsHistory
 // loses block_action partition pruning, causing a 10×+ slowdown (17 s → 2 s
 // for a 7-day window).
 func (s *ChainService) GetGasHistory(ctx context.Context, req *api.GetGasHistoryRequest) (*api.GetGasHistoryResponse, error) {
+	if _, _, err := parseDateRange(req.GetStart(), req.GetEnd()); err != nil {
+		return nil, err
+	}
 	resp := &api.GetGasHistoryResponse{}
 	gormDB := db.DB().WithContext(ctx)
 
@@ -675,6 +707,9 @@ func (s *ChainService) GetGasHistory(ctx context.Context, req *api.GetGasHistory
 //
 // All output amounts are IOTX (rau / 1e18) with 2 decimals.
 func (s *ChainService) GetSupplyHistory(ctx context.Context, req *api.GetSupplyHistoryRequest) (*api.GetSupplyHistoryResponse, error) {
+	if _, _, err := parseDateRange(req.GetStart(), req.GetEnd()); err != nil {
+		return nil, err
+	}
 	resp := &api.GetSupplyHistoryResponse{}
 
 	q := `WITH daily AS (
@@ -705,15 +740,19 @@ func (s *ChainService) GetSupplyHistory(ctx context.Context, req *api.GetSupplyH
 
 	// Parse rau strings into decimals once. Skip rows with NULL/invalid values.
 	type day struct {
-		date   string
-		ts     decimal.Decimal // total_supply (rau)
-		cs     decimal.Decimal // circulating_supply (rau)
-		hasTS  bool
-		hasCS  bool
+		date  string
+		t     time.Time       // parsed date, used for gap detection
+		ts    decimal.Decimal // total_supply (rau)
+		cs    decimal.Decimal // circulating_supply (rau)
+		hasTS bool
+		hasCS bool
 	}
 	parsed := make([]day, 0, len(rows))
 	for _, r := range rows {
 		d := day{date: r.Date}
+		if t, err := time.Parse(dateLayout, r.Date); err == nil {
+			d.t = t
+		}
 		if r.TotalSupply.Valid {
 			if v, err := decimal.NewFromString(r.TotalSupply.String); err == nil {
 				d.ts, d.hasTS = v, true
@@ -745,7 +784,11 @@ func (s *ChainService) GetSupplyHistory(ctx context.Context, req *api.GetSupplyH
 			continue
 		}
 		prev := parsed[i-1]
-		if d.hasTS && prev.hasTS {
+		// SQL GROUP BY drops empty days (chain halts / missing block data); a
+		// multi-day delta would silently misattribute those days' burns to
+		// today. Only emit burn/issue when the previous row is exactly one
+		// day earlier.
+		if d.hasTS && prev.hasTS && d.t.Sub(prev.t) == 24*time.Hour {
 			burn := prev.ts.Sub(d.ts)
 			point.Burn = rauDecimalToIOTX(burn)
 			if d.hasCS && prev.hasCS {
