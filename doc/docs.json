@@ -228,6 +228,114 @@
           ]
         },
         {
+          "name": "AuthorizationHistoryEntry",
+          "longName": "AuthorizationHistoryEntry",
+          "fullName": "api.AuthorizationHistoryEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "action_hash",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "block_height",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "chain_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "address",
+              "description": "delegated contract",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "nonce",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "y_parity",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "authority",
+              "description": "recovered signer (= the account queried)",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "valid",
+              "description": "whether this authorization was accepted by the chain at inclusion time",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "ContractInfoRequest",
           "longName": "ContractInfoRequest",
           "fullName": "api.ContractInfoRequest",
@@ -604,6 +712,90 @@
               "type": "TokenBalanceInfo",
               "longType": "TokenBalanceInfo",
               "fullType": "api.TokenBalanceInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetAuthorizationsByAuthorityRequest",
+          "longName": "GetAuthorizationsByAuthorityRequest",
+          "fullName": "api.GetAuthorizationsByAuthorityRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "authority",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "skip",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "first",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetAuthorizationsByAuthorityResponse",
+          "longName": "GetAuthorizationsByAuthorityResponse",
+          "fullName": "api.GetAuthorizationsByAuthorityResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "authorizations",
+              "description": "",
+              "label": "repeated",
+              "type": "AuthorizationHistoryEntry",
+              "longType": "AuthorizationHistoryEntry",
+              "fullType": "api.AuthorizationHistoryEntry",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -1550,6 +1742,29 @@
                   ]
                 }
               }
+            },
+            {
+              "name": "GetAuthorizationsByAuthority",
+              "description": "GetAuthorizationsByAuthority returns EIP-7702 authorization history for an authority address",
+              "requestType": "GetAuthorizationsByAuthorityRequest",
+              "requestLongType": "GetAuthorizationsByAuthorityRequest",
+              "requestFullType": "api.GetAuthorizationsByAuthorityRequest",
+              "requestStreaming": false,
+              "responseType": "GetAuthorizationsByAuthorityResponse",
+              "responseLongType": "GetAuthorizationsByAuthorityResponse",
+              "responseFullType": "api.GetAuthorizationsByAuthorityResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.AccountService.GetAuthorizationsByAuthority",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
             }
           ]
         }
@@ -1820,6 +2035,18 @@
               "name": "actHash",
               "description": "action hash",
               "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_fields",
+              "description": "optional subset: action_type, input_data, logs, token_transfers, base_fee, stake_action; empty = none",
+              "label": "repeated",
               "type": "string",
               "longType": "string",
               "fullType": "string",
@@ -2171,6 +2398,126 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "authorization_list",
+              "description": "EIP-7702",
+              "label": "repeated",
+              "type": "AuthorizationEntry",
+              "longType": "ActionByHashResponse.AuthorizationEntry",
+              "fullType": "api.ActionByHashResponse.AuthorizationEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "AuthorizationEntry",
+          "longName": "ActionByHashResponse.AuthorizationEntry",
+          "fullName": "api.ActionByHashResponse.AuthorizationEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "chain_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "address",
+              "description": "delegate contract",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "nonce",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "y_parity",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "r",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "s",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "authority",
+              "description": "recovered signer",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "valid",
+              "description": "whether this authorization was accepted by the chain at inclusion time",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -5272,6 +5619,78 @@
           ]
         },
         {
+          "name": "GasHistoryPoint",
+          "longName": "GasHistoryPoint",
+          "fullName": "api.GasHistoryPoint",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "date",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "max_gas_price",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "min_gas_price",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "avg_gas_price",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "total_gas_fee",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "GetActionHistoryRequest",
           "longName": "GetActionHistoryRequest",
           "fullName": "api.GetActionHistoryRequest",
@@ -5476,6 +5895,65 @@
           ]
         },
         {
+          "name": "GetChainStatsRequest",
+          "longName": "GetChainStatsRequest",
+          "fullName": "api.GetChainStatsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "GetChainStatsResponse",
+          "longName": "GetChainStatsResponse",
+          "fullName": "api.GetChainStatsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "actions_num",
+              "description": "total number of actions, from kv table",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "total_supply",
+              "description": "IOTX (rau / 1e18), decimal string",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "circulating_supply",
+              "description": "IOTX (rau / 1e18), decimal string",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "GetEpochInfoRequest",
           "longName": "GetEpochInfoRequest",
           "fullName": "api.GetEpochInfoRequest",
@@ -5515,6 +5993,66 @@
               "type": "uint64",
               "longType": "uint64",
               "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetGasHistoryRequest",
+          "longName": "GetGasHistoryRequest",
+          "fullName": "api.GetGasHistoryRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "start",
+              "description": "YYYY-MM-DD",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "end",
+              "description": "YYYY-MM-DD (inclusive)",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetGasHistoryResponse",
+          "longName": "GetGasHistoryResponse",
+          "fullName": "api.GetGasHistoryResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "data",
+              "description": "",
+              "label": "repeated",
+              "type": "GasHistoryPoint",
+              "longType": "GasHistoryPoint",
+              "fullType": "api.GasHistoryPoint",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -5737,6 +6275,126 @@
           ]
         },
         {
+          "name": "GetSupplyHistoryRequest",
+          "longName": "GetSupplyHistoryRequest",
+          "fullName": "api.GetSupplyHistoryRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "start",
+              "description": "YYYY-MM-DD",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "end",
+              "description": "YYYY-MM-DD (inclusive)",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetSupplyHistoryResponse",
+          "longName": "GetSupplyHistoryResponse",
+          "fullName": "api.GetSupplyHistoryResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "data",
+              "description": "",
+              "label": "repeated",
+              "type": "SupplyHistoryPoint",
+              "longType": "SupplyHistoryPoint",
+              "fullType": "api.SupplyHistoryPoint",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetTpsHistoryRequest",
+          "longName": "GetTpsHistoryRequest",
+          "fullName": "api.GetTpsHistoryRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "start",
+              "description": "start date, YYYY-MM-DD (UTC)",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "end",
+              "description": "end date, YYYY-MM-DD (UTC, inclusive)",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetTpsHistoryResponse",
+          "longName": "GetTpsHistoryResponse",
+          "fullName": "api.GetTpsHistoryResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "data",
+              "description": "",
+              "label": "repeated",
+              "type": "TpsHistoryPoint",
+              "longType": "TpsHistoryPoint",
+              "fullType": "api.TpsHistoryPoint",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "MostRecentTPSRequest",
           "longName": "MostRecentTPSRequest",
           "fullName": "api.MostRecentTPSRequest",
@@ -5893,6 +6551,78 @@
           ]
         },
         {
+          "name": "SupplyHistoryPoint",
+          "longName": "SupplyHistoryPoint",
+          "fullName": "api.SupplyHistoryPoint",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "date",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "total_supply",
+              "description": "IOTX",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "circulating_supply",
+              "description": "IOTX",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "burn",
+              "description": "IOTX, daily",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "issue",
+              "description": "IOTX, daily",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "TotalTransferredTokensRequest",
           "longName": "TotalTransferredTokensRequest",
           "fullName": "api.TotalTransferredTokensRequest",
@@ -5945,6 +6675,54 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TpsHistoryPoint",
+          "longName": "TpsHistoryPoint",
+          "fullName": "api.TpsHistoryPoint",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "date",
+              "description": "YYYY-MM-DD",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "avg_tps",
+              "description": "avg(num_actions)/2.5",
+              "label": "",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "max_tps",
+              "description": "max(num_actions)/2.5",
+              "label": "",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -6301,6 +7079,98 @@
                     {
                       "method": "POST",
                       "pattern": "/api.ChainService.GetStakingRatioHistory",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GetChainStats",
+              "description": "GetChainStats returns total action count + total/circulating supply (IOTX units)",
+              "requestType": "GetChainStatsRequest",
+              "requestLongType": "GetChainStatsRequest",
+              "requestFullType": "api.GetChainStatsRequest",
+              "requestStreaming": false,
+              "responseType": "GetChainStatsResponse",
+              "responseLongType": "GetChainStatsResponse",
+              "responseFullType": "api.GetChainStatsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.GetChainStats",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GetTpsHistory",
+              "description": "GetTpsHistory returns daily avg/max TPS over a date range",
+              "requestType": "GetTpsHistoryRequest",
+              "requestLongType": "GetTpsHistoryRequest",
+              "requestFullType": "api.GetTpsHistoryRequest",
+              "requestStreaming": false,
+              "responseType": "GetTpsHistoryResponse",
+              "responseLongType": "GetTpsHistoryResponse",
+              "responseFullType": "api.GetTpsHistoryResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.GetTpsHistory",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GetGasHistory",
+              "description": "GetGasHistory returns daily gas price stats and total gas fee over a date range",
+              "requestType": "GetGasHistoryRequest",
+              "requestLongType": "GetGasHistoryRequest",
+              "requestFullType": "api.GetGasHistoryRequest",
+              "requestStreaming": false,
+              "responseType": "GetGasHistoryResponse",
+              "responseLongType": "GetGasHistoryResponse",
+              "responseFullType": "api.GetGasHistoryResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.GetGasHistory",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GetSupplyHistory",
+              "description": "GetSupplyHistory returns daily total/circulating supply (IOTX) and daily burn/issue over a date range",
+              "requestType": "GetSupplyHistoryRequest",
+              "requestLongType": "GetSupplyHistoryRequest",
+              "requestFullType": "api.GetSupplyHistoryRequest",
+              "requestStreaming": false,
+              "responseType": "GetSupplyHistoryResponse",
+              "responseLongType": "GetSupplyHistoryResponse",
+              "responseFullType": "api.GetSupplyHistoryResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ChainService.GetSupplyHistory",
                       "body": "*"
                     }
                   ]
@@ -7560,6 +8430,280 @@
                     {
                       "method": "POST",
                       "pattern": "/api.DelegateService.PaidToDelegates",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api_exit_queue.proto",
+      "description": "",
+      "package": "api",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": true,
+      "enums": [],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "ExitQueueEntry",
+          "longName": "ExitQueueEntry",
+          "fullName": "api.ExitQueueEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "candidate_name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "candidate_identity",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "status",
+              "description": "\"requested\", \"scheduled\", \"confirmed\"",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "request_height",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "request_hash",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "schedule_height",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "schedule_hash",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "confirm_height",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "confirm_hash",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "scheduled_at",
+              "description": "block height when exit will execute",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetExitQueueRequest",
+          "longName": "GetExitQueueRequest",
+          "fullName": "api.GetExitQueueRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "skip",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "first",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "statuses",
+              "description": "optional filter; if empty, returns all statuses. Each value must be one of\n\"requested\", \"scheduled\", or \"confirmed\". Multiple values are OR-ed.",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "candidate_identity",
+              "description": "optional filter; if empty, returns entries for all candidates. When set,\nmatches the candidate_identity column exactly (0x... lowercased hex,\nmatching how the indexer writes it).",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetExitQueueResponse",
+          "longName": "GetExitQueueResponse",
+          "fullName": "api.GetExitQueueResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "exits",
+              "description": "",
+              "label": "repeated",
+              "type": "ExitQueueEntry",
+              "longType": "ExitQueueEntry",
+              "fullType": "api.ExitQueueEntry",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "total matching rows",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "ExitQueueService",
+          "longName": "ExitQueueService",
+          "fullName": "api.ExitQueueService",
+          "description": "",
+          "methods": [
+            {
+              "name": "GetExitQueue",
+              "description": "",
+              "requestType": "GetExitQueueRequest",
+              "requestLongType": "GetExitQueueRequest",
+              "requestFullType": "api.GetExitQueueRequest",
+              "requestStreaming": false,
+              "responseType": "GetExitQueueResponse",
+              "responseLongType": "GetExitQueueResponse",
+              "responseFullType": "api.GetExitQueueResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.ExitQueueService.GetExitQueue",
                       "body": "*"
                     }
                   ]
@@ -11075,6 +12219,66 @@
           ]
         },
         {
+          "name": "GetXRC20StatsRequest",
+          "longName": "GetXRC20StatsRequest",
+          "fullName": "api.GetXRC20StatsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "pagination",
+              "description": "",
+              "label": "",
+              "type": "Pagination",
+              "longType": "pagination.Pagination",
+              "fullType": "pagination.Pagination",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GetXRC20StatsResponse",
+          "longName": "GetXRC20StatsResponse",
+          "fullName": "api.GetXRC20StatsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "count",
+              "description": "total number of xrc20 tokens",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "items",
+              "description": "",
+              "label": "repeated",
+              "type": "XRC20StatsItem",
+              "longType": "XRC20StatsItem",
+              "fullType": "api.XRC20StatsItem",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "GetXRC20TokenBalanceRequest",
           "longName": "GetXRC20TokenBalanceRequest",
           "fullName": "api.GetXRC20TokenBalanceRequest",
@@ -11579,6 +12783,66 @@
           ]
         },
         {
+          "name": "XRC20StatsItem",
+          "longName": "XRC20StatsItem",
+          "fullName": "api.XRC20StatsItem",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "address",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "holders",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "transfer",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "daily_transfer",
+              "description": "",
+              "label": "",
+              "type": "uint64",
+              "longType": "uint64",
+              "fullType": "uint64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "XRC20TokenHolderAddressesRequest",
           "longName": "XRC20TokenHolderAddressesRequest",
           "fullName": "api.XRC20TokenHolderAddressesRequest",
@@ -12028,6 +13292,29 @@
                     {
                       "method": "POST",
                       "pattern": "/api.XRC20Service.GetXRC20TokenBalance",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GetXRC20Stats",
+              "description": "GetXRC20Stats returns per-token holder/transfer counts, ordered by holders DESC",
+              "requestType": "GetXRC20StatsRequest",
+              "requestLongType": "GetXRC20StatsRequest",
+              "requestFullType": "api.GetXRC20StatsRequest",
+              "requestStreaming": false,
+              "responseType": "GetXRC20StatsResponse",
+              "responseLongType": "GetXRC20StatsResponse",
+              "responseFullType": "api.GetXRC20StatsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/api.XRC20Service.GetXRC20Stats",
                       "body": "*"
                     }
                   ]

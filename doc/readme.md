@@ -10,6 +10,7 @@
     - [ActiveAccountsResponse](#api-ActiveAccountsResponse)
     - [AliasRequest](#api-AliasRequest)
     - [AliasResponse](#api-AliasResponse)
+    - [AuthorizationHistoryEntry](#api-AuthorizationHistoryEntry)
     - [ContractInfoRequest](#api-ContractInfoRequest)
     - [ContractInfoResponse](#api-ContractInfoResponse)
     - [ContractInfoResponse.Contract](#api-ContractInfoResponse-Contract)
@@ -21,6 +22,8 @@
     - [GetAddressNFTBalancesResponse](#api-GetAddressNFTBalancesResponse)
     - [GetAddressTokenBalancesRequest](#api-GetAddressTokenBalancesRequest)
     - [GetAddressTokenBalancesResponse](#api-GetAddressTokenBalancesResponse)
+    - [GetAuthorizationsByAuthorityRequest](#api-GetAuthorizationsByAuthorityRequest)
+    - [GetAuthorizationsByAuthorityResponse](#api-GetAuthorizationsByAuthorityResponse)
     - [GetContractCreateInfoRequest](#api-GetContractCreateInfoRequest)
     - [GetContractCreateInfoResponse](#api-GetContractCreateInfoResponse)
     - [GetTopAccountsByBalanceRequest](#api-GetTopAccountsByBalanceRequest)
@@ -50,6 +53,7 @@
     - [ActionByHashResponse](#api-ActionByHashResponse)
     - [ActionByHashResponse.ActionLog](#api-ActionByHashResponse-ActionLog)
     - [ActionByHashResponse.ActionTypeInfo](#api-ActionByHashResponse-ActionTypeInfo)
+    - [ActionByHashResponse.AuthorizationEntry](#api-ActionByHashResponse-AuthorizationEntry)
     - [ActionByHashResponse.EvmTransfers](#api-ActionByHashResponse-EvmTransfers)
     - [ActionByHashResponse.StakeAction](#api-ActionByHashResponse-StakeAction)
     - [ActionByHashResponse.TokenTransfer](#api-ActionByHashResponse-TokenTransfer)
@@ -107,14 +111,19 @@
     - [ChainRequest](#api-ChainRequest)
     - [ChainResponse](#api-ChainResponse)
     - [ChainResponse.Rewards](#api-ChainResponse-Rewards)
+    - [GasHistoryPoint](#api-GasHistoryPoint)
     - [GetActionHistoryRequest](#api-GetActionHistoryRequest)
     - [GetActionHistoryResponse](#api-GetActionHistoryResponse)
     - [GetBlockByHeightRequest](#api-GetBlockByHeightRequest)
     - [GetBlockByHeightResponse](#api-GetBlockByHeightResponse)
     - [GetBlocksRequest](#api-GetBlocksRequest)
     - [GetBlocksResponse](#api-GetBlocksResponse)
+    - [GetChainStatsRequest](#api-GetChainStatsRequest)
+    - [GetChainStatsResponse](#api-GetChainStatsResponse)
     - [GetEpochInfoRequest](#api-GetEpochInfoRequest)
     - [GetEpochInfoResponse](#api-GetEpochInfoResponse)
+    - [GetGasHistoryRequest](#api-GetGasHistoryRequest)
+    - [GetGasHistoryResponse](#api-GetGasHistoryResponse)
     - [GetLatestBlockHeightRequest](#api-GetLatestBlockHeightRequest)
     - [GetLatestBlockHeightResponse](#api-GetLatestBlockHeightResponse)
     - [GetLatestStakingRecordRequest](#api-GetLatestStakingRecordRequest)
@@ -123,13 +132,19 @@
     - [GetPeakTpsResponse](#api-GetPeakTpsResponse)
     - [GetStakingRatioHistoryRequest](#api-GetStakingRatioHistoryRequest)
     - [GetStakingRatioHistoryResponse](#api-GetStakingRatioHistoryResponse)
+    - [GetSupplyHistoryRequest](#api-GetSupplyHistoryRequest)
+    - [GetSupplyHistoryResponse](#api-GetSupplyHistoryResponse)
+    - [GetTpsHistoryRequest](#api-GetTpsHistoryRequest)
+    - [GetTpsHistoryResponse](#api-GetTpsHistoryResponse)
     - [MostRecentTPSRequest](#api-MostRecentTPSRequest)
     - [MostRecentTPSResponse](#api-MostRecentTPSResponse)
     - [NumberOfActionsRequest](#api-NumberOfActionsRequest)
     - [NumberOfActionsResponse](#api-NumberOfActionsResponse)
     - [StakingRatioPoint](#api-StakingRatioPoint)
+    - [SupplyHistoryPoint](#api-SupplyHistoryPoint)
     - [TotalTransferredTokensRequest](#api-TotalTransferredTokensRequest)
     - [TotalTransferredTokensResponse](#api-TotalTransferredTokensResponse)
+    - [TpsHistoryPoint](#api-TpsHistoryPoint)
     - [VotingResultMeta](#api-VotingResultMeta)
   
     - [ChainService](#api-ChainService)
@@ -160,6 +175,13 @@
     - [PaidToDelegatesRequest.Schedule](#api-PaidToDelegatesRequest-Schedule)
   
     - [DelegateService](#api-DelegateService)
+  
+- [api_exit_queue.proto](#api_exit_queue-proto)
+    - [ExitQueueEntry](#api-ExitQueueEntry)
+    - [GetExitQueueRequest](#api-GetExitQueueRequest)
+    - [GetExitQueueResponse](#api-GetExitQueueResponse)
+  
+    - [ExitQueueService](#api-ExitQueueService)
   
 - [api_hermes.proto](#api_hermes-proto)
     - [BucketRewardDistribution](#api-BucketRewardDistribution)
@@ -232,6 +254,8 @@
 - [api_xrc20.proto](#api_xrc20-proto)
     - [GetXRC20HoldersByContractRequest](#api-GetXRC20HoldersByContractRequest)
     - [GetXRC20HoldersByContractResponse](#api-GetXRC20HoldersByContractResponse)
+    - [GetXRC20StatsRequest](#api-GetXRC20StatsRequest)
+    - [GetXRC20StatsResponse](#api-GetXRC20StatsResponse)
     - [GetXRC20TokenBalanceRequest](#api-GetXRC20TokenBalanceRequest)
     - [GetXRC20TokenBalanceResponse](#api-GetXRC20TokenBalanceResponse)
     - [GetXRC20TransfersByContractRequest](#api-GetXRC20TransfersByContractRequest)
@@ -245,6 +269,7 @@
     - [XRC20ByPageRequest](#api-XRC20ByPageRequest)
     - [XRC20ByPageResponse](#api-XRC20ByPageResponse)
     - [XRC20HolderInfo](#api-XRC20HolderInfo)
+    - [XRC20StatsItem](#api-XRC20StatsItem)
     - [XRC20TokenHolderAddressesRequest](#api-XRC20TokenHolderAddressesRequest)
     - [XRC20TokenHolderAddressesResponse](#api-XRC20TokenHolderAddressesResponse)
     - [XRC20TransferInfo](#api-XRC20TransferInfo)
@@ -377,6 +402,28 @@
 | ----- | ---- | ----- | ----------- |
 | exist | [bool](#bool) |  | whether the operator address exists |
 | aliasName | [string](#string) |  | delegate&#39;s alias name |
+
+
+
+
+
+
+<a name="api-AuthorizationHistoryEntry"></a>
+
+### AuthorizationHistoryEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| action_hash | [string](#string) |  |  |
+| block_height | [uint64](#uint64) |  |  |
+| chain_id | [string](#string) |  |  |
+| address | [string](#string) |  | delegated contract |
+| nonce | [string](#string) |  |  |
+| y_parity | [string](#string) |  |  |
+| authority | [string](#string) |  | recovered signer (= the account queried) |
+| valid | [bool](#bool) |  | whether this authorization was accepted by the chain at inclusion time |
 
 
 
@@ -552,6 +599,39 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | balances | [TokenBalanceInfo](#api-TokenBalanceInfo) | repeated |  |
+
+
+
+
+
+
+<a name="api-GetAuthorizationsByAuthorityRequest"></a>
+
+### GetAuthorizationsByAuthorityRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| authority | [string](#string) |  |  |
+| skip | [int32](#int32) |  |  |
+| first | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="api-GetAuthorizationsByAuthorityResponse"></a>
+
+### GetAuthorizationsByAuthorityResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| authorizations | [AuthorizationHistoryEntry](#api-AuthorizationHistoryEntry) | repeated |  |
+| count | [int64](#int64) |  |  |
 
 
 
@@ -849,6 +929,7 @@
 | GetAddressTokenBalances | [GetAddressTokenBalancesRequest](#api-GetAddressTokenBalancesRequest) | [GetAddressTokenBalancesResponse](#api-GetAddressTokenBalancesResponse) | GetAddressTokenBalances returns ERC20 token balances for an address |
 | GetTopAccounts | [GetTopAccountsRequest](#api-GetTopAccountsRequest) | [GetTopAccountsResponse](#api-GetTopAccountsResponse) | GetTopAccounts returns top stakers from stats_top_list_view with filters |
 | GetTopAccountsByBalance | [GetTopAccountsByBalanceRequest](#api-GetTopAccountsByBalanceRequest) | [GetTopAccountsByBalanceResponse](#api-GetTopAccountsByBalanceResponse) | GetTopAccountsByBalance returns top accounts by IOTX balance from account_income_count |
+| GetAuthorizationsByAuthority | [GetAuthorizationsByAuthorityRequest](#api-GetAuthorizationsByAuthorityRequest) | [GetAuthorizationsByAuthorityResponse](#api-GetAuthorizationsByAuthorityResponse) | GetAuthorizationsByAuthority returns EIP-7702 authorization history for an authority address |
 
  
 
@@ -942,6 +1023,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | actHash | [string](#string) |  | action hash |
+| include_fields | [string](#string) | repeated | optional subset: action_type, input_data, logs, token_transfers, base_fee, stake_action; empty = none |
 
 
 
@@ -1010,6 +1092,29 @@
 | blob_fee_cap | [string](#string) |  |  |
 | blob_hashes | [string](#string) |  |  |
 | blob_gas_price | [string](#string) |  |  |
+| authorization_list | [ActionByHashResponse.AuthorizationEntry](#api-ActionByHashResponse-AuthorizationEntry) | repeated | EIP-7702 |
+
+
+
+
+
+
+<a name="api-ActionByHashResponse-AuthorizationEntry"></a>
+
+### ActionByHashResponse.AuthorizationEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| chain_id | [string](#string) |  |  |
+| address | [string](#string) |  | delegate contract |
+| nonce | [string](#string) |  |  |
+| y_parity | [string](#string) |  |  |
+| r | [string](#string) |  |  |
+| s | [string](#string) |  |  |
+| authority | [string](#string) |  | recovered signer |
+| valid | [bool](#bool) |  | whether this authorization was accepted by the chain at inclusion time |
 
 
 
@@ -1895,6 +2000,25 @@
 
 
 
+<a name="api-GasHistoryPoint"></a>
+
+### GasHistoryPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date | [string](#string) |  |  |
+| max_gas_price | [string](#string) |  |  |
+| min_gas_price | [string](#string) |  |  |
+| avg_gas_price | [string](#string) |  |  |
+| total_gas_fee | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="api-GetActionHistoryRequest"></a>
 
 ### GetActionHistoryRequest
@@ -1990,6 +2114,33 @@
 
 
 
+<a name="api-GetChainStatsRequest"></a>
+
+### GetChainStatsRequest
+
+
+
+
+
+
+
+<a name="api-GetChainStatsResponse"></a>
+
+### GetChainStatsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actions_num | [uint64](#uint64) |  | total number of actions, from kv table |
+| total_supply | [string](#string) |  | IOTX (rau / 1e18), decimal string |
+| circulating_supply | [string](#string) |  | IOTX (rau / 1e18), decimal string |
+
+
+
+
+
+
 <a name="api-GetEpochInfoRequest"></a>
 
 ### GetEpochInfoRequest
@@ -2010,6 +2161,37 @@
 | ----- | ---- | ----- | ----------- |
 | epoch_height | [uint64](#uint64) |  | first block height of the current epoch |
 | epoch_num | [uint64](#uint64) |  | current epoch number |
+
+
+
+
+
+
+<a name="api-GetGasHistoryRequest"></a>
+
+### GetGasHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [string](#string) |  | YYYY-MM-DD |
+| end | [string](#string) |  | YYYY-MM-DD (inclusive) |
+
+
+
+
+
+
+<a name="api-GetGasHistoryResponse"></a>
+
+### GetGasHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [GasHistoryPoint](#api-GasHistoryPoint) | repeated |  |
 
 
 
@@ -2130,6 +2312,68 @@
 
 
 
+<a name="api-GetSupplyHistoryRequest"></a>
+
+### GetSupplyHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [string](#string) |  | YYYY-MM-DD |
+| end | [string](#string) |  | YYYY-MM-DD (inclusive) |
+
+
+
+
+
+
+<a name="api-GetSupplyHistoryResponse"></a>
+
+### GetSupplyHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [SupplyHistoryPoint](#api-SupplyHistoryPoint) | repeated |  |
+
+
+
+
+
+
+<a name="api-GetTpsHistoryRequest"></a>
+
+### GetTpsHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [string](#string) |  | start date, YYYY-MM-DD (UTC) |
+| end | [string](#string) |  | end date, YYYY-MM-DD (UTC, inclusive) |
+
+
+
+
+
+
+<a name="api-GetTpsHistoryResponse"></a>
+
+### GetTpsHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [TpsHistoryPoint](#api-TpsHistoryPoint) | repeated |  |
+
+
+
+
+
+
 <a name="api-MostRecentTPSRequest"></a>
 
 ### MostRecentTPSRequest
@@ -2208,6 +2452,25 @@
 
 
 
+<a name="api-SupplyHistoryPoint"></a>
+
+### SupplyHistoryPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date | [string](#string) |  |  |
+| total_supply | [string](#string) |  | IOTX |
+| circulating_supply | [string](#string) |  | IOTX |
+| burn | [string](#string) |  | IOTX, daily |
+| issue | [string](#string) |  | IOTX, daily |
+
+
+
+
+
+
 <a name="api-TotalTransferredTokensRequest"></a>
 
 ### TotalTransferredTokensRequest
@@ -2233,6 +2496,23 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | totalTransferredTokens | [string](#string) |  | total tranferred tokens |
+
+
+
+
+
+
+<a name="api-TpsHistoryPoint"></a>
+
+### TpsHistoryPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date | [string](#string) |  | YYYY-MM-DD |
+| avg_tps | [double](#double) |  | avg(num_actions)/2.5 |
+| max_tps | [double](#double) |  | max(num_actions)/2.5 |
 
 
 
@@ -2282,6 +2562,10 @@
 | GetPeakTps | [GetPeakTpsRequest](#api-GetPeakTpsRequest) | [GetPeakTpsResponse](#api-GetPeakTpsResponse) | GetPeakTps returns the all-time peak TPS (max block actions / 5-second block time) |
 | GetActionHistory | [GetActionHistoryRequest](#api-GetActionHistoryRequest) | [GetActionHistoryResponse](#api-GetActionHistoryResponse) | GetActionHistory returns aggregated action counts over a time range |
 | GetStakingRatioHistory | [GetStakingRatioHistoryRequest](#api-GetStakingRatioHistoryRequest) | [GetStakingRatioHistoryResponse](#api-GetStakingRatioHistoryResponse) | GetStakingRatioHistory returns staking ratio history over a time range |
+| GetChainStats | [GetChainStatsRequest](#api-GetChainStatsRequest) | [GetChainStatsResponse](#api-GetChainStatsResponse) | GetChainStats returns total action count &#43; total/circulating supply (IOTX units) |
+| GetTpsHistory | [GetTpsHistoryRequest](#api-GetTpsHistoryRequest) | [GetTpsHistoryResponse](#api-GetTpsHistoryResponse) | GetTpsHistory returns daily avg/max TPS over a date range |
+| GetGasHistory | [GetGasHistoryRequest](#api-GetGasHistoryRequest) | [GetGasHistoryResponse](#api-GetGasHistoryResponse) | GetGasHistory returns daily gas price stats and total gas fee over a date range |
+| GetSupplyHistory | [GetSupplyHistoryRequest](#api-GetSupplyHistoryRequest) | [GetSupplyHistoryResponse](#api-GetSupplyHistoryResponse) | GetSupplyHistory returns daily total/circulating supply (IOTX) and daily burn/issue over a date range |
 
  
 
@@ -2687,6 +2971,90 @@
 | Staking | [StakingRequest](#api-StakingRequest) | [StakingResponse](#api-StakingResponse) | Staking provides staking information for candidates within a range of epochs |
 | ProbationHistoricalRate | [ProbationHistoricalRateRequest](#api-ProbationHistoricalRateRequest) | [ProbationHistoricalRateResponse](#api-ProbationHistoricalRateResponse) | ProbationHistoricalRate provides the rate of probation for a given delegate |
 | PaidToDelegates | [PaidToDelegatesRequest](#api-PaidToDelegatesRequest) | [PaidToDelegatesResponse](#api-PaidToDelegatesResponse) | PaidToDelegates provides the amount of rewards paid to delegates |
+
+ 
+
+
+
+<a name="api_exit_queue-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api_exit_queue.proto
+
+
+
+<a name="api-ExitQueueEntry"></a>
+
+### ExitQueueEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| candidate_name | [string](#string) |  |  |
+| candidate_identity | [string](#string) |  |  |
+| status | [string](#string) |  | &#34;requested&#34;, &#34;scheduled&#34;, &#34;confirmed&#34; |
+| request_height | [uint64](#uint64) |  |  |
+| request_hash | [string](#string) |  |  |
+| schedule_height | [uint64](#uint64) |  |  |
+| schedule_hash | [string](#string) |  |  |
+| confirm_height | [uint64](#uint64) |  |  |
+| confirm_hash | [string](#string) |  |  |
+| scheduled_at | [uint64](#uint64) |  | block height when exit will execute |
+
+
+
+
+
+
+<a name="api-GetExitQueueRequest"></a>
+
+### GetExitQueueRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| skip | [int64](#int64) |  |  |
+| first | [int64](#int64) |  |  |
+| statuses | [string](#string) | repeated | optional filter; if empty, returns all statuses. Each value must be one of &#34;requested&#34;, &#34;scheduled&#34;, or &#34;confirmed&#34;. Multiple values are OR-ed. |
+| candidate_identity | [string](#string) |  | optional filter; if empty, returns entries for all candidates. When set, matches the candidate_identity column exactly (0x... lowercased hex, matching how the indexer writes it). |
+
+
+
+
+
+
+<a name="api-GetExitQueueResponse"></a>
+
+### GetExitQueueResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exits | [ExitQueueEntry](#api-ExitQueueEntry) | repeated |  |
+| count | [int64](#int64) |  | total matching rows |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-ExitQueueService"></a>
+
+### ExitQueueService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetExitQueue | [GetExitQueueRequest](#api-GetExitQueueRequest) | [GetExitQueueResponse](#api-GetExitQueueResponse) |  |
 
  
 
@@ -3764,6 +4132,37 @@ BucketInfoEx carries all fields for the bucket list/detail pages.
 
 
 
+<a name="api-GetXRC20StatsRequest"></a>
+
+### GetXRC20StatsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [pagination.Pagination](#pagination-Pagination) |  |  |
+
+
+
+
+
+
+<a name="api-GetXRC20StatsResponse"></a>
+
+### GetXRC20StatsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of xrc20 tokens |
+| items | [XRC20StatsItem](#api-XRC20StatsItem) | repeated |  |
+
+
+
+
+
+
 <a name="api-GetXRC20TokenBalanceRequest"></a>
 
 ### GetXRC20TokenBalanceRequest
@@ -3975,6 +4374,24 @@ BucketInfoEx carries all fields for the bucket list/detail pages.
 
 
 
+<a name="api-XRC20StatsItem"></a>
+
+### XRC20StatsItem
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  |  |
+| holders | [uint64](#uint64) |  |  |
+| transfer | [uint64](#uint64) |  |  |
+| daily_transfer | [uint64](#uint64) |  |  |
+
+
+
+
+
+
 <a name="api-XRC20TokenHolderAddressesRequest"></a>
 
 ### XRC20TokenHolderAddressesRequest
@@ -4070,6 +4487,7 @@ BucketInfoEx carries all fields for the bucket list/detail pages.
 | GetXRC20TransfersByContract | [GetXRC20TransfersByContractRequest](#api-GetXRC20TransfersByContractRequest) | [GetXRC20TransfersByContractResponse](#api-GetXRC20TransfersByContractResponse) | GetXRC20TransfersByContract returns ERC20 transfers filtered by contract and optional sender/recipient |
 | GetXRC20HoldersByContract | [GetXRC20HoldersByContractRequest](#api-GetXRC20HoldersByContractRequest) | [GetXRC20HoldersByContractResponse](#api-GetXRC20HoldersByContractResponse) | GetXRC20HoldersByContract returns all holders of a given ERC20 token with balances |
 | GetXRC20TokenBalance | [GetXRC20TokenBalanceRequest](#api-GetXRC20TokenBalanceRequest) | [GetXRC20TokenBalanceResponse](#api-GetXRC20TokenBalanceResponse) | GetXRC20TokenBalance returns the ERC20 token balance for a specific address |
+| GetXRC20Stats | [GetXRC20StatsRequest](#api-GetXRC20StatsRequest) | [GetXRC20StatsResponse](#api-GetXRC20StatsResponse) | GetXRC20Stats returns per-token holder/transfer counts, ordered by holders DESC |
 
  
 

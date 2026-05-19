@@ -950,6 +950,272 @@ curl --request POST \
 | date_time | [string](#string) |  | date |
 | ratio | [string](#string) |  | staking ratio (decimal string) |
 
+## GetChainStats
+
+GetChainStats returns total action count + total/circulating supply (IOTX units). Values come from the pre-computed iotexscanv3_kv table (refreshed ~every 60 s by the iotex-statistics Windmill job).
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetChainStats \
+  --header 'Content-Type: application/json' \
+  --data '{}'
+```
+
+> Example response:
+
+```json
+{
+  "actions_num": "213194125",
+  "total_supply": "9441368502",
+  "circulating_supply": "9441368498"
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetChainStats`
+
+<a name="api-GetChainStatsRequest"></a>
+
+### GetChainStatsRequest
+
+(empty)
+
+<a name="api-GetChainStatsResponse"></a>
+
+### GetChainStatsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| actions_num | [uint64](#uint64) |  | total number of actions on chain |
+| total_supply | [string](#string) |  | total supply in IOTX (rau / 1e18, integer) |
+| circulating_supply | [string](#string) |  | circulating supply in IOTX (rau / 1e18, integer) |
+
+## GetTpsHistory
+
+GetTpsHistory returns daily avg/max TPS over a date range. Values are `AVG(num_actions)/2.5` and `MAX(num_actions)/2.5` aggregated from the block table; 2.5 s is the post-Wake block interval. Date range queries crossing the Wake hard fork (block 36893881) will overestimate TPS by 2× for pre-Wake days.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetTpsHistory \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "start": "2026-05-15",
+  "end": "2026-05-18"
+}'
+```
+
+> Example response:
+
+```json
+{
+  "data": [
+    { "date": "2026-05-15", "avg_tps": 1.19, "max_tps": 10.00 },
+    { "date": "2026-05-16", "avg_tps": 1.23, "max_tps": 14.40 },
+    { "date": "2026-05-17", "avg_tps": 1.29, "max_tps": 14.00 },
+    { "date": "2026-05-18", "avg_tps": 1.17, "max_tps": 18.00 }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetTpsHistory`
+
+<a name="api-GetTpsHistoryRequest"></a>
+
+### GetTpsHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [string](#string) |  | start date, YYYY-MM-DD (UTC, inclusive) |
+| end | [string](#string) |  | end date, YYYY-MM-DD (UTC, inclusive) |
+
+<a name="api-GetTpsHistoryResponse"></a>
+
+### GetTpsHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [TpsHistoryPoint](#api-TpsHistoryPoint) | repeated | daily TPS points |
+
+<a name="api-TpsHistoryPoint"></a>
+
+### TpsHistoryPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date | [string](#string) |  | YYYY-MM-DD (UTC) |
+| avg_tps | [double](#double) |  | average TPS, 2 decimal places |
+| max_tps | [double](#double) |  | peak TPS observed in a single block that day, 2 decimal places |
+
+## GetGasHistory
+
+GetGasHistory returns daily gas-price stats and total gas fee. Aggregated live from block_action joined with block. Rows where gas_price = 0 (system actions) are excluded. Date ranges longer than ~30 days will be slow; keep ranges short.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetGasHistory \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "start": "2026-05-17",
+  "end": "2026-05-18"
+}'
+```
+
+> Example response (values are in rau; 1 IOTX = 10^18 rau):
+
+```json
+{
+  "data": [
+    {
+      "date": "2026-05-17",
+      "max_gas_price": "17897676565538",
+      "min_gas_price": "1000000000000",
+      "avg_gas_price": "1021883138757",
+      "total_gas_fee": "7110675516295301992332"
+    },
+    {
+      "date": "2026-05-18",
+      "max_gas_price": "2029734718659213",
+      "min_gas_price": "1000000000000",
+      "avg_gas_price": "1160216242181",
+      "total_gas_fee": "7597570410715163176791"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetGasHistory`
+
+<a name="api-GetGasHistoryRequest"></a>
+
+### GetGasHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [string](#string) |  | start date, YYYY-MM-DD (UTC, inclusive) |
+| end | [string](#string) |  | end date, YYYY-MM-DD (UTC, inclusive) |
+
+<a name="api-GetGasHistoryResponse"></a>
+
+### GetGasHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [GasHistoryPoint](#api-GasHistoryPoint) | repeated | daily gas-fee points |
+
+<a name="api-GasHistoryPoint"></a>
+
+### GasHistoryPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date | [string](#string) |  | YYYY-MM-DD (UTC) |
+| max_gas_price | [string](#string) |  | MAX(gas_price) for the day, in rau |
+| min_gas_price | [string](#string) |  | MIN(gas_price) for the day, in rau |
+| avg_gas_price | [string](#string) |  | ROUND(AVG(gas_price)), simple arithmetic mean, in rau |
+| total_gas_fee | [string](#string) |  | SUM(gas_price * gas_consumed) for the day, in rau |
+
+## GetSupplyHistory
+
+GetSupplyHistory returns daily total/circulating supply and daily burn/issue over a date range. Burn/issue are derived from the day-over-day supply deltas (zero address only receives → ΔtotalSupply = −burn; lock address only sends → Δcirculating = −burn + issue). The first day in the range and any day after a chain halt or missing-block gap will have empty burn/issue.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.ChainService.GetSupplyHistory \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "start": "2023-11-01",
+  "end": "2023-11-03"
+}'
+```
+
+> Example response (amounts in IOTX, 2 decimals):
+
+```json
+{
+  "data": [
+    {
+      "date": "2023-11-01",
+      "total_supply": "9443041459.47",
+      "circulating_supply": "9443041454.63",
+      "burn": "28125.00",
+      "issue": "0.00"
+    },
+    {
+      "date": "2023-11-02",
+      "total_supply": "9443003959.47",
+      "circulating_supply": "9443003954.63",
+      "burn": "37500.00",
+      "issue": "0.00"
+    },
+    {
+      "date": "2023-11-03",
+      "total_supply": "9442985209.47",
+      "circulating_supply": "9442985204.63",
+      "burn": "18750.00",
+      "issue": "0.00"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.ChainService.GetSupplyHistory`
+
+<a name="api-GetSupplyHistoryRequest"></a>
+
+### GetSupplyHistoryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [string](#string) |  | start date, YYYY-MM-DD (UTC, inclusive) |
+| end | [string](#string) |  | end date, YYYY-MM-DD (UTC, inclusive) |
+
+<a name="api-GetSupplyHistoryResponse"></a>
+
+### GetSupplyHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [SupplyHistoryPoint](#api-SupplyHistoryPoint) | repeated | daily supply points |
+
+<a name="api-SupplyHistoryPoint"></a>
+
+### SupplyHistoryPoint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| date | [string](#string) |  | YYYY-MM-DD (UTC) |
+| total_supply | [string](#string) |  | end-of-day total supply, IOTX, 2 decimals |
+| circulating_supply | [string](#string) |  | end-of-day circulating supply, IOTX, 2 decimals |
+| burn | [string](#string) |  | day-over-day burn, IOTX, 2 decimals; empty on first day / after gap |
+| issue | [string](#string) |  | day-over-day issuance from lock address, IOTX, 2 decimals; empty on first day / after gap |
+
 # Delegate Service API
 
 ## BucketInfo
@@ -5496,6 +5762,70 @@ curl --request POST \
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | balance | [string](#string) |  | token balance (raw units) |
+
+## GetXRC20Stats
+
+GetXRC20Stats returns per-token holders / transfer / daily_transfer counts, ordered by holders DESC. Holders come from the pre-aggregated erc20_holder_agg view (balance > 0). Transfer counts are aggregated live from erc20_transfers. Page size is hard-capped at 50 — first=0 or any value above 50 is treated as 50.
+
+```shell
+curl --request POST \
+  --url https://analyser-api.iotex.io/api.XRC20Service.GetXRC20Stats \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "pagination": { "first": 10, "skip": 0 }
+}'
+```
+
+> Example response:
+
+```json
+{
+  "count": "2068",
+  "items": [
+    { "address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", "holders": "25379", "transfer": "901907", "daily_transfer": "0" },
+    { "address": "io109mf3ua2tfkm2lkzq432hu03ys7vuv4d5m40gk", "holders": "20033", "transfer": "39277",  "daily_transfer": "0" },
+    { "address": "io1aq4hq4z8r5l4ejp9c5p4pk3mefj000jwuyrlk2", "holders": "13310", "transfer": "27341",  "daily_transfer": "0" }
+  ]
+}
+```
+
+### HTTP Request
+
+`POST /api.XRC20Service.GetXRC20Stats`
+
+<a name="api-GetXRC20StatsRequest"></a>
+
+### GetXRC20StatsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [Pagination](#pagination-Pagination) |  | first capped at 50; first=0 → 50 |
+
+<a name="api-GetXRC20StatsResponse"></a>
+
+### GetXRC20StatsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint64](#uint64) |  | total number of XRC20 contracts with at least one holder |
+| items | [XRC20StatsItem](#api-XRC20StatsItem) | repeated | top-K page of stats, sorted by holders DESC |
+
+<a name="api-XRC20StatsItem"></a>
+
+### XRC20StatsItem
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | contract address (io1...) |
+| holders | [uint64](#uint64) |  | unique holder count (balance > 0) |
+| transfer | [uint64](#uint64) |  | all-time transfer count |
+| daily_transfer | [uint64](#uint64) |  | transfer count in the prior UTC day |
 
 # XRC721 Service API
 
