@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+	"strings"
 	"time"
 
 	"github.com/iotexproject/iotex-address/address"
@@ -18,6 +19,8 @@ import (
 	"github.com/iotexproject/iotex-core/v2/blockchain/genesis"
 	"github.com/iotexproject/iotex-core/v2/ioctl/util"
 	"github.com/pkg/errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type StakingService struct {
@@ -769,4 +772,76 @@ func getCandidateStaking(height uint64, addr string) ([]*Staking, error) {
 		results = append(results, av)
 	}
 	return results, nil
+}
+
+// ─── Added for iotex-kit modules-db migration ───
+
+// GetBucketByActionHash returns a single bucket lookup across three tables
+// (staking_buckets and the system_staking_buckets_record v1/v2 final rows).
+// Replaces kit staking.bucketByHash.
+func (s *StakingService) GetBucketByActionHash(ctx context.Context, req *api.GetBucketByActionHashRequest) (*api.GetBucketByActionHashResponse, error) {
+	resp := &api.GetBucketByActionHashResponse{}
+	hash := strings.ToLower(strings.TrimPrefix(req.GetActionHash(), "0x"))
+	if hash == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "action_hash is required")
+	}
+	type row struct {
+		ActionHash   string
+		BucketID     uint64
+		ActionType   string
+		Sender       string
+		OwnerAddress string
+		StakedAmount string
+		VotingPower  string
+		Amount       string
+		Duration     string
+		AutoStake    bool
+		Delegate     string
+		Timestamp    int64
+	}
+	var r row
+	q := `SELECT action_hash, bucket_id, act_type AS action_type, sender, owner_address,
+			staked_amount::text, voting_power::text, amount::text, duration::text,
+			auto_stake, candidate AS delegate,
+			(timestamp * 1000)::bigint AS timestamp
+		FROM staking_buckets WHERE action_hash = ?
+		UNION ALL
+		SELECT act_hash AS action_hash, bucket_id, event_type AS action_type, sender, owner_address,
+			staked_amount::text, voting_power::text, amount::text, duration::text,
+			auto_stake, delegate_owner_address AS delegate,
+			(timestamp * 1000)::bigint AS timestamp
+		FROM system_staking_buckets_record WHERE act_hash = ? AND final = true
+		UNION ALL
+		SELECT act_hash AS action_hash, bucket_id, event_type AS action_type, sender, owner_address,
+			staked_amount::text, voting_power::text, amount::text, duration::text,
+			auto_stake, delegate_owner_address AS delegate,
+			(timestamp * 1000)::bigint AS timestamp
+		FROM system_staking_buckets_v2_record WHERE act_hash = ? AND final = true
+		LIMIT 1`
+	if err := db.DB().WithContext(ctx).Raw(q, hash, hash, hash).Scan(&r).Error; err != nil {
+		// system_staking_buckets_record / _v2_record may not exist in local-dev.
+		if isUndefinedTableErr(err) {
+			return resp, nil
+		}
+		return nil, errors.Wrap(err, "failed to query bucket by action hash")
+	}
+	if r.ActionHash == "" {
+		return resp, nil
+	}
+	resp.Exist = true
+	resp.Bucket = &api.BucketByActionHashInfo{
+		ActionHash:   r.ActionHash,
+		BucketId:     r.BucketID,
+		ActionType:   r.ActionType,
+		Sender:       r.Sender,
+		OwnerAddress: r.OwnerAddress,
+		StakedAmount: r.StakedAmount,
+		VotingPower:  r.VotingPower,
+		Amount:       r.Amount,
+		Duration:     r.Duration,
+		AutoStake:    r.AutoStake,
+		Delegate:     r.Delegate,
+		Timestamp:    r.Timestamp,
+	}
+	return resp, nil
 }

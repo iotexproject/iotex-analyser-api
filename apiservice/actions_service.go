@@ -2,10 +2,14 @@ package apiservice
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/db"
+	"github.com/pkg/errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type XrcType int
@@ -149,6 +153,37 @@ func (s *ActionsService) GetAllActionsByAddress(ctx context.Context, req *api.Ac
 			Amount:     amount,
 			RecordType: rType,
 		})
+	}
+	return resp, nil
+}
+
+// ─── Added for iotex-kit modules-db migration ───
+
+// GetMimoSwapVolume sums the amount a user received in a mimo-router swap for
+// a specific token. Replaces kit mimo.mimo_swap_volume (erc20_transfers JOIN
+// block_action filtered by router recipient + token contract + user recipient).
+func (s *ActionsService) GetMimoSwapVolume(ctx context.Context, req *api.GetMimoSwapVolumeRequest) (*api.GetMimoSwapVolumeResponse, error) {
+	if req.GetUserAddress() == "" || req.GetTokenContract() == "" || req.GetMimoRouter() == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "user_address, token_contract and mimo_router are all required")
+	}
+	resp := &api.GetMimoSwapVolumeResponse{Amount: "0"}
+	var row struct {
+		Sum sql.NullString
+	}
+	err := db.DB().WithContext(ctx).Raw(
+		`SELECT COALESCE(SUM(et.amount::numeric)::text, '0') AS sum
+		FROM erc20_transfers et
+		LEFT JOIN block_action_partition ba ON et.action_hash = ba.action_hash
+		WHERE ba.recipient = ?
+			AND et.contract_address = ?
+			AND et.recipient = ?`,
+		req.GetMimoRouter(), req.GetTokenContract(), req.GetUserAddress(),
+	).Scan(&row).Error
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to compute mimo swap volume")
+	}
+	if row.Sum.Valid && row.Sum.String != "" {
+		resp.Amount = row.Sum.String
 	}
 	return resp, nil
 }

@@ -12,11 +12,15 @@ import (
 
 var (
 	gql__enum_AllActionsByAddressResult_RecordType    *graphql.Enum        // enum AllActionsByAddressResult_RecordType in api_actions.proto
+	gql__type_GetMimoSwapVolumeResponse               *graphql.Object      // message GetMimoSwapVolumeResponse in api_actions.proto
+	gql__type_GetMimoSwapVolumeRequest                *graphql.Object      // message GetMimoSwapVolumeRequest in api_actions.proto
 	gql__type_EvmTransferDetailResult                 *graphql.Object      // message EvmTransferDetailResult in api_actions.proto
 	gql__type_EvmTransferDetailListByAddressResponse  *graphql.Object      // message EvmTransferDetailListByAddressResponse in api_actions.proto
 	gql__type_AllActionsByAddressResult               *graphql.Object      // message AllActionsByAddressResult in api_actions.proto
 	gql__type_AllActionsByAddressResponse             *graphql.Object      // message AllActionsByAddressResponse in api_actions.proto
 	gql__type_ActionsRequest                          *graphql.Object      // message ActionsRequest in api_actions.proto
+	gql__input_GetMimoSwapVolumeResponse              *graphql.InputObject // message GetMimoSwapVolumeResponse in api_actions.proto
+	gql__input_GetMimoSwapVolumeRequest               *graphql.InputObject // message GetMimoSwapVolumeRequest in api_actions.proto
 	gql__input_EvmTransferDetailResult                *graphql.InputObject // message EvmTransferDetailResult in api_actions.proto
 	gql__input_EvmTransferDetailListByAddressResponse *graphql.InputObject // message EvmTransferDetailListByAddressResponse in api_actions.proto
 	gql__input_AllActionsByAddressResult              *graphql.InputObject // message AllActionsByAddressResult in api_actions.proto
@@ -45,6 +49,40 @@ func Gql__enum_AllActionsByAddressResult_RecordType() *graphql.Enum {
 		})
 	}
 	return gql__enum_AllActionsByAddressResult_RecordType
+}
+
+func Gql__type_GetMimoSwapVolumeResponse() *graphql.Object {
+	if gql__type_GetMimoSwapVolumeResponse == nil {
+		gql__type_GetMimoSwapVolumeResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetMimoSwapVolumeResponse",
+			Fields: graphql.Fields{
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetMimoSwapVolumeResponse
+}
+
+func Gql__type_GetMimoSwapVolumeRequest() *graphql.Object {
+	if gql__type_GetMimoSwapVolumeRequest == nil {
+		gql__type_GetMimoSwapVolumeRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetMimoSwapVolumeRequest",
+			Fields: graphql.Fields{
+				"user_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"token_contract": &graphql.Field{
+					Type: graphql.String,
+				},
+				"mimo_router": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetMimoSwapVolumeRequest
 }
 
 func Gql__type_EvmTransferDetailResult() *graphql.Object {
@@ -172,6 +210,40 @@ func Gql__type_ActionsRequest() *graphql.Object {
 		})
 	}
 	return gql__type_ActionsRequest
+}
+
+func Gql__input_GetMimoSwapVolumeResponse() *graphql.InputObject {
+	if gql__input_GetMimoSwapVolumeResponse == nil {
+		gql__input_GetMimoSwapVolumeResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetMimoSwapVolumeResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetMimoSwapVolumeResponse
+}
+
+func Gql__input_GetMimoSwapVolumeRequest() *graphql.InputObject {
+	if gql__input_GetMimoSwapVolumeRequest == nil {
+		gql__input_GetMimoSwapVolumeRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetMimoSwapVolumeRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"user_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"token_contract": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"mimo_router": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetMimoSwapVolumeRequest
 }
 
 func Gql__input_EvmTransferDetailResult() *graphql.InputObject {

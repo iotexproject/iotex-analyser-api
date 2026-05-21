@@ -26,6 +26,8 @@ const (
 	DelegateService_Staking_FullMethodName                 = "/api.DelegateService/Staking"
 	DelegateService_ProbationHistoricalRate_FullMethodName = "/api.DelegateService/ProbationHistoricalRate"
 	DelegateService_PaidToDelegates_FullMethodName         = "/api.DelegateService/PaidToDelegates"
+	DelegateService_GetDelegatesByHeight_FullMethodName    = "/api.DelegateService/GetDelegatesByHeight"
+	DelegateService_GetBlocksByProducer_FullMethodName     = "/api.DelegateService/GetBlocksByProducer"
 )
 
 // DelegateServiceClient is the client API for DelegateService service.
@@ -46,6 +48,10 @@ type DelegateServiceClient interface {
 	ProbationHistoricalRate(ctx context.Context, in *ProbationHistoricalRateRequest, opts ...grpc.CallOption) (*ProbationHistoricalRateResponse, error)
 	// PaidToDelegates provides the amount of rewards paid to delegates
 	PaidToDelegates(ctx context.Context, in *PaidToDelegatesRequest, opts ...grpc.CallOption) (*PaidToDelegatesResponse, error)
+	// GetDelegatesByHeight returns the delegate_record snapshot at a specific block height (or latest)
+	GetDelegatesByHeight(ctx context.Context, in *GetDelegatesByHeightRequest, opts ...grpc.CallOption) (*GetDelegatesByHeightResponse, error)
+	// GetBlocksByProducer returns recent blocks produced by a given producer address
+	GetBlocksByProducer(ctx context.Context, in *GetBlocksByProducerRequest, opts ...grpc.CallOption) (*GetBlocksByProducerResponse, error)
 }
 
 type delegateServiceClient struct {
@@ -119,6 +125,24 @@ func (c *delegateServiceClient) PaidToDelegates(ctx context.Context, in *PaidToD
 	return out, nil
 }
 
+func (c *delegateServiceClient) GetDelegatesByHeight(ctx context.Context, in *GetDelegatesByHeightRequest, opts ...grpc.CallOption) (*GetDelegatesByHeightResponse, error) {
+	out := new(GetDelegatesByHeightResponse)
+	err := c.cc.Invoke(ctx, DelegateService_GetDelegatesByHeight_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *delegateServiceClient) GetBlocksByProducer(ctx context.Context, in *GetBlocksByProducerRequest, opts ...grpc.CallOption) (*GetBlocksByProducerResponse, error) {
+	out := new(GetBlocksByProducerResponse)
+	err := c.cc.Invoke(ctx, DelegateService_GetBlocksByProducer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DelegateServiceServer is the server API for DelegateService service.
 // All implementations must embed UnimplementedDelegateServiceServer
 // for forward compatibility
@@ -137,6 +161,10 @@ type DelegateServiceServer interface {
 	ProbationHistoricalRate(context.Context, *ProbationHistoricalRateRequest) (*ProbationHistoricalRateResponse, error)
 	// PaidToDelegates provides the amount of rewards paid to delegates
 	PaidToDelegates(context.Context, *PaidToDelegatesRequest) (*PaidToDelegatesResponse, error)
+	// GetDelegatesByHeight returns the delegate_record snapshot at a specific block height (or latest)
+	GetDelegatesByHeight(context.Context, *GetDelegatesByHeightRequest) (*GetDelegatesByHeightResponse, error)
+	// GetBlocksByProducer returns recent blocks produced by a given producer address
+	GetBlocksByProducer(context.Context, *GetBlocksByProducerRequest) (*GetBlocksByProducerResponse, error)
 	mustEmbedUnimplementedDelegateServiceServer()
 }
 
@@ -164,6 +192,12 @@ func (UnimplementedDelegateServiceServer) ProbationHistoricalRate(context.Contex
 }
 func (UnimplementedDelegateServiceServer) PaidToDelegates(context.Context, *PaidToDelegatesRequest) (*PaidToDelegatesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PaidToDelegates not implemented")
+}
+func (UnimplementedDelegateServiceServer) GetDelegatesByHeight(context.Context, *GetDelegatesByHeightRequest) (*GetDelegatesByHeightResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDelegatesByHeight not implemented")
+}
+func (UnimplementedDelegateServiceServer) GetBlocksByProducer(context.Context, *GetBlocksByProducerRequest) (*GetBlocksByProducerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBlocksByProducer not implemented")
 }
 func (UnimplementedDelegateServiceServer) mustEmbedUnimplementedDelegateServiceServer() {}
 
@@ -304,6 +338,42 @@ func _DelegateService_PaidToDelegates_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DelegateService_GetDelegatesByHeight_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDelegatesByHeightRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).GetDelegatesByHeight(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DelegateService_GetDelegatesByHeight_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).GetDelegatesByHeight(ctx, req.(*GetDelegatesByHeightRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DelegateService_GetBlocksByProducer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlocksByProducerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DelegateServiceServer).GetBlocksByProducer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DelegateService_GetBlocksByProducer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DelegateServiceServer).GetBlocksByProducer(ctx, req.(*GetBlocksByProducerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DelegateService_ServiceDesc is the grpc.ServiceDesc for DelegateService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +408,14 @@ var DelegateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PaidToDelegates",
 			Handler:    _DelegateService_PaidToDelegates_Handler,
+		},
+		{
+			MethodName: "GetDelegatesByHeight",
+			Handler:    _DelegateService_GetDelegatesByHeight_Handler,
+		},
+		{
+			MethodName: "GetBlocksByProducer",
+			Handler:    _DelegateService_GetBlocksByProducer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

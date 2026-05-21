@@ -542,3 +542,184 @@ func (s *AccountService) GetAuthorizationsByAuthority(ctx context.Context, req *
 		Count:          count,
 	}, nil
 }
+
+// ─── Added for iotex-kit modules-db migration ───
+
+// GetAddressTokenBalancesDetail returns ERC20 balances enriched with
+// name/symbol/decimals and price (price_to_iotex * iotex spot from
+// iotexscanv3_kv). Replaces kit account.getXrc20Tokens.
+func (s *AccountService) GetAddressTokenBalancesDetail(ctx context.Context, req *api.GetAddressTokenBalancesDetailRequest) (*api.GetAddressTokenBalancesDetailResponse, error) {
+	resp := &api.GetAddressTokenBalancesDetailResponse{}
+	addr := req.GetAddress()
+	if addr == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "address is required")
+	}
+
+	var rows []struct {
+		Balance         string
+		ContractAddress string
+		Name            sql.NullString
+		Symbol          sql.NullString
+		Decimals        sql.NullInt32
+		PriceToIotex    sql.NullString
+	}
+	q := `SELECT
+		a.balance::text AS balance,
+		a.contract_address,
+		b.name,
+		c.symbol,
+		b.decimals,
+		COALESCE(c.price_to_iotex * (SELECT value::decimal FROM iotexscanv3_kv WHERE key = 'iotex'), 0)::text AS price_to_iotex
+	FROM (
+		SELECT contract_address,
+			COALESCE(SUM(amount::numeric) FILTER (WHERE recipient = ?), 0) -
+			COALESCE(SUM(amount::numeric) FILTER (WHERE sender = ?), 0) AS balance
+		FROM erc20_transfers
+		WHERE recipient = ? OR sender = ?
+		GROUP BY contract_address
+	) a
+	LEFT JOIN stats_erc20 b ON a.contract_address = b.address
+	LEFT JOIN stats_mimo_price c ON a.contract_address = c.id
+	WHERE a.balance > 0`
+	if err := db.DB().WithContext(ctx).Raw(q, addr, addr, addr, addr).Scan(&rows).Error; err != nil {
+		// stats_erc20 / stats_mimo_price / iotexscanv3_kv are populated by
+		// external jobs in production and may be absent in local-dev.
+		if isUndefinedTableErr(err) {
+			return resp, nil
+		}
+		return nil, errors.Wrap(err, "failed to get token balance details")
+	}
+	for _, r := range rows {
+		t := &api.TokenBalanceDetailInfo{
+			ContractAddress: r.ContractAddress,
+			Balance:         r.Balance,
+		}
+		if r.Name.Valid {
+			t.Name = r.Name.String
+		}
+		if r.Symbol.Valid {
+			t.Symbol = r.Symbol.String
+		}
+		if r.Decimals.Valid {
+			t.Decimals = uint32(r.Decimals.Int32)
+		}
+		if r.PriceToIotex.Valid {
+			t.PriceToIotex = r.PriceToIotex.String
+		} else {
+			t.PriceToIotex = "0"
+		}
+		resp.Tokens = append(resp.Tokens, t)
+	}
+	return resp, nil
+}
+
+// GetContractsDeployedByAddress lists contracts deployed by a sender, with
+// total count, ordered by account_meta.id DESC (deployment time desc).
+// Replaces kit contract.getContractsDeployedByAccount + count.
+func (s *AccountService) GetContractsDeployedByAddress(ctx context.Context, req *api.GetContractsDeployedByAddressRequest) (*api.GetContractsDeployedByAddressResponse, error) {
+	resp := &api.GetContractsDeployedByAddressResponse{}
+	addr := req.GetAddress()
+	if addr == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "address is required")
+	}
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+
+	var count uint64
+	if err := db.DB().WithContext(ctx).Raw(
+		`SELECT COUNT(1) FROM block_action_partition b
+		 INNER JOIN account_meta a ON b.contract_address = a.address AND b.block_height = a.block_height
+		 WHERE b.sender = ?`,
+		addr,
+	).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count deployed contracts")
+	}
+	resp.Count = count
+
+	var rows []struct {
+		ActionHash      string
+		ContractAddress string
+		Timestamp       int64
+	}
+	if err := db.DB().WithContext(ctx).Raw(
+		`SELECT b.action_hash, a.address AS contract_address,
+			(EXTRACT(EPOCH FROM (b.timestamp AT TIME ZONE 'UTC')) * 1000)::bigint AS timestamp
+		FROM block_action_partition b
+		INNER JOIN account_meta a ON b.contract_address = a.address AND b.block_height = a.block_height
+		WHERE b.sender = ?
+		ORDER BY a.id DESC
+		LIMIT ? OFFSET ?`,
+		addr, first, skip,
+	).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to list deployed contracts")
+	}
+	for _, r := range rows {
+		resp.Contracts = append(resp.Contracts, &api.DeployedContractInfo{
+			ActionHash:      r.ActionHash,
+			ContractAddress: r.ContractAddress,
+			Timestamp:       r.Timestamp,
+		})
+	}
+	return resp, nil
+}
+
+// GetContractByteCode returns the contract bytecode (hex). Replaces kit
+// contract.getContractByAddress.
+func (s *AccountService) GetContractByteCode(ctx context.Context, req *api.GetContractByteCodeRequest) (*api.GetContractByteCodeResponse, error) {
+	resp := &api.GetContractByteCodeResponse{}
+	addr := req.GetAddress()
+	if addr == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "address is required")
+	}
+	var row struct {
+		ByteCodeHex sql.NullString
+	}
+	if err := db.DB().WithContext(ctx).Raw(
+		`SELECT encode(contract_byte_code, 'hex') AS byte_code_hex
+		 FROM account_meta
+		 WHERE address = ? AND is_contract = true
+		 LIMIT 1`,
+		addr,
+	).Scan(&row).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to query contract bytecode")
+	}
+	if !row.ByteCodeHex.Valid {
+		return resp, nil
+	}
+	resp.Exist = true
+	resp.ByteCodeHex = row.ByteCodeHex.String
+	return resp, nil
+}
+
+// GetHoldersHistory returns daily holder counts. Replaces kit
+// analyzer.dailyIoTexHolder.
+func (s *AccountService) GetHoldersHistory(ctx context.Context, req *api.GetHoldersHistoryRequest) (*api.GetHoldersHistoryResponse, error) {
+	if _, _, err := parseDateRange(req.GetStartDate(), req.GetEndDate()); err != nil {
+		return nil, err
+	}
+	resp := &api.GetHoldersHistoryResponse{}
+	var rows []struct {
+		Date    string
+		Holders uint64
+	}
+	err := db.DB().WithContext(ctx).Raw(
+		`SELECT to_char(date, 'YYYY-MM-DD') AS date, total_users AS holders
+		FROM account_daily_stats
+		WHERE date BETWEEN ?::date AND ?::date
+		ORDER BY date DESC`,
+		req.GetStartDate(), req.GetEndDate(),
+	).Scan(&rows).Error
+	if err != nil {
+		if isUndefinedTableErr(err) {
+			return resp, nil
+		}
+		return nil, errors.Wrap(err, "failed to get holders history")
+	}
+	for _, r := range rows {
+		resp.Data = append(resp.Data, &api.HoldersHistoryPoint{
+			Date:    r.Date,
+			Holders: r.Holders,
+		})
+	}
+	return resp, nil
+}
