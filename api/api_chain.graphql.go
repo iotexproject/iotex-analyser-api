@@ -35,8 +35,15 @@ var (
 	gql__type_GetGasHistoryRequest            *graphql.Object      // message GetGasHistoryRequest in api_chain.proto
 	gql__type_GetEpochInfoResponse            *graphql.Object      // message GetEpochInfoResponse in api_chain.proto
 	gql__type_GetChainStatsResponse           *graphql.Object      // message GetChainStatsResponse in api_chain.proto
+	gql__type_GetChainAggregatesResponse      *graphql.Object      // message GetChainAggregatesResponse in api_chain.proto
 	gql__type_GetBlocksResponse               *graphql.Object      // message GetBlocksResponse in api_chain.proto
 	gql__type_GetBlocksRequest                *graphql.Object      // message GetBlocksRequest in api_chain.proto
+	gql__type_GetBlocksByHeightsResponse      *graphql.Object      // message GetBlocksByHeightsResponse in api_chain.proto
+	gql__type_GetBlocksByHeightsRequest       *graphql.Object      // message GetBlocksByHeightsRequest in api_chain.proto
+	gql__type_GetBlockMetaResponse            *graphql.Object      // message GetBlockMetaResponse in api_chain.proto
+	gql__type_GetBlockMetaRequest             *graphql.Object      // message GetBlockMetaRequest in api_chain.proto
+	gql__type_GetBlockByTimestampResponse     *graphql.Object      // message GetBlockByTimestampResponse in api_chain.proto
+	gql__type_GetBlockByTimestampRequest      *graphql.Object      // message GetBlockByTimestampRequest in api_chain.proto
 	gql__type_GetBlockByHeightResponse        *graphql.Object      // message GetBlockByHeightResponse in api_chain.proto
 	gql__type_GetBlockByHeightRequest         *graphql.Object      // message GetBlockByHeightRequest in api_chain.proto
 	gql__type_GetActionHistoryResponse        *graphql.Object      // message GetActionHistoryResponse in api_chain.proto
@@ -46,6 +53,7 @@ var (
 	gql__type_ChainResponse                   *graphql.Object      // message ChainResponse in api_chain.proto
 	gql__type_BlockSizeByHeightResponse       *graphql.Object      // message BlockSizeByHeightResponse in api_chain.proto
 	gql__type_BlockSizeByHeightRequest        *graphql.Object      // message BlockSizeByHeightRequest in api_chain.proto
+	gql__type_BlockMetaInfo                   *graphql.Object      // message BlockMetaInfo in api_chain.proto
 	gql__type_BlockInfo                       *graphql.Object      // message BlockInfo in api_chain.proto
 	gql__type_ActionHistoryPoint              *graphql.Object      // message ActionHistoryPoint in api_chain.proto
 	gql__input_VotingResultMeta               *graphql.InputObject // message VotingResultMeta in api_chain.proto
@@ -72,8 +80,15 @@ var (
 	gql__input_GetGasHistoryRequest           *graphql.InputObject // message GetGasHistoryRequest in api_chain.proto
 	gql__input_GetEpochInfoResponse           *graphql.InputObject // message GetEpochInfoResponse in api_chain.proto
 	gql__input_GetChainStatsResponse          *graphql.InputObject // message GetChainStatsResponse in api_chain.proto
+	gql__input_GetChainAggregatesResponse     *graphql.InputObject // message GetChainAggregatesResponse in api_chain.proto
 	gql__input_GetBlocksResponse              *graphql.InputObject // message GetBlocksResponse in api_chain.proto
 	gql__input_GetBlocksRequest               *graphql.InputObject // message GetBlocksRequest in api_chain.proto
+	gql__input_GetBlocksByHeightsResponse     *graphql.InputObject // message GetBlocksByHeightsResponse in api_chain.proto
+	gql__input_GetBlocksByHeightsRequest      *graphql.InputObject // message GetBlocksByHeightsRequest in api_chain.proto
+	gql__input_GetBlockMetaResponse           *graphql.InputObject // message GetBlockMetaResponse in api_chain.proto
+	gql__input_GetBlockMetaRequest            *graphql.InputObject // message GetBlockMetaRequest in api_chain.proto
+	gql__input_GetBlockByTimestampResponse    *graphql.InputObject // message GetBlockByTimestampResponse in api_chain.proto
+	gql__input_GetBlockByTimestampRequest     *graphql.InputObject // message GetBlockByTimestampRequest in api_chain.proto
 	gql__input_GetBlockByHeightResponse       *graphql.InputObject // message GetBlockByHeightResponse in api_chain.proto
 	gql__input_GetBlockByHeightRequest        *graphql.InputObject // message GetBlockByHeightRequest in api_chain.proto
 	gql__input_GetActionHistoryResponse       *graphql.InputObject // message GetActionHistoryResponse in api_chain.proto
@@ -83,6 +98,7 @@ var (
 	gql__input_ChainResponse                  *graphql.InputObject // message ChainResponse in api_chain.proto
 	gql__input_BlockSizeByHeightResponse      *graphql.InputObject // message BlockSizeByHeightResponse in api_chain.proto
 	gql__input_BlockSizeByHeightRequest       *graphql.InputObject // message BlockSizeByHeightRequest in api_chain.proto
+	gql__input_BlockMetaInfo                  *graphql.InputObject // message BlockMetaInfo in api_chain.proto
 	gql__input_BlockInfo                      *graphql.InputObject // message BlockInfo in api_chain.proto
 	gql__input_ActionHistoryPoint             *graphql.InputObject // message ActionHistoryPoint in api_chain.proto
 )
@@ -193,6 +209,9 @@ func Gql__type_StakingRatioPoint() *graphql.Object {
 					Type: graphql.String,
 				},
 				"ratio": &graphql.Field{
+					Type: graphql.String,
+				},
+				"all_staking": &graphql.Field{
 					Type: graphql.String,
 				},
 			},
@@ -489,6 +508,41 @@ func Gql__type_GetChainStatsResponse() *graphql.Object {
 	return gql__type_GetChainStatsResponse
 }
 
+func Gql__type_GetChainAggregatesResponse() *graphql.Object {
+	if gql__type_GetChainAggregatesResponse == nil {
+		gql__type_GetChainAggregatesResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetChainAggregatesResponse",
+			Fields: graphql.Fields{
+				"contract_count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"nodes_count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"total_staked_iotx": &graphql.Field{
+					Type: graphql.String,
+				},
+				"total_num_actions": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"latest_block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"latest_block_tps": &graphql.Field{
+					Type: graphql.Float,
+				},
+				"epoch_num": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epoch_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetChainAggregatesResponse
+}
+
 func Gql__type_GetBlocksResponse() *graphql.Object {
 	if gql__type_GetBlocksResponse == nil {
 		gql__type_GetBlocksResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -521,6 +575,106 @@ func Gql__type_GetBlocksRequest() *graphql.Object {
 		})
 	}
 	return gql__type_GetBlocksRequest
+}
+
+func Gql__type_GetBlocksByHeightsResponse() *graphql.Object {
+	if gql__type_GetBlocksByHeightsResponse == nil {
+		gql__type_GetBlocksByHeightsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlocksByHeightsResponse",
+			Fields: graphql.Fields{
+				"blocks": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BlockInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetBlocksByHeightsResponse
+}
+
+func Gql__type_GetBlocksByHeightsRequest() *graphql.Object {
+	if gql__type_GetBlocksByHeightsRequest == nil {
+		gql__type_GetBlocksByHeightsRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name:        "Api_Type_GetBlocksByHeightsRequest",
+			Description: `GetBlocksByHeights: batch fetch.`,
+			Fields: graphql.Fields{
+				"heights": &graphql.Field{
+					Type: graphql.NewList(graphql.Int),
+				},
+			},
+		})
+	}
+	return gql__type_GetBlocksByHeightsRequest
+}
+
+func Gql__type_GetBlockMetaResponse() *graphql.Object {
+	if gql__type_GetBlockMetaResponse == nil {
+		gql__type_GetBlockMetaResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlockMetaResponse",
+			Fields: graphql.Fields{
+				"items": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BlockMetaInfo()),
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockMetaResponse
+}
+
+func Gql__type_GetBlockMetaRequest() *graphql.Object {
+	if gql__type_GetBlockMetaRequest == nil {
+		gql__type_GetBlockMetaRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name:        "Api_Type_GetBlockMetaRequest",
+			Description: `GetBlockMeta: query block_meta by exact height, range, or latest (no args).`,
+			Fields: graphql.Fields{
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"start_block": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"end_block": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockMetaRequest
+}
+
+func Gql__type_GetBlockByTimestampResponse() *graphql.Object {
+	if gql__type_GetBlockByTimestampResponse == nil {
+		gql__type_GetBlockByTimestampResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlockByTimestampResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockByTimestampResponse
+}
+
+func Gql__type_GetBlockByTimestampRequest() *graphql.Object {
+	if gql__type_GetBlockByTimestampRequest == nil {
+		gql__type_GetBlockByTimestampRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlockByTimestampRequest",
+			Description: `GetBlockByTimestamp: timestamp -> first block whose timestamp <= the input.
+ Used by iotex-kit modules-db (block.getBlockByTimestamp, dao.blockLoader).`,
+			Fields: graphql.Fields{
+				"timestamp": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetBlockByTimestampRequest
 }
 
 func Gql__type_GetBlockByHeightResponse() *graphql.Object {
@@ -700,6 +854,44 @@ func Gql__type_BlockSizeByHeightRequest() *graphql.Object {
 	return gql__type_BlockSizeByHeightRequest
 }
 
+func Gql__type_BlockMetaInfo() *graphql.Object {
+	if gql__type_BlockMetaInfo == nil {
+		gql__type_BlockMetaInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BlockMetaInfo",
+			Fields: graphql.Fields{
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epoch_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"epoch_num": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"gas_consumed": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"producer_name": &graphql.Field{
+					Type: graphql.String,
+				},
+				"producer_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"block_reward": &graphql.Field{
+					Type: graphql.String,
+				},
+				"num_actions": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_BlockMetaInfo
+}
+
 func Gql__type_BlockInfo() *graphql.Object {
 	if gql__type_BlockInfo == nil {
 		gql__type_BlockInfo = graphql.NewObject(graphql.ObjectConfig{
@@ -867,6 +1059,9 @@ func Gql__input_StakingRatioPoint() *graphql.InputObject {
 					Type: graphql.String,
 				},
 				"ratio": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"all_staking": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 			},
@@ -1163,6 +1358,41 @@ func Gql__input_GetChainStatsResponse() *graphql.InputObject {
 	return gql__input_GetChainStatsResponse
 }
 
+func Gql__input_GetChainAggregatesResponse() *graphql.InputObject {
+	if gql__input_GetChainAggregatesResponse == nil {
+		gql__input_GetChainAggregatesResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetChainAggregatesResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"contract_count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"nodes_count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"total_staked_iotx": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"total_num_actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"latest_block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"latest_block_tps": &graphql.InputObjectFieldConfig{
+					Type: graphql.Float,
+				},
+				"epoch_num": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epoch_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetChainAggregatesResponse
+}
+
 func Gql__input_GetBlocksResponse() *graphql.InputObject {
 	if gql__input_GetBlocksResponse == nil {
 		gql__input_GetBlocksResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -1195,6 +1425,102 @@ func Gql__input_GetBlocksRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_GetBlocksRequest
+}
+
+func Gql__input_GetBlocksByHeightsResponse() *graphql.InputObject {
+	if gql__input_GetBlocksByHeightsResponse == nil {
+		gql__input_GetBlocksByHeightsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlocksByHeightsResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"blocks": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BlockInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetBlocksByHeightsResponse
+}
+
+func Gql__input_GetBlocksByHeightsRequest() *graphql.InputObject {
+	if gql__input_GetBlocksByHeightsRequest == nil {
+		gql__input_GetBlocksByHeightsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlocksByHeightsRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"heights": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(graphql.Int),
+				},
+			},
+		})
+	}
+	return gql__input_GetBlocksByHeightsRequest
+}
+
+func Gql__input_GetBlockMetaResponse() *graphql.InputObject {
+	if gql__input_GetBlockMetaResponse == nil {
+		gql__input_GetBlockMetaResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockMetaResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"items": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BlockMetaInfo()),
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockMetaResponse
+}
+
+func Gql__input_GetBlockMetaRequest() *graphql.InputObject {
+	if gql__input_GetBlockMetaRequest == nil {
+		gql__input_GetBlockMetaRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockMetaRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"start_block": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"end_block": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockMetaRequest
+}
+
+func Gql__input_GetBlockByTimestampResponse() *graphql.InputObject {
+	if gql__input_GetBlockByTimestampResponse == nil {
+		gql__input_GetBlockByTimestampResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockByTimestampResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockByTimestampResponse
+}
+
+func Gql__input_GetBlockByTimestampRequest() *graphql.InputObject {
+	if gql__input_GetBlockByTimestampRequest == nil {
+		gql__input_GetBlockByTimestampRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlockByTimestampRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetBlockByTimestampRequest
 }
 
 func Gql__input_GetBlockByHeightResponse() *graphql.InputObject {
@@ -1372,6 +1698,44 @@ func Gql__input_BlockSizeByHeightRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_BlockSizeByHeightRequest
+}
+
+func Gql__input_BlockMetaInfo() *graphql.InputObject {
+	if gql__input_BlockMetaInfo == nil {
+		gql__input_BlockMetaInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BlockMetaInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epoch_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"epoch_num": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"gas_consumed": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"producer_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"producer_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"block_reward": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"num_actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_BlockMetaInfo
 }
 
 func Gql__input_BlockInfo() *graphql.InputObject {

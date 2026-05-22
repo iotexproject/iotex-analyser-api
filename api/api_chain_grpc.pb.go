@@ -36,6 +36,10 @@ const (
 	ChainService_GetTpsHistory_FullMethodName          = "/api.ChainService/GetTpsHistory"
 	ChainService_GetGasHistory_FullMethodName          = "/api.ChainService/GetGasHistory"
 	ChainService_GetSupplyHistory_FullMethodName       = "/api.ChainService/GetSupplyHistory"
+	ChainService_GetBlockByTimestamp_FullMethodName    = "/api.ChainService/GetBlockByTimestamp"
+	ChainService_GetBlocksByHeights_FullMethodName     = "/api.ChainService/GetBlocksByHeights"
+	ChainService_GetBlockMeta_FullMethodName           = "/api.ChainService/GetBlockMeta"
+	ChainService_GetChainAggregates_FullMethodName     = "/api.ChainService/GetChainAggregates"
 )
 
 // ChainServiceClient is the client API for ChainService service.
@@ -75,6 +79,14 @@ type ChainServiceClient interface {
 	GetGasHistory(ctx context.Context, in *GetGasHistoryRequest, opts ...grpc.CallOption) (*GetGasHistoryResponse, error)
 	// GetSupplyHistory returns daily total/circulating supply (IOTX) and daily burn/issue over a date range
 	GetSupplyHistory(ctx context.Context, in *GetSupplyHistoryRequest, opts ...grpc.CallOption) (*GetSupplyHistoryResponse, error)
+	// GetBlockByTimestamp returns the latest block at or before the given timestamp
+	GetBlockByTimestamp(ctx context.Context, in *GetBlockByTimestampRequest, opts ...grpc.CallOption) (*GetBlockByTimestampResponse, error)
+	// GetBlocksByHeights batch-fetches blocks by their heights
+	GetBlocksByHeights(ctx context.Context, in *GetBlocksByHeightsRequest, opts ...grpc.CallOption) (*GetBlocksByHeightsResponse, error)
+	// GetBlockMeta returns block_meta rows by exact height, range, or latest
+	GetBlockMeta(ctx context.Context, in *GetBlockMetaRequest, opts ...grpc.CallOption) (*GetBlockMetaResponse, error)
+	// GetChainAggregates returns one-shot chain-wide aggregates (contract count, nodes, total staked, etc.)
+	GetChainAggregates(ctx context.Context, in *GetChainAggregatesRequest, opts ...grpc.CallOption) (*GetChainAggregatesResponse, error)
 }
 
 type chainServiceClient struct {
@@ -238,6 +250,42 @@ func (c *chainServiceClient) GetSupplyHistory(ctx context.Context, in *GetSupply
 	return out, nil
 }
 
+func (c *chainServiceClient) GetBlockByTimestamp(ctx context.Context, in *GetBlockByTimestampRequest, opts ...grpc.CallOption) (*GetBlockByTimestampResponse, error) {
+	out := new(GetBlockByTimestampResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetBlockByTimestamp_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetBlocksByHeights(ctx context.Context, in *GetBlocksByHeightsRequest, opts ...grpc.CallOption) (*GetBlocksByHeightsResponse, error) {
+	out := new(GetBlocksByHeightsResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetBlocksByHeights_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetBlockMeta(ctx context.Context, in *GetBlockMetaRequest, opts ...grpc.CallOption) (*GetBlockMetaResponse, error) {
+	out := new(GetBlockMetaResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetBlockMeta_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chainServiceClient) GetChainAggregates(ctx context.Context, in *GetChainAggregatesRequest, opts ...grpc.CallOption) (*GetChainAggregatesResponse, error) {
+	out := new(GetChainAggregatesResponse)
+	err := c.cc.Invoke(ctx, ChainService_GetChainAggregates_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChainServiceServer is the server API for ChainService service.
 // All implementations must embed UnimplementedChainServiceServer
 // for forward compatibility
@@ -275,6 +323,14 @@ type ChainServiceServer interface {
 	GetGasHistory(context.Context, *GetGasHistoryRequest) (*GetGasHistoryResponse, error)
 	// GetSupplyHistory returns daily total/circulating supply (IOTX) and daily burn/issue over a date range
 	GetSupplyHistory(context.Context, *GetSupplyHistoryRequest) (*GetSupplyHistoryResponse, error)
+	// GetBlockByTimestamp returns the latest block at or before the given timestamp
+	GetBlockByTimestamp(context.Context, *GetBlockByTimestampRequest) (*GetBlockByTimestampResponse, error)
+	// GetBlocksByHeights batch-fetches blocks by their heights
+	GetBlocksByHeights(context.Context, *GetBlocksByHeightsRequest) (*GetBlocksByHeightsResponse, error)
+	// GetBlockMeta returns block_meta rows by exact height, range, or latest
+	GetBlockMeta(context.Context, *GetBlockMetaRequest) (*GetBlockMetaResponse, error)
+	// GetChainAggregates returns one-shot chain-wide aggregates (contract count, nodes, total staked, etc.)
+	GetChainAggregates(context.Context, *GetChainAggregatesRequest) (*GetChainAggregatesResponse, error)
 	mustEmbedUnimplementedChainServiceServer()
 }
 
@@ -332,6 +388,18 @@ func (UnimplementedChainServiceServer) GetGasHistory(context.Context, *GetGasHis
 }
 func (UnimplementedChainServiceServer) GetSupplyHistory(context.Context, *GetSupplyHistoryRequest) (*GetSupplyHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSupplyHistory not implemented")
+}
+func (UnimplementedChainServiceServer) GetBlockByTimestamp(context.Context, *GetBlockByTimestampRequest) (*GetBlockByTimestampResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBlockByTimestamp not implemented")
+}
+func (UnimplementedChainServiceServer) GetBlocksByHeights(context.Context, *GetBlocksByHeightsRequest) (*GetBlocksByHeightsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBlocksByHeights not implemented")
+}
+func (UnimplementedChainServiceServer) GetBlockMeta(context.Context, *GetBlockMetaRequest) (*GetBlockMetaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBlockMeta not implemented")
+}
+func (UnimplementedChainServiceServer) GetChainAggregates(context.Context, *GetChainAggregatesRequest) (*GetChainAggregatesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetChainAggregates not implemented")
 }
 func (UnimplementedChainServiceServer) mustEmbedUnimplementedChainServiceServer() {}
 
@@ -652,6 +720,78 @@ func _ChainService_GetSupplyHistory_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChainService_GetBlockByTimestamp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlockByTimestampRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetBlockByTimestamp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetBlockByTimestamp_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetBlockByTimestamp(ctx, req.(*GetBlockByTimestampRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetBlocksByHeights_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlocksByHeightsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetBlocksByHeights(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetBlocksByHeights_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetBlocksByHeights(ctx, req.(*GetBlocksByHeightsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetBlockMeta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlockMetaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetBlockMeta(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetBlockMeta_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetBlockMeta(ctx, req.(*GetBlockMetaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChainService_GetChainAggregates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetChainAggregatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChainServiceServer).GetChainAggregates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChainService_GetChainAggregates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChainServiceServer).GetChainAggregates(ctx, req.(*GetChainAggregatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChainService_ServiceDesc is the grpc.ServiceDesc for ChainService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -726,6 +866,22 @@ var ChainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSupplyHistory",
 			Handler:    _ChainService_GetSupplyHistory_Handler,
+		},
+		{
+			MethodName: "GetBlockByTimestamp",
+			Handler:    _ChainService_GetBlockByTimestamp_Handler,
+		},
+		{
+			MethodName: "GetBlocksByHeights",
+			Handler:    _ChainService_GetBlocksByHeights_Handler,
+		},
+		{
+			MethodName: "GetBlockMeta",
+			Handler:    _ChainService_GetBlockMeta_Handler,
+		},
+		{
+			MethodName: "GetChainAggregates",
+			Handler:    _ChainService_GetChainAggregates_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

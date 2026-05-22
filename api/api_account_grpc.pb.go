@@ -19,21 +19,25 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AccountService_IotexBalanceByHeight_FullMethodName         = "/api.AccountService/IotexBalanceByHeight"
-	AccountService_Erc20TokenBalanceByHeight_FullMethodName    = "/api.AccountService/Erc20TokenBalanceByHeight"
-	AccountService_ActiveAccounts_FullMethodName               = "/api.AccountService/ActiveAccounts"
-	AccountService_OperatorAddress_FullMethodName              = "/api.AccountService/OperatorAddress"
-	AccountService_Alias_FullMethodName                        = "/api.AccountService/Alias"
-	AccountService_TotalNumberOfHolders_FullMethodName         = "/api.AccountService/TotalNumberOfHolders"
-	AccountService_TotalAccountSupply_FullMethodName           = "/api.AccountService/TotalAccountSupply"
-	AccountService_ContractInfo_FullMethodName                 = "/api.AccountService/ContractInfo"
-	AccountService_GetAccountMeta_FullMethodName               = "/api.AccountService/GetAccountMeta"
-	AccountService_GetContractCreateInfo_FullMethodName        = "/api.AccountService/GetContractCreateInfo"
-	AccountService_GetAddressNFTBalances_FullMethodName        = "/api.AccountService/GetAddressNFTBalances"
-	AccountService_GetAddressTokenBalances_FullMethodName      = "/api.AccountService/GetAddressTokenBalances"
-	AccountService_GetTopAccounts_FullMethodName               = "/api.AccountService/GetTopAccounts"
-	AccountService_GetTopAccountsByBalance_FullMethodName      = "/api.AccountService/GetTopAccountsByBalance"
-	AccountService_GetAuthorizationsByAuthority_FullMethodName = "/api.AccountService/GetAuthorizationsByAuthority"
+	AccountService_IotexBalanceByHeight_FullMethodName          = "/api.AccountService/IotexBalanceByHeight"
+	AccountService_Erc20TokenBalanceByHeight_FullMethodName     = "/api.AccountService/Erc20TokenBalanceByHeight"
+	AccountService_ActiveAccounts_FullMethodName                = "/api.AccountService/ActiveAccounts"
+	AccountService_OperatorAddress_FullMethodName               = "/api.AccountService/OperatorAddress"
+	AccountService_Alias_FullMethodName                         = "/api.AccountService/Alias"
+	AccountService_TotalNumberOfHolders_FullMethodName          = "/api.AccountService/TotalNumberOfHolders"
+	AccountService_TotalAccountSupply_FullMethodName            = "/api.AccountService/TotalAccountSupply"
+	AccountService_ContractInfo_FullMethodName                  = "/api.AccountService/ContractInfo"
+	AccountService_GetAccountMeta_FullMethodName                = "/api.AccountService/GetAccountMeta"
+	AccountService_GetContractCreateInfo_FullMethodName         = "/api.AccountService/GetContractCreateInfo"
+	AccountService_GetAddressNFTBalances_FullMethodName         = "/api.AccountService/GetAddressNFTBalances"
+	AccountService_GetAddressTokenBalances_FullMethodName       = "/api.AccountService/GetAddressTokenBalances"
+	AccountService_GetTopAccounts_FullMethodName                = "/api.AccountService/GetTopAccounts"
+	AccountService_GetTopAccountsByBalance_FullMethodName       = "/api.AccountService/GetTopAccountsByBalance"
+	AccountService_GetAuthorizationsByAuthority_FullMethodName  = "/api.AccountService/GetAuthorizationsByAuthority"
+	AccountService_GetAddressTokenBalancesDetail_FullMethodName = "/api.AccountService/GetAddressTokenBalancesDetail"
+	AccountService_GetContractsDeployedByAddress_FullMethodName = "/api.AccountService/GetContractsDeployedByAddress"
+	AccountService_GetContractByteCode_FullMethodName           = "/api.AccountService/GetContractByteCode"
+	AccountService_GetHoldersHistory_FullMethodName             = "/api.AccountService/GetHoldersHistory"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -69,6 +73,14 @@ type AccountServiceClient interface {
 	GetTopAccountsByBalance(ctx context.Context, in *GetTopAccountsByBalanceRequest, opts ...grpc.CallOption) (*GetTopAccountsByBalanceResponse, error)
 	// GetAuthorizationsByAuthority returns EIP-7702 authorization history for an authority address
 	GetAuthorizationsByAuthority(ctx context.Context, in *GetAuthorizationsByAuthorityRequest, opts ...grpc.CallOption) (*GetAuthorizationsByAuthorityResponse, error)
+	// GetAddressTokenBalancesDetail returns ERC20 balances with name/symbol/decimals/price
+	GetAddressTokenBalancesDetail(ctx context.Context, in *GetAddressTokenBalancesDetailRequest, opts ...grpc.CallOption) (*GetAddressTokenBalancesDetailResponse, error)
+	// GetContractsDeployedByAddress lists contracts deployed by a given address
+	GetContractsDeployedByAddress(ctx context.Context, in *GetContractsDeployedByAddressRequest, opts ...grpc.CallOption) (*GetContractsDeployedByAddressResponse, error)
+	// GetContractByteCode returns the raw bytecode (hex) of a contract
+	GetContractByteCode(ctx context.Context, in *GetContractByteCodeRequest, opts ...grpc.CallOption) (*GetContractByteCodeResponse, error)
+	// GetHoldersHistory returns daily holder counts over a date range
+	GetHoldersHistory(ctx context.Context, in *GetHoldersHistoryRequest, opts ...grpc.CallOption) (*GetHoldersHistoryResponse, error)
 }
 
 type accountServiceClient struct {
@@ -214,6 +226,42 @@ func (c *accountServiceClient) GetAuthorizationsByAuthority(ctx context.Context,
 	return out, nil
 }
 
+func (c *accountServiceClient) GetAddressTokenBalancesDetail(ctx context.Context, in *GetAddressTokenBalancesDetailRequest, opts ...grpc.CallOption) (*GetAddressTokenBalancesDetailResponse, error) {
+	out := new(GetAddressTokenBalancesDetailResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetAddressTokenBalancesDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) GetContractsDeployedByAddress(ctx context.Context, in *GetContractsDeployedByAddressRequest, opts ...grpc.CallOption) (*GetContractsDeployedByAddressResponse, error) {
+	out := new(GetContractsDeployedByAddressResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetContractsDeployedByAddress_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) GetContractByteCode(ctx context.Context, in *GetContractByteCodeRequest, opts ...grpc.CallOption) (*GetContractByteCodeResponse, error) {
+	out := new(GetContractByteCodeResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetContractByteCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) GetHoldersHistory(ctx context.Context, in *GetHoldersHistoryRequest, opts ...grpc.CallOption) (*GetHoldersHistoryResponse, error) {
+	out := new(GetHoldersHistoryResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetHoldersHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -247,6 +295,14 @@ type AccountServiceServer interface {
 	GetTopAccountsByBalance(context.Context, *GetTopAccountsByBalanceRequest) (*GetTopAccountsByBalanceResponse, error)
 	// GetAuthorizationsByAuthority returns EIP-7702 authorization history for an authority address
 	GetAuthorizationsByAuthority(context.Context, *GetAuthorizationsByAuthorityRequest) (*GetAuthorizationsByAuthorityResponse, error)
+	// GetAddressTokenBalancesDetail returns ERC20 balances with name/symbol/decimals/price
+	GetAddressTokenBalancesDetail(context.Context, *GetAddressTokenBalancesDetailRequest) (*GetAddressTokenBalancesDetailResponse, error)
+	// GetContractsDeployedByAddress lists contracts deployed by a given address
+	GetContractsDeployedByAddress(context.Context, *GetContractsDeployedByAddressRequest) (*GetContractsDeployedByAddressResponse, error)
+	// GetContractByteCode returns the raw bytecode (hex) of a contract
+	GetContractByteCode(context.Context, *GetContractByteCodeRequest) (*GetContractByteCodeResponse, error)
+	// GetHoldersHistory returns daily holder counts over a date range
+	GetHoldersHistory(context.Context, *GetHoldersHistoryRequest) (*GetHoldersHistoryResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -298,6 +354,18 @@ func (UnimplementedAccountServiceServer) GetTopAccountsByBalance(context.Context
 }
 func (UnimplementedAccountServiceServer) GetAuthorizationsByAuthority(context.Context, *GetAuthorizationsByAuthorityRequest) (*GetAuthorizationsByAuthorityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuthorizationsByAuthority not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAddressTokenBalancesDetail(context.Context, *GetAddressTokenBalancesDetailRequest) (*GetAddressTokenBalancesDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAddressTokenBalancesDetail not implemented")
+}
+func (UnimplementedAccountServiceServer) GetContractsDeployedByAddress(context.Context, *GetContractsDeployedByAddressRequest) (*GetContractsDeployedByAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetContractsDeployedByAddress not implemented")
+}
+func (UnimplementedAccountServiceServer) GetContractByteCode(context.Context, *GetContractByteCodeRequest) (*GetContractByteCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetContractByteCode not implemented")
+}
+func (UnimplementedAccountServiceServer) GetHoldersHistory(context.Context, *GetHoldersHistoryRequest) (*GetHoldersHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHoldersHistory not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -582,6 +650,78 @@ func _AccountService_GetAuthorizationsByAuthority_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetAddressTokenBalancesDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAddressTokenBalancesDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAddressTokenBalancesDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetAddressTokenBalancesDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAddressTokenBalancesDetail(ctx, req.(*GetAddressTokenBalancesDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetContractsDeployedByAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetContractsDeployedByAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetContractsDeployedByAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetContractsDeployedByAddress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetContractsDeployedByAddress(ctx, req.(*GetContractsDeployedByAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetContractByteCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetContractByteCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetContractByteCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetContractByteCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetContractByteCode(ctx, req.(*GetContractByteCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetHoldersHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHoldersHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetHoldersHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetHoldersHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetHoldersHistory(ctx, req.(*GetHoldersHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -648,6 +788,22 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAuthorizationsByAuthority",
 			Handler:    _AccountService_GetAuthorizationsByAuthority_Handler,
+		},
+		{
+			MethodName: "GetAddressTokenBalancesDetail",
+			Handler:    _AccountService_GetAddressTokenBalancesDetail_Handler,
+		},
+		{
+			MethodName: "GetContractsDeployedByAddress",
+			Handler:    _AccountService_GetContractsDeployedByAddress_Handler,
+		},
+		{
+			MethodName: "GetContractByteCode",
+			Handler:    _AccountService_GetContractByteCode_Handler,
+		},
+		{
+			MethodName: "GetHoldersHistory",
+			Handler:    _AccountService_GetHoldersHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

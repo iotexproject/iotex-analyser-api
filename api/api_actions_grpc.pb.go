@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	ActionsService_GetEvmTransferDetailListByAddress_FullMethodName = "/api.ActionsService/GetEvmTransferDetailListByAddress"
 	ActionsService_GetAllActionsByAddress_FullMethodName            = "/api.ActionsService/GetAllActionsByAddress"
+	ActionsService_GetMimoSwapVolume_FullMethodName                 = "/api.ActionsService/GetMimoSwapVolume"
 )
 
 // ActionsServiceClient is the client API for ActionsService service.
@@ -29,6 +30,10 @@ const (
 type ActionsServiceClient interface {
 	GetEvmTransferDetailListByAddress(ctx context.Context, in *ActionsRequest, opts ...grpc.CallOption) (*EvmTransferDetailListByAddressResponse, error)
 	GetAllActionsByAddress(ctx context.Context, in *ActionsRequest, opts ...grpc.CallOption) (*AllActionsByAddressResponse, error)
+	// GetMimoSwapVolume returns the total amount of a token a user received from
+	// a mimo router, used by kit mimo.mimo_swap_volume. Specialised SQL on
+	// erc20_transfers + block_action.
+	GetMimoSwapVolume(ctx context.Context, in *GetMimoSwapVolumeRequest, opts ...grpc.CallOption) (*GetMimoSwapVolumeResponse, error)
 }
 
 type actionsServiceClient struct {
@@ -57,12 +62,25 @@ func (c *actionsServiceClient) GetAllActionsByAddress(ctx context.Context, in *A
 	return out, nil
 }
 
+func (c *actionsServiceClient) GetMimoSwapVolume(ctx context.Context, in *GetMimoSwapVolumeRequest, opts ...grpc.CallOption) (*GetMimoSwapVolumeResponse, error) {
+	out := new(GetMimoSwapVolumeResponse)
+	err := c.cc.Invoke(ctx, ActionsService_GetMimoSwapVolume_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActionsServiceServer is the server API for ActionsService service.
 // All implementations must embed UnimplementedActionsServiceServer
 // for forward compatibility
 type ActionsServiceServer interface {
 	GetEvmTransferDetailListByAddress(context.Context, *ActionsRequest) (*EvmTransferDetailListByAddressResponse, error)
 	GetAllActionsByAddress(context.Context, *ActionsRequest) (*AllActionsByAddressResponse, error)
+	// GetMimoSwapVolume returns the total amount of a token a user received from
+	// a mimo router, used by kit mimo.mimo_swap_volume. Specialised SQL on
+	// erc20_transfers + block_action.
+	GetMimoSwapVolume(context.Context, *GetMimoSwapVolumeRequest) (*GetMimoSwapVolumeResponse, error)
 	mustEmbedUnimplementedActionsServiceServer()
 }
 
@@ -75,6 +93,9 @@ func (UnimplementedActionsServiceServer) GetEvmTransferDetailListByAddress(conte
 }
 func (UnimplementedActionsServiceServer) GetAllActionsByAddress(context.Context, *ActionsRequest) (*AllActionsByAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllActionsByAddress not implemented")
+}
+func (UnimplementedActionsServiceServer) GetMimoSwapVolume(context.Context, *GetMimoSwapVolumeRequest) (*GetMimoSwapVolumeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMimoSwapVolume not implemented")
 }
 func (UnimplementedActionsServiceServer) mustEmbedUnimplementedActionsServiceServer() {}
 
@@ -125,6 +146,24 @@ func _ActionsService_GetAllActionsByAddress_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActionsService_GetMimoSwapVolume_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMimoSwapVolumeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionsServiceServer).GetMimoSwapVolume(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActionsService_GetMimoSwapVolume_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionsServiceServer).GetMimoSwapVolume(ctx, req.(*GetMimoSwapVolumeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActionsService_ServiceDesc is the grpc.ServiceDesc for ActionsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +178,10 @@ var ActionsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllActionsByAddress",
 			Handler:    _ActionsService_GetAllActionsByAddress_Handler,
+		},
+		{
+			MethodName: "GetMimoSwapVolume",
+			Handler:    _ActionsService_GetMimoSwapVolume_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

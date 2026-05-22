@@ -22,11 +22,14 @@ var (
 	gql__type_GetBucketListRequest           *graphql.Object      // message GetBucketListRequest in api_staking.proto
 	gql__type_GetBucketByBucketIdResponse    *graphql.Object      // message GetBucketByBucketIdResponse in api_staking.proto
 	gql__type_GetBucketByBucketIdRequest     *graphql.Object      // message GetBucketByBucketIdRequest in api_staking.proto
+	gql__type_GetBucketByActionHashResponse  *graphql.Object      // message GetBucketByActionHashResponse in api_staking.proto
+	gql__type_GetBucketByActionHashRequest   *graphql.Object      // message GetBucketByActionHashRequest in api_staking.proto
 	gql__type_CandidateVoteByHeightResponse  *graphql.Object      // message CandidateVoteByHeightResponse in api_staking.proto
 	gql__type_CandidateVoteByHeightRequest   *graphql.Object      // message CandidateVoteByHeightRequest in api_staking.proto
 	gql__type_BucketInfoEx                   *graphql.Object      // message BucketInfoEx in api_staking.proto
 	gql__type_BucketByIDResponse             *graphql.Object      // message BucketByIDResponse in api_staking.proto
 	gql__type_BucketByIDRequest              *graphql.Object      // message BucketByIDRequest in api_staking.proto
+	gql__type_BucketByActionHashInfo         *graphql.Object      // message BucketByActionHashInfo in api_staking.proto
 	gql__input_VoteByHeightResponse          *graphql.InputObject // message VoteByHeightResponse in api_staking.proto
 	gql__input_VoteByHeightRequest           *graphql.InputObject // message VoteByHeightRequest in api_staking.proto
 	gql__input_StakingBucketInfo             *graphql.InputObject // message StakingBucketInfo in api_staking.proto
@@ -38,11 +41,14 @@ var (
 	gql__input_GetBucketListRequest          *graphql.InputObject // message GetBucketListRequest in api_staking.proto
 	gql__input_GetBucketByBucketIdResponse   *graphql.InputObject // message GetBucketByBucketIdResponse in api_staking.proto
 	gql__input_GetBucketByBucketIdRequest    *graphql.InputObject // message GetBucketByBucketIdRequest in api_staking.proto
+	gql__input_GetBucketByActionHashResponse *graphql.InputObject // message GetBucketByActionHashResponse in api_staking.proto
+	gql__input_GetBucketByActionHashRequest  *graphql.InputObject // message GetBucketByActionHashRequest in api_staking.proto
 	gql__input_CandidateVoteByHeightResponse *graphql.InputObject // message CandidateVoteByHeightResponse in api_staking.proto
 	gql__input_CandidateVoteByHeightRequest  *graphql.InputObject // message CandidateVoteByHeightRequest in api_staking.proto
 	gql__input_BucketInfoEx                  *graphql.InputObject // message BucketInfoEx in api_staking.proto
 	gql__input_BucketByIDResponse            *graphql.InputObject // message BucketByIDResponse in api_staking.proto
 	gql__input_BucketByIDRequest             *graphql.InputObject // message BucketByIDRequest in api_staking.proto
+	gql__input_BucketByActionHashInfo        *graphql.InputObject // message BucketByActionHashInfo in api_staking.proto
 )
 
 func Gql__type_VoteByHeightResponse() *graphql.Object {
@@ -280,6 +286,37 @@ func Gql__type_GetBucketByBucketIdRequest() *graphql.Object {
 	return gql__type_GetBucketByBucketIdRequest
 }
 
+func Gql__type_GetBucketByActionHashResponse() *graphql.Object {
+	if gql__type_GetBucketByActionHashResponse == nil {
+		gql__type_GetBucketByActionHashResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketByActionHashResponse",
+			Fields: graphql.Fields{
+				"exist": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"bucket": &graphql.Field{
+					Type: Gql__type_BucketByActionHashInfo(),
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketByActionHashResponse
+}
+
+func Gql__type_GetBucketByActionHashRequest() *graphql.Object {
+	if gql__type_GetBucketByActionHashRequest == nil {
+		gql__type_GetBucketByActionHashRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBucketByActionHashRequest",
+			Fields: graphql.Fields{
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetBucketByActionHashRequest
+}
+
 func Gql__type_CandidateVoteByHeightResponse() *graphql.Object {
 	if gql__type_CandidateVoteByHeightResponse == nil {
 		gql__type_CandidateVoteByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -430,6 +467,53 @@ func Gql__type_BucketByIDRequest() *graphql.Object {
 		})
 	}
 	return gql__type_BucketByIDRequest
+}
+
+func Gql__type_BucketByActionHashInfo() *graphql.Object {
+	if gql__type_BucketByActionHashInfo == nil {
+		gql__type_BucketByActionHashInfo = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BucketByActionHashInfo",
+			Fields: graphql.Fields{
+				"action_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"bucket_id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"action_type": &graphql.Field{
+					Type: graphql.String,
+				},
+				"sender": &graphql.Field{
+					Type: graphql.String,
+				},
+				"owner_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"voting_power": &graphql.Field{
+					Type: graphql.String,
+				},
+				"amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"duration": &graphql.Field{
+					Type: graphql.String,
+				},
+				"auto_stake": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+				"delegate": &graphql.Field{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_BucketByActionHashInfo
 }
 
 func Gql__input_VoteByHeightResponse() *graphql.InputObject {
@@ -667,6 +751,37 @@ func Gql__input_GetBucketByBucketIdRequest() *graphql.InputObject {
 	return gql__input_GetBucketByBucketIdRequest
 }
 
+func Gql__input_GetBucketByActionHashResponse() *graphql.InputObject {
+	if gql__input_GetBucketByActionHashResponse == nil {
+		gql__input_GetBucketByActionHashResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketByActionHashResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"exist": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"bucket": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_BucketByActionHashInfo(),
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketByActionHashResponse
+}
+
+func Gql__input_GetBucketByActionHashRequest() *graphql.InputObject {
+	if gql__input_GetBucketByActionHashRequest == nil {
+		gql__input_GetBucketByActionHashRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBucketByActionHashRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetBucketByActionHashRequest
+}
+
 func Gql__input_CandidateVoteByHeightResponse() *graphql.InputObject {
 	if gql__input_CandidateVoteByHeightResponse == nil {
 		gql__input_CandidateVoteByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -816,6 +931,53 @@ func Gql__input_BucketByIDRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_BucketByIDRequest
+}
+
+func Gql__input_BucketByActionHashInfo() *graphql.InputObject {
+	if gql__input_BucketByActionHashInfo == nil {
+		gql__input_BucketByActionHashInfo = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BucketByActionHashInfo",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"action_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"action_type": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"sender": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"owner_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"voting_power": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"duration": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"auto_stake": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+				"delegate": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_BucketByActionHashInfo
 }
 
 // graphql__resolver_StakingService is a struct for making query, mutation and resolve fields.

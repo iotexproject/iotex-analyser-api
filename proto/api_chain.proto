@@ -154,6 +154,7 @@ message GetStakingRatioHistoryRequest {
 message StakingRatioPoint {
   string date_time = 1;
   string ratio = 2;
+  string all_staking = 3; // total stake at the time (decimal string, rau)
 }
 message GetStakingRatioHistoryResponse {
   repeated StakingRatioPoint data = 1;
@@ -207,6 +208,60 @@ message SupplyHistoryPoint {
 }
 message GetSupplyHistoryResponse {
   repeated SupplyHistoryPoint data = 1;
+}
+
+// GetBlockByTimestamp: timestamp -> first block whose timestamp <= the input.
+// Used by iotex-kit modules-db (block.getBlockByTimestamp, dao.blockLoader).
+message GetBlockByTimestampRequest {
+  string timestamp = 1; // ISO-8601 string (e.g. "2026-05-19T00:00:00Z")
+}
+message GetBlockByTimestampResponse {
+  bool exist = 1;
+  uint64 block_height = 2;
+  int64 timestamp = 3;
+}
+
+// GetBlocksByHeights: batch fetch.
+message GetBlocksByHeightsRequest {
+  repeated uint64 heights = 1;
+}
+message GetBlocksByHeightsResponse {
+  repeated BlockInfo blocks = 1;
+}
+
+// GetBlockMeta: query block_meta by exact height, range, or latest (no args).
+message GetBlockMetaRequest {
+  uint64 block_height = 1; // 0 = ignored
+  uint64 start_block = 2;  // 0 = ignored
+  uint64 end_block = 3;    // 0 = ignored
+}
+message BlockMetaInfo {
+  uint64 block_height = 1;
+  uint64 epoch_height = 2;
+  uint64 epoch_num = 3;
+  uint64 gas_consumed = 4;
+  string producer_name = 5;
+  string producer_address = 6;
+  string block_reward = 7;
+  uint64 num_actions = 8;
+  int64 timestamp = 9;
+}
+message GetBlockMetaResponse {
+  repeated BlockMetaInfo items = 1;
+}
+
+// GetChainAggregates: aggregate chain-wide counters in one shot.
+// Used by iotex-kit analyzer.chain_meta / contractCount / nodesCount / totalStakedIotx.
+message GetChainAggregatesRequest {}
+message GetChainAggregatesResponse {
+  uint64 contract_count = 1;
+  uint64 nodes_count = 2;
+  string total_staked_iotx = 3;
+  uint64 total_num_actions = 4;
+  uint64 latest_block_height = 5;
+  double latest_block_tps = 6;
+  uint64 epoch_num = 7;
+  uint64 epoch_height = 8;
 }
 
 service ChainService {
@@ -371,6 +426,38 @@ service ChainService {
   rpc GetSupplyHistory(GetSupplyHistoryRequest) returns (GetSupplyHistoryResponse) {
     option (google.api.http) = {
       post: "/api.ChainService.GetSupplyHistory"
+      body: "*"
+    };
+  };
+
+  // GetBlockByTimestamp returns the latest block at or before the given timestamp
+  rpc GetBlockByTimestamp(GetBlockByTimestampRequest) returns (GetBlockByTimestampResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockByTimestamp"
+      body: "*"
+    };
+  };
+
+  // GetBlocksByHeights batch-fetches blocks by their heights
+  rpc GetBlocksByHeights(GetBlocksByHeightsRequest) returns (GetBlocksByHeightsResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlocksByHeights"
+      body: "*"
+    };
+  };
+
+  // GetBlockMeta returns block_meta rows by exact height, range, or latest
+  rpc GetBlockMeta(GetBlockMetaRequest) returns (GetBlockMetaResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetBlockMeta"
+      body: "*"
+    };
+  };
+
+  // GetChainAggregates returns one-shot chain-wide aggregates (contract count, nodes, total staked, etc.)
+  rpc GetChainAggregates(GetChainAggregatesRequest) returns (GetChainAggregatesResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetChainAggregates"
       body: "*"
     };
   };

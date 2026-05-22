@@ -197,4 +197,40 @@ service StakingService {
       body: "*"
     };
   };
+
+  // GetBucketByActionHash looks up a single bucket by the action hash that created/modified it.
+  // Searches staking_buckets, system_staking_buckets_record (final=true), and
+  // system_staking_buckets_v2_record (final=true). Replaces kit staking.bucketByHash.
+  rpc GetBucketByActionHash(GetBucketByActionHashRequest) returns (GetBucketByActionHashResponse) {
+    option (google.api.http) = {
+      post: "/api.StakingService.GetBucketByActionHash"
+      body: "*"
+    };
+  };
+}
+
+// ─── Added for iotex-kit modules-db migration ───
+
+message GetBucketByActionHashRequest {
+  string action_hash = 1; // hex, with or without 0x prefix (server normalizes)
+}
+
+message BucketByActionHashInfo {
+  string action_hash = 1;
+  uint64 bucket_id = 2;
+  string action_type = 3;       // staking_buckets.act_type or system_*.event_type
+  string sender = 4;
+  string owner_address = 5;
+  string staked_amount = 6;
+  string voting_power = 7;
+  string amount = 8;
+  string duration = 9;
+  bool auto_stake = 10;
+  string delegate = 11;          // staking_buckets.candidate or system_*.delegate_owner_address
+  int64 timestamp = 12;          // unix millis
+}
+
+message GetBucketByActionHashResponse {
+  bool exist = 1;
+  BucketByActionHashInfo bucket = 2;
 }

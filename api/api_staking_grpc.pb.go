@@ -26,6 +26,7 @@ const (
 	StakingService_GetBucketsByBucketId_FullMethodName  = "/api.StakingService/GetBucketsByBucketId"
 	StakingService_GetBucketByBucketId_FullMethodName   = "/api.StakingService/GetBucketByBucketId"
 	StakingService_GetNativeBuckets_FullMethodName      = "/api.StakingService/GetNativeBuckets"
+	StakingService_GetBucketByActionHash_FullMethodName = "/api.StakingService/GetBucketByActionHash"
 )
 
 // StakingServiceClient is the client API for StakingService service.
@@ -40,6 +41,10 @@ type StakingServiceClient interface {
 	GetBucketsByBucketId(ctx context.Context, in *GetBucketsByBucketIdRequest, opts ...grpc.CallOption) (*GetBucketsByBucketIdResponse, error)
 	GetBucketByBucketId(ctx context.Context, in *GetBucketByBucketIdRequest, opts ...grpc.CallOption) (*GetBucketByBucketIdResponse, error)
 	GetNativeBuckets(ctx context.Context, in *GetNativeBucketsRequest, opts ...grpc.CallOption) (*GetNativeBucketsResponse, error)
+	// GetBucketByActionHash looks up a single bucket by the action hash that created/modified it.
+	// Searches staking_buckets, system_staking_buckets_record (final=true), and
+	// system_staking_buckets_v2_record (final=true). Replaces kit staking.bucketByHash.
+	GetBucketByActionHash(ctx context.Context, in *GetBucketByActionHashRequest, opts ...grpc.CallOption) (*GetBucketByActionHashResponse, error)
 }
 
 type stakingServiceClient struct {
@@ -113,6 +118,15 @@ func (c *stakingServiceClient) GetNativeBuckets(ctx context.Context, in *GetNati
 	return out, nil
 }
 
+func (c *stakingServiceClient) GetBucketByActionHash(ctx context.Context, in *GetBucketByActionHashRequest, opts ...grpc.CallOption) (*GetBucketByActionHashResponse, error) {
+	out := new(GetBucketByActionHashResponse)
+	err := c.cc.Invoke(ctx, StakingService_GetBucketByActionHash_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StakingServiceServer is the server API for StakingService service.
 // All implementations must embed UnimplementedStakingServiceServer
 // for forward compatibility
@@ -125,6 +139,10 @@ type StakingServiceServer interface {
 	GetBucketsByBucketId(context.Context, *GetBucketsByBucketIdRequest) (*GetBucketsByBucketIdResponse, error)
 	GetBucketByBucketId(context.Context, *GetBucketByBucketIdRequest) (*GetBucketByBucketIdResponse, error)
 	GetNativeBuckets(context.Context, *GetNativeBucketsRequest) (*GetNativeBucketsResponse, error)
+	// GetBucketByActionHash looks up a single bucket by the action hash that created/modified it.
+	// Searches staking_buckets, system_staking_buckets_record (final=true), and
+	// system_staking_buckets_v2_record (final=true). Replaces kit staking.bucketByHash.
+	GetBucketByActionHash(context.Context, *GetBucketByActionHashRequest) (*GetBucketByActionHashResponse, error)
 	mustEmbedUnimplementedStakingServiceServer()
 }
 
@@ -152,6 +170,9 @@ func (UnimplementedStakingServiceServer) GetBucketByBucketId(context.Context, *G
 }
 func (UnimplementedStakingServiceServer) GetNativeBuckets(context.Context, *GetNativeBucketsRequest) (*GetNativeBucketsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNativeBuckets not implemented")
+}
+func (UnimplementedStakingServiceServer) GetBucketByActionHash(context.Context, *GetBucketByActionHashRequest) (*GetBucketByActionHashResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBucketByActionHash not implemented")
 }
 func (UnimplementedStakingServiceServer) mustEmbedUnimplementedStakingServiceServer() {}
 
@@ -292,6 +313,24 @@ func _StakingService_GetNativeBuckets_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StakingService_GetBucketByActionHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBucketByActionHashRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakingServiceServer).GetBucketByActionHash(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakingService_GetBucketByActionHash_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakingServiceServer).GetBucketByActionHash(ctx, req.(*GetBucketByActionHashRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StakingService_ServiceDesc is the grpc.ServiceDesc for StakingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,6 +365,10 @@ var StakingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetNativeBuckets",
 			Handler:    _StakingService_GetNativeBuckets_Handler,
+		},
+		{
+			MethodName: "GetBucketByActionHash",
+			Handler:    _StakingService_GetBucketByActionHash_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

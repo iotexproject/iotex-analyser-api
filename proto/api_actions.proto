@@ -60,12 +60,31 @@ service ActionsService {
   };
   rpc GetAllActionsByAddress(ActionsRequest) returns (AllActionsByAddressResponse) {
     option (graphql.schema) = {
-      type: QUERY 
-      name: "GetAllActionsByAddress" 
+      type: QUERY
+      name: "GetAllActionsByAddress"
     };
     option (google.api.http) = {
       post: "/api.ActionsService.GetAllActionsByAddress"
       body: "*"
     };
   };
+
+  // GetMimoSwapVolume returns the total amount of a token a user received from
+  // a mimo router, used by kit mimo.mimo_swap_volume. Specialised SQL on
+  // erc20_transfers + block_action.
+  rpc GetMimoSwapVolume(GetMimoSwapVolumeRequest) returns (GetMimoSwapVolumeResponse) {
+    option (google.api.http) = {
+      post: "/api.ActionsService.GetMimoSwapVolume"
+      body: "*"
+    };
+  };
+}
+
+message GetMimoSwapVolumeRequest {
+  string user_address = 1;     // recipient
+  string token_contract = 2;   // erc20_transfers.contract_address
+  string mimo_router = 3;      // block_action.recipient
+}
+message GetMimoSwapVolumeResponse {
+  string amount = 1;           // sum(amount) as decimal string ("0" if none)
 }

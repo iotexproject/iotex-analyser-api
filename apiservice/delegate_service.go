@@ -2,6 +2,7 @@ package apiservice
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"math/big"
@@ -15,6 +16,8 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/common/votings"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/pkg/errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type DelegateService struct {
@@ -323,6 +326,151 @@ func (s *DelegateService) PaidToDelegates(ctx context.Context, req *api.PaidToDe
 			FoundationBonus: v.FoundationBonus,
 			Amount:          amount.String(),
 		})
+	}
+	return resp, nil
+}
+
+// ─── Added for iotex-kit modules-db migration ───
+
+// GetDelegatesByHeight returns the delegate_record snapshot at the given block
+// height (or the latest snapshot when height = 0). Replaces kit
+// staking.delegatesByHeight.
+func (s *DelegateService) GetDelegatesByHeight(ctx context.Context, req *api.GetDelegatesByHeightRequest) (*api.GetDelegatesByHeightResponse, error) {
+	resp := &api.GetDelegatesByHeightResponse{}
+	gormDB := db.DB().WithContext(ctx)
+	height := req.GetHeight()
+	if height == 0 {
+		var maxHeight sql.NullInt64
+		if err := gormDB.Raw(`SELECT MAX(block_height) FROM delegate_record`).Scan(&maxHeight).Error; err != nil {
+			// delegate_record is populated by an external job in production and
+			// may not exist in local-dev — treat as empty rather than 500.
+			if isUndefinedTableErr(err) {
+				return resp, nil
+			}
+			return nil, errors.Wrap(err, "failed to read max delegate_record height")
+		}
+		if !maxHeight.Valid {
+			return resp, nil
+		}
+		height = uint64(maxHeight.Int64)
+	}
+	resp.Height = height
+
+	var rows []struct {
+		BlockHeight        uint64
+		CandidateAddress   sql.NullString
+		CandidateName      sql.NullString
+		OperatorAddress    sql.NullString
+		RewardAddress      sql.NullString
+		SelfStakingTokens  sql.NullString
+		TotalWeightedVotes sql.NullString
+		StakeAmount        sql.NullString
+		Active             sql.NullBool
+	}
+	if err := gormDB.Raw(
+		`SELECT block_height, candidate_address, candidate_name, operator_address,
+			reward_address, self_staking_tokens::text, total_weighted_votes::text,
+			stake_amount::text, active
+		FROM delegate_record WHERE block_height = ?`,
+		height,
+	).Scan(&rows).Error; err != nil {
+		if isUndefinedTableErr(err) {
+			return resp, nil
+		}
+		return nil, errors.Wrap(err, "failed to query delegate_record")
+	}
+	for _, r := range rows {
+		d := &api.DelegateRecord{BlockHeight: r.BlockHeight}
+		if r.CandidateAddress.Valid {
+			d.CandidateAddress = r.CandidateAddress.String
+		}
+		if r.CandidateName.Valid {
+			d.CandidateName = r.CandidateName.String
+		}
+		if r.OperatorAddress.Valid {
+			d.OperatorAddress = r.OperatorAddress.String
+		}
+		if r.RewardAddress.Valid {
+			d.RewardAddress = r.RewardAddress.String
+		}
+		if r.SelfStakingTokens.Valid {
+			d.SelfStakingTokens = r.SelfStakingTokens.String
+		}
+		if r.TotalWeightedVotes.Valid {
+			d.TotalWeightedVotes = r.TotalWeightedVotes.String
+		}
+		if r.StakeAmount.Valid {
+			d.StakeAmount = r.StakeAmount.String
+		}
+		if r.Active.Valid {
+			d.Active = r.Active.Bool
+		}
+		resp.Delegates = append(resp.Delegates, d)
+	}
+	return resp, nil
+}
+
+// GetBlocksByProducer returns blocks produced by an address with pagination
+// and a total count. Replaces kit staking.delegate_recent_blocks.
+func (s *DelegateService) GetBlocksByProducer(ctx context.Context, req *api.GetBlocksByProducerRequest) (*api.GetBlocksByProducerResponse, error) {
+	resp := &api.GetBlocksByProducerResponse{}
+	producer := req.GetProducerAddress()
+	if producer == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "producer_address is required")
+	}
+	skip := common.PageOffset(req.GetPagination())
+	first := common.PageSize(req.GetPagination())
+
+	var count uint64
+	if err := db.DB().WithContext(ctx).Raw(
+		`SELECT COUNT(1) FROM block WHERE producer_address = ?`, producer,
+	).Scan(&count).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to count blocks for producer")
+	}
+	resp.Count = count
+
+	type row struct {
+		BlockHeight     uint64
+		BlockHash       string
+		ProducerAddress string
+		NumActions      uint64
+		Timestamp       int64
+		GasConsumed     sql.NullInt64
+		ProducerName    sql.NullString
+		BlockReward     sql.NullString
+	}
+	var rows []row
+	if err := db.DB().WithContext(ctx).Raw(
+		`SELECT b.block_height, b.block_hash, b.producer_address, b.num_actions,
+			(EXTRACT(EPOCH FROM (b.timestamp AT TIME ZONE 'UTC')) * 1000)::bigint AS timestamp,
+			m.gas_consumed, m.producer_name, m.block_reward
+		FROM block b
+		LEFT JOIN block_meta m ON m.block_height = b.block_height
+		WHERE b.producer_address = ?
+		ORDER BY b.block_height DESC
+		LIMIT ? OFFSET ?`,
+		producer, first, skip,
+	).Scan(&rows).Error; err != nil {
+		return nil, errors.Wrap(err, "failed to list blocks for producer")
+	}
+	for _, r := range rows {
+		pb := &api.ProducerBlock{
+			BlockHeight:     r.BlockHeight,
+			BlockHash:       r.BlockHash,
+			ProducerAddress: r.ProducerAddress,
+			NumActions:      r.NumActions,
+			Timestamp:       r.Timestamp,
+		}
+		if r.GasConsumed.Valid {
+			pb.GasConsumed = uint64(r.GasConsumed.Int64)
+		}
+		if r.ProducerName.Valid {
+			pb.ProducerName = r.ProducerName.String
+		}
+		if r.BlockReward.Valid {
+			pb.BlockReward = r.BlockReward.String
+		}
+		resp.Blocks = append(resp.Blocks, pb)
 	}
 	return resp, nil
 }

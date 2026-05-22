@@ -22,12 +22,18 @@ var (
 	gql__type_ProductivityResponse                  *graphql.Object      // message ProductivityResponse in api_delegate.proto
 	gql__type_ProductivityRequest                   *graphql.Object      // message ProductivityRequest in api_delegate.proto
 	gql__type_Productivity                          *graphql.Object      // message Productivity in api_delegate.proto
+	gql__type_ProducerBlock                         *graphql.Object      // message ProducerBlock in api_delegate.proto
 	gql__type_ProbationHistoricalRateResponse       *graphql.Object      // message ProbationHistoricalRateResponse in api_delegate.proto
 	gql__type_ProbationHistoricalRateRequest        *graphql.Object      // message ProbationHistoricalRateRequest in api_delegate.proto
 	gql__type_PaidToDelegatesResponse_DelegateInfo  *graphql.Object      // message PaidToDelegatesResponse.DelegateInfo in api_delegate.proto
 	gql__type_PaidToDelegatesResponse               *graphql.Object      // message PaidToDelegatesResponse in api_delegate.proto
 	gql__type_PaidToDelegatesRequest                *graphql.Object      // message PaidToDelegatesRequest in api_delegate.proto
+	gql__type_GetDelegatesByHeightResponse          *graphql.Object      // message GetDelegatesByHeightResponse in api_delegate.proto
+	gql__type_GetDelegatesByHeightRequest           *graphql.Object      // message GetDelegatesByHeightRequest in api_delegate.proto
+	gql__type_GetBlocksByProducerResponse           *graphql.Object      // message GetBlocksByProducerResponse in api_delegate.proto
+	gql__type_GetBlocksByProducerRequest            *graphql.Object      // message GetBlocksByProducerRequest in api_delegate.proto
 	gql__type_DelegateRewardDistribution            *graphql.Object      // message DelegateRewardDistribution in api_delegate.proto
+	gql__type_DelegateRecord                        *graphql.Object      // message DelegateRecord in api_delegate.proto
 	gql__type_BucketInfoResponse                    *graphql.Object      // message BucketInfoResponse in api_delegate.proto
 	gql__type_BucketInfoRequest                     *graphql.Object      // message BucketInfoRequest in api_delegate.proto
 	gql__type_BucketInfoList                        *graphql.Object      // message BucketInfoList in api_delegate.proto
@@ -43,12 +49,18 @@ var (
 	gql__input_ProductivityResponse                 *graphql.InputObject // message ProductivityResponse in api_delegate.proto
 	gql__input_ProductivityRequest                  *graphql.InputObject // message ProductivityRequest in api_delegate.proto
 	gql__input_Productivity                         *graphql.InputObject // message Productivity in api_delegate.proto
+	gql__input_ProducerBlock                        *graphql.InputObject // message ProducerBlock in api_delegate.proto
 	gql__input_ProbationHistoricalRateResponse      *graphql.InputObject // message ProbationHistoricalRateResponse in api_delegate.proto
 	gql__input_ProbationHistoricalRateRequest       *graphql.InputObject // message ProbationHistoricalRateRequest in api_delegate.proto
 	gql__input_PaidToDelegatesResponse_DelegateInfo *graphql.InputObject // message PaidToDelegatesResponse.DelegateInfo in api_delegate.proto
 	gql__input_PaidToDelegatesResponse              *graphql.InputObject // message PaidToDelegatesResponse in api_delegate.proto
 	gql__input_PaidToDelegatesRequest               *graphql.InputObject // message PaidToDelegatesRequest in api_delegate.proto
+	gql__input_GetDelegatesByHeightResponse         *graphql.InputObject // message GetDelegatesByHeightResponse in api_delegate.proto
+	gql__input_GetDelegatesByHeightRequest          *graphql.InputObject // message GetDelegatesByHeightRequest in api_delegate.proto
+	gql__input_GetBlocksByProducerResponse          *graphql.InputObject // message GetBlocksByProducerResponse in api_delegate.proto
+	gql__input_GetBlocksByProducerRequest           *graphql.InputObject // message GetBlocksByProducerRequest in api_delegate.proto
 	gql__input_DelegateRewardDistribution           *graphql.InputObject // message DelegateRewardDistribution in api_delegate.proto
+	gql__input_DelegateRecord                       *graphql.InputObject // message DelegateRecord in api_delegate.proto
 	gql__input_BucketInfoResponse                   *graphql.InputObject // message BucketInfoResponse in api_delegate.proto
 	gql__input_BucketInfoRequest                    *graphql.InputObject // message BucketInfoRequest in api_delegate.proto
 	gql__input_BucketInfoList                       *graphql.InputObject // message BucketInfoList in api_delegate.proto
@@ -242,6 +254,42 @@ func Gql__type_Productivity() *graphql.Object {
 	return gql__type_Productivity
 }
 
+func Gql__type_ProducerBlock() *graphql.Object {
+	if gql__type_ProducerBlock == nil {
+		gql__type_ProducerBlock = graphql.NewObject(graphql.ObjectConfig{
+			Name:        "Api_Type_ProducerBlock",
+			Description: `GetBlocksByProducer: replaces kit staking.delegate_recent_blocks.`,
+			Fields: graphql.Fields{
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"block_hash": &graphql.Field{
+					Type: graphql.String,
+				},
+				"producer_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"num_actions": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"gas_consumed": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"producer_name": &graphql.Field{
+					Type: graphql.String,
+				},
+				"block_reward": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_ProducerBlock
+}
+
 func Gql__type_ProbationHistoricalRateResponse() *graphql.Object {
 	if gql__type_ProbationHistoricalRateResponse == nil {
 		gql__type_ProbationHistoricalRateResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -333,6 +381,71 @@ func Gql__type_PaidToDelegatesRequest() *graphql.Object {
 	return gql__type_PaidToDelegatesRequest
 }
 
+func Gql__type_GetDelegatesByHeightResponse() *graphql.Object {
+	if gql__type_GetDelegatesByHeightResponse == nil {
+		gql__type_GetDelegatesByHeightResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetDelegatesByHeightResponse",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"delegates": &graphql.Field{
+					Type: graphql.NewList(Gql__type_DelegateRecord()),
+				},
+			},
+		})
+	}
+	return gql__type_GetDelegatesByHeightResponse
+}
+
+func Gql__type_GetDelegatesByHeightRequest() *graphql.Object {
+	if gql__type_GetDelegatesByHeightRequest == nil {
+		gql__type_GetDelegatesByHeightRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetDelegatesByHeightRequest",
+			Fields: graphql.Fields{
+				"height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetDelegatesByHeightRequest
+}
+
+func Gql__type_GetBlocksByProducerResponse() *graphql.Object {
+	if gql__type_GetBlocksByProducerResponse == nil {
+		gql__type_GetBlocksByProducerResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlocksByProducerResponse",
+			Fields: graphql.Fields{
+				"count": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"blocks": &graphql.Field{
+					Type: graphql.NewList(Gql__type_ProducerBlock()),
+				},
+			},
+		})
+	}
+	return gql__type_GetBlocksByProducerResponse
+}
+
+func Gql__type_GetBlocksByProducerRequest() *graphql.Object {
+	if gql__type_GetBlocksByProducerRequest == nil {
+		gql__type_GetBlocksByProducerRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBlocksByProducerRequest",
+			Fields: graphql.Fields{
+				"producer_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.Field{
+					Type: pagination.Gql__type_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__type_GetBlocksByProducerRequest
+}
+
 func Gql__type_DelegateRewardDistribution() *graphql.Object {
 	if gql__type_DelegateRewardDistribution == nil {
 		gql__type_DelegateRewardDistribution = graphql.NewObject(graphql.ObjectConfig{
@@ -351,6 +464,45 @@ func Gql__type_DelegateRewardDistribution() *graphql.Object {
 		})
 	}
 	return gql__type_DelegateRewardDistribution
+}
+
+func Gql__type_DelegateRecord() *graphql.Object {
+	if gql__type_DelegateRecord == nil {
+		gql__type_DelegateRecord = graphql.NewObject(graphql.ObjectConfig{
+			Name:        "Api_Type_DelegateRecord",
+			Description: `GetDelegatesByHeight: replaces kit staking.delegatesByHeight.`,
+			Fields: graphql.Fields{
+				"block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"candidate_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"candidate_name": &graphql.Field{
+					Type: graphql.String,
+				},
+				"operator_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"reward_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"self_staking_tokens": &graphql.Field{
+					Type: graphql.String,
+				},
+				"total_weighted_votes": &graphql.Field{
+					Type: graphql.String,
+				},
+				"stake_amount": &graphql.Field{
+					Type: graphql.String,
+				},
+				"active": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__type_DelegateRecord
 }
 
 func Gql__type_BucketInfoResponse() *graphql.Object {
@@ -674,6 +826,41 @@ func Gql__input_Productivity() *graphql.InputObject {
 	return gql__input_Productivity
 }
 
+func Gql__input_ProducerBlock() *graphql.InputObject {
+	if gql__input_ProducerBlock == nil {
+		gql__input_ProducerBlock = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_ProducerBlock",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"block_hash": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"producer_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"num_actions": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"gas_consumed": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"producer_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"block_reward": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_ProducerBlock
+}
+
 func Gql__input_ProbationHistoricalRateResponse() *graphql.InputObject {
 	if gql__input_ProbationHistoricalRateResponse == nil {
 		gql__input_ProbationHistoricalRateResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -765,6 +952,71 @@ func Gql__input_PaidToDelegatesRequest() *graphql.InputObject {
 	return gql__input_PaidToDelegatesRequest
 }
 
+func Gql__input_GetDelegatesByHeightResponse() *graphql.InputObject {
+	if gql__input_GetDelegatesByHeightResponse == nil {
+		gql__input_GetDelegatesByHeightResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetDelegatesByHeightResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"delegates": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_DelegateRecord()),
+				},
+			},
+		})
+	}
+	return gql__input_GetDelegatesByHeightResponse
+}
+
+func Gql__input_GetDelegatesByHeightRequest() *graphql.InputObject {
+	if gql__input_GetDelegatesByHeightRequest == nil {
+		gql__input_GetDelegatesByHeightRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetDelegatesByHeightRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetDelegatesByHeightRequest
+}
+
+func Gql__input_GetBlocksByProducerResponse() *graphql.InputObject {
+	if gql__input_GetBlocksByProducerResponse == nil {
+		gql__input_GetBlocksByProducerResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlocksByProducerResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"count": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"blocks": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_ProducerBlock()),
+				},
+			},
+		})
+	}
+	return gql__input_GetBlocksByProducerResponse
+}
+
+func Gql__input_GetBlocksByProducerRequest() *graphql.InputObject {
+	if gql__input_GetBlocksByProducerRequest == nil {
+		gql__input_GetBlocksByProducerRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBlocksByProducerRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"producer_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"pagination": &graphql.InputObjectFieldConfig{
+					Type: pagination.Gql__input_Pagination(),
+				},
+			},
+		})
+	}
+	return gql__input_GetBlocksByProducerRequest
+}
+
 func Gql__input_DelegateRewardDistribution() *graphql.InputObject {
 	if gql__input_DelegateRewardDistribution == nil {
 		gql__input_DelegateRewardDistribution = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -783,6 +1035,44 @@ func Gql__input_DelegateRewardDistribution() *graphql.InputObject {
 		})
 	}
 	return gql__input_DelegateRewardDistribution
+}
+
+func Gql__input_DelegateRecord() *graphql.InputObject {
+	if gql__input_DelegateRecord == nil {
+		gql__input_DelegateRecord = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_DelegateRecord",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"candidate_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"candidate_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"operator_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"reward_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"self_staking_tokens": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"total_weighted_votes": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"stake_amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"active": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__input_DelegateRecord
 }
 
 func Gql__input_BucketInfoResponse() *graphql.InputObject {

@@ -308,6 +308,38 @@ service AccountService {
       body: "*"
     };
   };
+
+  // GetAddressTokenBalancesDetail returns ERC20 balances with name/symbol/decimals/price
+  rpc GetAddressTokenBalancesDetail(GetAddressTokenBalancesDetailRequest) returns (GetAddressTokenBalancesDetailResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetAddressTokenBalancesDetail"
+      body: "*"
+    };
+  };
+
+  // GetContractsDeployedByAddress lists contracts deployed by a given address
+  rpc GetContractsDeployedByAddress(GetContractsDeployedByAddressRequest) returns (GetContractsDeployedByAddressResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetContractsDeployedByAddress"
+      body: "*"
+    };
+  };
+
+  // GetContractByteCode returns the raw bytecode (hex) of a contract
+  rpc GetContractByteCode(GetContractByteCodeRequest) returns (GetContractByteCodeResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetContractByteCode"
+      body: "*"
+    };
+  };
+
+  // GetHoldersHistory returns daily holder counts over a date range
+  rpc GetHoldersHistory(GetHoldersHistoryRequest) returns (GetHoldersHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetHoldersHistory"
+      body: "*"
+    };
+  };
 }
 
 message AuthorizationHistoryEntry {
@@ -330,4 +362,63 @@ message GetAuthorizationsByAuthorityRequest {
 message GetAuthorizationsByAuthorityResponse {
   repeated AuthorizationHistoryEntry authorizations = 1;
   int64 count = 2;
+}
+
+// ─── Added for iotex-kit modules-db migration ───
+
+// GetAddressTokenBalancesDetail: token balances enriched with name/symbol/decimals/price.
+// Replaces kit account.getXrc20Tokens (joins erc20_transfers + stats_erc20 + stats_mimo_price + iotexscanv3_kv).
+message TokenBalanceDetailInfo {
+  string contract_address = 1;
+  string balance = 2;           // raw balance (sum(receiver) - sum(sender)) as decimal string
+  string name = 3;
+  string symbol = 4;
+  uint32 decimals = 5;
+  string price_to_iotex = 6;    // mimo price * iotex (0 if missing)
+}
+message GetAddressTokenBalancesDetailRequest {
+  string address = 1;
+}
+message GetAddressTokenBalancesDetailResponse {
+  repeated TokenBalanceDetailInfo tokens = 1;
+}
+
+// GetContractsDeployedByAddress: paginated list of contracts deployed by an address.
+// Replaces kit contract.getContractsDeployedByAccount + getContractsDeployedCountByAccount.
+message DeployedContractInfo {
+  string action_hash = 1;       // 0x-stripped hex (kit re-prefixes "0x")
+  string contract_address = 2;
+  int64 timestamp = 3;          // unix millis
+}
+message GetContractsDeployedByAddressRequest {
+  string address = 1;
+  pagination.Pagination pagination = 2;
+}
+message GetContractsDeployedByAddressResponse {
+  uint64 count = 1;
+  repeated DeployedContractInfo contracts = 2;
+}
+
+// GetContractByteCode: hex-encoded bytecode for a contract.
+// Replaces kit contract.getContractByAddress.
+message GetContractByteCodeRequest {
+  string address = 1;
+}
+message GetContractByteCodeResponse {
+  bool exist = 1;
+  string byte_code_hex = 2;
+}
+
+// GetHoldersHistory: total holders count over a date range.
+// Replaces kit analyzer.dailyIoTexHolder.
+message HoldersHistoryPoint {
+  string date = 1;             // YYYY-MM-DD
+  uint64 holders = 2;
+}
+message GetHoldersHistoryRequest {
+  string start_date = 1;
+  string end_date = 2;
+}
+message GetHoldersHistoryResponse {
+  repeated HoldersHistoryPoint data = 1;
 }
