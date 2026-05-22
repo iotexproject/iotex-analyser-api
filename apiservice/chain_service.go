@@ -865,18 +865,25 @@ func (s *ChainService) GetBlockByTimestamp(ctx context.Context, req *api.GetBloc
 	if ts == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "timestamp is required")
 	}
+	// Validate in Go so a malformed input returns InvalidArgument rather than
+	// bubbling a PostgreSQL parse error up as a 500.
+	parsedTime, err := time.Parse(time.RFC3339, ts)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument,
+			"invalid timestamp %q: expected an RFC3339 datetime", ts)
+	}
 	var row struct {
 		BlockHeight uint64
 		Timestamp   int64
 	}
-	err := db.DB().WithContext(ctx).Raw(
+	err = db.DB().WithContext(ctx).Raw(
 		`SELECT block_height,
 			(EXTRACT(EPOCH FROM (timestamp AT TIME ZONE 'UTC')) * 1000)::bigint AS timestamp
 		FROM block
-		WHERE timestamp <= ?::timestamptz
+		WHERE timestamp <= ?
 		ORDER BY block_height DESC
 		LIMIT 1`,
-		ts,
+		parsedTime.UTC(),
 	).Scan(&row).Error
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to query block by timestamp")

@@ -159,6 +159,20 @@ func (s *ActionsService) GetAllActionsByAddress(ctx context.Context, req *api.Ac
 
 // ─── Added for iotex-kit modules-db migration ───
 
+// normalizeIoAddress converts a 0x/0X hex address to its io1... bech32 form.
+// io-prefixed and empty inputs are returned unchanged. Mirrors the inline
+// normalization the other ActionsService handlers do.
+func normalizeIoAddress(addr string) (string, error) {
+	if len(addr) >= 2 && (addr[:2] == "0x" || addr[:2] == "0X") {
+		a, err := address.FromHex(addr)
+		if err != nil {
+			return "", err
+		}
+		return a.String(), nil
+	}
+	return addr, nil
+}
+
 // GetMimoSwapVolume sums the amount a user received in a mimo-router swap for
 // a specific token. Replaces kit mimo.mimo_swap_volume (erc20_transfers JOIN
 // block_action filtered by router recipient + token contract + user recipient).
@@ -166,20 +180,32 @@ func (s *ActionsService) GetMimoSwapVolume(ctx context.Context, req *api.GetMimo
 	if req.GetUserAddress() == "" || req.GetTokenContract() == "" || req.GetMimoRouter() == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "user_address, token_contract and mimo_router are all required")
 	}
+	user, err := normalizeIoAddress(req.GetUserAddress())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid user_address: %v", err)
+	}
+	token, err := normalizeIoAddress(req.GetTokenContract())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid token_contract: %v", err)
+	}
+	router, err := normalizeIoAddress(req.GetMimoRouter())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid mimo_router: %v", err)
+	}
 	resp := &api.GetMimoSwapVolumeResponse{Amount: "0"}
 	var row struct {
 		Sum sql.NullString
 	}
-	err := db.DB().WithContext(ctx).Raw(
+	// ba.recipient is filtered in WHERE, so the join is effectively inner.
+	if err := db.DB().WithContext(ctx).Raw(
 		`SELECT COALESCE(SUM(et.amount::numeric)::text, '0') AS sum
 		FROM erc20_transfers et
-		LEFT JOIN block_action_partition ba ON et.action_hash = ba.action_hash
+		INNER JOIN block_action_partition ba ON et.action_hash = ba.action_hash
 		WHERE ba.recipient = ?
 			AND et.contract_address = ?
 			AND et.recipient = ?`,
-		req.GetMimoRouter(), req.GetTokenContract(), req.GetUserAddress(),
-	).Scan(&row).Error
-	if err != nil {
+		router, token, user,
+	).Scan(&row).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to compute mimo swap volume")
 	}
 	if row.Sum.Valid && row.Sum.String != "" {
