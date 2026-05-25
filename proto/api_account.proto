@@ -340,6 +340,14 @@ service AccountService {
       body: "*"
     };
   };
+
+  // GetBalanceHistory returns IOTX balance series for an address over the last N days
+  rpc GetBalanceHistory(GetBalanceHistoryRequest) returns (GetBalanceHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.AccountService.GetBalanceHistory"
+      body: "*"
+    };
+  };
 }
 
 message AuthorizationHistoryEntry {
@@ -421,4 +429,19 @@ message GetHoldersHistoryRequest {
 }
 message GetHoldersHistoryResponse {
   repeated HoldersHistoryPoint data = 1;
+}
+
+// GetBalanceHistory: IOTX balance series for an address over the last N days.
+// days is clamped to [1, 60]; days==1 returns 24 hourly buckets, days>=2 returns N daily buckets.
+message GetBalanceHistoryRequest {
+  string address = 1;
+  int32  days    = 2;
+}
+message BalanceHistoryPoint {
+  int64  timestamp = 1; // bucket end, unix seconds (UTC)
+  string balance   = 2; // cumulative balance at bucket end (rau)
+  string delta     = 3; // net flow within the bucket (rau)
+}
+message GetBalanceHistoryResponse {
+  repeated BalanceHistoryPoint points = 1;
 }

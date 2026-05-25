@@ -691,6 +691,28 @@ func (s *AccountService) GetContractByteCode(ctx context.Context, req *api.GetCo
 	return resp, nil
 }
 
+// GetBalanceHistory returns the IOTX balance series for an address over the
+// last N days. days is clamped to [1, 60]; days==1 yields 24 hourly buckets,
+// days>=2 yields N daily buckets.
+func (s *AccountService) GetBalanceHistory(ctx context.Context, req *api.GetBalanceHistoryRequest) (*api.GetBalanceHistoryResponse, error) {
+	if req.GetAddress() == "" {
+		return nil, status.Error(codes.InvalidArgument, "address is required")
+	}
+	points, err := common.GetBalanceHistory(ctx, req.GetAddress(), req.GetDays())
+	if err != nil {
+		return nil, err
+	}
+	resp := &api.GetBalanceHistoryResponse{Points: make([]*api.BalanceHistoryPoint, 0, len(points))}
+	for _, p := range points {
+		resp.Points = append(resp.Points, &api.BalanceHistoryPoint{
+			Timestamp: p.Timestamp,
+			Balance:   p.Balance,
+			Delta:     p.Delta,
+		})
+	}
+	return resp, nil
+}
+
 // GetHoldersHistory returns daily holder counts. Replaces kit
 // analyzer.dailyIoTexHolder.
 func (s *AccountService) GetHoldersHistory(ctx context.Context, req *api.GetHoldersHistoryRequest) (*api.GetHoldersHistoryResponse, error) {

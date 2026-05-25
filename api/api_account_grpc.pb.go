@@ -38,6 +38,7 @@ const (
 	AccountService_GetContractsDeployedByAddress_FullMethodName = "/api.AccountService/GetContractsDeployedByAddress"
 	AccountService_GetContractByteCode_FullMethodName           = "/api.AccountService/GetContractByteCode"
 	AccountService_GetHoldersHistory_FullMethodName             = "/api.AccountService/GetHoldersHistory"
+	AccountService_GetBalanceHistory_FullMethodName             = "/api.AccountService/GetBalanceHistory"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -81,6 +82,8 @@ type AccountServiceClient interface {
 	GetContractByteCode(ctx context.Context, in *GetContractByteCodeRequest, opts ...grpc.CallOption) (*GetContractByteCodeResponse, error)
 	// GetHoldersHistory returns daily holder counts over a date range
 	GetHoldersHistory(ctx context.Context, in *GetHoldersHistoryRequest, opts ...grpc.CallOption) (*GetHoldersHistoryResponse, error)
+	// GetBalanceHistory returns IOTX balance series for an address over the last N days
+	GetBalanceHistory(ctx context.Context, in *GetBalanceHistoryRequest, opts ...grpc.CallOption) (*GetBalanceHistoryResponse, error)
 }
 
 type accountServiceClient struct {
@@ -262,6 +265,15 @@ func (c *accountServiceClient) GetHoldersHistory(ctx context.Context, in *GetHol
 	return out, nil
 }
 
+func (c *accountServiceClient) GetBalanceHistory(ctx context.Context, in *GetBalanceHistoryRequest, opts ...grpc.CallOption) (*GetBalanceHistoryResponse, error) {
+	out := new(GetBalanceHistoryResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetBalanceHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
@@ -303,6 +315,8 @@ type AccountServiceServer interface {
 	GetContractByteCode(context.Context, *GetContractByteCodeRequest) (*GetContractByteCodeResponse, error)
 	// GetHoldersHistory returns daily holder counts over a date range
 	GetHoldersHistory(context.Context, *GetHoldersHistoryRequest) (*GetHoldersHistoryResponse, error)
+	// GetBalanceHistory returns IOTX balance series for an address over the last N days
+	GetBalanceHistory(context.Context, *GetBalanceHistoryRequest) (*GetBalanceHistoryResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -366,6 +380,9 @@ func (UnimplementedAccountServiceServer) GetContractByteCode(context.Context, *G
 }
 func (UnimplementedAccountServiceServer) GetHoldersHistory(context.Context, *GetHoldersHistoryRequest) (*GetHoldersHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHoldersHistory not implemented")
+}
+func (UnimplementedAccountServiceServer) GetBalanceHistory(context.Context, *GetBalanceHistoryRequest) (*GetBalanceHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBalanceHistory not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -722,6 +739,24 @@ func _AccountService_GetHoldersHistory_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetBalanceHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBalanceHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetBalanceHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetBalanceHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetBalanceHistory(ctx, req.(*GetBalanceHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -804,6 +839,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetHoldersHistory",
 			Handler:    _AccountService_GetHoldersHistory_Handler,
+		},
+		{
+			MethodName: "GetBalanceHistory",
+			Handler:    _AccountService_GetBalanceHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

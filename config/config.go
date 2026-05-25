@@ -30,7 +30,8 @@ var (
 			User:   "postgres",
 			Name:   "test",
 		},
-		RPC: "api.iotex.one:443",
+		RPC:                "archive-api.mainnet.iotex.one:443",
+		EthArchiveEndPoint: "",
 		Genesis: Genesis{
 			VoteWeightCalConsts: genesis.VoteWeightCalConsts{
 				DurationLg: 1.2,
@@ -59,11 +60,12 @@ type (
 		VoteWeightCalConsts genesis.VoteWeightCalConsts `yaml:"voteWeightCalConsts"`
 	}
 	Config struct {
-		Server   Server   `yaml:"server"`
-		Database Database `yaml:"database"`
-		RPC      string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
-		LogPath  string   `yaml:"logPath" env:"LOG_PATH"`
-		Genesis  Genesis  `yaml:"genesis"`
+		Server             Server   `yaml:"server"`
+		Database           Database `yaml:"database"`
+		RPC                string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
+		EthArchiveEndPoint string   `yaml:"ethArchiveEndPoint" env:"ETH_ARCHIVE_ENDPOINT"`
+		LogPath            string   `yaml:"logPath" env:"LOG_PATH"`
+		Genesis            Genesis  `yaml:"genesis"`
 	}
 )
 

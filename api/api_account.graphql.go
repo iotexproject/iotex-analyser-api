@@ -35,6 +35,8 @@ var (
 	gql__type_GetContractCreateInfoRequest           *graphql.Object      // message GetContractCreateInfoRequest in api_account.proto
 	gql__type_GetContractByteCodeResponse            *graphql.Object      // message GetContractByteCodeResponse in api_account.proto
 	gql__type_GetContractByteCodeRequest             *graphql.Object      // message GetContractByteCodeRequest in api_account.proto
+	gql__type_GetBalanceHistoryResponse              *graphql.Object      // message GetBalanceHistoryResponse in api_account.proto
+	gql__type_GetBalanceHistoryRequest               *graphql.Object      // message GetBalanceHistoryRequest in api_account.proto
 	gql__type_GetAuthorizationsByAuthorityResponse   *graphql.Object      // message GetAuthorizationsByAuthorityResponse in api_account.proto
 	gql__type_GetAuthorizationsByAuthorityRequest    *graphql.Object      // message GetAuthorizationsByAuthorityRequest in api_account.proto
 	gql__type_GetAddressTokenBalancesResponse        *graphql.Object      // message GetAddressTokenBalancesResponse in api_account.proto
@@ -51,6 +53,7 @@ var (
 	gql__type_ContractInfoResponse_Contract          *graphql.Object      // message ContractInfoResponse.Contract in api_account.proto
 	gql__type_ContractInfoResponse                   *graphql.Object      // message ContractInfoResponse in api_account.proto
 	gql__type_ContractInfoRequest                    *graphql.Object      // message ContractInfoRequest in api_account.proto
+	gql__type_BalanceHistoryPoint                    *graphql.Object      // message BalanceHistoryPoint in api_account.proto
 	gql__type_AuthorizationHistoryEntry              *graphql.Object      // message AuthorizationHistoryEntry in api_account.proto
 	gql__type_AliasResponse                          *graphql.Object      // message AliasResponse in api_account.proto
 	gql__type_AliasRequest                           *graphql.Object      // message AliasRequest in api_account.proto
@@ -81,6 +84,8 @@ var (
 	gql__input_GetContractCreateInfoRequest          *graphql.InputObject // message GetContractCreateInfoRequest in api_account.proto
 	gql__input_GetContractByteCodeResponse           *graphql.InputObject // message GetContractByteCodeResponse in api_account.proto
 	gql__input_GetContractByteCodeRequest            *graphql.InputObject // message GetContractByteCodeRequest in api_account.proto
+	gql__input_GetBalanceHistoryResponse             *graphql.InputObject // message GetBalanceHistoryResponse in api_account.proto
+	gql__input_GetBalanceHistoryRequest              *graphql.InputObject // message GetBalanceHistoryRequest in api_account.proto
 	gql__input_GetAuthorizationsByAuthorityResponse  *graphql.InputObject // message GetAuthorizationsByAuthorityResponse in api_account.proto
 	gql__input_GetAuthorizationsByAuthorityRequest   *graphql.InputObject // message GetAuthorizationsByAuthorityRequest in api_account.proto
 	gql__input_GetAddressTokenBalancesResponse       *graphql.InputObject // message GetAddressTokenBalancesResponse in api_account.proto
@@ -97,6 +102,7 @@ var (
 	gql__input_ContractInfoResponse_Contract         *graphql.InputObject // message ContractInfoResponse.Contract in api_account.proto
 	gql__input_ContractInfoResponse                  *graphql.InputObject // message ContractInfoResponse in api_account.proto
 	gql__input_ContractInfoRequest                   *graphql.InputObject // message ContractInfoRequest in api_account.proto
+	gql__input_BalanceHistoryPoint                   *graphql.InputObject // message BalanceHistoryPoint in api_account.proto
 	gql__input_AuthorizationHistoryEntry             *graphql.InputObject // message AuthorizationHistoryEntry in api_account.proto
 	gql__input_AliasResponse                         *graphql.InputObject // message AliasResponse in api_account.proto
 	gql__input_AliasRequest                          *graphql.InputObject // message AliasRequest in api_account.proto
@@ -521,6 +527,39 @@ func Gql__type_GetContractByteCodeRequest() *graphql.Object {
 	return gql__type_GetContractByteCodeRequest
 }
 
+func Gql__type_GetBalanceHistoryResponse() *graphql.Object {
+	if gql__type_GetBalanceHistoryResponse == nil {
+		gql__type_GetBalanceHistoryResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBalanceHistoryResponse",
+			Fields: graphql.Fields{
+				"points": &graphql.Field{
+					Type: graphql.NewList(Gql__type_BalanceHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__type_GetBalanceHistoryResponse
+}
+
+func Gql__type_GetBalanceHistoryRequest() *graphql.Object {
+	if gql__type_GetBalanceHistoryRequest == nil {
+		gql__type_GetBalanceHistoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetBalanceHistoryRequest",
+			Description: `GetBalanceHistory: IOTX balance series for an address over the last N days.
+ days is clamped to [1, 60]; days==1 returns 24 hourly buckets, days>=2 returns N daily buckets.`,
+			Fields: graphql.Fields{
+				"address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"days": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetBalanceHistoryRequest
+}
+
 func Gql__type_GetAuthorizationsByAuthorityResponse() *graphql.Object {
 	if gql__type_GetAuthorizationsByAuthorityResponse == nil {
 		gql__type_GetAuthorizationsByAuthorityResponse = graphql.NewObject(graphql.ObjectConfig{
@@ -790,6 +829,26 @@ func Gql__type_ContractInfoRequest() *graphql.Object {
 		})
 	}
 	return gql__type_ContractInfoRequest
+}
+
+func Gql__type_BalanceHistoryPoint() *graphql.Object {
+	if gql__type_BalanceHistoryPoint == nil {
+		gql__type_BalanceHistoryPoint = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_BalanceHistoryPoint",
+			Fields: graphql.Fields{
+				"timestamp": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"balance": &graphql.Field{
+					Type: graphql.String,
+				},
+				"delta": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_BalanceHistoryPoint
 }
 
 func Gql__type_AuthorizationHistoryEntry() *graphql.Object {
@@ -1338,6 +1397,37 @@ func Gql__input_GetContractByteCodeRequest() *graphql.InputObject {
 	return gql__input_GetContractByteCodeRequest
 }
 
+func Gql__input_GetBalanceHistoryResponse() *graphql.InputObject {
+	if gql__input_GetBalanceHistoryResponse == nil {
+		gql__input_GetBalanceHistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBalanceHistoryResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"points": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_BalanceHistoryPoint()),
+				},
+			},
+		})
+	}
+	return gql__input_GetBalanceHistoryResponse
+}
+
+func Gql__input_GetBalanceHistoryRequest() *graphql.InputObject {
+	if gql__input_GetBalanceHistoryRequest == nil {
+		gql__input_GetBalanceHistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetBalanceHistoryRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"days": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetBalanceHistoryRequest
+}
+
 func Gql__input_GetAuthorizationsByAuthorityResponse() *graphql.InputObject {
 	if gql__input_GetAuthorizationsByAuthorityResponse == nil {
 		gql__input_GetAuthorizationsByAuthorityResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -1605,6 +1695,26 @@ func Gql__input_ContractInfoRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_ContractInfoRequest
+}
+
+func Gql__input_BalanceHistoryPoint() *graphql.InputObject {
+	if gql__input_BalanceHistoryPoint == nil {
+		gql__input_BalanceHistoryPoint = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_BalanceHistoryPoint",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"timestamp": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"balance": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"delta": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_BalanceHistoryPoint
 }
 
 func Gql__input_AuthorizationHistoryEntry() *graphql.InputObject {
