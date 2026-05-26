@@ -8,6 +8,7 @@ import (
 	"io"
 	"math/big"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -41,6 +42,13 @@ type ethRPCResponse struct {
 func EthGetBalanceAtHeight(ctx context.Context, endpoint, addr string, height uint64) (*big.Int, error) {
 	if endpoint == "" {
 		return nil, errors.New("eth archive endpoint not configured")
+	}
+	// The chain gRPC config uses bare host:port (e.g. archive-api.mainnet.iotex.one:443);
+	// it's easy to copy that style here, but net/http needs an explicit scheme.
+	// Fail loudly with a clear message rather than the cryptic
+	// "missing protocol scheme" from http.NewRequest.
+	if u, err := url.Parse(endpoint); err != nil || (u.Scheme != "http" && u.Scheme != "https") {
+		return nil, errors.Errorf("eth archive endpoint %q must include http:// or https:// scheme", endpoint)
 	}
 	hexAddr, err := ioToHexAddress(addr)
 	if err != nil {

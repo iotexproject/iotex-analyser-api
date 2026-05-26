@@ -30,8 +30,7 @@ var (
 			User:   "postgres",
 			Name:   "test",
 		},
-		RPC:                "archive-api.mainnet.iotex.one:443",
-		EthArchiveEndPoint: "",
+		RPC: "api.iotex.one:443",
 		Genesis: Genesis{
 			VoteWeightCalConsts: genesis.VoteWeightCalConsts{
 				DurationLg: 1.2,

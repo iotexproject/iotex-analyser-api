@@ -65,8 +65,13 @@ func GetBalanceHistory(ctx context.Context, addr string, days int32) ([]BalanceH
 	if truncUnit == "day" {
 		step = 24 * time.Hour
 	}
-	start := end.Add(-time.Duration(n-1) * step)
-	nextAfterEnd := end.Add(step)
+	// Buckets cover [start, end) split into n half-open windows of `step`.
+	// generate_series emits one row per bucket-start; ts = bucket + step ⇒
+	// bucket-end. The current incomplete bucket (now is between `end` and
+	// `end+step`) is intentionally excluded so the last point's timestamp is
+	// "now"-aligned, never in the future.
+	start := end.Add(-time.Duration(n) * step)
+	seriesEnd := end.Add(-step)
 
 	gdb := db.DB().WithContext(ctx)
 
@@ -87,7 +92,7 @@ func GetBalanceHistory(ctx context.Context, addr string, days int32) ([]BalanceH
 			 WHERE (timestamp AT TIME ZONE 'UTC') < ?::timestamp
 			 ORDER BY timestamp DESC LIMIT 1) AS end_h`,
 		start.Format(balanceHistoryTimeFmt),
-		nextAfterEnd.Format(balanceHistoryTimeFmt),
+		end.Format(balanceHistoryTimeFmt),
 	).Scan(&bounds).Error; err != nil {
 		return nil, errors.Wrap(err, "failed to resolve block_height bounds")
 	}
@@ -111,7 +116,7 @@ func GetBalanceHistory(ctx context.Context, addr string, days int32) ([]BalanceH
 	}
 
 	startStr := start.Format(balanceHistoryTimeFmt)
-	endStr := end.Format(balanceHistoryTimeFmt)
+	seriesEndStr := seriesEnd.Format(balanceHistoryTimeFmt)
 
 	var (
 		query string
@@ -141,7 +146,7 @@ SELECT
 FROM buckets b
 LEFT JOIN deltas d ON d.bucket = b.bucket
 ORDER BY b.bucket`, baselineH+1, endH)
-		args = []any{startStr, endStr, stepInterval, truncUnit, addrLower, stepInterval, baseline}
+		args = []any{startStr, seriesEndStr, stepInterval, truncUnit, addrLower, stepInterval, baseline}
 	} else {
 		// No blocks in window → all buckets carry the baseline, zero delta.
 		query = `
@@ -154,7 +159,7 @@ SELECT
     ?::text                                            AS balance
 FROM buckets
 ORDER BY bucket`
-		args = []any{startStr, endStr, stepInterval, stepInterval, baseline}
+		args = []any{startStr, seriesEndStr, stepInterval, stepInterval, baseline}
 	}
 
 	var rows []struct {
@@ -182,7 +187,15 @@ ORDER BY bucket`
 // eth_getBalance against that archive node (constant-time). Otherwise it
 // falls back to summing account_income — fine for fresh accounts but slow
 // for old contracts.
+//
+// baselineH == 0 is a sentinel meaning "no block existed before the window"
+// (the lookup returned NULL). The balance at that point is necessarily 0,
+// and we must NOT hand 0 to EthGetBalanceAtHeight — its convention is that
+// height==0 means "latest", which would silently corrupt the series.
 func resolveBaseline(ctx context.Context, gdb *gorm.DB, addr string, baselineH int64) (string, error) {
+	if baselineH == 0 {
+		return "0", nil
+	}
 	if endpoint := config.Default.EthArchiveEndPoint; endpoint != "" {
 		bal, err := EthGetBalanceAtHeight(ctx, endpoint, addr, uint64(baselineH))
 		if err != nil {
