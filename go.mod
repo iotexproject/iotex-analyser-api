@@ -77,6 +77,7 @@ require (
 	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/magefile/mage v1.9.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.9 // indirect
 	github.com/mmcloughlin/addchain v0.4.0 // indirect
