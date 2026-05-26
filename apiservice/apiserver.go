@@ -166,6 +166,7 @@ func StartGRPCService(ctx context.Context) error {
 	//serviceName: grpc.health.v1.Health
 	grpc_health_v1.RegisterHealthServer(grpcServer, health.NewServer())
 	registerAPIService(ctx, grpcServer)
+	grpc_prometheus.EnableHandlingTimeHistogram()
 	grpc_prometheus.Register(grpcServer)
 	reflection.Register(grpcServer)
 	return grpcServer.Serve(lis)
@@ -196,13 +197,13 @@ func StartGRPCProxyService(templates embed.FS) error {
 		return err
 	}
 
-	http.Handle("/graphql", graphqlMux)
+	http.Handle("/graphql", instrument("graphql", graphqlMux))
 	fsys, err := fs.Sub(DocsHTML, "docs-html")
 	if err != nil {
 		log.Fatal(err)
 	}
-	http.Handle("/docs/", http.StripPrefix("/docs/", http.FileServer(http.FS(fsys))))
-	http.Handle("/", auth.JWTTokenMiddleware(auth.CheckWhiteListMiddleware(gwmux)))
+	http.Handle("/docs/", instrument("docs", http.StripPrefix("/docs/", http.FileServer(http.FS(fsys)))))
+	http.Handle("/", instrument("api", auth.JWTTokenMiddleware(auth.CheckWhiteListMiddleware(gwmux))))
 	http.Handle("/metrics", promhttp.Handler())
 
 	port := fmt.Sprintf(":%d", config.Default.Server.HTTPAPIPort)
