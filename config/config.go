@@ -59,11 +59,12 @@ type (
 		VoteWeightCalConsts genesis.VoteWeightCalConsts `yaml:"voteWeightCalConsts"`
 	}
 	Config struct {
-		Server   Server   `yaml:"server"`
-		Database Database `yaml:"database"`
-		RPC      string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
-		LogPath  string   `yaml:"logPath" env:"LOG_PATH"`
-		Genesis  Genesis  `yaml:"genesis"`
+		Server             Server   `yaml:"server"`
+		Database           Database `yaml:"database"`
+		RPC                string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
+		EthArchiveEndPoint string   `yaml:"ethArchiveEndPoint" env:"ETH_ARCHIVE_ENDPOINT"`
+		LogPath            string   `yaml:"logPath" env:"LOG_PATH"`
+		Genesis            Genesis  `yaml:"genesis"`
 	}
 )
 
