@@ -53,6 +53,35 @@ func TestInstrumentObservesRequestDuration(t *testing.T) {
 	}
 }
 
+// TestInstrumentDuplicateWriteHeader pins net/http semantics: when a handler
+// calls WriteHeader twice, the client only sees the first status, and the
+// metric label must match. Regression guard for the original code that
+// overwrote `status` on every call.
+func TestInstrumentDuplicateWriteHeader(t *testing.T) {
+	httpRequestDuration.Reset()
+
+	// Inner handler writes 200 first, then "tries" to write 500.
+	inner := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.WriteHeader(http.StatusInternalServerError)
+	})
+	req := httptest.NewRequest("GET", "/anything", nil)
+	rr := httptest.NewRecorder()
+	instrument("api", inner).ServeHTTP(rr, req)
+
+	// Expect a 2xx observation, not 5xx.
+	m := &dto.Metric{}
+	if err := httpRequestDuration.WithLabelValues("api", "GET", "2xx").(prometheus.Histogram).Write(m); err != nil {
+		t.Fatalf("Write: %v", err)
+	}
+	if got := m.Histogram.GetSampleCount(); got != 1 {
+		t.Errorf("api/GET/2xx sample count = %d, want 1 (first WriteHeader wins)", got)
+	}
+	if got := testutil.CollectAndCount(httpRequestDuration); got != 1 {
+		t.Errorf("got %d series, want exactly 1 (no spurious 5xx series)", got)
+	}
+}
+
 func TestStatusClass(t *testing.T) {
 	for _, tc := range []struct {
 		code int
