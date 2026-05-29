@@ -264,6 +264,14 @@ message GetChainAggregatesResponse {
   uint64 epoch_height = 8;
 }
 
+// GetTotalBurned: cumulative burned (base gas fee) as of the latest indexed height.
+message GetTotalBurnedRequest {}
+message GetTotalBurnedResponse {
+  string total_burned = 1;       // IOTX (rau / 1e18), decimal string
+  string total_burned_rau = 2;   // exact rau, decimal string
+  uint64 as_of_block_height = 3; // height the cumulative total is current as of
+}
+
 service ChainService {
   rpc Chain(ChainRequest) returns (ChainResponse) {
     option (graphql.schema) = {
@@ -402,6 +410,14 @@ service ChainService {
   rpc GetChainStats(GetChainStatsRequest) returns (GetChainStatsResponse) {
     option (google.api.http) = {
       post: "/api.ChainService.GetChainStats"
+      body: "*"
+    };
+  };
+
+  // GetTotalBurned returns the cumulative burned base gas fee (IOTX + rau)
+  rpc GetTotalBurned(GetTotalBurnedRequest) returns (GetTotalBurnedResponse) {
+    option (google.api.http) = {
+      post: "/api.ChainService.GetTotalBurned"
       body: "*"
     };
   };
