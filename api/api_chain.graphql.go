@@ -23,6 +23,7 @@ var (
 	gql__type_MostRecentTPSRequest            *graphql.Object      // message MostRecentTPSRequest in api_chain.proto
 	gql__type_GetTpsHistoryResponse           *graphql.Object      // message GetTpsHistoryResponse in api_chain.proto
 	gql__type_GetTpsHistoryRequest            *graphql.Object      // message GetTpsHistoryRequest in api_chain.proto
+	gql__type_GetTotalBurnedResponse          *graphql.Object      // message GetTotalBurnedResponse in api_chain.proto
 	gql__type_GetSupplyHistoryResponse        *graphql.Object      // message GetSupplyHistoryResponse in api_chain.proto
 	gql__type_GetSupplyHistoryRequest         *graphql.Object      // message GetSupplyHistoryRequest in api_chain.proto
 	gql__type_GetStakingRatioHistoryResponse  *graphql.Object      // message GetStakingRatioHistoryResponse in api_chain.proto
@@ -68,6 +69,7 @@ var (
 	gql__input_MostRecentTPSRequest           *graphql.InputObject // message MostRecentTPSRequest in api_chain.proto
 	gql__input_GetTpsHistoryResponse          *graphql.InputObject // message GetTpsHistoryResponse in api_chain.proto
 	gql__input_GetTpsHistoryRequest           *graphql.InputObject // message GetTpsHistoryRequest in api_chain.proto
+	gql__input_GetTotalBurnedResponse         *graphql.InputObject // message GetTotalBurnedResponse in api_chain.proto
 	gql__input_GetSupplyHistoryResponse       *graphql.InputObject // message GetSupplyHistoryResponse in api_chain.proto
 	gql__input_GetSupplyHistoryRequest        *graphql.InputObject // message GetSupplyHistoryRequest in api_chain.proto
 	gql__input_GetStakingRatioHistoryResponse *graphql.InputObject // message GetStakingRatioHistoryResponse in api_chain.proto
@@ -311,6 +313,26 @@ func Gql__type_GetTpsHistoryRequest() *graphql.Object {
 		})
 	}
 	return gql__type_GetTpsHistoryRequest
+}
+
+func Gql__type_GetTotalBurnedResponse() *graphql.Object {
+	if gql__type_GetTotalBurnedResponse == nil {
+		gql__type_GetTotalBurnedResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetTotalBurnedResponse",
+			Fields: graphql.Fields{
+				"total_burned": &graphql.Field{
+					Type: graphql.String,
+				},
+				"total_burned_rau": &graphql.Field{
+					Type: graphql.String,
+				},
+				"as_of_block_height": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetTotalBurnedResponse
 }
 
 func Gql__type_GetSupplyHistoryResponse() *graphql.Object {
@@ -1161,6 +1183,26 @@ func Gql__input_GetTpsHistoryRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_GetTpsHistoryRequest
+}
+
+func Gql__input_GetTotalBurnedResponse() *graphql.InputObject {
+	if gql__input_GetTotalBurnedResponse == nil {
+		gql__input_GetTotalBurnedResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetTotalBurnedResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"total_burned": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"total_burned_rau": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"as_of_block_height": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetTotalBurnedResponse
 }
 
 func Gql__input_GetSupplyHistoryResponse() *graphql.InputObject {

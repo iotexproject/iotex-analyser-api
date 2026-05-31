@@ -3,6 +3,7 @@ package apiservice
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"math/big"
 	"strconv"
@@ -579,6 +580,48 @@ func (s *ChainService) GetChainStats(ctx context.Context, req *api.GetChainStats
 			resp.CirculatingSupply = r.Value.String
 		}
 	}
+	return resp, nil
+}
+
+// GetTotalBurned returns the cumulative burned base gas fee (transaction logs
+// with type='gasFee'). The value is pre-computed by the analyser gas_burned
+// worker plugin and persisted in the store KV under key "total_burned_gasfee";
+// here we just read it O(1) and convert rau -> IOTX.
+func (s *ChainService) GetTotalBurned(ctx context.Context, req *api.GetTotalBurnedRequest) (*api.GetTotalBurnedResponse, error) {
+	resp := &api.GetTotalBurnedResponse{}
+
+	var row struct {
+		Value sql.NullString
+	}
+	if err := db.DB().WithContext(ctx).Raw(
+		`SELECT value FROM store WHERE key = ? LIMIT 1`, "total_burned_gasfee",
+	).Scan(&row).Error; err != nil {
+		if isUndefinedTableErr(err) {
+			return resp, nil
+		}
+		return nil, errors.Wrap(err, "failed to read store")
+	}
+	if !row.Value.Valid || row.Value.String == "" {
+		return resp, nil
+	}
+
+	var st struct {
+		BlockHeight uint64 `json:"block_height"`
+		Amount      string `json:"amount"`
+	}
+	if err := json.Unmarshal([]byte(row.Value.String), &st); err != nil {
+		return nil, errors.Wrap(err, "failed to parse burned state")
+	}
+	if st.Amount == "" {
+		return resp, nil
+	}
+	rau, err := decimal.NewFromString(st.Amount)
+	if err != nil {
+		return nil, errors.Wrapf(err, "burned amount is not a decimal: %q", st.Amount)
+	}
+	resp.TotalBurned = rauDecimalToIOTX(rau)
+	resp.TotalBurnedRau = rau.String()
+	resp.AsOfBlockHeight = st.BlockHeight
 	return resp, nil
 }
 
