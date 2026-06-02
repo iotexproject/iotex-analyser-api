@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	"github.com/iotexproject/iotex-analyser-api/apiservice"
+	"github.com/iotexproject/iotex-analyser-api/common/chainrpc"
 	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/model"
@@ -61,6 +62,9 @@ func main() {
 	if err := db2.AutoMigrate(&model.HermesDropRecords{}); err != nil {
 		log.Fatalf("failed to migrate DB, %v", err)
 	}
+	if err := chainrpc.Init(config.Default.RPC); err != nil {
+		log.Fatalf("failed to init chainrpc: %v", err)
+	}
 	apiservice.DocsHTML = docsHtml
 
 	ctx := context.Background()
@@ -80,4 +84,7 @@ func main() {
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
 
 	<-stop
+	if err := chainrpc.Close(); err != nil {
+		log.Printf("chainrpc.Close: %v", err)
+	}
 }
