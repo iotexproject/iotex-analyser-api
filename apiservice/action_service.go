@@ -8,8 +8,11 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/common/actions"
+	"github.com/iotexproject/iotex-analyser-api/common/chainrpc"
 	"github.com/iotexproject/iotex-analyser-api/db"
+	slog "github.com/iotexproject/iotex-core/v2/pkg/log"
 	"github.com/pkg/errors"
+	"go.uber.org/zap"
 )
 
 type ActionService struct {
@@ -279,23 +282,18 @@ func (s *ActionService) ActionByHash(ctx context.Context, req *api.ActionByHashR
 	}
 	} // end action_type
 
-	// Input data from action_execution or block_action
+	// Input data: action_execution.data only stores the first 4 bytes
+	// (method selector); the full calldata is fetched from the chain via
+	// gRPC and cached. An RPC failure degrades input_data to empty
+	// instead of failing the whole ActionByHash response.
 	if hasIncludeField(includeFields, "input_data") {
-	var inputDataRow struct {
-		Data []byte
-	}
-	if err := gormDB.WithContext(ctx).Raw(
-		`SELECT COALESCE(ae.data, ba.payload) as data
-		FROM action_execution ae
-		RIGHT JOIN block_action ba ON ae.action_hash = ba.action_hash
-		WHERE ba.action_hash = ? LIMIT 1`,
-		actHash,
-	).Scan(&inputDataRow).Error; err != nil && !errors.Is(err, sql.ErrNoRows) {
-		return nil, errors.Wrap(err, "failed to get input data")
-	}
-	if len(inputDataRow.Data) > 0 {
-		resp.InputData = hex.EncodeToString(inputDataRow.Data)
-	}
+		data, err := chainrpc.GetActionData(ctx, actHash)
+		if err != nil {
+			slog.L().Warn("chainrpc.GetActionData failed",
+				zap.String("actHash", actHash), zap.Error(err))
+		} else if len(data) > 0 {
+			resp.InputData = hex.EncodeToString(data)
+		}
 	} // end input_data
 
 	// Logs from block_receipt_logs
