@@ -3,6 +3,7 @@ package apiservice
 import (
 	"context"
 	"database/sql"
+	"time"
 
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/iotexproject/iotex-analyser-api/api"
@@ -129,7 +130,8 @@ func (s *ActionsService) GetAllActionsByAddress(ctx context.Context, req *api.Ac
 	}
 	defer rows.Close()
 	var actHash, sender, recipient, amount, actType, rtype string
-	var blkHeight, timestamp uint64
+	var blkHeight uint64
+	var timestamp time.Time
 	for rows.Next() {
 		if err := rows.Scan(&blkHeight, &actHash, &amount, &sender, &recipient, &rtype, &actType, &timestamp); err != nil {
 			return nil, err
@@ -145,7 +147,7 @@ func (s *ActionsService) GetAllActionsByAddress(ctx context.Context, req *api.Ac
 		}
 		resp.Results = append(resp.Results, &api.AllActionsByAddressResult{
 			ActHash:    actHash,
-			TimeStamp:  timestamp,
+			TimeStamp:  uint64(timestamp.Unix()),
 			ActType:    actType,
 			BlkHeight:  blkHeight,
 			Sender:     sender,
