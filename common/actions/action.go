@@ -204,6 +204,19 @@ func GetActionCountByType(ctx context.Context, typ string) (int64, error) {
 func GetActionCount() (int64, error) {
 	var count int64
 	db := db.DB()
+	// On Postgres, summing pg_class.reltuples across the partition children returns in <1ms
+	// vs ~5s for COUNT(*) on the 300M+ row block_action_partition. Drift is bounded by
+	// autovacuum cadence (typically <1%), acceptable for the /txs page total counter.
+	if db.Dialector.Name() == "postgres" {
+		err := db.Raw(`SELECT COALESCE(sum(c.reltuples), 0)::bigint
+			FROM pg_inherits i
+			JOIN pg_class c ON c.oid = i.inhrelid
+			WHERE i.inhparent = 'block_action_partition'::regclass`).Scan(&count).Error
+		if err == nil {
+			return count, nil
+		}
+		// Fall back to the exact count on error (e.g. partition parent missing in tests).
+	}
 	if err := db.Table("block_action_partition").Count(&count).Error; err != nil {
 		return 0, err
 	}
