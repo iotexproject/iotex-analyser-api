@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -54,6 +55,10 @@ type (
 		Password string `yaml:"password"  env:"DB_PASSWORD"`
 		Name     string `yaml:"name"  env:"DB_NAME"`
 		Debug    bool   `yaml:"debug"  env:"DB_DEBUG"`
+		// SkipAutoMigrate disables the GORM AutoMigrate run at startup. Required
+		// when pointing the API at a read-only PG standby — AutoMigrate issues
+		// DDL and a standby rejects writes with SQLSTATE 25006.
+		SkipAutoMigrate bool `yaml:"skipAutoMigrate"  env:"DB_SKIP_AUTO_MIGRATE"`
 	}
 	Genesis struct {
 		VoteWeightCalConsts genesis.VoteWeightCalConsts `yaml:"voteWeightCalConsts"`
@@ -67,6 +72,19 @@ type (
 		Genesis            Genesis  `yaml:"genesis"`
 	}
 )
+
+// String masks the DB password so accidentally logging the config (e.g.
+// main.go's startup `loaded config: %+v` line) doesn't leak the plaintext
+// credential into container stdout. The alias type prevents infinite
+// recursion — fmt won't call String on the alias since it has no method set.
+func (d Database) String() string {
+	type alias Database
+	cp := alias(d)
+	if cp.Password != "" {
+		cp.Password = "***"
+	}
+	return fmt.Sprintf("%+v", cp)
+}
 
 func New(path string) (cfg *Config, err error) {
 	body, err := ioutil.ReadFile(path)
