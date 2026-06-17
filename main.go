@@ -59,7 +59,9 @@ func main() {
 		log.Fatalf("failed to connect DB, %v", err)
 	}
 	log.Printf("connected to DB")
-	if err := db2.AutoMigrate(&model.HermesDropRecords{}); err != nil {
+	if config.Default.Database.SkipAutoMigrate {
+		log.Printf("skipping AutoMigrate (database.skipAutoMigrate=true)")
+	} else if err := db2.AutoMigrate(&model.HermesDropRecords{}); err != nil {
 		log.Fatalf("failed to migrate DB, %v", err)
 	}
 	if err := chainrpc.Init(config.Default.RPC); err != nil {
