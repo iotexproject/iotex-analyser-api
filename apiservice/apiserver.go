@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"runtime/debug"
 	"text/template"
+	"time"
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
@@ -18,6 +19,7 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/auth"
 	"github.com/iotexproject/iotex-analyser-api/config"
+	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	graphqlruntime "github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"google.golang.org/grpc"
@@ -203,9 +205,33 @@ func StartGRPCProxyService(templates embed.FS) error {
 		log.Fatal(err)
 	}
 	http.Handle("/docs/", instrument("docs", http.StripPrefix("/docs/", http.FileServer(http.FS(fsys)))))
+	http.HandleFunc("/healthz", healthzHandler)
 	http.Handle("/", instrument("api", auth.JWTTokenMiddleware(auth.CheckWhiteListMiddleware(gwmux))))
 	http.Handle("/metrics", promhttp.Handler())
 
 	port := fmt.Sprintf(":%d", config.Default.Server.HTTPAPIPort)
 	return http.ListenAndServe(port, nil)
+}
+
+// healthzHandler is an unauthenticated LB probe: pings the DB and returns 200/503.
+// No Prometheus instrumentation so high-frequency probes don't pollute /metrics.
+func healthzHandler(w http.ResponseWriter, r *http.Request) {
+	gdb := db.DB()
+	if gdb == nil {
+		http.Error(w, "db not initialized", http.StatusServiceUnavailable)
+		return
+	}
+	sqlDB, err := gdb.DB()
+	if err != nil {
+		http.Error(w, "db unavailable", http.StatusServiceUnavailable)
+		return
+	}
+	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
+	defer cancel()
+	if err := sqlDB.PingContext(ctx); err != nil {
+		http.Error(w, "db ping failed", http.StatusServiceUnavailable)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("ok"))
 }
