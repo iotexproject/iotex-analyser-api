@@ -50,6 +50,7 @@ proto:
 	rm -f api/api_approval.graphql.go && mv api/api.graphql.go api/api_approval.graphql.go
 	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ --graphql_out ./ proto/api_exit_queue.proto
 	rm -f api/api_exit_queue.graphql.go && mv api/api.graphql.go api/api_exit_queue.graphql.go
+	protoc -I ./proto --go_out ./  --go-grpc_out ./ --grpc-gateway_out ./ proto/api_iotexscan.proto
 clean:
 	rm -f iotex-analyser-api
 	

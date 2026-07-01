@@ -1,0 +1,52 @@
+# Local debug runner for iotex-analyser-api. Separate from production — does
+# NOT affect the main Dockerfile.
+#
+# Two ways to use it:
+#
+# A) MOUNTED CACHE (fastest): mount the host's Go module cache + source and build
+#    inside the container. GOPROXY points at goproxy.cn so anything missing from
+#    the cache is still fetchable. Requires the host to have built once so the
+#    cache is populated.
+#      docker compose -f docker-compose.dev.yml up analyser
+#
+# B) Build the Dockerfile.dev image instead (uncomment the `build:` block below
+#    and comment out the `image` + `command` lines).
+#
+# DB creds come from .env.docker (see .env.docker.example) — the REMOTE analyzer
+# Postgres. If that DB is on your Mac host, set DB_HOST=host.docker.internal.
+
+services:
+  analyser:
+    image: golang:1.23-bullseye
+    working_dir: /app
+    env_file:
+      - .env.docker
+    environment:
+      GOPROXY: "https://goproxy.cn,direct"  # cache first, mirror for anything missing
+      GOFLAGS: "-buildvcs=false"
+      GOCACHE: /tmp/gocache
+      CGO_ENABLED: "1"
+    volumes:
+      - .:/app
+      - ${HOME}/go/pkg/mod:/go/pkg/mod:ro   # host module cache (read-only)
+    ports:
+      - "8889:8889"
+      - "8888:8888"
+    # host.docker.internal resolves to the Mac host (for a host-local DB).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: >
+      bash -c "apt-get update -qq >/dev/null 2>&1 &&
+               apt-get install -y -qq gcc build-essential >/dev/null 2>&1 &&
+               go build -o /tmp/iotex-analyser-api . &&
+               cp config.yml /tmp/ 2>/dev/null || true &&
+               cd /tmp && exec ./iotex-analyser-api"
+
+    # --- Option B: build the debug image instead of the offline runner above ---
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.dev
+    #   args:
+    #     GOPROXY: https://goproxy.cn
+    # image: iotex-analyser-api:dev
+    # (remove the `image:` at the top and the `command:` block when using build)
