@@ -54,6 +54,67 @@ func TestMigration_Integration_GetDailyNewAddresses(t *testing.T) {
 	dumpJSON(t, "GetDailyNewAddresses", resp)
 }
 
+func TestMigration_Integration_GetTxListByAddress(t *testing.T) {
+	setupRealPG(t)
+	svc := &IotexscanService{}
+	resp, err := svc.GetTxListByAddress(context.Background(), &api.TransferListRequest{
+		Address: "io15qr5fzpxsnp7garl4m7k355rafzqn8grrm0grz",
+		Page:    1, Offset: 5, Sort: "desc",
+	})
+	require.NoError(t, err)
+	require.LessOrEqual(t, len(resp.Results), 5)
+	dumpJSON(t, "GetTxListByAddress", resp)
+}
+
+func TestMigration_Integration_GetTokenTxByAddress(t *testing.T) {
+	setupRealPG(t)
+	svc := &IotexscanService{}
+	resp, err := svc.GetTokenTxByAddress(context.Background(), &api.TransferListRequest{
+		Address: "io15qr5fzpxsnp7garl4m7k355rafzqn8grrm0grz",
+		Page:    1, Offset: 5, Sort: "desc",
+	})
+	require.NoError(t, err)
+	require.LessOrEqual(t, len(resp.Results), 5)
+	dumpJSON(t, "GetTokenTxByAddress", resp)
+}
+
+func TestMigration_Integration_GetTxListInternal(t *testing.T) {
+	setupRealPG(t)
+	svc := &IotexscanService{}
+	resp, err := svc.GetTxListInternal(context.Background(), &api.InternalTransferRequest{
+		Address: "io15qr5fzpxsnp7garl4m7k355rafzqn8grrm0grz",
+		Page:    1, Offset: 5, Sort: "desc",
+	})
+	require.NoError(t, err)
+	require.LessOrEqual(t, len(resp.Results), 5)
+	dumpJSON(t, "GetTxListInternal", resp)
+}
+
+func TestMigration_Integration_GetContractLogs(t *testing.T) {
+	setupRealPG(t)
+	svc := &IotexscanService{}
+	// Wide block range against a known contract; asserts the SQL + pagination
+	// (ORDER BY block_height/index) execute and the response shape is sane.
+	resp, err := svc.GetContractLogs(context.Background(), &api.GetContractLogsRequest{
+		Address:   "io15qr5fzpxsnp7garl4m7k355rafzqn8grrm0grz",
+		FromBlock: 0, ToBlock: 100000000,
+		Page: 1, Offset: 5,
+	})
+	require.NoError(t, err)
+	require.LessOrEqual(t, len(resp.Logs), 5)
+	dumpJSON(t, "GetContractLogs", resp)
+}
+
+func TestMigration_Integration_GetGasOracle(t *testing.T) {
+	setupRealPG(t)
+	svc := &IotexscanService{}
+	// Exercises the store lookup; Exist depends on whether the DB carries the
+	// iotx_gas_oracle key, so only assert the query runs without error.
+	resp, err := svc.GetGasOracle(context.Background(), &api.GetGasOracleRequest{})
+	require.NoError(t, err)
+	dumpJSON(t, "GetGasOracle", resp)
+}
+
 func TestMigration_Integration_GetActionStatusByHash_NotFound(t *testing.T) {
 	setupRealPG(t)
 	svc := &IotexscanService{}
