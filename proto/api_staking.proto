@@ -207,6 +207,15 @@ service StakingService {
       body: "*"
     };
   };
+
+  // GetStakingHistory: latest bucket row per bucket_id for an owner, paginated.
+  // Replaces kit modules-db/staking.getStakingHistory (this.analysis on staking_buckets).
+  rpc GetStakingHistory(GetStakingHistoryRequest) returns (GetStakingHistoryResponse) {
+    option (google.api.http) = {
+      post: "/api.StakingService.GetStakingHistory"
+      body: "*"
+    };
+  };
 }
 
 // ─── Added for iotex-kit modules-db migration ───
@@ -233,4 +242,23 @@ message BucketByActionHashInfo {
 message GetBucketByActionHashResponse {
   bool exist = 1;
   BucketByActionHashInfo bucket = 2;
+}
+
+// GetStakingHistory: kit modules-db/staking.getStakingHistory. Latest row per
+// bucket_id (MAX(id) group by bucket_id) for owner_address, ordered id desc.
+message GetStakingHistoryRequest {
+  string owner_address = 1; // 0x or io; server normalizes to io
+  uint64 page = 2;          // 1-based
+  uint64 limit = 3;
+}
+message StakingHistoryItem {
+  uint64 bucket_id = 1;
+  string candidate = 2;
+  string create_time = 3;
+  string unstake_start_time = 4;
+  string staked_amount = 5;
+}
+message GetStakingHistoryResponse {
+  repeated StakingHistoryItem data = 1;
+  uint64 total = 2;         // COUNT(DISTINCT bucket_id) for the owner
 }

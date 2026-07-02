@@ -10,6 +10,7 @@ package api
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -24,300 +25,272 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_StakingService_VoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VoteByHeightRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq VoteByHeightRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.VoteByHeight(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_VoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VoteByHeightRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq VoteByHeightRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.VoteByHeight(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_StakingService_CandidateVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CandidateVoteByHeightRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CandidateVoteByHeightRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CandidateVoteByHeight(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_CandidateVoteByHeight_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CandidateVoteByHeightRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq CandidateVoteByHeightRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CandidateVoteByHeight(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_StakingService_BucketByID_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BucketByIDRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq BucketByIDRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.BucketByID(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_BucketByID_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BucketByIDRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq BucketByIDRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.BucketByID(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_StakingService_GetBucketList_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketListRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketListRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.GetBucketList(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_GetBucketList_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketListRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketListRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.GetBucketList(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_StakingService_GetBucketsByBucketId_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketsByBucketIdRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketsByBucketIdRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.GetBucketsByBucketId(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_GetBucketsByBucketId_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketsByBucketIdRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketsByBucketIdRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.GetBucketsByBucketId(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_StakingService_GetBucketByBucketId_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketByBucketIdRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketByBucketIdRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.GetBucketByBucketId(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_GetBucketByBucketId_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketByBucketIdRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketByBucketIdRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.GetBucketByBucketId(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_StakingService_GetNativeBuckets_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetNativeBucketsRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetNativeBucketsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.GetNativeBuckets(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_GetNativeBuckets_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetNativeBucketsRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetNativeBucketsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.GetNativeBuckets(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_StakingService_GetBucketByActionHash_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketByActionHashRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketByActionHashRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.GetBucketByActionHash(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_StakingService_GetBucketByActionHash_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetBucketByActionHashRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq GetBucketByActionHashRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.GetBucketByActionHash(ctx, &protoReq)
 	return msg, metadata, err
+}
 
+func request_StakingService_GetStakingHistory_0(ctx context.Context, marshaler runtime.Marshaler, client StakingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetStakingHistoryRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.GetStakingHistory(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_StakingService_GetStakingHistory_0(ctx context.Context, marshaler runtime.Marshaler, server StakingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetStakingHistoryRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.GetStakingHistory(ctx, &protoReq)
+	return msg, metadata, err
 }
 
 // RegisterStakingServiceHandlerServer registers the http handlers for service StakingService to "mux".
 // UnaryRPC     :call StakingServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterStakingServiceHandlerFromEndpoint instead.
+// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server StakingServiceServer) error {
-
-	mux.Handle("POST", pattern_StakingService_VoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_VoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/VoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.VoteByHeight"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/VoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.VoteByHeight"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -329,20 +302,15 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_VoteByHeight_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_CandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_CandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/CandidateVoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.CandidateVoteByHeight"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/CandidateVoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.CandidateVoteByHeight"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -354,20 +322,15 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_CandidateVoteByHeight_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_BucketByID_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_BucketByID_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/BucketByID", runtime.WithHTTPPathPattern("/api.StakingService.BucketByID"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/BucketByID", runtime.WithHTTPPathPattern("/api.StakingService.BucketByID"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -379,20 +342,15 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_BucketByID_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketList_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketList_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketList", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketList"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketList", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketList"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -404,20 +362,15 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketList_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketsByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketsByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketsByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketsByBucketId"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketsByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketsByBucketId"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -429,20 +382,15 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketsByBucketId_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByBucketId"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByBucketId"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -454,20 +402,15 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketByBucketId_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetNativeBuckets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetNativeBuckets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetNativeBuckets", runtime.WithHTTPPathPattern("/api.StakingService.GetNativeBuckets"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetNativeBuckets", runtime.WithHTTPPathPattern("/api.StakingService.GetNativeBuckets"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -479,20 +422,15 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetNativeBuckets_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketByActionHash_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketByActionHash_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketByActionHash", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByActionHash"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetBucketByActionHash", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByActionHash"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -504,9 +442,27 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketByActionHash_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
+	})
+	mux.Handle(http.MethodPost, pattern_StakingService_GetStakingHistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.StakingService/GetStakingHistory", runtime.WithHTTPPathPattern("/api.StakingService.GetStakingHistory"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_StakingService_GetStakingHistory_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_StakingService_GetStakingHistory_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -515,25 +471,24 @@ func RegisterStakingServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 // RegisterStakingServiceHandlerFromEndpoint is same as RegisterStakingServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterStakingServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.NewClient(endpoint, opts...)
 	if err != nil {
 		return err
 	}
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
-
 	return RegisterStakingServiceHandler(ctx, mux, conn)
 }
 
@@ -547,16 +502,13 @@ func RegisterStakingServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "StakingServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "StakingServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "StakingServiceClient" to call the correct interceptors.
+// "StakingServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client StakingServiceClient) error {
-
-	mux.Handle("POST", pattern_StakingService_VoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_VoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/VoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.VoteByHeight"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/VoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.VoteByHeight"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -567,18 +519,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_VoteByHeight_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_CandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_CandidateVoteByHeight_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/CandidateVoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.CandidateVoteByHeight"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/CandidateVoteByHeight", runtime.WithHTTPPathPattern("/api.StakingService.CandidateVoteByHeight"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -589,18 +536,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_CandidateVoteByHeight_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_BucketByID_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_BucketByID_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/BucketByID", runtime.WithHTTPPathPattern("/api.StakingService.BucketByID"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/BucketByID", runtime.WithHTTPPathPattern("/api.StakingService.BucketByID"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -611,18 +553,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_BucketByID_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketList_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketList_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketList", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketList"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketList", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketList"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -633,18 +570,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketList_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketsByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketsByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketsByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketsByBucketId"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketsByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketsByBucketId"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -655,18 +587,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketsByBucketId_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketByBucketId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByBucketId"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketByBucketId", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByBucketId"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -677,18 +604,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketByBucketId_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetNativeBuckets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetNativeBuckets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetNativeBuckets", runtime.WithHTTPPathPattern("/api.StakingService.GetNativeBuckets"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetNativeBuckets", runtime.WithHTTPPathPattern("/api.StakingService.GetNativeBuckets"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -699,18 +621,13 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetNativeBuckets_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_StakingService_GetBucketByActionHash_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_StakingService_GetBucketByActionHash_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketByActionHash", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByActionHash"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetBucketByActionHash", runtime.WithHTTPPathPattern("/api.StakingService.GetBucketByActionHash"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -721,46 +638,48 @@ func RegisterStakingServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_StakingService_GetBucketByActionHash_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
+	mux.Handle(http.MethodPost, pattern_StakingService_GetStakingHistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.StakingService/GetStakingHistory", runtime.WithHTTPPathPattern("/api.StakingService.GetStakingHistory"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_StakingService_GetStakingHistory_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_StakingService_GetStakingHistory_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	return nil
 }
 
 var (
-	pattern_StakingService_VoteByHeight_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.VoteByHeight"}, ""))
-
+	pattern_StakingService_VoteByHeight_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.VoteByHeight"}, ""))
 	pattern_StakingService_CandidateVoteByHeight_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.CandidateVoteByHeight"}, ""))
-
-	pattern_StakingService_BucketByID_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.BucketByID"}, ""))
-
-	pattern_StakingService_GetBucketList_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetBucketList"}, ""))
-
-	pattern_StakingService_GetBucketsByBucketId_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetBucketsByBucketId"}, ""))
-
-	pattern_StakingService_GetBucketByBucketId_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetBucketByBucketId"}, ""))
-
-	pattern_StakingService_GetNativeBuckets_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetNativeBuckets"}, ""))
-
+	pattern_StakingService_BucketByID_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.BucketByID"}, ""))
+	pattern_StakingService_GetBucketList_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetBucketList"}, ""))
+	pattern_StakingService_GetBucketsByBucketId_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetBucketsByBucketId"}, ""))
+	pattern_StakingService_GetBucketByBucketId_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetBucketByBucketId"}, ""))
+	pattern_StakingService_GetNativeBuckets_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetNativeBuckets"}, ""))
 	pattern_StakingService_GetBucketByActionHash_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetBucketByActionHash"}, ""))
+	pattern_StakingService_GetStakingHistory_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"api.StakingService.GetStakingHistory"}, ""))
 )
 
 var (
-	forward_StakingService_VoteByHeight_0 = runtime.ForwardResponseMessage
-
+	forward_StakingService_VoteByHeight_0          = runtime.ForwardResponseMessage
 	forward_StakingService_CandidateVoteByHeight_0 = runtime.ForwardResponseMessage
-
-	forward_StakingService_BucketByID_0 = runtime.ForwardResponseMessage
-
-	forward_StakingService_GetBucketList_0 = runtime.ForwardResponseMessage
-
-	forward_StakingService_GetBucketsByBucketId_0 = runtime.ForwardResponseMessage
-
-	forward_StakingService_GetBucketByBucketId_0 = runtime.ForwardResponseMessage
-
-	forward_StakingService_GetNativeBuckets_0 = runtime.ForwardResponseMessage
-
+	forward_StakingService_BucketByID_0            = runtime.ForwardResponseMessage
+	forward_StakingService_GetBucketList_0         = runtime.ForwardResponseMessage
+	forward_StakingService_GetBucketsByBucketId_0  = runtime.ForwardResponseMessage
+	forward_StakingService_GetBucketByBucketId_0   = runtime.ForwardResponseMessage
+	forward_StakingService_GetNativeBuckets_0      = runtime.ForwardResponseMessage
 	forward_StakingService_GetBucketByActionHash_0 = runtime.ForwardResponseMessage
+	forward_StakingService_GetStakingHistory_0     = runtime.ForwardResponseMessage
 )
