@@ -102,9 +102,9 @@ GetReceivedVotesByAddress、GetProductivityHistory 校验。
 
 ## 6. 已知遗留 / 注意
 
-- **`delegate_rewards` 表**：`GetDelegateRewards` 的 SQL 1:1 沿用 kit 原代码查 `delegate_rewards`，
-  该表在当前主网库尚未建（历史数据迁移遗留）→ 该接口在此库返回「relation does not exist」。
-  代码正确，补建该表后即可用。
+- **`delegate_rewards` 表**：`GetDelegateRewards` 的 SQL 1:1 沿用 kit 原代码查 `delegate_rewards`。
+  该表此前在主网库缺失（历史数据迁移遗留），现已恢复（`mainnet` 库 123 行），该接口已正常返回数据。
+  ✅ **已解决**（2026-07-02 验证：真实 candidate 返回完整奖励字段，缺失 candidate 返回空且不报错）。
 - **表名对齐**：`block_action` 实为 `block_action_partition`；ERC721 转账实为 `erc721_transfers_v2_2_3`；
   ERC1155 为 `erc1155_transfer_singles_v2_2_2`。相关 SQL 已按真实表名写。
 - **慢查询**：`erc20_transfers`（2 亿+行）的 token 转账查询用两腿 UNION（各走 sender/recipient 索引），
@@ -114,8 +114,8 @@ GetReceivedVotesByAddress、GetProductivityHistory 校验。
 
 ## 7. 真实调用验证结果
 
-对拍真实主网库（`mainnet`）逐个实调，**19 个新增 RPC + 复用的 3 个，21/22 通过**，唯一失败为
-数据侧遗留（表未建），非代码问题。
+对拍真实主网库（`mainnet`）逐个实调，**19 个新增 RPC + 复用的 3 个，22/22 全通过**。
+（原唯一失败项 `GetDelegateRewards` 因 `delegate_rewards` 表缺失，该表恢复后已通过。）
 
 | RPC | 结果 | 备注 |
 |-----|------|------|
@@ -136,7 +136,7 @@ GetReceivedVotesByAddress、GetProductivityHistory 校验。
 | DelegateService.GetDelegateRewardsHistory | ✅ | SQL 正常 |
 | DelegateService.GetReceivedVotesByAddress | ✅ | 真实 staker/amount |
 | DelegateService.GetDelegatesStatistics | ✅ | 123 delegates + 总质押量 |
-| **DelegateService.GetDelegateRewards** | ⚠️ | `delegate_rewards` 表未建（数据遗留，代码正确） |
+| DelegateService.GetDelegateRewards | ✅ | `delegate_rewards` 表已恢复（123 行），真实奖励数据 |
 | StakingService.GetStakingHistory | ✅ | 真实 bucket |
 | ChainService.GetBlockMeta（复用） | ✅ | block.getblockreward |
 | AccountService.GetContractByteCode（复用） | ✅ | 真实字节码 |
