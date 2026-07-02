@@ -3,7 +3,6 @@ package api
 
 import (
 	"context"
-
 	"github.com/graphql-go/graphql"
 	"github.com/pkg/errors"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
@@ -13,7 +12,10 @@ import (
 var (
 	gql__type_VoteByHeightResponse           *graphql.Object      // message VoteByHeightResponse in api_staking.proto
 	gql__type_VoteByHeightRequest            *graphql.Object      // message VoteByHeightRequest in api_staking.proto
+	gql__type_StakingHistoryItem             *graphql.Object      // message StakingHistoryItem in api_staking.proto
 	gql__type_StakingBucketInfo              *graphql.Object      // message StakingBucketInfo in api_staking.proto
+	gql__type_GetStakingHistoryResponse      *graphql.Object      // message GetStakingHistoryResponse in api_staking.proto
+	gql__type_GetStakingHistoryRequest       *graphql.Object      // message GetStakingHistoryRequest in api_staking.proto
 	gql__type_GetNativeBucketsResponse       *graphql.Object      // message GetNativeBucketsResponse in api_staking.proto
 	gql__type_GetNativeBucketsRequest        *graphql.Object      // message GetNativeBucketsRequest in api_staking.proto
 	gql__type_GetBucketsByBucketIdResponse   *graphql.Object      // message GetBucketsByBucketIdResponse in api_staking.proto
@@ -32,7 +34,10 @@ var (
 	gql__type_BucketByActionHashInfo         *graphql.Object      // message BucketByActionHashInfo in api_staking.proto
 	gql__input_VoteByHeightResponse          *graphql.InputObject // message VoteByHeightResponse in api_staking.proto
 	gql__input_VoteByHeightRequest           *graphql.InputObject // message VoteByHeightRequest in api_staking.proto
+	gql__input_StakingHistoryItem            *graphql.InputObject // message StakingHistoryItem in api_staking.proto
 	gql__input_StakingBucketInfo             *graphql.InputObject // message StakingBucketInfo in api_staking.proto
+	gql__input_GetStakingHistoryResponse     *graphql.InputObject // message GetStakingHistoryResponse in api_staking.proto
+	gql__input_GetStakingHistoryRequest      *graphql.InputObject // message GetStakingHistoryRequest in api_staking.proto
 	gql__input_GetNativeBucketsResponse      *graphql.InputObject // message GetNativeBucketsResponse in api_staking.proto
 	gql__input_GetNativeBucketsRequest       *graphql.InputObject // message GetNativeBucketsRequest in api_staking.proto
 	gql__input_GetBucketsByBucketIdResponse  *graphql.InputObject // message GetBucketsByBucketIdResponse in api_staking.proto
@@ -88,6 +93,32 @@ func Gql__type_VoteByHeightRequest() *graphql.Object {
 	return gql__type_VoteByHeightRequest
 }
 
+func Gql__type_StakingHistoryItem() *graphql.Object {
+	if gql__type_StakingHistoryItem == nil {
+		gql__type_StakingHistoryItem = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_StakingHistoryItem",
+			Fields: graphql.Fields{
+				"bucket_id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"candidate": &graphql.Field{
+					Type: graphql.String,
+				},
+				"create_time": &graphql.Field{
+					Type: graphql.String,
+				},
+				"unstake_start_time": &graphql.Field{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_StakingHistoryItem
+}
+
 func Gql__type_StakingBucketInfo() *graphql.Object {
 	if gql__type_StakingBucketInfo == nil {
 		gql__type_StakingBucketInfo = graphql.NewObject(graphql.ObjectConfig{
@@ -130,6 +161,45 @@ func Gql__type_StakingBucketInfo() *graphql.Object {
 		})
 	}
 	return gql__type_StakingBucketInfo
+}
+
+func Gql__type_GetStakingHistoryResponse() *graphql.Object {
+	if gql__type_GetStakingHistoryResponse == nil {
+		gql__type_GetStakingHistoryResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetStakingHistoryResponse",
+			Fields: graphql.Fields{
+				"data": &graphql.Field{
+					Type: graphql.NewList(Gql__type_StakingHistoryItem()),
+				},
+				"total": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetStakingHistoryResponse
+}
+
+func Gql__type_GetStakingHistoryRequest() *graphql.Object {
+	if gql__type_GetStakingHistoryRequest == nil {
+		gql__type_GetStakingHistoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_GetStakingHistoryRequest",
+			Description: `GetStakingHistory: kit modules-db/staking.getStakingHistory. Latest row per
+ bucket_id (MAX(id) group by bucket_id) for owner_address, ordered id desc.`,
+			Fields: graphql.Fields{
+				"owner_address": &graphql.Field{
+					Type: graphql.String,
+				},
+				"page": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"limit": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__type_GetStakingHistoryRequest
 }
 
 func Gql__type_GetNativeBucketsResponse() *graphql.Object {
@@ -553,6 +623,32 @@ func Gql__input_VoteByHeightRequest() *graphql.InputObject {
 	return gql__input_VoteByHeightRequest
 }
 
+func Gql__input_StakingHistoryItem() *graphql.InputObject {
+	if gql__input_StakingHistoryItem == nil {
+		gql__input_StakingHistoryItem = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_StakingHistoryItem",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"bucket_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"candidate": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"create_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"unstake_start_time": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"staked_amount": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_StakingHistoryItem
+}
+
 func Gql__input_StakingBucketInfo() *graphql.InputObject {
 	if gql__input_StakingBucketInfo == nil {
 		gql__input_StakingBucketInfo = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -595,6 +691,43 @@ func Gql__input_StakingBucketInfo() *graphql.InputObject {
 		})
 	}
 	return gql__input_StakingBucketInfo
+}
+
+func Gql__input_GetStakingHistoryResponse() *graphql.InputObject {
+	if gql__input_GetStakingHistoryResponse == nil {
+		gql__input_GetStakingHistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetStakingHistoryResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"data": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_StakingHistoryItem()),
+				},
+				"total": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetStakingHistoryResponse
+}
+
+func Gql__input_GetStakingHistoryRequest() *graphql.InputObject {
+	if gql__input_GetStakingHistoryRequest == nil {
+		gql__input_GetStakingHistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_GetStakingHistoryRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"owner_address": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"page": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+				"limit": &graphql.InputObjectFieldConfig{
+					Type: graphql.Int,
+				},
+			},
+		})
+	}
+	return gql__input_GetStakingHistoryRequest
 }
 
 func Gql__input_GetNativeBucketsResponse() *graphql.InputObject {
@@ -1206,6 +1339,11 @@ func (x *graphql__resolver_StakingService) GetQueries(conn *grpc.ClientConn) gra
 
 // GetMutations returns acceptable graphql.Fields for Mutation.
 func (x *graphql__resolver_StakingService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
+	return graphql.Fields{}
+}
+
+// GetSubscriptions returns graphql.Fields for Subscription.
+func (x *graphql__resolver_StakingService) GetSubscriptions(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{}
 }
 

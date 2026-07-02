@@ -233,6 +233,99 @@ service DelegateService {
       body: "*"
     };
   };
+
+  // ── Added for iotex-kit modules-db migration (delegate.ts this.analysis) ──
+  rpc GetDelegateHeight(GetDelegateHeightRequest) returns (GetDelegateHeightResponse) {
+    option (google.api.http) = { post: "/api.DelegateService.GetDelegateHeight" body: "*" };
+  };
+  rpc GetProductivityHistory(GetProductivityHistoryRequest) returns (GetProductivityHistoryResponse) {
+    option (google.api.http) = { post: "/api.DelegateService.GetProductivityHistory" body: "*" };
+  };
+  rpc GetProbationHistory(GetProbationHistoryRequest) returns (GetProbationHistoryResponse) {
+    option (google.api.http) = { post: "/api.DelegateService.GetProbationHistory" body: "*" };
+  };
+  rpc GetDelegateRewards(GetDelegateRewardsRequest) returns (GetDelegateRewardsResponse) {
+    option (google.api.http) = { post: "/api.DelegateService.GetDelegateRewards" body: "*" };
+  };
+  rpc GetDelegateRewardsHistory(GetDelegateRewardsHistoryRequest) returns (GetDelegateRewardsHistoryResponse) {
+    option (google.api.http) = { post: "/api.DelegateService.GetDelegateRewardsHistory" body: "*" };
+  };
+  rpc GetReceivedVotesByAddress(GetReceivedVotesByAddressRequest) returns (GetReceivedVotesByAddressResponse) {
+    option (google.api.http) = { post: "/api.DelegateService.GetReceivedVotesByAddress" body: "*" };
+  };
+  rpc GetDelegatesStatistics(GetDelegatesStatisticsRequest) returns (GetDelegatesStatisticsResponse) {
+    option (google.api.http) = { post: "/api.DelegateService.GetDelegatesStatistics" body: "*" };
+  };
+}
+
+// ── Messages for the modules-db migration RPCs above ──
+// Source SQL is ported 1:1 from kit modules-db/delegate.ts (this.analysis).
+
+message GetDelegateHeightRequest { string name = 1; }                       // block_meta.producer_name
+message GetDelegateHeightResponse { bool exist = 1; uint64 block_height = 2; }
+
+message GetProductivityHistoryRequest {
+  string candidate = 1;   // 0x or io; server normalizes to io
+  string start_date = 2;  // optional ("" = ignored), date_time > start
+  string end_date = 3;    // required, date_time < end
+}
+message ProductivityHistoryItem {
+  int64 id = 1;
+  string productivity = 2;      // numeric as string
+  string temp_eth_address = 3;  // candidate (io)
+  string date = 4;              // date_time::text
+}
+message GetProductivityHistoryResponse { repeated ProductivityHistoryItem data = 1; }
+
+message GetProbationHistoryRequest {
+  string candidate = 1;   // 0x or io
+  string start_date = 2;  // timestamp > start
+  string end_date = 3;    // timestamp < end
+}
+message ProbationHistoryItem {
+  bool probation = 1;   // always true (row presence = in probation that day)
+  string address = 2;   // operator_address
+  string date = 3;      // "year-month-day"
+}
+message GetProbationHistoryResponse { repeated ProbationHistoryItem data = 1; }
+
+message GetDelegateRewardsRequest { string candidate = 1; }
+message GetDelegateRewardsResponse {
+  bool exist = 1;
+  string block_reward = 2;
+  string epoch_reward = 3;
+  string foundation_bonus = 4;
+  string burn_reward = 5;
+}
+
+message GetDelegateRewardsHistoryRequest {
+  string candidate = 1;
+  string start_date = 2;  // inclusive (::date)
+  string end_date = 3;    // inclusive (::date)
+}
+message DelegateRewardsHistoryItem {
+  string block_reward = 1;
+  string epoch_reward = 2;
+  string foundation_bonus = 3;
+  string burn_reward = 4;
+  string date_time = 5;   // ::text
+}
+message GetDelegateRewardsHistoryResponse { repeated DelegateRewardsHistoryItem data = 1; }
+
+message GetReceivedVotesByAddressRequest { string address = 1; } // io owner_address
+message ReceivedVoteItem {
+  string staker = 1;   // sender
+  string amount = 2;   // staked_amount
+  string votes = 3;    // voting_power
+  string duration = 4;
+}
+message GetReceivedVotesByAddressResponse { repeated ReceivedVoteItem data = 1; }
+
+message GetDelegatesStatisticsRequest {}
+message GetDelegatesStatisticsResponse {
+  bool exist = 1;
+  uint64 delegate_count = 2;
+  string total_amount = 3;  // sum(stake_amount) as decimal string
 }
 
 // ─── Added for iotex-kit modules-db migration ───

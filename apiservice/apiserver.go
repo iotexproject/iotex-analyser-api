@@ -57,6 +57,7 @@ func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterStreamServiceServer(grpcServer, &StreamService{})
 	api.RegisterApprovalServiceServer(grpcServer, &ApprovalService{})
 	api.RegisterExitQueueServiceServer(grpcServer, &ExitQueueService{})
+	api.RegisterIotexscanServiceServer(grpcServer, &IotexscanService{})
 }
 
 func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
@@ -94,6 +95,9 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 		return err
 	}
 	if err := api.RegisterExitQueueServiceHandlerServer(ctx, mux, &ExitQueueService{}); err != nil {
+		return err
+	}
+	if err := api.RegisterIotexscanServiceHandlerServer(ctx, mux, &IotexscanService{}); err != nil {
 		return err
 	}
 	return nil

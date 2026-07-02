@@ -1,0 +1,36 @@
+# Local debug image for iotex-analyser-api. Separate from the production
+# Dockerfile — does NOT affect it. Single-stage, keeps the source tree and the
+# Go toolchain in the image so you can rebuild / attach a debugger inside the
+# container. The compiled binary is produced at build time.
+#
+# Build (behind a CN mirror):
+#   docker build -f Dockerfile.dev --build-arg GOPROXY=https://goproxy.cn -t iotex-analyser-api:dev .
+# Run: see docker-compose.dev.yml, or:
+#   docker run --rm --env-file .env.docker -p 8889:8889 -p 8888:8888 iotex-analyser-api:dev
+#
+# NOTE: this expects the generated proto code (api/api_iotexscan*.pb.go, etc.)
+# to already exist in the source tree — it does NOT run `make proto` (no protoc
+# in the image). Regenerate on the host with `make proto` when protos change.
+
+FROM golang:1.23-bullseye
+
+WORKDIR /app
+
+# Debug image defaults to the CN mirror so a plain build works behind the
+# firewall; override with --build-arg GOPROXY=... if you need a different one.
+ARG GOPROXY=https://goproxy.cn,direct
+ENV GOPROXY=${GOPROXY}
+# CGO is needed by the sqlite driver pulled in transitively.
+ENV CGO_ENABLED=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      make gcc libc-dev build-essential ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY . .
+
+# Build only (no `make proto`); generated code is assumed present.
+RUN go mod download && go build -v -o iotex-analyser-api .
+
+EXPOSE 8888 8889
+ENTRYPOINT ["./iotex-analyser-api"]

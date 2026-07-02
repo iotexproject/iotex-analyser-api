@@ -1,0 +1,387 @@
+syntax = "proto3";
+
+// IotexscanService: endpoints backing the legacy iotexscan-v3 backend in
+// iotex-kit (modules/modules-iotexscan). These were previously served by
+// iotex-kit connecting directly to the analyzer Postgres via
+// ANALYZER_DATABASE_URL. Shapes here mirror the etherscan-compatible responses
+// that iotex-kit builds today, so the kit side becomes a thin HTTP proxy.
+//
+// Reuse note: the following iotexscan-v3 needs are ALREADY covered by existing
+// RPCs and do NOT get new methods here — the kit call sites just switch to them:
+//   - transaction.getstatus / gettxreceiptstatus -> ActionService.ActionByHash
+//     (+ StakingService.GetBucketByActionHash for the attached staking bucket)
+//   - block.getblockreward                        -> ChainService.GetBlockMeta
+//   - block.getblocknobytime                      -> ChainService.GetBlockByTimestamp
+//   - contract._getcontract (bytecode)            -> AccountService.GetContractByteCode
+//
+// What's new here: paginated etherscan-style token/tx transfer lists, contract
+// logs, the gas-oracle store read, daily new-address aggregation, and a BATCH
+// contract-creation lookup (kit uses a DataLoader to batch addresses).
+
+package api;
+import "google/api/annotations.proto";
+option go_package = "./api";
+
+// ─────────────────── shared request shape ───────────────────
+
+// TransferListRequest matches kit's zodPaginationWithBlockRange + address(es).
+// All addresses are accepted as 0x or io form; the server normalizes to io.
+message TransferListRequest {
+  string address = 1;           // owner (matched as sender OR recipient)
+  string contract_address = 2;  // optional token filter ("" = all)
+  uint64 start_block = 3;       // 0 = ignored
+  uint64 end_block = 4;         // 0 = ignored
+  uint64 page = 5;              // 1-based
+  uint64 offset = 6;            // page size
+  string sort = 7;              // "asc" | "desc" (default desc)
+}
+
+// ─────────────────── native tx list (txlist) ───────────────────
+// Source SQL: block_action + action_execution + block + method_bytes.
+// Maps kit account.txlist (etherscan `txlist`). Numeric fields are decimal
+// strings; addresses come back 0x-prefixed (kit currently re-converts, but we
+// return 0x directly to drop that step). timeStamp is unix seconds.
+message NativeTxInfo {
+  string block_number = 1;
+  string time_stamp = 2;
+  string hash = 3;              // 0x-prefixed action hash
+  string nonce = 4;
+  string block_hash = 5;
+  string from = 6;              // 0x
+  string to = 7;                // 0x
+  string value = 8;
+  string gas = 9;               // gas_limit
+  string gas_price = 10;
+  string is_error = 11;         // "0" ok, "1" error
+  string txreceipt_status = 12; // raw status
+  string input = 13;            // 0x-prefixed hex payload
+  string contract_address = 14; // 0x ("" if none)
+  string gas_used = 15;         // gas_consumed
+  string method_id = 16;        // 0x + first 4 bytes
+  string function_name = 17;    // decoded via method_bytes ("" if unknown)
+}
+message TxListResponse {
+  repeated NativeTxInfo results = 1;
+}
+
+// ─────────────────── ERC20 transfers (tokentx) ───────────────────
+// Source SQL: erc20_transfers + block_action + block.
+// token name/symbol/decimals are enriched by kit's tokenLoader (iotexscan DB),
+// so they are NOT included here — the server returns only chain-derived fields.
+message Erc20TransferInfo {
+  string block_number = 1;
+  string time_stamp = 2;
+  string hash = 3;              // 0x
+  string nonce = 4;
+  string block_hash = 5;
+  string from = 6;              // 0x
+  string to = 7;                // 0x
+  string contract_address = 8;  // 0x
+  string value = 9;
+  string gas = 10;
+  string gas_price = 11;
+  string gas_used = 12;
+}
+message TokenTxResponse {
+  repeated Erc20TransferInfo results = 1;
+}
+
+// ─────────────────── ERC721 transfers (tokennfttx) ───────────────────
+// Source SQL: erc721_transfers + block_action + block.
+message Erc721TransferInfo {
+  string block_number = 1;
+  string time_stamp = 2;
+  string hash = 3;
+  string nonce = 4;
+  string block_hash = 5;
+  string from = 6;
+  string to = 7;
+  string contract_address = 8;
+  string token_id = 9;
+  string gas = 10;
+  string gas_price = 11;
+  string gas_used = 12;
+}
+message TokenNftTxResponse {
+  repeated Erc721TransferInfo results = 1;
+}
+
+// ─────────────────── ERC1155 transfers (token1155tx) ───────────────────
+// Source SQL: erc1155_transfer_singles_v2_2_2 + block_action + block.
+message Erc1155TransferInfo {
+  string block_number = 1;
+  string time_stamp = 2;
+  string hash = 3;
+  string nonce = 4;
+  string block_hash = 5;
+  string from = 6;
+  string to = 7;
+  string contract_address = 8;
+  string token_id = 9;          // et._id
+  string token_value = 10;      // et.value
+  string gas = 11;
+  string gas_price = 12;
+  string gas_used = 13;
+}
+message Token1155TxResponse {
+  repeated Erc1155TransferInfo results = 1;
+}
+
+// ─────────────────── internal txns (txlistinternal) ───────────────────
+// Source SQL: block_receipt_transactions brt JOIN account_meta (is_contract=true).
+// Returns the raw brt rows; kit currently passes them through unchanged.
+message InternalTransferRequest {
+  string address = 1;   // optional (matched sender OR recipient), "" = all
+  string tx_hash = 2;   // optional action_hash filter, "" = ignored
+  uint64 start_block = 3;
+  uint64 end_block = 4;
+  uint64 page = 5;
+  uint64 offset = 6;
+  string sort = 7;
+}
+message InternalTransferInfo {
+  string block_height = 1;
+  string action_hash = 2;
+  string sender = 3;
+  string recipient = 4;
+  string amount = 5;
+  string type = 6;      // brt tx type if present
+  string time_stamp = 7;
+}
+message TxListInternalResponse {
+  repeated InternalTransferInfo results = 1;
+}
+
+// ─────────────────── contract logs (getLogs) ───────────────────
+// Source SQL: block_receipt_logs brl LEFT JOIN block_action ba.
+// Filter: block_height in [from,to] AND address = <io>. Paginated.
+// Fields kept in raw form; kit does the 0x/hex framing for the eth_getLogs
+// shape, so we return decoded-but-unframed values.
+message GetContractLogsRequest {
+  string address = 1;
+  uint64 from_block = 2;
+  uint64 to_block = 3;
+  uint64 page = 4;
+  uint64 offset = 5;
+}
+message ContractLogInfo {
+  uint64 block_height = 1;
+  string address = 2;      // io form (kit echoes the requested 0x)
+  string topic0 = 3;
+  string topic1 = 4;
+  string topic2 = 5;
+  string topic3 = 6;
+  string data = 7;         // hex (no 0x prefix)
+  string action_hash = 8;  // hex (no 0x prefix)
+  uint64 index = 9;        // log index
+  uint64 gas_consumed = 10;
+  int64 timestamp = 11;    // unix seconds
+  string gas_price = 12;
+}
+message GetContractLogsResponse {
+  repeated ContractLogInfo logs = 1;
+}
+
+// ─────────────────── gas oracle (gasoracle) ───────────────────
+// Source SQL: SELECT value FROM store WHERE key = 'iotx_gas_oracle'.
+// value is a JSON blob. Return it verbatim so kit keeps parsing/scaling it,
+// OR (preferred) parse server-side into typed fields below. Kept as raw JSON
+// here to avoid coupling to the oracle's internal shape.
+message GetGasOracleRequest {}
+message GetGasOracleResponse {
+  bool exist = 1;
+  string value_json = 2; // raw JSON string from store.value
+}
+
+// ─────────────────── daily new addresses (dailynewaddress) ───────────────────
+// Source SQL: count(1) grouped by block.timestamp::date over account_meta.
+// NOTE: kit's current SQL hard-codes 2024-01-01..2024-08-01 (a bug/placeholder);
+// this RPC takes the real date range from the caller.
+message GetDailyNewAddressesRequest {
+  string start_date = 1; // YYYY-MM-DD (UTC)
+  string end_date = 2;   // YYYY-MM-DD (UTC, inclusive)
+  string sort = 3;       // "asc" | "desc"
+}
+message DailyNewAddressPoint {
+  string date = 1;              // YYYY-MM-DD
+  uint64 new_address_count = 2;
+}
+message GetDailyNewAddressesResponse {
+  repeated DailyNewAddressPoint data = 1;
+}
+
+// ─────────────────── batch contract creation (getcontractcreation) ───────────────────
+// Source SQL: account_meta am JOIN block_action a on contract_address.
+// kit batches addresses through a DataLoader, so this takes a LIST. The
+// existing single-address AccountService.GetContractCreateInfo stays; this is
+// the batch variant to preserve the loader's N+1 avoidance.
+message GetContractCreationBatchRequest {
+  repeated string addresses = 1; // 0x or io; server normalizes to io
+}
+message ContractCreationInfo {
+  string contract_address = 1;  // 0x
+  string contract_creator = 2;  // 0x (sender)
+  string action_hash = 3;       // creation tx (no 0x, kit re-frames)
+}
+message GetContractCreationBatchResponse {
+  repeated ContractCreationInfo items = 1; // aligned/keyed by contract_address
+}
+
+// ─────────────────── block number by time (getblocknobytime) ───────────────────
+// etherscan `getblocknobytime`. Source SQL (kit block.getblocknobytime):
+//   before: SELECT block_height FROM block WHERE timestamp < <iso> ORDER BY timestamp DESC LIMIT 1
+//   after:  SELECT block_height FROM block WHERE timestamp > <iso> ORDER BY timestamp ASC  LIMIT 1
+// Kept separate from ChainService.GetBlockByTimestamp (which is <=, before-only,
+// and consumed by modules-db) to preserve the strict </> + before/after semantics.
+message GetBlockNumberByTimeRequest {
+  int64 timestamp = 1;    // unix seconds
+  string closest = 2;     // "before" (default) | "after"
+}
+message GetBlockNumberByTimeResponse {
+  bool exist = 1;
+  uint64 block_height = 2;
+}
+
+// ─────────────────── action status by hash (transaction.getstatus/gettxreceiptstatus) ───────────────────
+// Source SQL (kit transaction.getstatus): `SELECT *, CASE WHEN status=1 THEN 0 ELSE 1 END AS isError
+// FROM block_action WHERE action_hash = ?` plus an attached staking bucket looked
+// up across system_staking_buckets / _v2 / staking_buckets (nearest by id desc).
+// This RPC returns the standard block_action columns kit's response consumes;
+// the bucket is fetched separately via StakingService.GetBucketByActionHash.
+// TODO: kit did `SELECT *` — if any consumer read a block_action column not
+// listed here, add it to ActionStatusInfo.
+message GetActionStatusByHashRequest {
+  string action_hash = 1; // hex, with or without 0x
+}
+message ActionStatusInfo {
+  string action_hash = 1;
+  uint64 block_height = 2;
+  string action_type = 3;
+  string sender = 4;         // io form (kit re-frames to 0x)
+  string recipient = 5;      // io form
+  string amount = 6;
+  string gas_price = 7;
+  uint64 gas_limit = 8;
+  uint64 gas_consumed = 9;
+  uint64 nonce = 10;
+  uint64 status = 11;        // raw status
+  uint64 is_error = 12;      // 0 when status=1 else 1
+  string contract_address = 13;
+  int64 timestamp = 14;      // unix seconds
+}
+// Attached staking bucket, looked up across the three sources kit queried:
+// system_staking_buckets (type=nft_staking_v1), system_staking_buckets_v2
+// (nft_staking_v2), staking_buckets (native_staking). Nearest by id desc.
+message ActionStatusBucket {
+  string bucket_id = 1;
+  string amount = 2;
+  bool auto_stake = 3;
+  string duration = 4;
+  string create_time = 5;
+  string stake_start_time = 6;
+  string unstake_start_time = 7;
+  string staked_amount = 8;
+  string owner_address = 9;  // io form (kit re-frames to 0x)
+  string event_type = 10;
+  string type = 11;          // nft_staking_v1 | nft_staking_v2 | native_staking
+}
+message GetActionStatusByHashResponse {
+  bool exist = 1;
+  ActionStatusInfo action = 2;
+  bool bucket_exist = 3;
+  ActionStatusBucket bucket = 4;
+}
+
+service IotexscanService {
+  // GetTxListByAddress: etherscan `txlist` (native transfers). Was kit
+  // account.txlist (analyzerSlow pool). Watch performance: this replaces a slow
+  // Postgres query behind an 8s HTTP timeout — index + bound page size.
+  rpc GetTxListByAddress(TransferListRequest) returns (TxListResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetTxListByAddress"
+      body: "*"
+    };
+  };
+
+  // GetTokenTxByAddress: etherscan `tokentx` (ERC20 transfers). Was kit account.tokentx.
+  rpc GetTokenTxByAddress(TransferListRequest) returns (TokenTxResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetTokenTxByAddress"
+      body: "*"
+    };
+  };
+
+  // GetTokenNftTxByAddress: etherscan `tokennfttx` (ERC721). Was kit account.tokennfttx.
+  rpc GetTokenNftTxByAddress(TransferListRequest) returns (TokenNftTxResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetTokenNftTxByAddress"
+      body: "*"
+    };
+  };
+
+  // GetToken1155TxByAddress: etherscan `token1155tx`. Was kit account.token1155tx.
+  rpc GetToken1155TxByAddress(TransferListRequest) returns (Token1155TxResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetToken1155TxByAddress"
+      body: "*"
+    };
+  };
+
+  // GetTxListInternal: etherscan `txlistinternal`. Was kit account.txlistinternal.
+  rpc GetTxListInternal(InternalTransferRequest) returns (TxListInternalResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetTxListInternal"
+      body: "*"
+    };
+  };
+
+  // GetContractLogs: eth_getLogs-style contract logs. Was kit log.getLogs.
+  rpc GetContractLogs(GetContractLogsRequest) returns (GetContractLogsResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetContractLogs"
+      body: "*"
+    };
+  };
+
+  // GetGasOracle: reads store['iotx_gas_oracle']. Was kit gastracker.gasoracle.
+  rpc GetGasOracle(GetGasOracleRequest) returns (GetGasOracleResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetGasOracle"
+      body: "*"
+    };
+  };
+
+  // GetDailyNewAddresses: daily new-address count over a date range. Was kit stats.dailynewaddress.
+  rpc GetDailyNewAddresses(GetDailyNewAddressesRequest) returns (GetDailyNewAddressesResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetDailyNewAddresses"
+      body: "*"
+    };
+  };
+
+  // GetContractCreationBatch: batch creator/creation-tx lookup. Was kit
+  // contract.getcontractcreation (DataLoader batched, direct analyzerPg conn).
+  rpc GetContractCreationBatch(GetContractCreationBatchRequest) returns (GetContractCreationBatchResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetContractCreationBatch"
+      body: "*"
+    };
+  };
+
+  // GetBlockNumberByTime: etherscan getblocknobytime (before/after). Was kit block.getblocknobytime.
+  rpc GetBlockNumberByTime(GetBlockNumberByTimeRequest) returns (GetBlockNumberByTimeResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetBlockNumberByTime"
+      body: "*"
+    };
+  };
+
+  // GetActionStatusByHash: single block_action row + isError. Was kit
+  // transaction.getstatus (tx part) / gettxreceiptstatus.
+  rpc GetActionStatusByHash(GetActionStatusByHashRequest) returns (GetActionStatusByHashResponse) {
+    option (google.api.http) = {
+      post: "/api.IotexscanService.GetActionStatusByHash"
+      body: "*"
+    };
+  };
+}
