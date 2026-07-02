@@ -452,12 +452,13 @@ func (s *IotexscanService) GetTxListInternal(ctx context.Context, req *api.Inter
 	args = append(args, rangeArgs...)
 
 	query := `SELECT brt.block_height, brt.action_hash, brt.sender, brt.recipient, brt.amount,
+			brt.type,
 			ROUND(EXTRACT(EPOCH FROM b.timestamp)) AS time_stamp
 		FROM block_receipt_transactions brt
 		INNER JOIN account_meta am ON brt.sender = am.address
 		LEFT JOIN block b ON brt.block_height = b.block_height
 		WHERE ` + where +
-		` ORDER BY brt.block_height ` + sort + ` LIMIT ? OFFSET ?`
+		` ORDER BY brt.block_height ` + sort + `, brt.id ` + sort + ` LIMIT ? OFFSET ?`
 	args = append(args, limit, skip)
 
 	rows, err := db.DB().WithContext(ctx).Raw(query, args...).Rows()
@@ -466,8 +467,8 @@ func (s *IotexscanService) GetTxListInternal(ctx context.Context, req *api.Inter
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var blockHeight, actionHash, sender, recipient, amount, timeStamp sql.NullString
-		if err := rows.Scan(&blockHeight, &actionHash, &sender, &recipient, &amount, &timeStamp); err != nil {
+		var blockHeight, actionHash, sender, recipient, amount, txType, timeStamp sql.NullString
+		if err := rows.Scan(&blockHeight, &actionHash, &sender, &recipient, &amount, &txType, &timeStamp); err != nil {
 			return nil, errors.Wrap(err, "scan txlistinternal row")
 		}
 		resp.Results = append(resp.Results, &api.InternalTransferInfo{
@@ -476,6 +477,7 @@ func (s *IotexscanService) GetTxListInternal(ctx context.Context, req *api.Inter
 			Sender:      toHex(sender.String),
 			Recipient:   toHex(recipient.String),
 			Amount:      amount.String,
+			Type:        txType.String,
 			TimeStamp:   timeStamp.String,
 		})
 	}
