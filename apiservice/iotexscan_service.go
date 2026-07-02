@@ -507,6 +507,7 @@ func (s *IotexscanService) GetContractLogs(ctx context.Context, req *api.GetCont
 		FROM block_receipt_logs brl
 		LEFT JOIN block_action_partition ba ON brl.action_hash = ba.action_hash
 		WHERE brl.block_height >= ? AND brl.block_height <= ? AND brl.address = ?
+		ORDER BY brl.block_height DESC, brl.index DESC
 		LIMIT ? OFFSET ?`
 
 	rows, err := db.DB().WithContext(ctx).Raw(query,
