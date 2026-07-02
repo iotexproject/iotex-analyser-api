@@ -575,10 +575,10 @@ func (s *IotexscanService) GetDailyNewAddresses(ctx context.Context, req *api.Ge
 
 	// Ported from kit stats.dailynewaddress, but with the date range parameterized
 	// (kit hard-coded 2024-01-01..2024-08-01 — a bug/placeholder we fix here).
-	query := `SELECT count(1) AS cnt, (b.timestamp::date AT TIME ZONE 'UTC') AS date
+	query := `SELECT count(1) AS cnt, to_char(b.timestamp::date, 'YYYY-MM-DD') AS date
 		FROM account_meta am
 		LEFT JOIN block b ON am.block_height = b.block_height
-		WHERE b.timestamp::date >= ? AND b.timestamp::date <= ?
+		WHERE b.timestamp::date >= ?::date AND b.timestamp::date <= ?::date
 		GROUP BY b.timestamp::date
 		ORDER BY b.timestamp::date ` + sort
 
