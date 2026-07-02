@@ -505,7 +505,7 @@ func (s *IotexscanService) GetContractLogs(ctx context.Context, req *api.GetCont
 	query := `SELECT
 			brl.block_height, brl.address, brl.topic0, brl.topic1, brl.topic2, brl.topic3,
 			encode(brl.data, 'hex') AS data, brl.action_hash, brl.index,
-			ba.gas_consumed, EXTRACT(EPOCH FROM ba.timestamp) AS timestamp, ba.gas_price
+			ba.gas_consumed, ROUND(EXTRACT(EPOCH FROM ba.timestamp))::bigint AS timestamp, ba.gas_price
 		FROM block_receipt_logs brl
 		LEFT JOIN block_action_partition ba ON brl.action_hash = ba.action_hash
 		WHERE brl.block_height >= ? AND brl.block_height <= ? AND brl.address = ?
@@ -520,8 +520,7 @@ func (s *IotexscanService) GetContractLogs(ctx context.Context, req *api.GetCont
 	defer rows.Close()
 	for rows.Next() {
 		var (
-			blockHeight, index, gasConsumed sql.NullInt64
-			timestamp                       sql.NullFloat64
+			blockHeight, index, gasConsumed, timestamp sql.NullInt64
 			logAddr, t0, t1, t2, t3, data, actionHash, gasPrice sql.NullString
 		)
 		if err := rows.Scan(&blockHeight, &logAddr, &t0, &t1, &t2, &t3, &data,
@@ -539,7 +538,7 @@ func (s *IotexscanService) GetContractLogs(ctx context.Context, req *api.GetCont
 			ActionHash:  actionHash.String,
 			Index:       uint64(index.Int64),
 			GasConsumed: uint64(gasConsumed.Int64),
-			Timestamp:   int64(timestamp.Float64),
+			Timestamp:   timestamp.Int64,
 			GasPrice:    gasPrice.String,
 		})
 	}

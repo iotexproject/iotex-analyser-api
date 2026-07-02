@@ -46,6 +46,9 @@ func (s *DelegateService) GetProductivityHistory(ctx context.Context, req *api.G
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid candidate: %v", err)
 	}
+	if cand == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "candidate is required")
+	}
 	if req.GetEndDate() == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "end_date is required")
 	}
@@ -84,6 +87,9 @@ func (s *DelegateService) GetProbationHistory(ctx context.Context, req *api.GetP
 	cand, err := toIo(req.GetCandidate())
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid candidate: %v", err)
+	}
+	if cand == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "candidate is required")
 	}
 	if req.GetStartDate() == "" || req.GetEndDate() == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "start_date and end_date are required")
@@ -125,6 +131,9 @@ func (s *DelegateService) GetDelegateRewards(ctx context.Context, req *api.GetDe
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid candidate: %v", err)
 	}
+	if cand == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "candidate is required")
+	}
 	var row struct {
 		BlockReward     sql.NullString
 		EpochReward     sql.NullString
@@ -155,6 +164,9 @@ func (s *DelegateService) GetDelegateRewardsHistory(ctx context.Context, req *ap
 	cand, err := toIo(req.GetCandidate())
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid candidate: %v", err)
+	}
+	if cand == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "candidate is required")
 	}
 	if req.GetStartDate() == "" || req.GetEndDate() == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "start_date and end_date are required")

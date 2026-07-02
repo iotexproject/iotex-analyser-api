@@ -186,4 +186,10 @@ func TestMigration_Integration_GetProductivityHistory_Validation(t *testing.T) {
 		Candidate: "io15qr5fzpxsnp7garl4m7k355rafzqn8grrm0grz",
 	})
 	require.Error(t, err)
+
+	// Missing candidate -> InvalidArgument (must not silently query candidate='').
+	_, err = svc.GetProductivityHistory(context.Background(), &api.GetProductivityHistoryRequest{
+		EndDate: "2024-08-01",
+	})
+	require.Error(t, err)
 }
