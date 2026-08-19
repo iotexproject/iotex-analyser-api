@@ -64,12 +64,17 @@ type (
 		VoteWeightCalConsts genesis.VoteWeightCalConsts `yaml:"voteWeightCalConsts"`
 	}
 	Config struct {
-		Server             Server   `yaml:"server"`
-		Database           Database `yaml:"database"`
-		RPC                string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
-		EthArchiveEndPoint string   `yaml:"ethArchiveEndPoint" env:"ETH_ARCHIVE_ENDPOINT"`
-		LogPath            string   `yaml:"logPath" env:"LOG_PATH"`
-		Genesis            Genesis  `yaml:"genesis"`
+		Server   Server   `yaml:"server"`
+		Database Database `yaml:"database"`
+		RPC      string   `yaml:"rpc" env:"CHAIN_GRPC_ENDPOINT"`
+		// RPCInsecure dials the chain endpoint without TLS. Defaults to false
+		// so production endpoints keep their transport credentials; a local
+		// node serves plaintext gRPC and otherwise fails every chain-meta
+		// query with "first record does not look like a TLS handshake".
+		RPCInsecure        bool    `yaml:"rpcInsecure" env:"CHAIN_GRPC_INSECURE"`
+		EthArchiveEndPoint string  `yaml:"ethArchiveEndPoint" env:"ETH_ARCHIVE_ENDPOINT"`
+		LogPath            string  `yaml:"logPath" env:"LOG_PATH"`
+		Genesis            Genesis `yaml:"genesis"`
 	}
 )
 
