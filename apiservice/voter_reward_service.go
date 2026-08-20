@@ -23,6 +23,59 @@ type VoterRewardService struct {
 	api.UnimplementedVoterRewardServiceServer
 }
 
+const (
+	// maxUnifiedEpochSpan bounds the epoch window UnifiedVoterRewards will
+	// scan. IoTeX runs 24 epochs a day, so this is roughly eleven years —
+	// beyond any real query, and small enough that start_epoch+epoch_count
+	// cannot overflow.
+	maxUnifiedEpochSpan = 100000
+
+	// maxUnifiedFetch bounds what one UnifiedVoterRewards call pulls from each
+	// leg when the caller asks for an unbounded page. common.PageSize returns 0
+	// for a pagination message that omits `first`, and gorm renders Limit(0) as
+	// no LIMIT at all, so without this a single request would materialise the
+	// voter's entire history from both sources.
+	maxUnifiedFetch = 10000
+)
+
+// unifiedFetchLimit is how many rows one leg must supply for the requested page
+// to be correct.
+//
+// The merge is a sort, not a filter, so a row that sits beyond position
+// offset+limit within its own source cannot land inside the page once the two
+// sources are interleaved — anything ahead of it in its own leg is also ahead
+// of it after the merge. Fetching that many from each leg is therefore exact,
+// not an approximation.
+func unifiedFetchLimit(offset, limit int) int {
+	if limit <= 0 || offset < 0 || offset > maxUnifiedFetch-limit {
+		return maxUnifiedFetch
+	}
+	if n := offset + limit; n < maxUnifiedFetch {
+		return n
+	}
+	return maxUnifiedFetch
+}
+
+// unifiedOnchainTotals aggregates the on-chain leg over the whole epoch window,
+// independent of the page.
+func unifiedOnchainTotals(
+	ctx context.Context, voter string, startEpoch, endEpoch uint64,
+) (uint64, string, error) {
+	base := filterQuery(ctx).Where(
+		"d.voter_address = ? AND d.epoch_number >= ? AND d.epoch_number <= ?",
+		voter, startEpoch, endEpoch)
+
+	var count int64
+	if err := base.Session(&gorm.Session{}).Count(&count).Error; err != nil {
+		return 0, "", errors.Wrap(err, "count on-chain voter rewards")
+	}
+	total, err := sumAmounts(base)
+	if err != nil {
+		return 0, "", errors.Wrap(err, "sum on-chain voter rewards")
+	}
+	return uint64(count), total, nil
+}
+
 // paymentRow is the join shape shared by the by-voter and by-delegate queries:
 // the distribution row plus the timestamp of the block that paid it.
 type paymentRow struct {
@@ -407,9 +460,33 @@ func (s *VoterRewardService) UnifiedVoterRewards(
 	if epochCount == 0 {
 		epochCount = 1
 	}
+	// Reject rather than clamp. startEpoch+epochCount-1 wraps for a large
+	// epochCount, and a wrapped endEpoch turns into `epoch >= start AND
+	// epoch <= something-smaller` — an empty result that reads to the caller as
+	// "you earned nothing" rather than "your range was nonsense".
+	if epochCount > maxUnifiedEpochSpan {
+		return nil, status.Errorf(codes.InvalidArgument,
+			"epoch_count %d exceeds the maximum span of %d", epochCount, maxUnifiedEpochSpan)
+	}
 	endEpoch := startEpoch + epochCount - 1
+	if endEpoch < startEpoch {
+		return nil, status.Error(codes.InvalidArgument, "start_epoch + epoch_count overflows")
+	}
 
-	rowsOut := make([]*api.UnifiedRewardRow, 0)
+	// Both legs are fetched, merged, then sliced in memory, because there is no
+	// single ordered index across the two sources. That makes the fetch bound
+	// the caller's cost, so it has to be a bound: fetching everything and
+	// throwing away all but one page would also defeat the LIMIT that lets
+	// Postgres stop early on the Hermes join's `ORDER BY t1.id DESC`.
+	//
+	// Each leg is capped at offset+limit, since the merge cannot promote a row
+	// past position offset+limit in the combined ordering if it was already
+	// beyond that position within its own source.
+	offset := int(common.PageOffset(req.GetPagination()))
+	limit := int(common.PageSize(req.GetPagination()))
+	fetchLimit := unifiedFetchLimit(offset, limit)
+
+	rowsOut := make([]*api.UnifiedRewardRow, 0, fetchLimit)
 	seenSources := map[api.RewardSource]bool{}
 
 	// On-chain leg. Filtered by the epoch that paid, which is the one unit
@@ -419,6 +496,7 @@ func (s *VoterRewardService) UnifiedVoterRewards(
 		Where("d.voter_address = ? AND d.epoch_number >= ? AND d.epoch_number <= ?",
 			voter, startEpoch, endEpoch).
 		Order("d.block_height DESC").
+		Limit(fetchLimit).
 		Scan(&onchain).Error; err != nil {
 		return nil, errors.Wrap(err, "query on-chain voter rewards")
 	}
@@ -446,7 +524,7 @@ func (s *VoterRewardService) UnifiedVoterRewards(
 	// one pipeline is simply unavailable — failing the request would reproduce
 	// that same "your rewards vanished" impression, just with an error page.
 	var hermesUnavailable bool
-	hermesRows, err := rewards.GetHermesByVoter(ctx, startEpoch, endEpoch, voter, 0, ^uint64(0)>>1)
+	hermesRows, err := rewards.GetHermesByVoter(ctx, startEpoch, endEpoch, voter, 0, uint64(fetchLimit))
 	if err != nil {
 		hermesUnavailable = true
 		hermesRows = nil
@@ -471,23 +549,47 @@ func (s *VoterRewardService) UnifiedVoterRewards(
 		return rowsOut[i].Timestamp > rowsOut[j].Timestamp
 	})
 
-	total := new(big.Int)
-	for _, r := range rowsOut {
-		if v, ok := new(big.Int).SetString(r.Amount, 10); ok {
-			total.Add(total, v)
+	// count and total_amount describe the whole match, not the page and not the
+	// fetch window — the same contract VoterRewardsByVoter offers. They have to
+	// be aggregated in SQL now that the row fetch is capped; deriving them from
+	// rowsOut would silently report the cap as the voter's lifetime earnings.
+	onchainCount, onchainTotal, err := unifiedOnchainTotals(ctx, voter, startEpoch, endEpoch)
+	if err != nil {
+		return nil, err
+	}
+	total, ok := new(big.Int).SetString(onchainTotal, 10)
+	if !ok {
+		return nil, errors.Errorf("unparseable on-chain amount total %q", onchainTotal)
+	}
+	count := onchainCount
+
+	if !hermesUnavailable {
+		hCount, hTotal, err := rewards.GetTotalHermesByVoter(ctx, startEpoch, endEpoch, voter)
+		if err != nil {
+			// The row fetch already succeeded, so the leg is reachable; only the
+			// aggregate failed. Fall back to marking it unavailable rather than
+			// reporting a total that omits Hermes without saying so.
+			hermesUnavailable = true
+			log.Printf("UnifiedVoterRewards: hermes totals unavailable for %s: %v", voter, err)
+		} else {
+			count += uint64(hCount)
+			if v, ok := new(big.Int).SetString(hTotal, 10); ok {
+				total.Add(total, v)
+			} else if hTotal != "" {
+				return nil, errors.Errorf("unparseable hermes amount total %q", hTotal)
+			}
 		}
 	}
 
 	resp := &api.UnifiedVoterRewardsResponse{
-		Exist:             len(rowsOut) > 0,
-		Count:             uint64(len(rowsOut)),
+		Exist:             count > 0,
+		Count:             count,
 		TotalAmount:       total.String(),
 		HermesUnavailable: hermesUnavailable,
 	}
 	// Paginate after the merge: the two legs are separate queries and there is
-	// no single ordered index across both.
-	offset := int(common.PageOffset(req.GetPagination()))
-	limit := int(common.PageSize(req.GetPagination()))
+	// no single ordered index across both. offset/limit were resolved before
+	// the fetch so each leg could be capped to what this page can possibly need.
 	if offset > len(rowsOut) {
 		offset = len(rowsOut)
 	}

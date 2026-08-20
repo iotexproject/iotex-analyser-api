@@ -54,13 +54,21 @@ func Gql__enum_RewardSource() *graphql.Enum {
 		gql__enum_RewardSource = graphql.NewEnum(graphql.EnumConfig{
 			Name: "Api_Enum_RewardSource",
 			Values: graphql.EnumValueConfigMap{
+				"REWARD_SOURCE_UNSPECIFIED": &graphql.EnumValueConfig{
+					Description: `Reserved so that "the field was not set" stays distinguishable from a real
+ pipeline. proto3 gives every unset enum field the zero value, so a source
+ sitting on 0 would make an omitted ` + "`" + `source` + "`" + ` read as a positive claim that
+ Hermes paid the row — and an empty ` + "`" + `sources` + "`" + ` list indistinguishable from
+ one that names Hermes. The server never emits this value.`,
+					Value: RewardSource(0),
+				},
 				"HERMES_OFFCHAIN": &graphql.EnumValueConfig{
 					Description: `Distributed off chain by the Hermes service against a reward vault.`,
-					Value:       RewardSource(0),
+					Value:       RewardSource(1),
 				},
 				"ONCHAIN_IIP59": &graphql.EnumValueConfig{
 					Description: `Distributed by the protocol itself at an era boundary.`,
-					Value:       RewardSource(1),
+					Value:       RewardSource(2),
 				},
 			},
 		})
@@ -376,17 +384,17 @@ func Gql__type_UnifiedVoterRewardsResponse() *graphql.Object {
 				"rewards": &graphql.Field{
 					Type: graphql.NewList(Gql__type_UnifiedRewardRow()),
 				},
+				"sources": &graphql.Field{
+					Type: graphql.NewList(Gql__enum_RewardSource()),
+					Description: `sources lists which pipelines actually contributed rows, so a UI can
+ decide whether the per-row source badge is worth rendering at all.`,
+				},
 				"hermes_unavailable": &graphql.Field{
 					Type: graphql.Boolean,
 					Description: `hermes_unavailable is true when the off-chain leg could not be queried at
  all — for example on a deployment that does not index Hermes bookkeeping.
  The on-chain rows are still returned; a UI should say the off-chain
  history is unavailable rather than imply the voter earned nothing there.`,
-				},
-				"sources": &graphql.Field{
-					Type: graphql.NewList(Gql__enum_RewardSource()),
-					Description: `sources lists which pipelines actually contributed rows, so a UI can
- decide whether the per-row source badge is worth rendering at all.`,
 				},
 			},
 		})
@@ -409,6 +417,9 @@ func Gql__type_UnifiedVoterRewardsRequest() *graphql.Object {
 				},
 				"epoch_count": &graphql.Field{
 					Type: graphql.Int,
+					Description: `epoch_count is capped server-side (see maxUnifiedEpochSpan); 0 means 1.
+ A request beyond the cap is rejected rather than silently narrowed, so a
+ caller cannot mistake a truncated window for an empty reward history.`,
 				},
 				"pagination": &graphql.Field{
 					Type: pagination.Gql__type_Pagination(),
@@ -898,17 +909,17 @@ func Gql__input_UnifiedVoterRewardsResponse() *graphql.InputObject {
 				"rewards": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(Gql__input_UnifiedRewardRow()),
 				},
+				"sources": &graphql.InputObjectFieldConfig{
+					Description: `sources lists which pipelines actually contributed rows, so a UI can
+ decide whether the per-row source badge is worth rendering at all.`,
+					Type: graphql.NewList(Gql__enum_RewardSource()),
+				},
 				"hermes_unavailable": &graphql.InputObjectFieldConfig{
 					Description: `hermes_unavailable is true when the off-chain leg could not be queried at
  all — for example on a deployment that does not index Hermes bookkeeping.
  The on-chain rows are still returned; a UI should say the off-chain
  history is unavailable rather than imply the voter earned nothing there.`,
 					Type: graphql.Boolean,
-				},
-				"sources": &graphql.InputObjectFieldConfig{
-					Description: `sources lists which pipelines actually contributed rows, so a UI can
- decide whether the per-row source badge is worth rendering at all.`,
-					Type: graphql.NewList(Gql__enum_RewardSource()),
 				},
 			},
 		})
@@ -930,6 +941,9 @@ func Gql__input_UnifiedVoterRewardsRequest() *graphql.InputObject {
 					Type: graphql.Int,
 				},
 				"epoch_count": &graphql.InputObjectFieldConfig{
+					Description: `epoch_count is capped server-side (see maxUnifiedEpochSpan); 0 means 1.
+ A request beyond the cap is rejected rather than silently narrowed, so a
+ caller cannot mistake a truncated window for an empty reward history.`,
 					Type: graphql.Int,
 				},
 				"pagination": &graphql.InputObjectFieldConfig{
@@ -1292,6 +1306,9 @@ func (x *graphql__resolver_VoterRewardService) GetQueries(conn *grpc.ClientConn)
 				},
 				"epoch_count": &graphql.ArgumentConfig{
 					Type: graphql.Int,
+					Description: `epoch_count is capped server-side (see maxUnifiedEpochSpan); 0 means 1.
+ A request beyond the cap is rejected rather than silently narrowed, so a
+ caller cannot mistake a truncated window for an empty reward history.`,
 				},
 				"pagination": &graphql.ArgumentConfig{
 					Type: pagination.Gql__input_Pagination(),
