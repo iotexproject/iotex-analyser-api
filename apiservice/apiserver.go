@@ -58,6 +58,7 @@ func registerAPIService(ctx context.Context, grpcServer *grpc.Server) {
 	api.RegisterApprovalServiceServer(grpcServer, &ApprovalService{})
 	api.RegisterExitQueueServiceServer(grpcServer, &ExitQueueService{})
 	api.RegisterIotexscanServiceServer(grpcServer, &IotexscanService{})
+	api.RegisterVoterRewardServiceServer(grpcServer, &VoterRewardService{})
 }
 
 func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
@@ -95,6 +96,9 @@ func registerProxyAPIService(ctx context.Context, mux *runtime.ServeMux) error {
 		return err
 	}
 	if err := api.RegisterExitQueueServiceHandlerServer(ctx, mux, &ExitQueueService{}); err != nil {
+		return err
+	}
+	if err := api.RegisterVoterRewardServiceHandlerServer(ctx, mux, &VoterRewardService{}); err != nil {
 		return err
 	}
 	if err := api.RegisterIotexscanServiceHandlerServer(ctx, mux, &IotexscanService{}); err != nil {

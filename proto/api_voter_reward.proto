@@ -1,0 +1,288 @@
+syntax = "proto3";
+
+package api;
+import "google/api/annotations.proto";
+import "include/graphql.proto";
+import "include/pagination.proto";
+option go_package = "./api";
+
+// IIP-59 on-chain voter reward distribution, activated by the Zanzibar
+// hardfork.
+//
+// Two things about the underlying mechanism leak into every message here and
+// are worth stating once:
+//
+//  1. An "era" is the accrual period (a fixed number of epochs). It is the
+//     unit a user means by "which payout was this". The block a payout lands
+//     in belongs to a *later* epoch than the one it accrued for, because a
+//     settlement is drained across many blocks.
+//
+//  2. Vote weights are frozen at `freeze_height`, roughly 1.5 epochs before
+//     the settlement runs. A voter comparing their current stake against a
+//     payout is comparing two different points in time, so `freeze_height`
+//     travels with every response that carries an amount.
+
+// RewardSource says which pipeline paid a row out. Existing so that callers do
+// not have to know whether a delegate has opted in: the API routes to the
+// right data source and labels the result.
+enum RewardSource {
+  // Reserved so that "the field was not set" stays distinguishable from a real
+  // pipeline. proto3 gives every unset enum field the zero value, so a source
+  // sitting on 0 would make an omitted `source` read as a positive claim that
+  // Hermes paid the row — and an empty `sources` list indistinguishable from
+  // one that names Hermes. The server never emits this value.
+  REWARD_SOURCE_UNSPECIFIED = 0;
+  // Distributed off chain by the Hermes service against a reward vault.
+  HERMES_OFFCHAIN = 1;
+  // Distributed by the protocol itself at an era boundary.
+  ONCHAIN_IIP59 = 2;
+}
+
+// VoterRewardPayment is one voter's share of one delegate's frozen pool,
+// settled by one chunk of one era.
+message VoterRewardPayment {
+  uint64 era               = 1;
+  uint64 block_height      = 2;  // the block that paid it
+  uint64 epoch_number      = 3;  // the epoch that block sits in
+  string delegate_id       = 4;
+  string delegate_name     = 5;
+  string voter_address     = 6;
+  // Where the money actually landed: differs from voter_address when the
+  // voter configured a reward destination, and equals it for a compound.
+  string recipient_address = 7;
+  string amount            = 8;
+  // compounded is the only valid test for "was this redeposited". Do NOT read
+  // compound_bucket_id == 0 as "not compounded": native bucket index 0 is a
+  // real bucket.
+  bool   compounded        = 9;
+  uint64 compound_bucket_id = 10;
+  string action_hash       = 11;
+}
+
+message VoterRewardsByVoterRequest {
+  string voter_address = 1;
+  uint64 start_era     = 2; // inclusive; 0 means unbounded
+  uint64 end_era       = 3; // inclusive; 0 means unbounded
+  pagination.Pagination pagination = 4;
+}
+
+message VoterRewardsByVoterResponse {
+  bool   exist  = 1;
+  uint64 count  = 2;  // total matching payments
+  string total_amount = 3;
+  repeated VoterRewardPayment payments = 4;
+}
+
+message VoterRewardsByDelegateRequest {
+  // Either identifier or name; identifier wins when both are set.
+  string delegate_id   = 1;
+  string delegate_name = 2;
+  uint64 start_era     = 3;
+  uint64 end_era       = 4;
+  pagination.Pagination pagination = 5;
+}
+
+message VoterRewardsByDelegateResponse {
+  bool   exist  = 1;
+  uint64 count  = 2;
+  string total_amount = 3;
+  uint64 voter_count  = 4; // distinct voters paid in the range
+  repeated VoterRewardPayment payments = 5;
+}
+
+// EraDelegateAllocation is one delegate's slice of one settlement.
+message EraDelegateAllocation {
+  string delegate_id       = 1;
+  string delegate_name     = 2;
+  string amount_frozen     = 3;
+  string amount_distributed = 4;
+  string total_weight      = 5;
+  // opted_in is false for a delegate whose rewards still flow through Hermes.
+  bool   opted_in          = 6;
+  // commission_configured is false when the delegate never set its portions in
+  // the DelegateProfile contract. The protocol then froze it at 100%
+  // commission and its voters receive nothing for this era — which looks
+  // identical to "no rewards" unless this flag is surfaced.
+  bool   commission_configured   = 7;
+  uint64 block_commission_bps    = 8;
+  uint64 epoch_commission_bps    = 9;
+}
+
+message VoterRewardEraRequest {
+  uint64 era = 1; // 0 returns the most recent settlement
+}
+
+message VoterRewardEraResponse {
+  bool   exist            = 1;
+  uint64 era              = 2;
+  // freeze_height is the height every vote weight in this settlement was
+  // evaluated at, not the height it paid out.
+  uint64 freeze_height    = 3;
+  // first_chunk_at is the earliest block observed paying this settlement out.
+  // The block that *opens* a settlement emits nothing an indexer can key on,
+  // so this is one block later and must not be labelled as the opening block.
+  uint64 first_chunk_at   = 4;
+  uint64 completed_height = 5; // 0 while the drain is still running
+  bool   completed        = 6;
+  // scan_phase mirrors the protocol cursor: 0 tail, 1 head, 2 done.
+  uint32 scan_phase       = 7;
+  string resume_voter     = 8;
+  uint64 delegate_count   = 9;
+  uint64 voter_count      = 10;
+  string total_frozen     = 11;
+  string total_distributed = 12;
+  // overrun_residue is non-zero when this settlement was still live at the
+  // next era boundary. The money is not lost — it rolls forward — but the
+  // drain fell behind.
+  string overrun_residue  = 13;
+  uint64 last_chunk_at    = 14;
+  repeated EraDelegateAllocation allocations = 15;
+  // Neighbouring settlements that actually exist. Era numbers are epoch
+  // numbers of the boundary epoch, so they advance by epochsPerRewardEra —
+  // era-1 is not a settlement and a caller that guesses it gets nothing.
+  // 0 means there is none in that direction.
+  uint64 prev_era         = 16;
+  uint64 next_era         = 17;
+}
+
+message DelegateRewardConfigRequest {
+  repeated string delegate_ids = 1; // empty returns every known delegate
+  uint64 era = 2;                   // 0 uses the most recent snapshot
+}
+
+message DelegateRewardConfigEntry {
+  string delegate_id   = 1;
+  string delegate_name = 2;
+  uint64 era           = 3;
+  bool   opted_in      = 4;
+  // opt_in_source is "action" when an explicit SetVoterRewardOptIn was
+  // observed, and "migration" when the delegate was opted in by the
+  // fork-block Hermes migration, which emits no event at all.
+  string opt_in_source = 5;
+  uint64 opt_in_height = 6;
+  uint64 freeze_height = 7;
+  uint64 block_commission_bps = 8;
+  uint64 epoch_commission_bps = 9;
+  bool   commission_configured = 10;
+  string total_weight  = 11;
+  // payout_address is where the delegate's own commission goes. Opting in
+  // moves it from the candidate's reward address to its owner address.
+  string payout_address = 12;
+  // voter_amount_frozen is this delegate's slice of the era's settlement.
+  string voter_amount_frozen = 13;
+}
+
+message DelegateRewardConfigResponse {
+  repeated DelegateRewardConfigEntry delegates = 1;
+}
+
+message VoterRewardDestinationRequest {
+  repeated string voter_addresses = 1;
+}
+
+message VoterRewardDestinationEntry {
+  string voter_address = 1;
+  // recipient is the voter's own address when no override was ever set.
+  string recipient     = 2;
+  bool   explicitly_set = 3;
+  uint64 updated_height = 4;
+}
+
+message VoterRewardDestinationResponse {
+  repeated VoterRewardDestinationEntry destinations = 1;
+}
+
+// UnifiedRewardRow is one reward receipt from either pipeline.
+message UnifiedRewardRow {
+  uint64 epoch          = 1;
+  uint64 era            = 2; // on-chain rows only
+  string delegate_name  = 3;
+  string delegate_id    = 4;
+  string amount         = 5;
+  RewardSource source   = 6;
+  string action_hash    = 7;
+  uint64 timestamp      = 8;
+  bool   compounded     = 9;  // on-chain rows only
+  uint64 bucket_id      = 10; // on-chain rows only
+}
+
+message UnifiedVoterRewardsRequest {
+  string voter_address = 1;
+  // Epoch range, because it is the one unit both pipelines share. Hermes
+  // bookkeeping has no notion of an era.
+  uint64 start_epoch = 2;
+  // epoch_count is capped server-side (see maxUnifiedEpochSpan); 0 means 1.
+  // A request beyond the cap is rejected rather than silently narrowed, so a
+  // caller cannot mistake a truncated window for an empty reward history.
+  uint64 epoch_count = 3;
+  pagination.Pagination pagination = 4;
+}
+
+message UnifiedVoterRewardsResponse {
+  bool   exist = 1;
+  uint64 count = 2;
+  string total_amount = 3;
+  repeated UnifiedRewardRow rewards = 4;
+  // sources lists which pipelines actually contributed rows, so a UI can
+  // decide whether the per-row source badge is worth rendering at all.
+  repeated RewardSource sources = 5;
+  // hermes_unavailable is true when the off-chain leg could not be queried at
+  // all — for example on a deployment that does not index Hermes bookkeeping.
+  // The on-chain rows are still returned; a UI should say the off-chain
+  // history is unavailable rather than imply the voter earned nothing there.
+  bool hermes_unavailable = 6;
+}
+
+service VoterRewardService {
+  // VoterRewardsByVoter lists the on-chain payouts a voter received.
+  rpc VoterRewardsByVoter(VoterRewardsByVoterRequest) returns (VoterRewardsByVoterResponse) {
+    option (graphql.schema) = { type: QUERY name: "VoterRewardsByVoter" };
+    option (google.api.http) = {
+      post: "/api.VoterRewardService.VoterRewardsByVoter"
+      body: "*"
+    };
+  };
+  // VoterRewardsByDelegate lists the on-chain payouts a delegate made.
+  rpc VoterRewardsByDelegate(VoterRewardsByDelegateRequest) returns (VoterRewardsByDelegateResponse) {
+    option (graphql.schema) = { type: QUERY name: "VoterRewardsByDelegate" };
+    option (google.api.http) = {
+      post: "/api.VoterRewardService.VoterRewardsByDelegate"
+      body: "*"
+    };
+  };
+  // VoterRewardEra describes one settlement, including its live drain progress.
+  rpc VoterRewardEra(VoterRewardEraRequest) returns (VoterRewardEraResponse) {
+    option (graphql.schema) = { type: QUERY name: "VoterRewardEra" };
+    option (google.api.http) = {
+      post: "/api.VoterRewardService.VoterRewardEra"
+      body: "*"
+    };
+  };
+  // DelegateRewardConfig reports opt-in state and frozen commission per delegate.
+  rpc DelegateRewardConfig(DelegateRewardConfigRequest) returns (DelegateRewardConfigResponse) {
+    option (graphql.schema) = { type: QUERY name: "DelegateRewardConfig" };
+    option (google.api.http) = {
+      post: "/api.VoterRewardService.DelegateRewardConfig"
+      body: "*"
+    };
+  };
+  // VoterRewardDestination reports where a voter's direct payouts are sent.
+  rpc VoterRewardDestination(VoterRewardDestinationRequest) returns (VoterRewardDestinationResponse) {
+    option (graphql.schema) = { type: QUERY name: "VoterRewardDestination" };
+    option (google.api.http) = {
+      post: "/api.VoterRewardService.VoterRewardDestination"
+      body: "*"
+    };
+  };
+  // UnifiedVoterRewards merges the on-chain and Hermes pipelines behind one
+  // shape. Callers should prefer it over branching on a delegate's opt-in
+  // state themselves — that branch would otherwise be written once in the
+  // explorer and once in the wallet, and be wrong in both during migration.
+  rpc UnifiedVoterRewards(UnifiedVoterRewardsRequest) returns (UnifiedVoterRewardsResponse) {
+    option (graphql.schema) = { type: QUERY name: "UnifiedVoterRewards" };
+    option (google.api.http) = {
+      post: "/api.VoterRewardService.UnifiedVoterRewards"
+      body: "*"
+    };
+  };
+}
