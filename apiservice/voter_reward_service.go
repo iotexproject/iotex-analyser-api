@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/big"
 	"sort"
+	"strings"
 
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
@@ -429,7 +430,15 @@ func (s *VoterRewardService) VoterRewardDestination(
 			// than a placeholder.
 			Recipient: v,
 		}
-		if r, ok := latest[v]; ok && r.NewRecipient != "" {
+		// The protocol has no "unset" event: clearing an override emits a
+		// VoterRewardDestinationSet whose newRecipient is the voter itself,
+		// and deletes the state entry. So a last row pointing back at the
+		// voter means "cleared", not "explicitly set to my own address" --
+		// setting the recipient to your own address takes the same delete
+		// path on chain. Reporting it as explicit leaves a voter who cleared
+		// their override still shown as having one.
+		if r, ok := latest[v]; ok && r.NewRecipient != "" &&
+			!strings.EqualFold(r.NewRecipient, v) {
 			entry.Recipient = r.NewRecipient
 			entry.ExplicitlySet = true
 			entry.UpdatedHeight = r.BlockHeight
