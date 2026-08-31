@@ -233,6 +233,54 @@ message UnifiedVoterRewardsResponse {
   bool hermes_unavailable = 6;
 }
 
+// DelegateRewardStatus answers "how is this delegate paying its voters right
+// now", which is a different question from DelegateRewardConfig's "how was it
+// configured for era N".
+//
+// The distinction matters because the rewarding protocol has no live view of
+// it. DelegatePayoutAddress reports whether a freeze snapshot exists for the
+// current era, so it answers false for a delegate that opted in after the last
+// freeze -- and eras are ~48h on testnet, ~24h on mainnet. Measured on testnet
+// 2026-08-31: 35 delegates were opted in on chain while that path reported 5.
+//
+// The live bit comes from CandidateV2.voterRewardOnchainOptIn in the per-epoch
+// candidate_list snapshot, so it trails by at most one epoch rather than one
+// era.
+message DelegateRewardStatusRequest {
+  // Empty returns every delegate in the snapshot.
+  repeated string delegate_ids = 1;
+}
+
+message DelegateRewardStatusEntry {
+  string delegate_id   = 1;
+  string delegate_name = 2;
+  // reward_address is the candidate's configured reward address. It is what
+  // separates a Hermes delegate from one distributing rewards itself: both
+  // have onchain_opt_in false, and only this tells them apart.
+  string reward_address = 3;
+  // onchain_opt_in is the live IIP-59 bit, not era-frozen state.
+  bool   onchain_opt_in = 4;
+  // reward_routing is the classification a UI should render:
+  //   "onchain" -- IIP-59 pays this delegate's voters from the protocol
+  //   "hermes"  -- reward_address is one of the configured Hermes vaults, so
+  //                the off-chain Hermes service distributes
+  //   "self"    -- neither; the delegate distributes on its own terms, which
+  //                this API cannot describe further
+  // Rendering only "onchain" and "hermes" would file every self-distributing
+  // delegate under Hermes and misstate who pays their voters.
+  string reward_routing = 5;
+}
+
+message DelegateRewardStatusResponse {
+  // epoch_number of the candidate snapshot these rows came from. A caller that
+  // needs to know how stale the answer is should read it rather than assume.
+  uint64 epoch_number = 1;
+  // hermes_vaults is the reward-address list used for the "hermes"
+  // classification, echoed so a caller can see what it was judged against.
+  repeated string hermes_vaults = 2;
+  repeated DelegateRewardStatusEntry delegates = 3;
+}
+
 service VoterRewardService {
   // VoterRewardsByVoter lists the on-chain payouts a voter received.
   rpc VoterRewardsByVoter(VoterRewardsByVoterRequest) returns (VoterRewardsByVoterResponse) {
@@ -282,6 +330,16 @@ service VoterRewardService {
     option (graphql.schema) = { type: QUERY name: "UnifiedVoterRewards" };
     option (google.api.http) = {
       post: "/api.VoterRewardService.UnifiedVoterRewards"
+      body: "*"
+    };
+  };
+  // DelegateRewardStatus returns live reward routing per delegate. Prefer it
+  // over reading DelegateRewardConfig's newest era, which is a settled
+  // historical record and not current state.
+  rpc DelegateRewardStatus(DelegateRewardStatusRequest) returns (DelegateRewardStatusResponse) {
+    option (graphql.schema) = { type: QUERY name: "DelegateRewardStatus" };
+    option (google.api.http) = {
+      post: "/api.VoterRewardService.DelegateRewardStatus"
       body: "*"
     };
   };

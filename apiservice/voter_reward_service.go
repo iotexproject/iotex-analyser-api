@@ -10,6 +10,8 @@ import (
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/common"
 	"github.com/iotexproject/iotex-analyser-api/common/rewards"
+	"github.com/iotexproject/iotex-analyser-api/common/votings"
+	"github.com/iotexproject/iotex-analyser-api/config"
 	"github.com/iotexproject/iotex-analyser-api/db"
 	"github.com/iotexproject/iotex-analyser-api/model"
 	"github.com/pkg/errors"
@@ -612,4 +614,95 @@ func (s *VoterRewardService) UnifiedVoterRewards(
 	}
 	sort.Slice(resp.Sources, func(i, j int) bool { return resp.Sources[i] < resp.Sources[j] })
 	return resp, nil
+}
+
+// rewardRouting classifies how a delegate's voters actually get paid.
+//
+// Three outcomes, not two. A UI that renders only "on-chain" and "Hermes"
+// files every self-distributing delegate under Hermes and misstates who pays
+// their voters -- the opt-in bit being clear says only that IIP-59 is not
+// paying them, not that Hermes is.
+const (
+	rewardRoutingOnchain = "onchain"
+	rewardRoutingHermes  = "hermes"
+	rewardRoutingSelf    = "self"
+)
+
+// DelegateRewardStatus returns live reward routing per delegate.
+//
+// It reads the newest per-epoch candidate_list snapshot rather than
+// delegate_reward_config, because that table is a settled per-era record: its
+// opted_in column means "was in era N's settlement set", and the newest era can
+// be most of an era old -- up to ~48h on testnet, ~24h on mainnet. Measured on
+// testnet 2026-08-31, 35 delegates were opted in on chain while the era-derived
+// view reported 5.
+//
+// The live bit is CandidateV2.voterRewardOnchainOptIn, which iotex-core added
+// for exactly this: the rewarding protocol's DelegatePayoutAddress reports
+// whether a freeze snapshot exists for the current era, so it answers false for
+// any delegate that opted in after the last freeze.
+func (s *VoterRewardService) DelegateRewardStatus(
+	ctx context.Context, req *api.DelegateRewardStatusRequest,
+) (*api.DelegateRewardStatusResponse, error) {
+	var epoch uint64
+	if err := db.DB().WithContext(ctx).
+		Table("candidate_list").
+		Select("COALESCE(MAX(epoch_number), 0)").Scan(&epoch).Error; err != nil {
+		return nil, errors.Wrap(err, "resolve latest candidate snapshot epoch")
+	}
+	if epoch == 0 {
+		// No snapshot indexed yet. An empty list is the honest answer; a caller
+		// must not read it as "no delegate is opted in".
+		return &api.DelegateRewardStatusResponse{
+			HermesVaults: config.Default.Genesis.HermesRewardVaultAddresses,
+		}, nil
+	}
+	list, err := votings.GetCandidateList(epoch)
+	if err != nil {
+		return nil, errors.Wrapf(err, "read candidate list at epoch %d", epoch)
+	}
+
+	vaults := config.Default.Genesis.HermesRewardVaultAddresses
+	isVault := make(map[string]bool, len(vaults))
+	for _, v := range vaults {
+		isVault[v] = true
+	}
+	wanted := make(map[string]bool, len(req.GetDelegateIds()))
+	for _, id := range req.GetDelegateIds() {
+		wanted[id] = true
+	}
+
+	resp := &api.DelegateRewardStatusResponse{EpochNumber: epoch, HermesVaults: vaults}
+	for _, c := range list.GetCandidates() {
+		if len(wanted) > 0 && !wanted[c.GetId()] {
+			continue
+		}
+		resp.Delegates = append(resp.Delegates, &api.DelegateRewardStatusEntry{
+			DelegateId:    c.GetId(),
+			DelegateName:  c.GetName(),
+			RewardAddress: c.GetRewardAddress(),
+			OnchainOptIn:  c.GetVoterRewardOnchainOptIn(),
+			RewardRouting: classifyRewardRouting(
+				c.GetVoterRewardOnchainOptIn(), c.GetRewardAddress(), isVault),
+		})
+	}
+	return resp, nil
+}
+
+// classifyRewardRouting decides which of the three routings a delegate is on.
+//
+// The opt-in bit wins outright: a delegate that opted in is paid by the
+// protocol regardless of what its reward address still says, and several
+// delegates were auto-migrated at IIP-59 activation precisely because their
+// reward address was a Hermes vault -- so for those two the address and the
+// bit both point somewhere, and only the bit is current.
+func classifyRewardRouting(optIn bool, rewardAddr string, isVault map[string]bool) string {
+	switch {
+	case optIn:
+		return rewardRoutingOnchain
+	case isVault[rewardAddr]:
+		return rewardRoutingHermes
+	default:
+		return rewardRoutingSelf
+	}
 }

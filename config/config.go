@@ -38,6 +38,21 @@ var (
 				AutoStake:  1,
 				SelfStake:  1.06,
 			},
+			// Copied from iotex-core's genesis rather than imported: the field
+			// landed in v2.5.0 and this module is on v2.2.0, whose dependency
+			// graph no longer resolves (erigon-lib moved) without the replace
+			// directives iotex-analyser carries. Two string constants that
+			// change roughly never are not worth pulling erigon, pebble and
+			// sentry into a read-only API to reach.
+			//
+			// Source: blockchain/genesis/genesis.go, Rewarding.HermesRewardVaultAddresses.
+			// Verified against chain data 2026-08-31: on mainnet these are the
+			// reward addresses of 44 and 15 candidates respectively, and every
+			// other candidate has one of its own.
+			HermesRewardVaultAddresses: []string{
+				"io19604a05s2p3mecam2zz7d27hcr6ndyw80wvkmh",
+				"io12mgttmfa2ffn9uqvn0yn37f4nz43d248l2ga85",
+			},
 		},
 	}
 )
@@ -62,6 +77,19 @@ type (
 	}
 	Genesis struct {
 		VoteWeightCalConsts genesis.VoteWeightCalConsts `yaml:"voteWeightCalConsts"`
+		// HermesRewardVaultAddresses are the reward addresses whose delegates
+		// the Hermes service pays out for. It is what separates a Hermes
+		// delegate from one distributing rewards on its own terms -- both have
+		// the IIP-59 opt-in bit clear, and only the reward address tells them
+		// apart.
+		//
+		// Defaults to iotex-core's genesis list. Overridable because this API
+		// carries no per-network genesis: config.Genesis holds a handful of
+		// fields rather than the real thing, and common/epoch.go reads
+		// genesis.Default outright. A network whose genesis sets a different
+		// list therefore needs to say so here rather than have this answer
+		// silently wrong.
+		HermesRewardVaultAddresses []string `yaml:"hermesRewardVaultAddresses"`
 	}
 	Config struct {
 		Server   Server   `yaml:"server"`
