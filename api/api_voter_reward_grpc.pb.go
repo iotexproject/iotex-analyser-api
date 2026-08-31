@@ -25,6 +25,7 @@ const (
 	VoterRewardService_DelegateRewardConfig_FullMethodName   = "/api.VoterRewardService/DelegateRewardConfig"
 	VoterRewardService_VoterRewardDestination_FullMethodName = "/api.VoterRewardService/VoterRewardDestination"
 	VoterRewardService_UnifiedVoterRewards_FullMethodName    = "/api.VoterRewardService/UnifiedVoterRewards"
+	VoterRewardService_DelegateRewardStatus_FullMethodName   = "/api.VoterRewardService/DelegateRewardStatus"
 )
 
 // VoterRewardServiceClient is the client API for VoterRewardService service.
@@ -46,6 +47,10 @@ type VoterRewardServiceClient interface {
 	// state themselves — that branch would otherwise be written once in the
 	// explorer and once in the wallet, and be wrong in both during migration.
 	UnifiedVoterRewards(ctx context.Context, in *UnifiedVoterRewardsRequest, opts ...grpc.CallOption) (*UnifiedVoterRewardsResponse, error)
+	// DelegateRewardStatus returns live reward routing per delegate. Prefer it
+	// over reading DelegateRewardConfig's newest era, which is a settled
+	// historical record and not current state.
+	DelegateRewardStatus(ctx context.Context, in *DelegateRewardStatusRequest, opts ...grpc.CallOption) (*DelegateRewardStatusResponse, error)
 }
 
 type voterRewardServiceClient struct {
@@ -116,6 +121,16 @@ func (c *voterRewardServiceClient) UnifiedVoterRewards(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *voterRewardServiceClient) DelegateRewardStatus(ctx context.Context, in *DelegateRewardStatusRequest, opts ...grpc.CallOption) (*DelegateRewardStatusResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DelegateRewardStatusResponse)
+	err := c.cc.Invoke(ctx, VoterRewardService_DelegateRewardStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VoterRewardServiceServer is the server API for VoterRewardService service.
 // All implementations must embed UnimplementedVoterRewardServiceServer
 // for forward compatibility.
@@ -135,6 +150,10 @@ type VoterRewardServiceServer interface {
 	// state themselves — that branch would otherwise be written once in the
 	// explorer and once in the wallet, and be wrong in both during migration.
 	UnifiedVoterRewards(context.Context, *UnifiedVoterRewardsRequest) (*UnifiedVoterRewardsResponse, error)
+	// DelegateRewardStatus returns live reward routing per delegate. Prefer it
+	// over reading DelegateRewardConfig's newest era, which is a settled
+	// historical record and not current state.
+	DelegateRewardStatus(context.Context, *DelegateRewardStatusRequest) (*DelegateRewardStatusResponse, error)
 	mustEmbedUnimplementedVoterRewardServiceServer()
 }
 
@@ -162,6 +181,9 @@ func (UnimplementedVoterRewardServiceServer) VoterRewardDestination(context.Cont
 }
 func (UnimplementedVoterRewardServiceServer) UnifiedVoterRewards(context.Context, *UnifiedVoterRewardsRequest) (*UnifiedVoterRewardsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UnifiedVoterRewards not implemented")
+}
+func (UnimplementedVoterRewardServiceServer) DelegateRewardStatus(context.Context, *DelegateRewardStatusRequest) (*DelegateRewardStatusResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DelegateRewardStatus not implemented")
 }
 func (UnimplementedVoterRewardServiceServer) mustEmbedUnimplementedVoterRewardServiceServer() {}
 func (UnimplementedVoterRewardServiceServer) testEmbeddedByValue()                            {}
@@ -292,6 +314,24 @@ func _VoterRewardService_UnifiedVoterRewards_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VoterRewardService_DelegateRewardStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DelegateRewardStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VoterRewardServiceServer).DelegateRewardStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VoterRewardService_DelegateRewardStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VoterRewardServiceServer).DelegateRewardStatus(ctx, req.(*DelegateRewardStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VoterRewardService_ServiceDesc is the grpc.ServiceDesc for VoterRewardService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -322,6 +362,10 @@ var VoterRewardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnifiedVoterRewards",
 			Handler:    _VoterRewardService_UnifiedVoterRewards_Handler,
+		},
+		{
+			MethodName: "DelegateRewardStatus",
+			Handler:    _VoterRewardService_DelegateRewardStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

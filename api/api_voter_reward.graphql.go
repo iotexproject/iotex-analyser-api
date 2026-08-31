@@ -27,6 +27,9 @@ var (
 	gql__type_UnifiedVoterRewardsRequest      *graphql.Object      // message UnifiedVoterRewardsRequest in api_voter_reward.proto
 	gql__type_UnifiedRewardRow                *graphql.Object      // message UnifiedRewardRow in api_voter_reward.proto
 	gql__type_EraDelegateAllocation           *graphql.Object      // message EraDelegateAllocation in api_voter_reward.proto
+	gql__type_DelegateRewardStatusResponse    *graphql.Object      // message DelegateRewardStatusResponse in api_voter_reward.proto
+	gql__type_DelegateRewardStatusRequest     *graphql.Object      // message DelegateRewardStatusRequest in api_voter_reward.proto
+	gql__type_DelegateRewardStatusEntry       *graphql.Object      // message DelegateRewardStatusEntry in api_voter_reward.proto
 	gql__type_DelegateRewardConfigResponse    *graphql.Object      // message DelegateRewardConfigResponse in api_voter_reward.proto
 	gql__type_DelegateRewardConfigRequest     *graphql.Object      // message DelegateRewardConfigRequest in api_voter_reward.proto
 	gql__type_DelegateRewardConfigEntry       *graphql.Object      // message DelegateRewardConfigEntry in api_voter_reward.proto
@@ -44,6 +47,9 @@ var (
 	gql__input_UnifiedVoterRewardsRequest     *graphql.InputObject // message UnifiedVoterRewardsRequest in api_voter_reward.proto
 	gql__input_UnifiedRewardRow               *graphql.InputObject // message UnifiedRewardRow in api_voter_reward.proto
 	gql__input_EraDelegateAllocation          *graphql.InputObject // message EraDelegateAllocation in api_voter_reward.proto
+	gql__input_DelegateRewardStatusResponse   *graphql.InputObject // message DelegateRewardStatusResponse in api_voter_reward.proto
+	gql__input_DelegateRewardStatusRequest    *graphql.InputObject // message DelegateRewardStatusRequest in api_voter_reward.proto
+	gql__input_DelegateRewardStatusEntry      *graphql.InputObject // message DelegateRewardStatusEntry in api_voter_reward.proto
 	gql__input_DelegateRewardConfigResponse   *graphql.InputObject // message DelegateRewardConfigResponse in api_voter_reward.proto
 	gql__input_DelegateRewardConfigRequest    *graphql.InputObject // message DelegateRewardConfigRequest in api_voter_reward.proto
 	gql__input_DelegateRewardConfigEntry      *graphql.InputObject // message DelegateRewardConfigEntry in api_voter_reward.proto
@@ -514,6 +520,96 @@ func Gql__type_EraDelegateAllocation() *graphql.Object {
 		})
 	}
 	return gql__type_EraDelegateAllocation
+}
+
+func Gql__type_DelegateRewardStatusResponse() *graphql.Object {
+	if gql__type_DelegateRewardStatusResponse == nil {
+		gql__type_DelegateRewardStatusResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_DelegateRewardStatusResponse",
+			Fields: graphql.Fields{
+				"epoch_number": &graphql.Field{
+					Type: graphql.Int,
+					Description: `epoch_number of the candidate snapshot these rows came from. A caller that
+ needs to know how stale the answer is should read it rather than assume.`,
+				},
+				"hermes_vaults": &graphql.Field{
+					Type: graphql.NewList(graphql.String),
+					Description: `hermes_vaults is the reward-address list used for the "hermes"
+ classification, echoed so a caller can see what it was judged against.`,
+				},
+				"delegates": &graphql.Field{
+					Type: graphql.NewList(Gql__type_DelegateRewardStatusEntry()),
+				},
+			},
+		})
+	}
+	return gql__type_DelegateRewardStatusResponse
+}
+
+func Gql__type_DelegateRewardStatusRequest() *graphql.Object {
+	if gql__type_DelegateRewardStatusRequest == nil {
+		gql__type_DelegateRewardStatusRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_DelegateRewardStatusRequest",
+			Description: `DelegateRewardStatus answers "how is this delegate paying its voters right
+ now", which is a different question from DelegateRewardConfig's "how was it
+ configured for era N".
+
+ The distinction matters because the rewarding protocol has no live view of
+ it. DelegatePayoutAddress reports whether a freeze snapshot exists for the
+ current era, so it answers false for a delegate that opted in after the last
+ freeze -- and eras are ~48h on testnet, ~24h on mainnet. Measured on testnet
+ 2026-08-31: 35 delegates were opted in on chain while that path reported 5.
+
+ The live bit comes from CandidateV2.voterRewardOnchainOptIn in the per-epoch
+ candidate_list snapshot, so it trails by at most one epoch rather than one
+ era.`,
+			Fields: graphql.Fields{
+				"delegate_ids": &graphql.Field{
+					Type:        graphql.NewList(graphql.String),
+					Description: `Empty returns every delegate in the snapshot.`,
+				},
+			},
+		})
+	}
+	return gql__type_DelegateRewardStatusRequest
+}
+
+func Gql__type_DelegateRewardStatusEntry() *graphql.Object {
+	if gql__type_DelegateRewardStatusEntry == nil {
+		gql__type_DelegateRewardStatusEntry = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Api_Type_DelegateRewardStatusEntry",
+			Fields: graphql.Fields{
+				"delegate_id": &graphql.Field{
+					Type: graphql.String,
+				},
+				"delegate_name": &graphql.Field{
+					Type: graphql.String,
+				},
+				"reward_address": &graphql.Field{
+					Type: graphql.String,
+					Description: `reward_address is the candidate's configured reward address. It is what
+ separates a Hermes delegate from one distributing rewards itself: both
+ have onchain_opt_in false, and only this tells them apart.`,
+				},
+				"onchain_opt_in": &graphql.Field{
+					Type:        graphql.Boolean,
+					Description: `onchain_opt_in is the live IIP-59 bit, not era-frozen state.`,
+				},
+				"reward_routing": &graphql.Field{
+					Type: graphql.String,
+					Description: `reward_routing is the classification a UI should render:
+   "onchain" -- IIP-59 pays this delegate's voters from the protocol
+   "hermes"  -- reward_address is one of the configured Hermes vaults, so
+                the off-chain Hermes service distributes
+   "self"    -- neither; the delegate distributes on its own terms, which
+                this API cannot describe further
+ Rendering only "onchain" and "hermes" would file every self-distributing
+ delegate under Hermes and misstate who pays their voters.`,
+				},
+			},
+		})
+	}
+	return gql__type_DelegateRewardStatusEntry
 }
 
 func Gql__type_DelegateRewardConfigResponse() *graphql.Object {
@@ -1039,6 +1135,83 @@ func Gql__input_EraDelegateAllocation() *graphql.InputObject {
 	return gql__input_EraDelegateAllocation
 }
 
+func Gql__input_DelegateRewardStatusResponse() *graphql.InputObject {
+	if gql__input_DelegateRewardStatusResponse == nil {
+		gql__input_DelegateRewardStatusResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_DelegateRewardStatusResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"epoch_number": &graphql.InputObjectFieldConfig{
+					Description: `epoch_number of the candidate snapshot these rows came from. A caller that
+ needs to know how stale the answer is should read it rather than assume.`,
+					Type: graphql.Int,
+				},
+				"hermes_vaults": &graphql.InputObjectFieldConfig{
+					Description: `hermes_vaults is the reward-address list used for the "hermes"
+ classification, echoed so a caller can see what it was judged against.`,
+					Type: graphql.NewList(graphql.String),
+				},
+				"delegates": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_DelegateRewardStatusEntry()),
+				},
+			},
+		})
+	}
+	return gql__input_DelegateRewardStatusResponse
+}
+
+func Gql__input_DelegateRewardStatusRequest() *graphql.InputObject {
+	if gql__input_DelegateRewardStatusRequest == nil {
+		gql__input_DelegateRewardStatusRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_DelegateRewardStatusRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"delegate_ids": &graphql.InputObjectFieldConfig{
+					Description: `Empty returns every delegate in the snapshot.`,
+					Type:        graphql.NewList(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__input_DelegateRewardStatusRequest
+}
+
+func Gql__input_DelegateRewardStatusEntry() *graphql.InputObject {
+	if gql__input_DelegateRewardStatusEntry == nil {
+		gql__input_DelegateRewardStatusEntry = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Api_Input_DelegateRewardStatusEntry",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"delegate_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"delegate_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"reward_address": &graphql.InputObjectFieldConfig{
+					Description: `reward_address is the candidate's configured reward address. It is what
+ separates a Hermes delegate from one distributing rewards itself: both
+ have onchain_opt_in false, and only this tells them apart.`,
+					Type: graphql.String,
+				},
+				"onchain_opt_in": &graphql.InputObjectFieldConfig{
+					Description: `onchain_opt_in is the live IIP-59 bit, not era-frozen state.`,
+					Type:        graphql.Boolean,
+				},
+				"reward_routing": &graphql.InputObjectFieldConfig{
+					Description: `reward_routing is the classification a UI should render:
+   "onchain" -- IIP-59 pays this delegate's voters from the protocol
+   "hermes"  -- reward_address is one of the configured Hermes vaults, so
+                the off-chain Hermes service distributes
+   "self"    -- neither; the delegate distributes on its own terms, which
+                this API cannot describe further
+ Rendering only "onchain" and "hermes" would file every self-distributing
+ delegate under Hermes and misstate who pays their voters.`,
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_DelegateRewardStatusEntry
+}
+
 func Gql__input_DelegateRewardConfigResponse() *graphql.InputObject {
 	if gql__input_DelegateRewardConfigResponse == nil {
 		gql__input_DelegateRewardConfigResponse = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -1323,6 +1496,27 @@ func (x *graphql__resolver_VoterRewardService) GetQueries(conn *grpc.ClientConn)
 				resp, err := client.UnifiedVoterRewards(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC UnifiedVoterRewards")
+				}
+				return resp, nil
+			},
+		},
+		"DelegateRewardStatus": &graphql.Field{
+			Type: Gql__type_DelegateRewardStatusResponse(),
+			Args: graphql.FieldConfigArgument{
+				"delegate_ids": &graphql.ArgumentConfig{
+					Type:        graphql.NewList(graphql.String),
+					Description: `Empty returns every delegate in the snapshot.`,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req DelegateRewardStatusRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for DelegateRewardStatus")
+				}
+				client := NewVoterRewardServiceClient(conn)
+				resp, err := client.DelegateRewardStatus(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC DelegateRewardStatus")
 				}
 				return resp, nil
 			},

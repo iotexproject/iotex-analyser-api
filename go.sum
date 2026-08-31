@@ -305,6 +305,8 @@ github.com/iotexproject/iotex-core/v2 v2.2.0 h1:2FL6pBFeqXDrosiMmhGbN0GkP5sSzRXk
 github.com/iotexproject/iotex-core/v2 v2.2.0/go.mod h1:vOGvq1LQtaasBaa/sWhLV3rUfFWbtvDCrFSUrslta/c=
 github.com/iotexproject/iotex-proto v0.6.4 h1:r3qpnK8X2cys53pktRTWnmDzeS9jcsawwSuKq7iF7eQ=
 github.com/iotexproject/iotex-proto v0.6.4/go.mod h1:Hxct427jhlu08PHQ44Jwh//hZVhXKq+XO/Mdqwc6dNc=
+github.com/iotexproject/iotex-proto v0.6.13 h1:e0kz0uPQ/s/0rtv4bxWnyNERa+d5HrI0WaDaa2GJroQ=
+github.com/iotexproject/iotex-proto v0.6.13/go.mod h1:OOXZIG6Q9tInog8Y5zzEJQsDv9IaG/xxpDtl4KzdWZs=
 github.com/iris-contrib/blackfriday v2.0.0+incompatible/go.mod h1:UzZ2bDEoaSGPbkg6SAB4att1aAwTmVIx/5gCVqeyUdI=
 github.com/iris-contrib/go.uuid v2.0.0+incompatible/go.mod h1:iz2lgM/1UnEf1kP0L/+fafWORmlnuysV2EMP8MW+qe0=
 github.com/iris-contrib/i18n v0.0.0-20171121225848-987a633949d0/go.mod h1:pMCz62A0xJL6I+umB2YTlFRwWXaDFA0jy+5HzGiJjqI=
