@@ -11,6 +11,7 @@ package apiservice
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/iotexproject/iotex-analyser-api/api"
 	"github.com/iotexproject/iotex-analyser-api/db"
@@ -196,10 +197,89 @@ func (s *DelegateService) GetDelegateRewardsHistory(ctx context.Context, req *ap
 	return resp, rows.Err()
 }
 
-// GetReceivedVotesByAddress: staking_buckets rows where owner_address = addr.
+// receivedVoteSource describes one table that can hold buckets voting for a
+// delegate. Native staking and the system-contract (NFT) staking tables are
+// separate append-only action logs with different delegate columns, so each is
+// reduced to its latest row per bucket_id independently and the results are
+// merged. The response carries no bucket_id, so a flat merge is what the caller
+// sees — bucket_id collides across native and system tables and must never be
+// used to join between them.
+type receivedVoteSource struct {
+	table string
+	// delegateCol is the column naming the delegate this bucket votes for.
+	delegateCol string
+	// activeCond is the SQL keeping only buckets still voting, evaluated on the
+	// latest row of each bucket.
+	activeCond string
+	// durationExpr normalizes duration to whole days, matching native staking.
+	durationExpr string
+}
+
+var receivedVoteSources = []receivedVoteSource{
+	// Native staking: a withdrawn bucket's latest row is act_type 'WithdrawStake';
+	// an unstaked one is recognised the same way the chain-side reader does it, by
+	// unstake_start_time having overtaken stake_start_time.
+	{
+		table:        "staking_buckets",
+		delegateCol:  "candidate",
+		activeCond:   "l.act_type <> 'WithdrawStake' AND NOT (l.unstake_start_time > l.stake_start_time)",
+		durationExpr: "l.duration::text",
+	},
+	// System-contract staking v1/v2/v3. `final` marks a settled record and `muted`
+	// one that no longer counts; Withdrawal/Unstaked rows additionally zero
+	// staked_amount, which is what actually separates a live bucket from a spent one.
+	{
+		table:        "system_staking_buckets_record",
+		delegateCol:  "delegate_owner_address",
+		activeCond:   "l.final AND NOT l.muted AND l.staked_amount > 0 AND NOT (l.unstake_start_time > l.stake_start_time)",
+		durationExpr: "(CASE WHEN l.duration_type = 0 THEN l.duration ELSE l.duration / 86400 END)::text",
+	},
+	{
+		table:        "system_staking_buckets_v2_record",
+		delegateCol:  "delegate_owner_address",
+		activeCond:   "l.final AND NOT l.muted AND l.staked_amount > 0 AND NOT (l.unstake_start_time > l.stake_start_time)",
+		durationExpr: "(CASE WHEN l.duration_type = 0 THEN l.duration ELSE l.duration / 86400 END)::text",
+	},
+	{
+		table:        "system_staking_buckets_v3_record",
+		delegateCol:  "delegate_owner_address",
+		activeCond:   "l.final AND NOT l.muted AND l.staked_amount > 0 AND NOT (l.unstake_start_time > l.stake_start_time)",
+		durationExpr: "(CASE WHEN l.duration_type = 0 THEN l.duration ELSE l.duration / 86400 END)::text",
+	},
+}
+
+// resolveDelegateAddresses maps whatever delegate address the caller passed to
+// the pair the two bucket families are keyed by. They are the same value for
+// most delegates but not all (4 of 123 on mainnet as of 2026-09), so a caller
+// passing either one must still get the complete list.
+func resolveDelegateAddresses(ctx context.Context, addr string) (candidate, ownerAddress string) {
+	var row struct {
+		Candidate    sql.NullString
+		OwnerAddress sql.NullString
+	}
+	res := db.DB().WithContext(ctx).Raw(
+		`SELECT candidate, owner_address FROM delegate WHERE candidate = ? OR owner_address = ? LIMIT 1`,
+		addr, addr,
+	).Scan(&row)
+	if res.Error != nil || res.RowsAffected == 0 {
+		// Not a known delegate (or the lookup failed): query both families with
+		// the address as given rather than silently returning nothing.
+		return addr, addr
+	}
+	return row.Candidate.String, row.OwnerAddress.String
+}
+
+// GetReceivedVotesByAddress lists the buckets currently voting for a delegate,
+// across native staking and the system-contract staking tables.
+//
+// Note both sources are action logs, one row per staking action, so a bucket
+// appears many times (mainnet: 102,334 rows for 87 buckets on one address).
+// Each source is therefore collapsed to the latest row per bucket_id, and a
+// bucket whose newest row moved it to another delegate is dropped — on mainnet
+// that is 1,158 of 1,722 otherwise-active buckets for a single delegate, so
+// skipping the check overcounts roughly threefold.
 func (s *DelegateService) GetReceivedVotesByAddress(ctx context.Context, req *api.GetReceivedVotesByAddressRequest) (*api.GetReceivedVotesByAddressResponse, error) {
 	resp := &api.GetReceivedVotesByAddressResponse{}
-	// kit passed the address through as-is (no conversion); accept 0x/io and normalize.
 	addr, err := toIo(req.GetAddress())
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid address: %v", err)
@@ -207,27 +287,59 @@ func (s *DelegateService) GetReceivedVotesByAddress(ctx context.Context, req *ap
 	if addr == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "address is required")
 	}
-	rows, err := db.DB().WithContext(ctx).Raw(
-		`SELECT sender AS staker, staked_amount AS amount, voting_power AS votes, duration
-		 FROM staking_buckets WHERE owner_address = ? ORDER BY timestamp DESC`, addr,
-	).Rows()
+	candidate, ownerAddress := resolveDelegateAddresses(ctx, addr)
+
+	for _, src := range receivedVoteSources {
+		delegateAddr := candidate
+		if src.delegateCol != "candidate" {
+			delegateAddr = ownerAddress
+		}
+		items, err := queryReceivedVotes(ctx, src, delegateAddr)
+		if err != nil {
+			return nil, err
+		}
+		resp.Data = append(resp.Data, items...)
+	}
+	return resp, nil
+}
+
+func queryReceivedVotes(ctx context.Context, src receivedVoteSource, delegateAddr string) ([]*api.ReceivedVoteItem, error) {
+	// DISTINCT ON picks the newest row per bucket among the rows naming this
+	// delegate; NOT EXISTS then drops buckets whose newest row overall is newer
+	// still, i.e. buckets that have since moved to a different delegate.
+	query := fmt.Sprintf(`
+		WITH latest AS (
+			SELECT DISTINCT ON (bucket_id) *
+			FROM %[1]s
+			WHERE %[2]s = ?
+			ORDER BY bucket_id, id DESC
+		)
+		SELECT l.owner_address, l.staked_amount::text, l.voting_power::text, %[3]s
+		FROM latest l
+		WHERE %[4]s
+		  AND NOT EXISTS (SELECT 1 FROM %[1]s s WHERE s.bucket_id = l.bucket_id AND s.id > l.id)
+		ORDER BY l.voting_power DESC, l.bucket_id DESC`,
+		src.table, src.delegateCol, src.durationExpr, src.activeCond)
+
+	rows, err := db.DB().WithContext(ctx).Raw(query, delegateAddr).Rows()
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to query received votes")
+		return nil, errors.Wrapf(err, "failed to query received votes from %s", src.table)
 	}
 	defer rows.Close()
+	var items []*api.ReceivedVoteItem
 	for rows.Next() {
 		var staker, amount, votes, duration sql.NullString
 		if err := rows.Scan(&staker, &amount, &votes, &duration); err != nil {
-			return nil, errors.Wrap(err, "scan received vote row")
+			return nil, errors.Wrapf(err, "scan received vote row from %s", src.table)
 		}
-		resp.Data = append(resp.Data, &api.ReceivedVoteItem{
+		items = append(items, &api.ReceivedVoteItem{
 			Staker:   staker.String,
 			Amount:   amount.String,
 			Votes:    votes.String,
 			Duration: duration.String,
 		})
 	}
-	return resp, rows.Err()
+	return items, rows.Err()
 }
 
 // GetDelegatesStatistics: count + total stake over the delegate table.
