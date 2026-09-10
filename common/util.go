@@ -45,6 +45,24 @@ func DefaultChainClient() (iotexapi.APIServiceClient, error) {
 	return iotexapi.NewAPIServiceClient(conn), nil
 }
 
+// ArchiveChainClient returns a client for the archive endpoint, for reads that
+// address a past height. DefaultChainClient points at the light-node pool,
+// which keeps only the latest 256 blocks of state and answers any older height
+// with "history is pruned". Falls back to the regular endpoint when no archive
+// endpoint is configured, so a network without one keeps working (and keeps
+// failing the same way it did before) rather than erroring at startup.
+func ArchiveChainClient() (iotexapi.APIServiceClient, error) {
+	endpoint := config.Default.ArchiveRPC
+	if endpoint == "" {
+		endpoint = config.Default.RPC
+	}
+	conn, err := NewDefaultGRPCConn(endpoint)
+	if err != nil {
+		return nil, err
+	}
+	return iotexapi.NewAPIServiceClient(conn), nil
+}
+
 // NewDefaultGRPCConn creates a default grpc connection, with retry and — unless
 // config.RPCInsecure is set — TLS.
 func NewDefaultGRPCConn(endpoint string) (*grpc.ClientConn, error) {
