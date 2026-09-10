@@ -216,13 +216,17 @@ type receivedVoteSource struct {
 }
 
 var receivedVoteSources = []receivedVoteSource{
-	// Native staking: a withdrawn bucket's latest row is act_type 'WithdrawStake';
-	// an unstaked one is recognised the same way the chain-side reader does it, by
-	// unstake_start_time having overtaken stake_start_time.
+	// Native staking: a bucket that has left native staking zeroes its amount on
+	// the way out, which is what staked_amount > 0 tests. Across mainnet that is
+	// exactly WithdrawStake (62,177 buckets) and MigrateStake (254, moved to the
+	// staking contract and counted there instead); every other act_type has a
+	// non-zero amount on its latest row, so nothing live is excluded. An unstaked
+	// bucket keeps its amount and is recognised the way the chain-side reader does
+	// it, by unstake_start_time having overtaken stake_start_time.
 	{
 		table:        "staking_buckets",
 		delegateCol:  "candidate",
-		activeCond:   "l.act_type <> 'WithdrawStake' AND NOT (l.unstake_start_time > l.stake_start_time)",
+		activeCond:   "l.staked_amount > 0 AND NOT (l.unstake_start_time > l.stake_start_time)",
 		durationExpr: "l.duration::text",
 	},
 	// System-contract staking v1/v2/v3. `final` marks a settled record and `muted`
