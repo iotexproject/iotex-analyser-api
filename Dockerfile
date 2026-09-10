@@ -1,4 +1,4 @@
-FROM golang:1.23-bullseye AS builder
+FROM golang:1.23-bookworm AS builder
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ COPY . .
 RUN go mod download
 RUN make
 
-FROM golang:1.23-bullseye
+FROM golang:1.23-bookworm
 
 WORKDIR /app
 COPY --from=builder /app/config.yml /app/
