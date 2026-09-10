@@ -10,8 +10,12 @@ import (
 	"github.com/pkg/errors"
 )
 
+// GetVoteBucketList reads the staking bucket set as of the given epoch's start
+// height. That is a historical read, so it must go to the archive endpoint: the
+// regular pool is light nodes retaining 256 blocks of state, which answer every
+// epoch older than ~20 minutes with "history is pruned".
 func GetVoteBucketList(epochNum uint64) (*iotextypes.VoteBucketList, error) {
-	chainClient, err := common.DefaultChainClient()
+	chainClient, err := common.ArchiveChainClient()
 	if err != nil {
 		return nil, err
 	}

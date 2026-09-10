@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/iotexproject/iotex-proto/golang/iotexapi"
 	"github.com/iotexproject/iotex-proto/golang/iotextypes"
@@ -14,9 +15,11 @@ import (
 
 const (
 	// PollProtocolID is ID of poll protocol
-	PollProtocolID      = "poll"
-	protocolID          = "staking"
-	readBucketsLimit    = 300000
+	PollProtocolID   = "poll"
+	protocolID       = "staking"
+	readBucketsLimit = 300000
+	// readStateTimeout bounds one historical ReadState page.
+	readStateTimeout    = 90 * time.Second
 	readCandidatesLimit = 20000
 )
 
@@ -133,6 +136,10 @@ func getStakingBuckets(chainClient iotexapi.APIServiceClient, offset, limit uint
 		Height:     fmt.Sprintf("%d", height),
 	}
 	ctx := context.WithValue(context.Background(), &iotexapi.ReadStateRequest{}, iotexapi.ReadStakingDataMethod_COMPOSITE_BUCKETS)
+	// A historical read on the archive node takes ~12s per page for mainnet's
+	// bucket set; without a deadline a stalled node blocks the request forever.
+	ctx, cancel := context.WithTimeout(ctx, readStateTimeout)
+	defer cancel()
 	maxSizeOption := grpc.MaxCallRecvMsgSize(32 * 10e6)
 	readStateRes, err := chainClient.ReadState(ctx, readStateRequest, maxSizeOption)
 	if err != nil {

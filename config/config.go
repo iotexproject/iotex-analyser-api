@@ -31,7 +31,8 @@ var (
 			User:   "postgres",
 			Name:   "test",
 		},
-		RPC: "api.iotex.one:443",
+		RPC:        "api.iotex.one:443",
+		ArchiveRPC: "archive-api.mainnet.iotex.one:443",
 		Genesis: Genesis{
 			VoteWeightCalConsts: genesis.VoteWeightCalConsts{
 				DurationLg: 1.2,
@@ -99,7 +100,13 @@ type (
 		// so production endpoints keep their transport credentials; a local
 		// node serves plaintext gRPC and otherwise fails every chain-meta
 		// query with "first record does not look like a TLS handshake".
-		RPCInsecure        bool    `yaml:"rpcInsecure" env:"CHAIN_GRPC_INSECURE"`
+		RPCInsecure bool `yaml:"rpcInsecure" env:"CHAIN_GRPC_INSECURE"`
+		// ArchiveRPC is the chain gRPC endpoint used for reads that address a
+		// past height. The regular RPC pool is light nodes with
+		// historyBlockRetention=256, so any historical ReadState against it
+		// fails with "history is pruned"; the archive node is excluded from
+		// that pool precisely so it can answer these. Empty falls back to RPC.
+		ArchiveRPC         string  `yaml:"archiveRpc" env:"CHAIN_ARCHIVE_GRPC_ENDPOINT"`
 		EthArchiveEndPoint string  `yaml:"ethArchiveEndPoint" env:"ETH_ARCHIVE_ENDPOINT"`
 		LogPath            string  `yaml:"logPath" env:"LOG_PATH"`
 		Genesis            Genesis `yaml:"genesis"`
