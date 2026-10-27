@@ -59,10 +59,14 @@ func getHeightByDate(unixtime uint64) (minBlkHeight uint64, maxBlkHeight uint64,
 }
 
 func GetActionCountByAddress(ctx context.Context, addr string, sender string, recipient string, actionType string, startTime string, endTime string) (int64, error) {
-	var count int64
-	db := db.DB()
 	// Build filter conditions
 	filterSQL, filterArgs := buildAddressFilterConditions(sender, recipient, actionType, startTime, endTime)
+	return countActionsByAddress(ctx, addr, filterSQL, filterArgs)
+}
+
+func countActionsByAddress(ctx context.Context, addr string, filterSQL string, filterArgs []interface{}) (int64, error) {
+	var count int64
+	db := db.DB()
 	query := fmt.Sprintf("select (SELECT count(*) FROM block_action_partition a WHERE a.sender=?%s)+(SELECT count(*) FROM block_action_partition a WHERE a.recipient=?%s)+(SELECT count(*) FROM block_action_partition a WHERE a.contract_address=?%s)", filterSQL, filterSQL, filterSQL)
 	args := []interface{}{addr}
 	args = append(args, filterArgs...)
@@ -98,10 +102,36 @@ func buildAddressFilterConditions(sender, recipient, actionType, startTime, endT
 	return conditions, args
 }
 
+// GetActionInfoByAddress returns one page of an address's actions, newest first.
+//
+// Fetching the page in a single query makes Postgres read every matching row of the
+// address before it can sort by id and keep the newest ones (only single-column
+// indexes exist), so the cost grows with the address's total history: ~13s cold for a
+// 1.2M-action address and ~25s for the 54M-action reward pool. Instead the page is
+// collected range by range from the newest block_height backwards; each range prunes
+// down to a few block_action_partition partitions, and busy addresses usually fill the
+// page from the newest one.
 func GetActionInfoByAddress(ctx context.Context, addr string, skip, first uint64, sender string, recipient string, actionType string, startTime string, endTime string) ([]*ActionInfo, error) {
+	filterSQL, filterArgs := buildAddressFilterConditions(sender, recipient, actionType, startTime, endTime)
+	ranges := []blockRange{{}}
+	if tip, err := getLatestBlockHeight(ctx); err == nil {
+		ranges = addressBlockRanges(tip, actionPartitionStep)
+	}
+	count := func(r blockRange) (uint64, error) {
+		rangeSQL, rangeArgs := r.conditions(filterSQL, filterArgs)
+		n, err := countActionsByAddress(ctx, addr, rangeSQL, rangeArgs)
+		return uint64(n), err
+	}
+	fetch := func(r blockRange, skip, first uint64) ([]*ActionInfo, error) {
+		rangeSQL, rangeArgs := r.conditions(filterSQL, filterArgs)
+		return queryActionInfoByAddress(ctx, addr, rangeSQL, rangeArgs, skip, first)
+	}
+	return pageAcrossRanges(ranges, skip, first, count, fetch)
+}
+
+func queryActionInfoByAddress(ctx context.Context, addr string, filterSQL string, filterArgs []interface{}, skip, first uint64) ([]*ActionInfo, error) {
 	var actionInfos []*ActionInfo
 	db := db.DB()
-	filterSQL, filterArgs := buildAddressFilterConditions(sender, recipient, actionType, startTime, endTime)
 	query := fmt.Sprintf(`SELECT b.act_hash,b.act_type,b.sender,b.recipient,b.amount,b.gas_price*r.gas_consumed as gas_fee,b.gas_price,r.gas_consumed,b.nonce,r.status,b.contract_address,b.blk_height,blk.block_hash blk_hash,blk.timestamp,COALESCE(m."methodName",m.bytecode,substring(ae.data::text from 3 for 8),'') as method_name FROM (select * from (SELECT a.id,a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.block_height blk_height,a.gas_price,a.nonce,a.contract_address FROM block_action_partition a where a.sender=?%s union all SELECT a.id,a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.block_height blk_height,a.gas_price,a.nonce,a.contract_address FROM block_action_partition a where a.recipient=?%s union all SELECT a.id,a.action_hash act_hash,a.action_type act_type,a.sender,a.recipient,a.amount,a.block_height blk_height,a.gas_price,a.nonce,a.contract_address FROM block_action_partition a where a.contract_address=?%s)tmp order by id desc limit ? offset ?) b LEFT JOIN block blk ON blk.block_height=b.blk_height LEFT JOIN block_receipts r ON r.action_hash=b.act_hash LEFT JOIN action_execution ae ON ae.action_hash=b.act_hash LEFT JOIN method_bytes m ON substring(ae.data::text from 3 for 8)=m.bytecode ORDER BY b.id DESC`, filterSQL, filterSQL, filterSQL)
 	args := []interface{}{addr}
 	args = append(args, filterArgs...)
