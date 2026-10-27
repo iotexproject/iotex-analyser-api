@@ -282,7 +282,7 @@ var allowedBucketSortFields = map[string]bool{
 }
 
 func parseBucketSortParam(sort string) (field, order string) {
-	field, order = "timestamp", "DESC"
+	field, order = "staking_buckets.timestamp", "DESC"
 	if sort == "" {
 		return
 	}

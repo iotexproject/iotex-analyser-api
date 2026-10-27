@@ -28,6 +28,34 @@ func TestNativeBucketListQuery(t *testing.T) {
 	require.Equal([]interface{}{int64(1761000000), int64(10), int64(0)}, args)
 }
 
+func TestParseBucketSortParam(t *testing.T) {
+	for _, tc := range []struct {
+		sort, field, order string
+	}{
+		{"", "staking_buckets.timestamp", "DESC"},
+		{"timestamp:desc", "staking_buckets.timestamp", "DESC"},
+		{"timestamp:asc", "staking_buckets.timestamp", "ASC"},
+		{"amount:asc", "staking_buckets.amount", "ASC"},
+		{"unknown:asc", "staking_buckets.timestamp", "ASC"},
+		{"amount; DROP TABLE x:desc", "staking_buckets.timestamp", "DESC"},
+	} {
+		field, order := parseBucketSortParam(tc.sort)
+		require.Equal(t, tc.field, field, "sort=%q", tc.sort)
+		require.Equal(t, tc.order, order, "sort=%q", tc.sort)
+	}
+}
+
+// iotexscan fetches the count and group count with an empty sort; that request must
+// get the block_height order too, not a full sort on timestamp.
+func TestNativeBucketListQueryDefaultSort(t *testing.T) {
+	for _, sort := range []string{"", "unknown:desc"} {
+		field, order := parseBucketSortParam(sort)
+		q, _ := nativeBucketListQuery("", nil, field, order, 1, 0)
+		require.Contains(t, q, "ORDER BY staking_buckets.block_height DESC, staking_buckets.id DESC LIMIT ? OFFSET ?", "sort=%q", sort)
+		require.NotContains(t, q, "ORDER BY timestamp", "sort=%q", sort)
+	}
+}
+
 func TestNativeBucketCountQueries(t *testing.T) {
 	require := require.New(t)
 	cond, condArgs := "staking_buckets.block_height >= ?", []interface{}{int64(53000000)}
