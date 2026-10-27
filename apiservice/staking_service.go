@@ -402,8 +402,78 @@ const createTimeExpr = `to_char(to_timestamp(staking_buckets.create_time), 'YYYY
 const stakeStartExpr = `to_char(to_timestamp(staking_buckets.stake_start_time), 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
 const unstakeStartExpr = `to_char(to_timestamp(staking_buckets.unstake_start_time), 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`
 
-func nativeBucketListQuery(startTime int64, field, order string, limit, offset int64) (string, []interface{}) {
-	base := `SELECT staking_buckets.bucket_id, staking_buckets.action_hash,
+// staking_buckets has no timestamp index, so filtering or sorting on timestamp scans
+// all ~20M rows (0.5-2s warm per query, several seconds cold) even for a 1D interval.
+// Its timestamp is the timestamp of the row's block, and block timestamps strictly
+// increase with block_height, so the native queries filter and sort on the indexed
+// block_height instead; the results are the same.
+
+// firstBlockAfterQuery finds the lowest block_height whose timestamp is later than a
+// unix time. block only indexes timestamp::date, so it looks at the blocks of that day
+// and the next; OFFSET 0 keeps the planner from walking block_pkey from height 0
+// instead.
+const firstBlockAfterQuery = `SELECT min(block_height) AS height FROM (
+	SELECT block_height FROM block
+	WHERE timestamp::date IN ((to_timestamp(?) AT TIME ZONE 'UTC')::date, (to_timestamp(?) AT TIME ZONE 'UTC')::date + 1)
+	AND timestamp > to_timestamp(?) AT TIME ZONE 'UTC' OFFSET 0) t`
+
+// nativeBucketIntervalFilter returns the staking_buckets condition selecting rows newer
+// than startTime, or "" for no interval.
+func nativeBucketIntervalFilter(ctx context.Context, startTime int64) (string, []interface{}, error) {
+	if startTime <= 0 {
+		return "", nil, nil
+	}
+	var row struct{ Height sql.NullInt64 }
+	if err := db.DB().WithContext(ctx).Raw(firstBlockAfterQuery, startTime, startTime, startTime).Scan(&row).Error; err != nil {
+		return "", nil, errors.Wrap(err, "failed to get interval start height")
+	}
+	if !row.Height.Valid {
+		// No block in that window (e.g. a chain halt); filter on the timestamp directly.
+		return "staking_buckets.timestamp > ?", []interface{}{startTime}, nil
+	}
+	return "staking_buckets.block_height >= ?", []interface{}{row.Height.Int64}, nil
+}
+
+// nativeBucketCountQuery counts the bucket actions matching cond.
+func nativeBucketCountQuery(cond string, condArgs []interface{}) (string, []interface{}) {
+	if cond == "" {
+		return "SELECT COUNT(1) AS count FROM staking_buckets", nil
+	}
+	return "SELECT COUNT(1) AS count FROM staking_buckets WHERE " + cond, condArgs
+}
+
+// nativeBucketGroupCountQuery counts the distinct buckets matching cond. Without an
+// interval it skips through the bucket_id index one bucket at a time (~100K lookups)
+// rather than reading all ~20M entries for COUNT(DISTINCT).
+func nativeBucketGroupCountQuery(cond string, condArgs []interface{}) (string, []interface{}) {
+	if cond == "" {
+		return `WITH RECURSIVE t AS (
+			SELECT min(bucket_id) AS b FROM staking_buckets
+			UNION ALL
+			SELECT (SELECT min(bucket_id) FROM staking_buckets WHERE bucket_id > t.b) FROM t WHERE t.b IS NOT NULL
+		) SELECT count(b) AS count FROM t`, nil
+	}
+	return "SELECT COUNT(DISTINCT bucket_id) AS count FROM staking_buckets WHERE " + cond, condArgs
+}
+
+// nativeBucketListQuery picks the page's ids first and only then joins back for the
+// output columns: Postgres evaluates the select list (the to_char formatting) for every
+// row it sorts, which for an unindexed sort such as amount over ALL took ~8s of a ~9s
+// query, against ~0.4s for the scan itself.
+func nativeBucketListQuery(cond string, condArgs []interface{}, field, order string, limit, offset int64) (string, []interface{}) {
+	orderBy := fmt.Sprintf("%s %s", field, order)
+	if field == "staking_buckets.timestamp" {
+		orderBy = fmt.Sprintf("staking_buckets.block_height %s, staking_buckets.id %s", order, order)
+	}
+	page := "SELECT staking_buckets.id FROM staking_buckets"
+	var args []interface{}
+	if cond != "" {
+		page += " WHERE " + cond
+		args = append(args, condArgs...)
+	}
+	page += " ORDER BY " + orderBy + " LIMIT ? OFFSET ?"
+	args = append(args, limit, offset)
+	return `SELECT staking_buckets.bucket_id, staking_buckets.action_hash,
 		` + tsExpr + ` AS timestamp,
 		` + createTimeExpr + ` AS create_time,
 		` + stakeStartExpr + ` AS stake_start_time,
@@ -413,16 +483,10 @@ func nativeBucketListQuery(startTime int64, field, order string, limit, offset i
 		staking_buckets.auto_stake, staking_buckets.duration::text AS duration,
 		NULL AS gas_price, NULL AS gas_limit, NULL AS recipient,
 		delegate.name AS delegate_name
-	FROM staking_buckets
-	LEFT JOIN delegate ON delegate.candidate = staking_buckets.candidate`
-	var args []interface{}
-	if startTime > 0 {
-		base += " WHERE staking_buckets.timestamp > ?"
-		args = append(args, startTime)
-	}
-	base += fmt.Sprintf(" ORDER BY %s %s LIMIT ? OFFSET ?", field, order)
-	args = append(args, limit, offset)
-	return base, args
+	FROM (` + page + `) page
+	JOIN staking_buckets ON staking_buckets.id = page.id
+	LEFT JOIN delegate ON delegate.candidate = staking_buckets.candidate
+	ORDER BY ` + orderBy, args
 }
 
 func nftBucketListQuery(table string, requireFinal bool, startTime int64, field, order string, limit, offset int64) (string, []interface{}) {
@@ -535,25 +599,19 @@ func (s *StakingService) GetBucketList(ctx context.Context, req *api.GetBucketLi
 	var groupCountRow struct{ Count int64 }
 
 	if vc.isNative {
-		q, args := nativeBucketListQuery(startTime, field, order, limit, offset)
+		cond, condArgs, err := nativeBucketIntervalFilter(ctx, startTime)
+		if err != nil {
+			return nil, err
+		}
+		q, args := nativeBucketListQuery(cond, condArgs, field, order, limit, offset)
 		if err := gormDB.WithContext(ctx).Raw(q, args...).Scan(&rows).Error; err != nil {
 			return nil, errors.Wrap(err, "failed to get native bucket list")
 		}
-		cq := "SELECT COUNT(1) AS count FROM staking_buckets"
-		cargs := []interface{}{}
-		if startTime > 0 {
-			cq += " WHERE timestamp > ?"
-			cargs = append(cargs, startTime)
-		}
+		cq, cargs := nativeBucketCountQuery(cond, condArgs)
 		if err := gormDB.WithContext(ctx).Raw(cq, cargs...).Scan(&countRow).Error; err != nil {
 			return nil, errors.Wrap(err, "failed to get native bucket count")
 		}
-		gcq := "SELECT COUNT(DISTINCT bucket_id) AS count FROM staking_buckets"
-		gcargs := []interface{}{}
-		if startTime > 0 {
-			gcq += " WHERE timestamp > ?"
-			gcargs = append(gcargs, startTime)
-		}
+		gcq, gcargs := nativeBucketGroupCountQuery(cond, condArgs)
 		if err := gormDB.WithContext(ctx).Raw(gcq, gcargs...).Scan(&groupCountRow).Error; err != nil {
 			return nil, errors.Wrap(err, "failed to get native bucket group count")
 		}
