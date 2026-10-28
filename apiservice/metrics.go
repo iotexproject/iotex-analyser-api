@@ -23,9 +23,8 @@ var httpRequestDuration = promauto.NewHistogramVec(
 
 // statusRecorder captures the response status code so the middleware can
 // label the histogram observation with it. Mirrors net/http semantics:
-// only the first WriteHeader call wins; subsequent calls are passed through
-// to the underlying ResponseWriter (which logs "superfluous WriteHeader" and
-// ignores them) but do not update the recorded status.
+// only the first WriteHeader call is recorded and forwarded. Later calls are
+// dropped, since net/http would only log them as superfluous.
 type statusRecorder struct {
 	http.ResponseWriter
 	status      int
@@ -36,8 +35,8 @@ func (r *statusRecorder) WriteHeader(code int) {
 	if !r.wroteHeader {
 		r.status = code
 		r.wroteHeader = true
+		r.ResponseWriter.WriteHeader(code)
 	}
-	r.ResponseWriter.WriteHeader(code)
 }
 
 // instrument wraps h with request-duration tracking under the given handler
