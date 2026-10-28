@@ -6,9 +6,13 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
+	"math"
+	"mime"
 	"net"
 	"net/http"
 	"runtime/debug"
+	"strconv"
+	"strings"
 	"text/template"
 	"time"
 
@@ -190,24 +194,12 @@ func StartGRPCProxyService(templates embed.FS) error {
 		return err
 	}
 
-	playgroundMiddleware := func(ctx context.Context, w http.ResponseWriter, r *http.Request) (context.Context, error) {
-		if r.Method == "GET" {
-			tmpl, err := template.ParseFS(templates, "templates/graphql-playground.html")
-			if err != nil {
-				return ctx, err
-			}
-			if err := tmpl.Execute(w, nil); err != nil {
-				return ctx, err
-			}
-		}
-		return ctx, nil
-	}
-	graphqlMux := graphqlruntime.NewServeMux(playgroundMiddleware, auth.JWTTokenValid())
-	if err := registerGraphQLAPIService(ctx, graphqlMux); err != nil {
+	graphqlHandler, err := newGraphQLHandler(ctx, templates)
+	if err != nil {
 		return err
 	}
 
-	http.Handle("/graphql", instrument("graphql", graphqlMux))
+	http.Handle("/graphql", instrument("graphql", graphqlHandler))
 	fsys, err := fs.Sub(DocsHTML, "docs-html")
 	if err != nil {
 		log.Fatal(err)
@@ -219,6 +211,79 @@ func StartGRPCProxyService(templates embed.FS) error {
 
 	port := fmt.Sprintf(":%d", config.Default.Server.HTTPAPIPort)
 	return http.ListenAndServe(port, nil)
+}
+
+func newGraphQLHandler(ctx context.Context, templates fs.FS) (http.Handler, error) {
+	playground, err := template.ParseFS(templates, "templates/graphql-playground.html")
+	if err != nil {
+		return nil, err
+	}
+	graphqlMux := graphqlruntime.NewServeMux(auth.JWTTokenValid())
+	if err := registerGraphQLAPIService(ctx, graphqlMux); err != nil {
+		return nil, err
+	}
+	// The Playground is served outside graphqlMux because the mux always writes
+	// its own result after its middlewares.
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "GET" {
+			w.Header().Add("Vary", "Accept")
+			if wantsPlayground(r) {
+				playground.Execute(w, nil)
+				return
+			}
+		}
+		graphqlMux.ServeHTTP(w, r)
+	}), nil
+}
+
+// wantsPlayground reports whether a GET gets the Playground page rather than a
+// GraphQL result. Browsers rank text/html above application/json, also when
+// opening a Playground link with a pre-filled ?query=. Clients without a
+// preference get the page only if they send no query and accept HTML.
+func wantsPlayground(r *http.Request) bool {
+	accept := strings.Join(r.Header.Values("Accept"), ",")
+	html, json := acceptWeight(accept, "text/html"), acceptWeight(accept, "application/json")
+	if html != json {
+		return html > json
+	}
+	return html > 0 && r.URL.Query().Get("query") == ""
+}
+
+// acceptWeight returns the weight accept gives mediaType, taken from the most
+// specific matching range (RFC 9110, section 12.5.1). Ranges with an invalid
+// weight are ignored, and an empty header accepts everything.
+func acceptWeight(accept, mediaType string) float64 {
+	if strings.TrimSpace(accept) == "" {
+		return 1
+	}
+	typ, _, _ := strings.Cut(mediaType, "/")
+	weight, specificity := 0.0, 0
+	for _, mediaRange := range strings.Split(accept, ",") {
+		name, params, err := mime.ParseMediaType(mediaRange)
+		if err != nil {
+			continue
+		}
+		var s int
+		switch name {
+		case mediaType:
+			s = 3
+		case typ + "/*":
+			s = 2
+		case "*/*":
+			s = 1
+		}
+		if s <= specificity {
+			continue
+		}
+		q := 1.0
+		if v, ok := params["q"]; ok {
+			if q, err = strconv.ParseFloat(v, 64); err != nil || math.IsNaN(q) || q < 0 || q > 1 {
+				continue
+			}
+		}
+		weight, specificity = q, s
+	}
+	return weight
 }
 
 // healthzHandler is an unauthenticated LB probe: pings the DB and returns 200/503.
