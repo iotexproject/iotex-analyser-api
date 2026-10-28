@@ -3,6 +3,7 @@ package apiservice
 import (
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"testing"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -79,6 +80,39 @@ func TestInstrumentDuplicateWriteHeader(t *testing.T) {
 	}
 	if got := testutil.CollectAndCount(httpRequestDuration); got != 1 {
 		t.Errorf("got %d series, want exactly 1 (no spurious 5xx series)", got)
+	}
+}
+
+// headerCountingWriter records each code passed to WriteHeader, since
+// httptest.ResponseRecorder silently ignores repeated calls.
+type headerCountingWriter struct {
+	http.ResponseWriter
+	codes []int
+}
+
+func (w *headerCountingWriter) WriteHeader(code int) {
+	w.codes = append(w.codes, code)
+	w.ResponseWriter.WriteHeader(code)
+}
+
+func TestStatusRecorderForwardsWriteHeaderOnce(t *testing.T) {
+	under := &headerCountingWriter{ResponseWriter: httptest.NewRecorder()}
+	rec := &statusRecorder{ResponseWriter: under}
+	if rec.wroteHeader {
+		t.Fatal("wroteHeader = true before any WriteHeader call")
+	}
+
+	rec.WriteHeader(http.StatusOK)
+	rec.WriteHeader(http.StatusNotFound)
+
+	if want := []int{http.StatusOK}; !slices.Equal(under.codes, want) {
+		t.Errorf("underlying WriteHeader calls = %v, want %v", under.codes, want)
+	}
+	if rec.status != http.StatusOK {
+		t.Errorf("status = %d, want %d (first WriteHeader wins)", rec.status, http.StatusOK)
+	}
+	if !rec.wroteHeader {
+		t.Error("wroteHeader = false after WriteHeader")
 	}
 }
 
